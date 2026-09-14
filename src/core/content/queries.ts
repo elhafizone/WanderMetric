@@ -225,7 +225,25 @@ export async function listGuides(
     .order("published_at", { ascending: false, nullsFirst: false });
 
   if (options.featuredOnly) query = query.eq("is_featured", true);
-  if (options.categorySlug) query = query.eq("categories.slug", options.categorySlug);
+
+  // Resolved to an id rather than filtered through the embed. guides.category_id
+  // is nullable, so an inner join would silently drop every uncategorised guide
+  // from the unfiltered listing.
+  if (options.categorySlug) {
+    const category = await db
+      .from("categories")
+      .select("id")
+      .eq("slug", options.categorySlug)
+      .eq("applies_to", "guide")
+      .maybeSingle();
+
+    if (category.error) return fail(category.error, "listGuides.category");
+    if (!category.data) {
+      return ok(paginate<GuideCard>([], request, 0));
+    }
+    query = query.eq("category_id", category.data.id);
+  }
+
   if (options.cityId) query = query.eq("city_id", options.cityId);
   if (options.destinationId) query = query.eq("destination_id", options.destinationId);
 
@@ -431,7 +449,9 @@ export async function searchContent(
 ): Promise<Result<Paginated<SearchHit>>> {
   const trimmed = query.trim();
   if (trimmed.length < 2) {
-    return ok(paginate<SearchHit>([], normalizePageRequest(options.page, options.perPage), 0));
+    return ok(
+      paginate<SearchHit>([], normalizePageRequest(options.page, options.perPage), 0),
+    );
   }
 
   const request = normalizePageRequest(options.page, options.perPage);

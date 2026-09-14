@@ -8,6 +8,7 @@
 :root {
   --wm-bg: #f7faf9;
   --wm-surface: #ffffff;
+  --wm-surface-2: #eaf1ef;
   --wm-border: #d9e3e0;
   --wm-ink: #10201d;
   --wm-ink-muted: #5a6d69;
@@ -19,6 +20,7 @@
   :root {
     --wm-bg: #0b1211;
     --wm-surface: #131c1b;
+    --wm-surface-2: #1a2423;
     --wm-border: #24302e;
     --wm-ink: #e6edeb;
     --wm-ink-muted: #92a4a0;
@@ -30,6 +32,7 @@
 @theme inline {
   --color-bg: var(--wm-bg);
   --color-surface: var(--wm-surface);
+  --color-surface-2: var(--wm-surface-2);
   --color-border: var(--wm-border);
   --color-ink: var(--wm-ink);
   --color-ink-muted: var(--wm-ink-muted);

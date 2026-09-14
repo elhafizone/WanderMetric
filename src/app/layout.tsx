@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { JsonLd } from "@/components/seo/json-ld";
+import { SiteFooter } from "@/components/layout/site-footer";
+import { SiteHeader } from "@/components/layout/site-header";
 import { site } from "@/core/seo/site";
 
 import "./globals.css";
@@ -30,7 +33,7 @@ export const metadata: Metadata = {
     description: site.description,
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     site: site.twitterHandle,
     title: `${site.name} — ${site.tagline}`,
     description: site.description,
@@ -52,8 +55,53 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {children}
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
+      >
+        {/* Site-level structured data. Emitted once here rather than per page so
+            it cannot drift between routes. */}
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Organization",
+                "@id": `${site.url}#organization`,
+                name: site.name,
+                url: site.url,
+                description: site.description,
+              },
+              {
+                "@type": "WebSite",
+                "@id": `${site.url}#website`,
+                name: site.name,
+                url: site.url,
+                publisher: { "@id": `${site.url}#organization` },
+                potentialAction: {
+                  "@type": "SearchAction",
+                  target: {
+                    "@type": "EntryPoint",
+                    urlTemplate: `${site.url}/search?q={search_term_string}`,
+                  },
+                  "query-input": "required name=search_term_string",
+                },
+              },
+            ],
+          }}
+        />
+
+        <a
+          href="#main"
+          className="bg-accent text-accent-contrast sr-only rounded-md px-4 py-2 focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50"
+        >
+          Skip to content
+        </a>
+
+        <SiteHeader />
+        <main id="main" className="flex-1">
+          {children}
+        </main>
+        <SiteFooter />
       </body>
     </html>
   );

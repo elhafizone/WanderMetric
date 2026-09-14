@@ -33,7 +33,8 @@ export function normalizePageRequest(
   page?: number | null,
   perPage?: number | null,
 ): PageRequest {
-  const safePage = Number.isFinite(page) && (page as number) > 0 ? Math.floor(page as number) : 1;
+  const safePage =
+    Number.isFinite(page) && (page as number) > 0 ? Math.floor(page as number) : 1;
   const requested =
     Number.isFinite(perPage) && (perPage as number) > 0
       ? Math.floor(perPage as number)
@@ -60,6 +61,10 @@ export function buildPageMeta(request: PageRequest, total: number): PageMeta {
   };
 }
 
-export function paginate<T>(items: T[], request: PageRequest, total: number): Paginated<T> {
+export function paginate<T>(
+  items: T[],
+  request: PageRequest,
+  total: number,
+): Paginated<T> {
   return { items, meta: buildPageMeta(request, total) };
 }
