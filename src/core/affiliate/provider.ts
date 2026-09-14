@@ -1,3 +1,4 @@
+import type { Vertical as DbVertical } from "@/core/shared/db";
 import type { Result } from "@/core/shared/result";
 
 /**
@@ -8,12 +9,16 @@ import type { Result } from "@/core/shared/result";
  * directly; it resolves one from the registry by slug. Adding or removing a
  * network is an adapter file plus a database row, never a frontend change.
  *
- * NOTE: no provider is implemented yet. Real endpoints, parameter names and auth
- * flows will be written against each provider's live documentation in Phase 6.
+ * Implemented: Travelpayouts (see ./providers/travelpayouts.ts). Any further
+ * adapter must likewise be written against that provider's live documentation --
+ * no endpoint is ever written from memory.
  */
 
-export type Vertical =
-  "flights" | "hotels" | "tours" | "cars" | "insurance" | "transfers";
+/**
+ * Mirrors the `vertical` enum in the database. Re-exported rather than
+ * hand-written a second time so the two cannot silently drift apart.
+ */
+export type Vertical = DbVertical;
 
 export interface ProviderCapabilities {
   /** Can build a deep link to a specific product or search result. */
@@ -31,6 +36,11 @@ export interface ProviderCapabilities {
 export interface DeepLinkInput {
   /** Provider-specific target, resolved from `affiliate_links` in the database. */
   destinationUrl: string;
+  /**
+   * Optional brand-specific URL shape from the link row. Lets an editor express
+   * an unusual deep-link format without requiring a code change.
+   */
+  deepLinkTemplate?: string | null;
   /** Our own click UUID, forwarded as the provider's sub-id where supported. */
   clickId: string;
   /** Optional campaign/source attribution. */
