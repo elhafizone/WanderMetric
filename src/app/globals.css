@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+/*
+ * WanderMetric design tokens.
+ * Deliberately small — a real design system arrives with the public site in
+ * Phase 4. What exists here is enough to render an accessible, themed shell.
+ */
+:root {
+  --wm-bg: #f7faf9;
+  --wm-surface: #ffffff;
+  --wm-border: #d9e3e0;
+  --wm-ink: #10201d;
+  --wm-ink-muted: #5a6d69;
+  --wm-accent: #0b6e63;
+  --wm-accent-contrast: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --wm-bg: #0b1211;
+    --wm-surface: #131c1b;
+    --wm-border: #24302e;
+    --wm-ink: #e6edeb;
+    --wm-ink-muted: #92a4a0;
+    --wm-accent: #4fbfae;
+    --wm-accent-contrast: #06201c;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--wm-bg);
+  --color-surface: var(--wm-surface);
+  --color-border: var(--wm-border);
+  --color-ink: var(--wm-ink);
+  --color-ink-muted: var(--wm-ink-muted);
+  --color-accent: var(--wm-accent);
+  --color-accent-contrast: var(--wm-accent-contrast);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--wm-bg);
+  color: var(--wm-ink);
+}
+
+/* Respect reduced-motion globally rather than per-component. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
