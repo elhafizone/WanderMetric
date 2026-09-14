@@ -7,7 +7,6 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { getRequestContext } from "@/lib/request-context";
 import { ensureSessionId } from "@/lib/tracking/session";
 import { logError, logWarn } from "@/lib/logger";
-import { site } from "@/core/seo/site";
 
 /**
  * Affiliate redirector.
@@ -40,10 +39,19 @@ function orUndefined(value: string | null): string | undefined {
   return value ?? undefined;
 }
 
+/**
+ * A real 404, not a redirect to a /404 path (which is not a route in the App
+ * Router). An unresolvable affiliate slug is genuinely not found, and saying so
+ * with the correct status keeps crawlers and monitoring honest.
+ */
 function notFound() {
-  return NextResponse.redirect(new URL("/404", site.url), {
-    status: 302,
-    headers: { "x-robots-tag": "noindex, nofollow" },
+  return new NextResponse("Not found", {
+    status: 404,
+    headers: {
+      "content-type": "text/plain; charset=utf-8",
+      "x-robots-tag": "noindex, nofollow",
+      "cache-control": "no-store",
+    },
   });
 }
 
