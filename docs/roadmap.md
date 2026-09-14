@@ -1,121 +1,164 @@
-# WanderMetric — Roadmap
+# Roadmap
 
-Phases are sequential. Each ends at a review gate; none starts without approval.
-
-**Legend:** ✅ complete · 🟡 current · ⬜ planned
+**Legend:** ✅ done · 🟡 partial, blocked on configuration · ⬜ planned
 
 ---
 
-## ✅ Phase 0 — Environment Audit
+## ✅ Phase 0 — Environment audit
 
-Read-only audit of the Hostinger environment. Full report: [`00-environment-audit.md`](00-environment-audit.md).
+[Full report](00-environment-audit.md). Found that `wandermetric.com` was parked
+with no vhost and no SSL, and that Hostinger shared hosting offers MySQL only —
+which is why Supabase hosts the database. Also confirmed the plan genuinely runs
+Next.js with SSR and ISR.
 
-Findings that shaped everything after it:
+## ✅ Phase 1 — Foundation
 
-- `wandermetric.com` is a **parked domain** — no vhost, no site, no SSL.
-- Hostinger shared hosting offers **MySQL only**; PostgreSQL is VPS-only.
-  → Resolved by choosing **Supabase** as the Postgres provider.
-- The plan **does** run Next.js on Node 22 with SSR + ISR and git deploy (verified on two live sites).
-- Shared hosting cannot run persistent workers → cron-triggered jobs.
+Next.js 16, TypeScript strict, Tailwind v4, the `src/core/` boundary, Supabase
+adapters, lazily validated environment contract, SEO foundation, `/api/v1/health`.
+
+## ✅ Phase 2 — Database
+
+31 tables, 11 migrations, four separated concerns. Thin-content publish gates,
+automatic 301s on slug change, weighted full-text search, BRIN-indexed event
+tables. See [database.md](database.md).
+
+## ✅ Phase 3 — Security
+
+RLS on all 28 policy-bearing tables. Extensions moved out of `public`. Anon
+execute revoked on RLS helpers. Supabase advisors reduced to four intentional
+warnings. See [security.md](security.md).
+
+## ✅ Phase 4 — API
+
+20 endpoints under `/api/v1` behind one response envelope, Zod-validated,
+versioned from the first endpoint so a mobile client never special-cases a route.
+
+## ✅ Phase 5 — Admin dashboard
+
+Config-driven CRUD for eight entities, role-based access enforced by RLS, soft
+deletes, append-only audit log, constraint errors translated into instructions a
+writer can act on.
+
+## ✅ Phase 6 — Public website
+
+Home, destinations, guides, hotels, activities, tours, flights, deals, search and
+legal pages. ISR throughout; three client components on the entire public site.
+
+## 🟡 Phase 7 — Travelpayouts
+
+Adapter implemented and tested against the verified API. **Dormant until
+`TRAVELPAYOUTS_MARKER` is set.** `fetchConversions` deliberately absent — the
+statistics API was not verified. See [travelpayouts.md](travelpayouts.md).
+
+## 🟡 Phase 8 — Affiliate links
+
+`/go/[slug]` implemented: server 302, click recorded first, bots excluded,
+uncacheable, open redirect structurally impossible. **Returns 404 until the
+service-role key and a provider marker are configured** — refusing beats
+redirecting without attribution.
+
+## 🟡 Phase 9 — Tracking
+
+Click and page-view capture, anonymous sessions, `daily_stats` rollup function.
+**Conversion ingestion not built** — no verified provider callback exists, so the
+table is honestly empty.
+
+## ✅ Phase 10 — SEO
+
+Canonicals, Open Graph, per-type JSON-LD, database-driven sitemap, automatic
+redirects, noindex on search, thin-content gate. No fabricated rating or price
+markup anywhere. See [seo.md](seo.md).
+
+## ✅ Phase 11 — Search
+
+Postgres full-text with weighted tsvector plus trigram typeahead. No external
+search service — at this corpus size it would cost more to operate than it saves.
+
+## ✅ Phase 12 — Content system
+
+Draft/review/published workflow, slug management, SEO metadata, authorship,
+soft delete.
+
+## 🟡 Phase 13 — Media
+
+Schema, admin list and `next/image` pipeline done. Alt text mandatory by
+constraint. **Upload needs a Storage bucket and the service-role key.**
+
+## 🟡 Phase 14 — Email
+
+Double opt-in schema and endpoint done. **No ESP configured**, so subscribers
+stay `pending` and nothing is sent. Sending from an unverified domain would
+poison deliverability from day one.
+
+## ✅ Phase 15 — Performance
+
+Server Components by default, ISR, narrow card queries, concurrent fetches,
+`next/image` with explicit sizes, reduced-motion respected.
+
+## ✅ Phase 16 — Security audit
+
+See [security.md](security.md), including the weaknesses that are documented
+rather than hidden: in-process rate limiting, no CSP yet, no admin MFA yet.
+
+## ✅ Phase 17 — Responsive UI
+
+Mobile-first, no-JavaScript navigation, semantic landmarks, visible focus,
+labelled controls, light and dark themes.
+
+## ✅ Phase 18 — Seed data
+
+Real reference geography and factual editorial copy. No invented hotel business
+is published — the two hotel rows are `[SAMPLE]` drafts that RLS keeps off the
+public site.
+
+## ✅ Phase 19 — Errors and observability
+
+Error boundaries, structured JSON logs with credential redaction, a health
+endpoint that performs a real round trip and returns 503 when the database is
+unreachable.
+
+## ✅ Phase 20 — Documentation
+
+Nine documents recording decisions, including the ones that were revised.
+
+## ✅ Phase 21 — Tests
+
+45 Vitest tests over the framework-free domain layer.
+
+## ✅ Phase 22 — Production build
+
+lint, typecheck, test and build all clean. No suppressed rules, no ignored
+errors.
+
+## ✅ Phase 23 — Deployment
+
+Live at https://wandermetric.com with Let's Encrypt SSL. See
+[deployment.md](deployment.md).
+
+## ✅ Phase 24 — Production verification
+
+All routes verified live: status codes, titles, canonicals, JSON-LD, robots,
+sitemap, API, security headers, admin gating, 404.
 
 ---
 
-## 🟡 Phase 1 — Foundation *(current)*
+## Next
 
-Project skeleton, tooling, and the architectural boundaries everything later depends on.
+**Immediate, unblocks three features:**
+- [ ] Add `SUPABASE_SERVICE_ROLE_KEY` to the Hostinger environment and rebuild
+- [ ] Add `TRAVELPAYOUTS_MARKER` to activate affiliate redirects
 
-- [x] Next.js 16 + TypeScript strict + Tailwind v4
-- [x] ESLint + Prettier + `npm run verify`
-- [x] `src/core/` framework-free domain boundary
-- [x] Affiliate and social provider interfaces (no implementations)
-- [x] Supabase client / server / admin adapters
-- [x] Lazily validated environment contract
-- [x] SEO foundation — metadata builder, route builders, robots, sitemap
-- [x] `/api/v1/health`
-- [x] Baseline security headers
-- [x] Documentation (README, architecture, roadmap)
-- [ ] **GitHub repository created and pushed** — blocked, no credentials in this environment
-- [ ] Supabase project created — deferred to Phase 2
+**Before meaningful traffic:**
+- [ ] Enable MFA on admin accounts
+- [ ] Add a Content-Security-Policy, report-only first
+- [ ] Database restore drill
+- [ ] External uptime check on `/api/v1/health`
+- [ ] Schedule the nightly `rollup_daily_stats` cron
 
----
-
-## ⬜ Phase 2 — Database & Backend
-
-1. Create the WanderMetric Supabase project (**not** the existing `top-tools-pick` project).
-2. Full ERD review → **approval gate** → migrations.
-3. Row Level Security policies on every table.
-4. Repository layer over Supabase.
-5. Seed geography (countries, cities).
-6. `/api/v1` conventions: error envelope, pagination, OpenAPI generation.
-
-**Gate:** the ERD is approved before any migration runs.
-
----
-
-## ⬜ Phase 3 — Admin Dashboard
-
-Supabase Auth + mandatory TOTP · roles · CRUD for every content entity · media library on Supabase Storage · SEO metadata editor · `audit_log`.
-
----
-
-## ⬜ Phase 4 — Public Website
-
-Destination, city and country pages · guides · itineraries · navigation · search · ISR · a Core Web Vitals budget enforced in CI.
-
----
-
-## ⬜ Phase 5 — SEO System
-
-`seo_metadata`-driven metadata · JSON-LD per content type · sitemap index · breadcrumbs · internal-link graph · redirects · **thin-content publish gate** · Search Console verification.
-
----
-
-## ⬜ Phase 6 — Affiliate Integrations
-
-`/go/[slug]` redirector · admin link manager · **Travelpayouts adapter first**, then one activities provider.
-
-Each adapter begins with a documentation spike against the provider's live API — no endpoint is written from memory.
-
----
-
-## ⬜ Phase 7 — Tracking & Attribution
-
-Page views · click capture with `click_id` · conversion ingestion (webhook + scheduled pull) · consent management · monthly partitioning · nightly rollups into `daily_stats`.
-
-Privacy: no raw IP storage, no cross-site fingerprinting, minimum viable data.
-
----
-
-## ⬜ Phase 8 — Social Automation
-
-Publishing queue with **human approval** · Pinterest capability spike against the live v5 API first · Trial-tier app · OAuth · scheduling · retries with backoff · then Standard-access review submission.
-
----
-
-## ⬜ Phase 9 — Analytics
-
-Admin dashboards from `daily_stats` · revenue by provider, page and vertical · content performance · EPC / RPM.
-
----
-
-## ⬜ Phase 10 — Email & Lead Generation
-
-Newsletter capture · double opt-in · segmentation · transactional and campaign sending via a reputable ESP.
-
----
-
-## ⬜ Phase 11 — Launch & Optimization
-
-Performance pass · accessibility audit · security review · load test · monitoring and alerting · **backup restore drill** · content velocity.
-
----
-
-## ⬜ Phase 12 — Mobile Application
-
-OpenAPI → generated client · token auth · offline caching · deep links · store release.
-
----
-
-## ⬜ Phase 13 — Sponsored Listings
-
-Deferred until traffic makes inventory sellable.
+**Then:**
+- [ ] Verify the Travelpayouts statistics API and implement conversion ingestion
+- [ ] Real photography and OG images
+- [ ] ESP integration for the newsletter
+- [ ] Social publishing (Pinterest first — human-in-the-loop by policy)
+- [ ] Internal-link graph
+- [ ] Mobile app: OpenAPI → generated client against the existing `/api/v1`

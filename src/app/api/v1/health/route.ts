@@ -59,7 +59,6 @@ export async function GET() {
       status: healthy ? "ok" : "degraded",
       service: "wandermetric",
       version: "v1",
-      phase: 1,
       checks: { supabase },
       timestamp: new Date().toISOString(),
     },

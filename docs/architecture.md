@@ -1,7 +1,11 @@
 # WanderMetric — System Architecture
 
-**Status:** Phase 1 foundation in place. Everything outside §13 is a plan, not code.
+**Status:** Built and deployed to https://wandermetric.com.
 **Last updated:** 2026-09-14
+
+> This document describes the intended design. For what is actually built and
+> what is blocked, see [roadmap.md](roadmap.md); for the deployed state, see
+> [deployment.md](deployment.md).
 
 ---
 
@@ -96,7 +100,7 @@ Three clients, three trust levels:
 | `lib/supabase/server.ts` | anon + session cookie | Acts as the signed-in user. |
 | `lib/supabase/admin.ts` | service role | **Bypasses RLS.** Jobs, webhooks, authorized admin writes only. |
 
-> **Phase 1 status:** no WanderMetric Supabase project exists. The only project on the connected account is `top-tools-pick`, a different product with 23 populated tables. It must not be reused.
+> The WanderMetric Supabase project is `vxhmtqhnjlkrdjruexmv` in `us-east-1`, entirely separate from the unrelated `top-tools-pick` project. See [database.md](database.md).
 
 ---
 
@@ -117,9 +121,10 @@ This separation is deliberate and load-bearing.
 
 Provider data is never the reason a page exists. A destination page exists because *we* wrote it; provider offers decorate it. If a provider disappears, the page survives.
 
-### 6.2 Planned entities
+### 6.2 Entities
 
-Documented here; **not created in Phase 1**.
+All built except the social tables, which are planned only. See
+[database.md](database.md) and [erd.md](erd.md) for the implemented schema.
 
 **Geography & content**
 `countries` · `regions` · `cities` · `destinations` · `guides` · `itineraries` (+ `itinerary_days`) · `activities` · `hotels` · `deals` · `categories` · `tags` · `content_tags` · `media`
@@ -128,16 +133,16 @@ Documented here; **not created in Phase 1**.
 `affiliate_providers` · `affiliate_programs` · `affiliate_links` · `affiliate_link_placements` · `affiliate_clicks` · `affiliate_conversions`
 
 **Tracking**
-`page_views` · `sessions` · `daily_stats`
+`page_views` · `tracking_sessions` · `daily_stats`
 
-**Social**
+**Social** — *interfaces only; no tables created*
 `social_accounts` · `social_boards` · `social_posts` · `social_publish_log`
 
 **SEO**
-`seo_metadata` · `redirects` · `internal_links`
+`seo_metadata` · `redirects` · `internal_links` *(table exists, unpopulated)*
 
 **Admin**
-`users` · `roles` · `audit_log`
+`profiles` (extends `auth.users`, carries the role) · `audit_log` · `site_settings`
 
 ### 6.3 Major relationships
 
@@ -151,13 +156,18 @@ content 1─1 seo_metadata
 content 1─n social_posts n─1 social_accounts
 ```
 
-### 6.4 Decisions to carry into Phase 2
+### 6.4 Decisions as implemented
 
 - `JSONB` for provider payloads, with a Zod schema per provider.
 - `click_id` is a UUID **we** generate and forward as the provider's sub-id — the only reliable bridge back from a conversion postback.
-- Partition `page_views` and `affiliate_clicks` monthly from the first migration.
-- Dashboards read `daily_stats`, never raw event tables.
-- Slugs are immutable once published; a change writes a `redirects` row.
+- **Partitioning was reconsidered and dropped.** The original plan called for
+  monthly partitions from the first migration. An unmaintained partition set
+  fails inserts once it passes the last partition, which at current volume is a
+  worse risk than table size. BRIN indexes cover the range scans; see
+  [database.md](database.md) for the trigger point to revisit.
+- Dashboards read `daily_stats`, never raw event tables. The admin analytics
+  screen currently reads raw tables because volume is zero, and says so.
+- Slug changes on published rows write a 301 automatically, via trigger.
 
 ---
 
