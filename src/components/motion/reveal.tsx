@@ -2,7 +2,13 @@
 
 import { useEffect, useRef } from "react";
 
-import { alreadyOnScreen, motion, motionEnabled } from "@/components/motion/runtime";
+import {
+  alreadyOnScreen,
+  guardVisibility,
+  motion,
+  motionEnabled,
+  whenAnimatable,
+} from "@/components/motion/runtime";
 
 /**
  * Staggered entrance for a group of elements as it scrolls into view.
@@ -15,7 +21,15 @@ import { alreadyOnScreen, motion, motionEnabled } from "@/components/motion/runt
  * It animates its *direct children*, which is why no `data-` attributes are
  * needed on the content, and it uses `gsap.from`: the elements are already
  * visible in the server HTML, so no JavaScript, a failed chunk or reduced
- * motion all leave the finished layout on screen rather than a blank section.
+ * motion all leave the finished layout on screen.
+ *
+ * Content visibility beats the animation, in three layers:
+ *
+ *   1. nothing is set up while the document is hidden, because a hidden
+ *      document gets no animation frames and could not play the tween back;
+ *   2. elements already on screen are never hidden in the first place;
+ *   3. `guardVisibility` strips the inline styles from anything that ends up
+ *      on screen and still transparent, whatever the reason.
  */
 export function Reveal({
   children,
@@ -43,25 +57,34 @@ export function Reveal({
 
     let cancelled = false;
     let ctx: gsap.Context | undefined;
+    let releaseGuard: (() => void) | undefined;
 
-    void motion().then((gsap) => {
-      if (cancelled || !ref.current) return;
-      ctx = gsap.context(() => {
-        gsap.from(targets, {
-          opacity: 0,
-          y,
-          duration: 0.85,
-          stagger,
-          scrollTrigger: { trigger: el, start, once: true },
-          // Inline transforms left behind would fight the CSS hover transitions
-          // on the cards underneath, so they are cleared once the run finishes.
-          clearProps: "transform,opacity",
-        });
-      }, el);
+    const stopWaiting = whenAnimatable(() => {
+      void motion().then((gsap) => {
+        if (cancelled || !ref.current) return;
+
+        ctx = gsap.context(() => {
+          gsap.from(targets, {
+            opacity: 0,
+            y,
+            duration: 0.85,
+            stagger,
+            scrollTrigger: { trigger: el, start, once: true },
+            // Inline transforms left behind would fight the CSS hover
+            // transitions on the cards underneath, so they are cleared once
+            // the run finishes.
+            clearProps: "transform,opacity",
+          });
+        }, el);
+
+        releaseGuard = guardVisibility(targets);
+      });
     });
 
     return () => {
       cancelled = true;
+      stopWaiting();
+      releaseGuard?.();
       ctx?.revert();
     };
   }, [y, stagger, start]);

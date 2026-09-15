@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-import { motion, motionEnabled } from "@/components/motion/runtime";
+import { motion, motionEnabled, whenAnimatable } from "@/components/motion/runtime";
 
 /**
  * Scroll-linked parallax for a full-bleed image layer.
@@ -40,29 +40,35 @@ export function Parallax({
     let cancelled = false;
     let ctx: gsap.Context | undefined;
 
-    void motion().then((gsap) => {
-      if (cancelled || !frame.current) return;
-      ctx = gsap.context(() => {
-        gsap.fromTo(
-          layerEl,
-          { yPercent: -strength },
-          {
-            yPercent: strength,
-            ease: "none",
-            scrollTrigger: {
-              trigger: frameEl,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: true,
-              invalidateOnRefresh: true,
+    // Parallax never hides anything, so it needs no visibility guard — but it
+    // still waits for a live frame loop, because a scrub set up without frames
+    // just sits at its start value.
+    const stopWaiting = whenAnimatable(() => {
+      void motion().then((gsap) => {
+        if (cancelled || !frame.current) return;
+        ctx = gsap.context(() => {
+          gsap.fromTo(
+            layerEl,
+            { yPercent: -strength },
+            {
+              yPercent: strength,
+              ease: "none",
+              scrollTrigger: {
+                trigger: frameEl,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true,
+                invalidateOnRefresh: true,
+              },
             },
-          },
-        );
-      }, frameEl);
+          );
+        }, frameEl);
+      });
     });
 
     return () => {
       cancelled = true;
+      stopWaiting();
       ctx?.revert();
     };
   }, [strength]);

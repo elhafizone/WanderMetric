@@ -2,7 +2,13 @@
 
 import { useEffect, useRef } from "react";
 
-import { alreadyOnScreen, motion, motionEnabled } from "@/components/motion/runtime";
+import {
+  alreadyOnScreen,
+  guardVisibility,
+  motion,
+  motionEnabled,
+  whenAnimatable,
+} from "@/components/motion/runtime";
 
 /**
  * Editorial image reveal: the frame opens upward over the photograph while the
@@ -12,8 +18,10 @@ import { alreadyOnScreen, motion, motionEnabled } from "@/components/motion/runt
  * fade — a fade says "loading", a clip reveal says "presented".
  *
  * `clipPath` rather than height, so nothing around the image reflows and the
- * work stays on the compositor. An image already on screen when GSAP finishes
- * loading is left exactly as painted.
+ * work stays on the compositor. It carries the same three visibility
+ * guarantees as `Reveal`: never set up while the document is hidden, never
+ * applied to something already on screen, and force-cleared if an image ends up
+ * visible to the reader while still clipped.
  */
 export function MediaReveal({
   children,
@@ -33,24 +41,33 @@ export function MediaReveal({
 
     let cancelled = false;
     let ctx: gsap.Context | undefined;
+    let releaseGuard: (() => void) | undefined;
 
-    void motion().then((gsap) => {
-      if (cancelled || !frame.current) return;
-      ctx = gsap.context(() => {
-        const tl = gsap.timeline({
-          scrollTrigger: { trigger: el, start: "top 86%", once: true },
-        });
+    const stopWaiting = whenAnimatable(() => {
+      void motion().then((gsap) => {
+        if (cancelled || !frame.current) return;
 
-        tl.from(el, {
-          clipPath: "inset(0% 0% 100% 0%)",
-          duration: 1.05,
-          ease: "expo.out",
-        }).from(inner, { scale: 1.12, duration: 1.4, ease: "expo.out" }, 0);
-      }, el);
+        ctx = gsap.context(() => {
+          const tl = gsap.timeline({
+            scrollTrigger: { trigger: el, start: "top 86%", once: true },
+          });
+
+          tl.from(el, {
+            clipPath: "inset(0% 0% 100% 0%)",
+            duration: 1.05,
+            ease: "expo.out",
+            clearProps: "clipPath",
+          }).from(inner, { scale: 1.08, duration: 1.4, ease: "expo.out" }, 0);
+        }, el);
+
+        releaseGuard = guardVisibility([el]);
+      });
     });
 
     return () => {
       cancelled = true;
+      stopWaiting();
+      releaseGuard?.();
       ctx?.revert();
     };
   }, []);
