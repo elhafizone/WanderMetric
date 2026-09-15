@@ -63,10 +63,9 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fbf8f3" },
-    { media: "(prefers-color-scheme: dark)", color: "#16140f" },
-  ],
+  // One theme, so one theme-colour. Advertising a dark variant here would ask
+  // the browser to tint its own chrome dark around a page that is not.
+  themeColor: "#fbf8f3",
 };
 
 export default function RootLayout({

@@ -56,34 +56,19 @@
   --wm-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-
-    --wm-bg: #16140f;
-    --wm-bg-tint: #1b1813;
-    --wm-surface: #1e1b16;
-    --wm-surface-2: #24201a;
-    --wm-surface-3: #2c2721;
-    --wm-border: #332d25;
-    --wm-border-strong: #453d32;
-
-    --wm-ink: #f0eae0;
-    --wm-ink-soft: #cdc5b8;
-    --wm-ink-muted: #9c9284;
-
-    --wm-accent: #8fb79b;
-    --wm-accent-hover: #a5c8af;
-    --wm-accent-soft: #232b25;
-    --wm-accent-contrast: #12180f;
-    --wm-ember: #d98c63;
-    --wm-ember-soft: #2b201a;
-
-    --wm-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-    --wm-shadow-md: 0 6px 20px -8px rgba(0, 0, 0, 0.6);
-    --wm-shadow-lg: 0 24px 60px -28px rgba(0, 0, 0, 0.8);
-  }
-}
+/*
+ * There is deliberately no `prefers-color-scheme: dark` block.
+ *
+ * An earlier revision shipped one, and it silently replaced every token above
+ * with a near-black palette for anyone whose OS was set to dark — which is a
+ * large share of visitors, and meant most people never saw the light design at
+ * all. WanderMetric has one canonical theme, and it is this one. `color-scheme:
+ * light` on :root also stops the browser darkening form controls and
+ * scrollbars underneath us.
+ *
+ * If a dark theme is ever wanted it should be an explicit, user-chosen toggle,
+ * not an ambient OS preference that overrides the brand.
+ */
 
 @theme inline {
   --color-bg: var(--wm-bg);
@@ -185,25 +170,68 @@ body {
   );
 }
 
-/* Scrim for text over photography. Two stops rather than one so the midtones
-   of the image survive — a flat 50% black overlay is what makes a hero look
-   like a stock template. */
-.scrim {
+/*
+ * Treatments for type set over photography.
+ *
+ * The site went through two wrong answers here before this one. First a heavy
+ * dark scrim (0.82 at the baseline) so white type would read — which made the
+ * whole site look dark. Then a much lighter scrim over deliberately brighter
+ * photographs — which looked right and measured terribly: white type came out
+ * at 1.13:1 over a sunlit sky and 1.76:1 over the Rome facade, against AA
+ * minimums of 3:1 and 4.5:1.
+ *
+ * Both failures have the same cause: white type forces the image to be dark.
+ * So the type is not white any more. A warm ivory veil lifts the lower part of
+ * the frame and charcoal sits on it, which is how a magazine actually handles a
+ * caption over a bright photograph. Contrast goes up, the photograph keeps its
+ * light, and there is no dark overlay left on the page to make it feel heavy.
+ */
+
+/*
+ * The veil is applied to the caption block, not to the picture frame.
+ *
+ * Sizing it to the frame was the mistake in the first attempt: a caption is
+ * anchored to the bottom, so its topmost line — the eyebrow — always landed in
+ * the weakest part of a frame-height gradient. Measured, that put "Spain" at
+ * 1.8:1 and "Start planning" at 3.78:1 while the headlines directly beneath
+ * them passed comfortably. Making the gradient a property of the text block
+ * means it lines up with the type at any card aspect ratio, and the fade lives
+ * entirely in the block's top padding, so the photograph above stays clear.
+ */
+.veil {
   background: linear-gradient(
     to top,
-    rgba(18, 15, 10, 0.82) 0%,
-    rgba(18, 15, 10, 0.28) 42%,
-    rgba(18, 15, 10, 0.06) 70%,
-    rgba(18, 15, 10, 0.24) 100%
+    rgba(251, 248, 243, 0.95) 0%,
+    rgba(251, 248, 243, 0.93) 46%,
+    rgba(251, 248, 243, 0.74) 70%,
+    rgba(251, 248, 243, 0.3) 88%,
+    rgba(251, 248, 243, 0) 100%
   );
 }
 
-.scrim-soft {
+/*
+ * Ember is never used for small type over a photograph.
+ *
+ * Terracotta #a9502c has a relative luminance of 0.142, so 4.5:1 needs a
+ * background above 0.814 — essentially undiluted ivory. No veil that still
+ * leaves a photograph looking like a photograph gets there. It reads at 5.1:1
+ * on the ivory plate and in section headers, which is where it belongs;
+ * eyebrows over imagery are charcoal, which clears AA at a veil weak enough to
+ * keep the picture intact.
+ */
+
+/*
+ * Masthead veil. The header used to lay `from-black/45` over the hero, which
+ * darkened the brightest part of the best photograph on the site. This is the
+ * inverse: a soft ivory wash that lets the navigation sit in charcoal and
+ * reads as an extension of the page rather than a shadow over the image.
+ */
+.masthead-veil {
   background: linear-gradient(
-    to top,
-    rgba(18, 15, 10, 0.74) 0%,
-    rgba(18, 15, 10, 0.16) 58%,
-    transparent 100%
+    to bottom,
+    rgba(251, 248, 243, 0.72) 0%,
+    rgba(251, 248, 243, 0.42) 46%,
+    rgba(251, 248, 243, 0) 100%
   );
 }
 

@@ -19,6 +19,15 @@ import { useEffect, useRef, useState } from "react";
  * still opens if the JavaScript never arrives. The only thing script adds is
  * closing it after a client-side navigation, which a full page load would have
  * done by itself.
+ *
+ * Over a hero the bar is not dark. It used to lay `from-black/45` over the
+ * photograph, which dimmed the brightest, warmest part of the best image on
+ * the site to buy legibility for white links. The hero photograph measures 198
+ * luminance across its top fifth — bright sky — so white type was the wrong
+ * choice there anyway. Instead a soft ivory veil carries charcoal navigation:
+ * legible over a bright sky (effective background ~232) and still legible over
+ * a dark one (~190), and it reads as the page reaching up over the image
+ * rather than a shadow laid across it.
  */
 
 const NAV = [
@@ -63,7 +72,8 @@ export function SiteHeader() {
   }, [pathname]);
 
   const solid = scrolled || !overlay;
-  const onDark = overlay && !scrolled;
+  // Overlaying a photograph, but never "on dark" — the veil keeps it light.
+  const overlaying = overlay && !scrolled;
 
   return (
     <header
@@ -73,27 +83,22 @@ export function SiteHeader() {
           : "border-b border-transparent py-5"
       }`}
     >
-      {/* A soft gradient under the bar only while it is transparent, so the
-          links stay legible over a bright patch of sky. */}
-      {onDark && (
+      {/* Ivory veil under the bar while it overlays a photograph, so charcoal
+          navigation stays readable whatever the image is doing underneath. */}
+      {overlaying && (
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-black/45 to-transparent"
+          className="masthead-veil pointer-events-none absolute inset-x-0 top-0 -z-10 h-32"
         />
       )}
 
-      <div
-        className={`mx-auto flex w-full max-w-[84rem] items-center gap-6 px-5 sm:px-8 lg:px-10 ${
-          onDark ? "text-on-media" : "text-ink"
-        }`}
-      >
+      <div className="text-ink mx-auto flex w-full max-w-[84rem] items-center gap-6 px-5 sm:px-8 lg:px-10">
         <Link
           href="/"
           className="font-display shrink-0 text-[1.375rem] leading-none tracking-tight"
           style={{ fontVariationSettings: '"opsz" 40, "SOFT" 20' }}
         >
-          Wander
-          <span className={onDark ? "text-on-media-muted" : "text-accent"}>Metric</span>
+          Wander<span className="text-accent">Metric</span>
         </Link>
 
         <nav aria-label="Primary" className="ml-auto hidden lg:block">
@@ -119,11 +124,7 @@ export function SiteHeader() {
 
         <Link
           href="/search"
-          className={`ml-auto inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors lg:ml-0 ${
-            onDark
-              ? "border-white/35 hover:border-white/70"
-              : "border-border-strong hover:border-ink"
-          }`}
+          className="border-border-strong hover:border-ink hover:bg-surface/70 ml-auto inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors lg:ml-0"
         >
           <SearchIcon />
           <span className="hidden sm:inline">Search</span>
@@ -133,9 +134,7 @@ export function SiteHeader() {
         <details ref={menu} className="lg:hidden">
           <summary
             aria-label="Open menu"
-            className={`cursor-pointer list-none rounded-full border px-4 py-2 text-sm marker:content-[''] ${
-              onDark ? "border-white/35" : "border-border-strong"
-            }`}
+            className="border-border-strong hover:bg-surface/70 cursor-pointer list-none rounded-full border px-4 py-2 text-sm transition-colors marker:content-['']"
           >
             Menu
           </summary>
