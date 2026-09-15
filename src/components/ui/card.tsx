@@ -84,6 +84,13 @@ export function ContentCard({
 /**
  * Full-bleed card: the photograph is the card, and the type sits on it.
  *
+ * The caption sits on a warm ivory veil rather than in white on the image.
+ * White-on-photo measured 1.76:1 over the Rome facade and 2.75:1 over
+ * Barcelona, because those photographs are brightest exactly where a title
+ * sits; the only rescue was an overlay dark enough to undo the point of using
+ * bright photography. Charcoal on the veil measures far above AA, and the top
+ * half of every frame stays completely clear.
+ *
  * Reserved for the mosaic's featured slots and nothing else. It only works when
  * an item is genuinely being promoted above its neighbours — used everywhere it
  * would be a wall of overlaid text, which is the affiliate-site look this
@@ -113,29 +120,28 @@ export function FeatureCard({
         priority={priority}
         sizes={sizes}
         className="card-media"
-        overlayClassName="scrim"
       />
 
-      <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 p-6 sm:p-8">
-        {eyebrow && <p className="eyebrow text-on-media-muted">{eyebrow}</p>}
+      <div className="veil absolute inset-x-0 bottom-0 flex flex-col gap-1.5 px-6 pt-20 pb-6 sm:px-7 sm:pb-7">
+        {eyebrow && <p className="eyebrow text-ink-soft">{eyebrow}</p>}
 
-        <h3 className="display text-on-media text-[1.75rem] sm:text-[2.25rem]">
+        <h3 className="display text-ink text-[1.75rem] sm:text-[2.25rem]">
           <Link href={href} className="after:absolute after:inset-0">
             {title}
           </Link>
         </h3>
 
         {summary && (
-          <p className="text-on-media-muted line-clamp-2 max-w-[46ch] text-sm/[1.6]">
+          <p className="text-ink-soft line-clamp-2 max-w-[46ch] text-sm/[1.6]">
             {summary}
           </p>
         )}
 
         <div className="mt-1 flex items-center gap-3">
-          {meta && <span className="text-on-media-muted text-xs">{meta}</span>}
+          {meta && <span className="text-ink-muted text-xs">{meta}</span>}
           <span
             aria-hidden="true"
-            className="card-arrow text-on-media ml-auto text-lg opacity-0 group-hover:opacity-100"
+            className="card-arrow text-accent ml-auto text-lg opacity-0 group-hover:opacity-100"
           >
             →
           </span>

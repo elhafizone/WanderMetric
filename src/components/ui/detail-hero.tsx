@@ -56,7 +56,7 @@ export function DetailHero({
   }
 
   return (
-    <section className="relative isolate flex min-h-[62svh] flex-col justify-end overflow-hidden sm:min-h-[72svh]">
+    <section className="relative isolate flex min-h-[68svh] flex-col justify-end overflow-hidden sm:min-h-[74svh]">
       <div aria-hidden="true" className="absolute inset-0 -z-10">
         <MediaImage
           media={media}
@@ -64,33 +64,35 @@ export function DetailHero({
           imageKeys={imageKeys}
           priority
           sizes="100vw"
-          overlayClassName="scrim"
           className="intro-media"
         />
       </div>
 
-      <Container width="wide" className="pt-32 pb-12 sm:pb-16">
-        <div className="flex flex-col gap-5">
-          <div className="text-on-media-muted intro intro-1">
-            <Breadcrumbs items={crumbs} onMedia />
+      {/* The fade lives in this padding. It is shorter on a phone, where the
+          text block already takes most of a 68svh hero and a tall fade would
+          leave almost no clear photograph above it. */}
+      <div className="veil w-full pt-20 sm:pt-36 lg:pt-44">
+        <Container width="wide" className="pb-12 sm:pb-16">
+          <div className="flex flex-col gap-5">
+            <div className="intro intro-1">
+              <Breadcrumbs items={crumbs} />
+            </div>
+            {eyebrow && <p className="intro intro-1 eyebrow text-ink-soft">{eyebrow}</p>}
+            <h1 className="intro intro-2 display text-ink max-w-[16ch] text-[2.5rem] sm:text-[4rem] lg:text-[4.75rem]">
+              {title}
+            </h1>
+            {description && (
+              <p className="intro intro-3 text-ink-soft max-w-[56ch] text-lg/[1.6]">
+                {description}
+              </p>
+            )}
+            {meta && <div className="intro intro-3 text-ink-muted">{meta}</div>}
           </div>
-          {eyebrow && (
-            <p className="intro intro-1 eyebrow text-on-media-muted">{eyebrow}</p>
-          )}
-          <h1 className="intro intro-2 display text-on-media max-w-[16ch] text-[2.5rem] sm:text-[4rem] lg:text-[4.75rem]">
-            {title}
-          </h1>
-          {description && (
-            <p className="intro intro-3 text-on-media-muted max-w-[56ch] text-lg/[1.6]">
-              {description}
-            </p>
-          )}
-          {meta && <div className="intro intro-3 text-on-media-muted">{meta}</div>}
-        </div>
-      </Container>
+        </Container>
+      </div>
 
       {image.credit && (
-        <p className="text-on-media-muted/60 absolute right-4 bottom-2 text-[10px] tracking-wide sm:right-8">
+        <p className="text-ink-muted/70 absolute right-4 bottom-2 text-[10px] tracking-wide sm:right-8">
           Photograph: {image.credit.photographer} / {image.credit.source}
         </p>
       )}

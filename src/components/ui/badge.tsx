@@ -9,7 +9,6 @@ const TONES = {
   neutral: "bg-surface-2 text-ink-soft border-border",
   accent: "bg-accent-soft text-accent border-transparent",
   ember: "bg-ember-soft text-ember border-transparent",
-  onMedia: "bg-black/35 text-on-media border-white/25 backdrop-blur-sm",
 } as const;
 
 export function Badge({

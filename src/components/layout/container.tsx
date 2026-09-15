@@ -78,3 +78,46 @@ export function PageShell({
     <div className={`pt-28 pb-24 sm:pt-36 sm:pb-32 ${className ?? ""}`}>{children}</div>
   );
 }
+
+/**
+ * A full-bleed horizontal band with its own ground colour.
+ *
+ * The page used to be one uninterrupted ivory canvas with transparent sections
+ * on it, which meant the only thing creating rhythm was photography — so the
+ * photography had to be dark to register, and the page read dark. Alternating
+ * three closely related warm tones does that job instead, and lets the imagery
+ * be bright.
+ *
+ * The steps are deliberately narrow (ivory #fbf8f3, white #ffffff, sand
+ * #f6f1e8). They should read as paper stock changing, not as stripes.
+ */
+const TONES = {
+  ivory: "bg-bg",
+  white: "bg-surface",
+  sand: "bg-bg-tint",
+} as const;
+
+const BAND_PADDING = {
+  default: "py-20 sm:py-28",
+  tight: "py-14 sm:py-20",
+} as const;
+
+export function Band({
+  children,
+  tone = "ivory",
+  padding = "default",
+  width = "wide",
+  className,
+}: {
+  children: React.ReactNode;
+  tone?: keyof typeof TONES;
+  padding?: keyof typeof BAND_PADDING;
+  width?: keyof typeof WIDTHS;
+  className?: string;
+}) {
+  return (
+    <div className={`${TONES[tone]} ${BAND_PADDING[padding]} ${className ?? ""}`}>
+      <Container width={width}>{children}</Container>
+    </div>
+  );
+}

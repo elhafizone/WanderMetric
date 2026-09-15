@@ -14,18 +14,8 @@ export interface Crumb {
  * Both matter: the markup earns the breadcrumb treatment in search results,
  * and the visible trail is what actually helps someone who landed deep in the
  * site from a search engine.
- *
- * `onMedia` switches the palette for a trail set over a photograph. The colours
- * are fixed rather than themed, because the background there is an image and
- * not the page.
  */
-export function Breadcrumbs({
-  items,
-  onMedia = false,
-}: {
-  items: Crumb[];
-  onMedia?: boolean;
-}) {
+export function Breadcrumbs({ items }: { items: Crumb[] }) {
   if (items.length === 0) return null;
 
   return (
@@ -42,10 +32,7 @@ export function Breadcrumbs({
           })),
         }}
       />
-      <nav
-        aria-label="Breadcrumb"
-        className={`text-xs tracking-wide ${onMedia ? "text-on-media-muted" : "text-ink-muted"}`}
-      >
+      <nav aria-label="Breadcrumb" className="text-ink-muted text-xs tracking-wide">
         <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
           {items.map((item, index) => (
             <li key={`${item.label}-${index}`} className="flex items-center gap-2">
@@ -62,10 +49,7 @@ export function Breadcrumbs({
                   {item.label}
                 </Link>
               ) : (
-                <span
-                  aria-current="page"
-                  className={onMedia ? "text-on-media" : "text-ink"}
-                >
+                <span aria-current="page" className="text-ink">
                   {item.label}
                 </span>
               )}

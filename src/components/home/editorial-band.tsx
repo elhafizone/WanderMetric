@@ -12,7 +12,7 @@ import { brandImage, type BrandImageKey } from "@/core/media/imagery";
  * fifth of scroll speed while the words stay put, which reads as depth.
  */
 export function EditorialBand({
-  imageKey = "horizon",
+  imageKey = "village",
   eyebrow,
   title,
   body,
@@ -27,7 +27,10 @@ export function EditorialBand({
   const image = brandImage(imageKey);
 
   return (
-    <section className={`relative isolate flex items-center ${minHeight}`}>
+    // Content is anchored to the lower half, not centred: the ivory veil is
+    // strongest there, and an eyebrow floating in the clear top of the frame
+    // measured 3.55:1 against a bright photograph.
+    <section className={`relative isolate flex items-end ${minHeight}`}>
       <Parallax className="absolute inset-0 -z-10" strength={8}>
         <Image
           src={image.src}
@@ -38,18 +41,19 @@ export function EditorialBand({
           style={{ objectPosition: image.focus }}
           className="object-cover"
         />
-        <div className="scrim-soft absolute inset-0" />
       </Parallax>
 
-      <div className="mx-auto w-full max-w-[84rem] px-5 py-20 sm:px-8 lg:px-10">
-        <div className="flex max-w-2xl flex-col gap-5">
-          <p className="eyebrow text-on-media-muted">{eyebrow}</p>
-          <h2 className="display text-on-media text-[2rem] sm:text-[3rem]">{title}</h2>
-          <p className="text-on-media-muted max-w-[54ch] text-lg/[1.7]">{body}</p>
+      <div className="veil w-full pt-32 sm:pt-40">
+        <div className="mx-auto w-full max-w-[84rem] px-5 pb-14 sm:px-8 sm:pb-16 lg:px-10">
+          <div className="flex max-w-2xl flex-col gap-5">
+            <p className="eyebrow text-ink-soft">{eyebrow}</p>
+            <h2 className="display text-ink text-[2rem] sm:text-[3rem]">{title}</h2>
+            <p className="text-ink-soft max-w-[54ch] text-lg/[1.7]">{body}</p>
+          </div>
         </div>
       </div>
 
-      <p className="text-on-media-muted/60 absolute right-4 bottom-2 text-[10px] tracking-wide sm:right-8">
+      <p className="text-ink-muted/70 absolute right-4 bottom-2 text-[10px] tracking-wide sm:right-8">
         Photograph: {image.credit.photographer} / {image.credit.source}
       </p>
     </section>

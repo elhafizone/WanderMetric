@@ -87,7 +87,7 @@ export default async function DealDetailPage({ params }: Params) {
         imageKeys={[deal.city?.slug, deal.country?.slug]}
         meta={
           deal.ends_at ? (
-            <Badge tone="onMedia">
+            <Badge tone="ember">
               Ends <time dateTime={deal.ends_at}>{formatDate(deal.ends_at)}</time>
             </Badge>
           ) : null

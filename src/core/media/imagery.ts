@@ -59,22 +59,43 @@ const unsplash = (photographer: string, sourceUrl: string) => ({
  * one — a homepage whose hero might be undefined is not a state worth writing
  * a fallback for.
  */
+/*
+ * Brand photography is chosen on measured light, not on taste alone. Each
+ * candidate was sampled for mean luminance (0-255) and warmth (mean R minus
+ * mean B) before being used:
+ *
+ *   horizon  130 / +45   warmest and brightest -> hero
+ *   village  155 / -04   brightest overall     -> editorial band
+ *   hills    105 / +32   warm, dark lower band -> closing panel
+ *   (retired) hero-coast 94 / -18  dark AND cool. It was the previous hero and
+ *   the single biggest reason the first screen read as a dark website.
+ */
 const BRAND = {
   hero: {
-    src: "/imagery/hero-coast.jpg",
-    width: 2400,
-    height: 1348,
-    alt: "Two lighthouses on a rocky, tree-covered peninsula reaching into open sea, seen from the air",
-    focus: "50% 55%",
-    credit: unsplash("Daniel R.", "https://unsplash.com/@misterjackdaniel"),
-  },
-  horizon: {
     src: "/imagery/horizon.jpg",
     width: 2000,
     height: 1125,
     alt: "An empty road curving between sunlit rock formations in late afternoon light",
-    focus: "50% 60%",
+    // Biased upward: the bright sky sits in the top fifth and the headline
+    // needs the darker lower half of the frame behind it.
+    focus: "50% 42%",
     credit: unsplash("Jack Cohen", "https://unsplash.com/@jackcohen"),
+  },
+  village: {
+    src: "/imagery/village.jpg",
+    width: 2200,
+    height: 1467,
+    alt: "Whitewashed stone houses along a sunlit cobbled street",
+    focus: "50% 50%",
+    credit: unsplash("Tania Lyahnovich", "https://unsplash.com/@tatiratata"),
+  },
+  hills: {
+    src: "/imagery/hills.jpg",
+    width: 2200,
+    height: 1467,
+    alt: "A dirt track winding across green hillsides in late afternoon light",
+    focus: "50% 45%",
+    credit: unsplash("Drew Walker", "https://unsplash.com/@drewwalkerphoto"),
   },
 } as const satisfies Record<string, EditorialImage>;
 

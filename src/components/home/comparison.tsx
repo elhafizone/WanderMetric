@@ -62,11 +62,10 @@ export function Comparison({
                 imageKeys={side.imageKeys}
                 sizes="(max-width: 640px) 92vw, 42vw"
                 className="card-media"
-                overlayClassName="scrim-soft"
               />
-              <div className="absolute inset-x-0 bottom-0 flex flex-col gap-1 p-6">
-                <p className="eyebrow text-on-media-muted">{side.eyebrow}</p>
-                <h3 className="display text-on-media text-[2rem]">
+              <div className="veil absolute inset-x-0 bottom-0 flex flex-col gap-1 px-6 pt-20 pb-6">
+                <p className="eyebrow text-ink-soft">{side.eyebrow}</p>
+                <h3 className="display text-ink text-[2rem]">
                   <Link href={side.href} className="after:absolute after:inset-0">
                     {side.title}
                   </Link>

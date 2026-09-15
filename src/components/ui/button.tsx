@@ -17,8 +17,6 @@ const VARIANTS = {
   secondary:
     "border border-border-strong text-ink bg-surface hover:border-ink hover:bg-surface-2",
   quiet: "text-ink hover:text-accent",
-  /** Sits on a photograph. Fixed colours, because the theme is not in play. */
-  onMedia: "bg-on-media/95 text-ink hover:bg-on-media backdrop-blur-sm shadow-md",
 } as const;
 
 const SIZES = {

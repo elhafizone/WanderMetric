@@ -6,61 +6,75 @@ import { brandImage } from "@/core/media/imagery";
 /**
  * Home hero.
  *
- * A Server Component with no JavaScript at all. The entrance is a CSS keyframe
- * sequence — see the `.intro-*` classes in globals.css — which starts at first
- * paint instead of waiting for hydration, so the headline never appears, blink
- * out and re-enter. `prefers-reduced-motion` cancels it in one rule.
+ * A Server Component with no JavaScript. The entrance is a CSS keyframe
+ * sequence — the `.intro-*` classes in globals.css — which starts at first
+ * paint rather than waiting for hydration, so nothing appears, blinks out and
+ * re-enters. `prefers-reduced-motion` cancels it in one rule.
  *
- * The photograph is the LCP element: `priority` with a real `sizes` and its
- * intrinsic dimensions, inside an aspect-locked box, so it is fetched early and
- * nothing below it moves when it lands.
+ * The composition is a photographic band with an ivory plate laid over its
+ * lower edge, and that is a correctness decision as much as an aesthetic one.
+ *
+ * The previous hero set white type directly on the photograph. That only works
+ * if the photograph is dark, and the whole problem with the first revision was
+ * that it was: the image was picked for its darkness so the type would read.
+ * Choosing a bright, warm photograph instead inverted the failure — measured
+ * against the sunlit sky, the headline came out at 1.13:1 contrast and the
+ * supporting line at 1.71:1, where AA wants 3:1 and 4.5:1. The only ways to
+ * rescue white-on-photo were to darken the image again or to crop to its
+ * gloomiest third, both of which give back exactly what this redesign was for.
+ *
+ * So the type moved off the photograph. Charcoal on ivory is about 13:1, the
+ * image keeps every bit of its light, the scrim can stay almost nothing, and
+ * the first viewport now contains a large warm photograph *and* a panel of
+ * warm ivory — which is what makes the site read as light within a second.
  */
 export function HomeHero() {
   const image = brandImage("hero");
 
   return (
-    <section className="relative isolate flex min-h-[86svh] flex-col justify-end overflow-hidden sm:min-h-[92svh]">
-      <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden">
+    <section className="relative">
+      <div className="relative h-[44svh] min-h-[19rem] overflow-hidden sm:h-[54svh] lg:h-[60svh]">
         <Image
           src={image.src}
-          alt=""
+          alt={image.alt}
           fill
           priority
           fetchPriority="high"
           sizes="100vw"
-          quality={72}
+          quality={74}
           style={{ objectPosition: image.focus }}
           className="intro-media object-cover"
         />
-        <div className="scrim absolute inset-0" />
       </div>
 
-      <div className="mx-auto w-full max-w-[84rem] px-5 pt-32 pb-14 sm:px-8 sm:pb-20 lg:px-10">
-        <div className="flex max-w-3xl flex-col gap-6">
-          <p className="intro intro-1 eyebrow text-on-media-muted">
-            Travel discovery, measured
+      <div className="mx-auto w-full max-w-[84rem] px-5 sm:px-8 lg:px-10">
+        <div className="bg-bg relative -mt-14 rounded-t-2xl px-6 pt-10 pb-12 shadow-[0_-24px_60px_-40px_rgba(45,37,24,0.45)] sm:-mt-20 sm:px-12 sm:pt-14 sm:pb-16 lg:-mt-24 lg:px-16">
+          <div className="flex max-w-3xl flex-col gap-5">
+            <p className="intro intro-1 eyebrow text-ember">Travel discovery, measured</p>
+
+            <h1 className="intro intro-2 display text-[2.5rem] sm:text-[3.75rem] lg:text-[4.5rem]">
+              Find your next unforgettable trip.
+            </h1>
+
+            <p className="intro intro-3 text-ink-soft max-w-[52ch] text-lg/[1.6] sm:text-xl/[1.6]">
+              Discover remarkable places, inspiring stays and unforgettable experiences —
+              with the practical information you need to actually plan the journey.
+            </p>
+          </div>
+
+          <div className="intro intro-4 mt-9 max-w-4xl">
+            <SearchForm variant="hero" />
+          </div>
+
+          {/* Attribution sits on the plate, not on the photograph: the plate
+              now overlaps the lower edge of the image where a credit used to
+              go, and muted charcoal on ivory is legible where small white type
+              over a picture never reliably is. */}
+          <p className="text-ink-muted/80 mt-8 text-right text-[10px] tracking-wide">
+            Photograph: {image.credit.photographer} / {image.credit.source}
           </p>
-
-          <h1 className="intro intro-2 display text-on-media text-[2.75rem] sm:text-[4.5rem] lg:text-[5.25rem]">
-            Find your next unforgettable trip.
-          </h1>
-
-          <p className="intro intro-3 text-on-media-muted max-w-[52ch] text-lg/[1.6] sm:text-xl/[1.6]">
-            Discover remarkable places, inspiring stays and unforgettable experiences —
-            with the practical information you need to actually plan the journey.
-          </p>
-        </div>
-
-        <div className="intro intro-4 mt-10 max-w-4xl">
-          <SearchForm variant="hero" />
         </div>
       </div>
-
-      {/* Credit for a full-bleed photograph, sized so it never competes with
-          the headline but is genuinely readable. */}
-      <p className="text-on-media-muted/70 absolute right-4 bottom-2 text-[10px] tracking-wide sm:right-8">
-        Photograph: {image.credit.photographer} / {image.credit.source}
-      </p>
     </section>
   );
 }

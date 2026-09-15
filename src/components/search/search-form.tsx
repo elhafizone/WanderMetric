@@ -8,6 +8,11 @@
  * booking widget: there are no dates, no guest counts and no price fields,
  * because this site has no inventory to search and pretending otherwise would
  * be the fastest way to look like every other affiliate page.
+ *
+ * It sits on the ivory plate rather than on the photograph, so it is a bordered
+ * white field rather than a floating translucent one — no backdrop blur, no
+ * heavy shadow. Glass on paper looks like a widget; this looks like part of
+ * the page.
  */
 
 const TYPES = [
@@ -36,7 +41,7 @@ export function SearchForm({
         action="/search"
         method="get"
         role="search"
-        className="bg-surface/95 border-border/60 flex w-full flex-col gap-2 rounded-2xl border p-2 shadow-lg backdrop-blur-md sm:flex-row sm:items-center sm:gap-1 sm:rounded-full sm:p-1.5"
+        className="bg-surface border-border focus-within:border-border-strong flex w-full flex-col gap-2 rounded-2xl border p-2 shadow-sm transition-colors sm:flex-row sm:items-center sm:gap-1 sm:rounded-full sm:p-1.5"
       >
         <div className="flex min-w-0 flex-1 flex-col gap-0.5 px-4 py-2.5">
           <label htmlFor="hero-search" className="eyebrow text-ink-muted">

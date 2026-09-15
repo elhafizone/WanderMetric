@@ -22,7 +22,6 @@ export function MediaImage({
   imageKeys = [],
   priority = false,
   className,
-  overlayClassName,
 }: {
   media: MediaRef | null;
   /** Used for the placeholder and as a last-resort alt. */
@@ -31,29 +30,22 @@ export function MediaImage({
   imageKeys?: Array<string | null | undefined>;
   priority?: boolean;
   className?: string;
-  /** Scrim or tint drawn over the photograph. */
-  overlayClassName?: string;
 }) {
   const image = resolveImage(media, imageKeys);
 
   if (!image) return <MediaPlaceholder label={label} className={className} />;
 
   return (
-    <>
-      <Image
-        src={image.src}
-        alt={image.alt || label}
-        fill
-        sizes={sizes}
-        priority={priority}
-        loading={priority ? undefined : "lazy"}
-        style={image.focus ? { objectPosition: image.focus } : undefined}
-        className={`object-cover ${className ?? ""}`}
-      />
-      {overlayClassName && (
-        <div aria-hidden="true" className={`absolute inset-0 ${overlayClassName}`} />
-      )}
-    </>
+    <Image
+      src={image.src}
+      alt={image.alt || label}
+      fill
+      sizes={sizes}
+      priority={priority}
+      loading={priority ? undefined : "lazy"}
+      style={image.focus ? { objectPosition: image.focus } : undefined}
+      className={`object-cover ${className ?? ""}`}
+    />
   );
 }
 

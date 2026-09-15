@@ -5,7 +5,7 @@ import { EditorialBand } from "@/components/home/editorial-band";
 import { FinalCta } from "@/components/home/final-cta";
 import { GuideShowcase } from "@/components/home/guide-showcase";
 import { HomeHero } from "@/components/home/hero";
-import { Container, Stack } from "@/components/layout/container";
+import { Band } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import { ContentCard, FeatureCard, Mosaic } from "@/components/ui/card";
 import { SectionHeader } from "@/components/ui/section";
@@ -80,63 +80,61 @@ export default async function HomePage() {
     <>
       <HomeHero />
 
-      <Container width="wide">
-        <Stack className="py-20 sm:py-28">
-          {featured.length > 0 && (
-            <section className="flex flex-col gap-10">
-              <SectionHeader
-                eyebrow="Popular destinations"
-                title="Places worth the journey"
-                description="Cities and countries we have covered properly — not a list of everywhere, a list of somewhere."
-                href="/destinations"
-                linkLabel="All destinations"
-              />
-              <Mosaic>
-                {featured.map((destination, index) =>
-                  index === 0 ? (
-                    <FeatureCard
-                      key={destination.id}
-                      href={destinationPath(destination)}
-                      title={destination.title}
-                      summary={destination.excerpt}
-                      media={destination.hero}
-                      imageKeys={keysFor(destination)}
-                      eyebrow={destination.country.name}
-                      ratio="aspect-[4/5]"
-                      sizes="(max-width: 1024px) 92vw, 48vw"
-                      priority
-                    />
-                  ) : index < 3 ? (
-                    <FeatureCard
-                      key={destination.id}
-                      href={destinationPath(destination)}
-                      title={destination.title}
-                      summary={destination.excerpt}
-                      media={destination.hero}
-                      imageKeys={keysFor(destination)}
-                      eyebrow={destination.country.name}
-                      ratio="aspect-[16/10] lg:aspect-[16/9]"
-                      sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 34vw"
-                    />
-                  ) : (
-                    <ContentCard
-                      key={destination.id}
-                      href={destinationPath(destination)}
-                      title={destination.title}
-                      summary={destination.excerpt}
-                      media={destination.hero}
-                      imageKeys={keysFor(destination)}
-                      eyebrow={
-                        destination.city ? destination.country.name : "Country guide"
-                      }
-                    />
-                  ),
-                )}
-              </Mosaic>
-            </section>
-          )}
-        </Stack>
-      </Container>
+      {featured.length > 0 && (
+        <Band tone="ivory">
+          <section className="flex flex-col gap-10">
+            <SectionHeader
+              eyebrow="Popular destinations"
+              title="Places worth the journey"
+              description="Cities and countries we have covered properly — not a list of everywhere, a list of somewhere."
+              href="/destinations"
+              linkLabel="All destinations"
+            />
+            <Mosaic>
+              {featured.map((destination, index) =>
+                index === 0 ? (
+                  <FeatureCard
+                    key={destination.id}
+                    href={destinationPath(destination)}
+                    title={destination.title}
+                    summary={destination.excerpt}
+                    media={destination.hero}
+                    imageKeys={keysFor(destination)}
+                    eyebrow={destination.country.name}
+                    ratio="aspect-[4/5]"
+                    sizes="(max-width: 1024px) 92vw, 48vw"
+                    priority
+                  />
+                ) : index < 3 ? (
+                  <FeatureCard
+                    key={destination.id}
+                    href={destinationPath(destination)}
+                    title={destination.title}
+                    summary={destination.excerpt}
+                    media={destination.hero}
+                    imageKeys={keysFor(destination)}
+                    eyebrow={destination.country.name}
+                    ratio="aspect-[16/10] lg:aspect-[16/9]"
+                    sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 34vw"
+                  />
+                ) : (
+                  <ContentCard
+                    key={destination.id}
+                    href={destinationPath(destination)}
+                    title={destination.title}
+                    summary={destination.excerpt}
+                    media={destination.hero}
+                    imageKeys={keysFor(destination)}
+                    eyebrow={
+                      destination.city ? destination.country.name : "Country guide"
+                    }
+                  />
+                ),
+              )}
+            </Mosaic>
+          </section>
+        </Band>
+      )}
 
       <EditorialBand
         eyebrow="How this works"
@@ -144,144 +142,153 @@ export default async function HomePage() {
         body="Every destination here was researched before it was published — when to go, what is genuinely worth the time, and what quietly is not. Where a booking link helps, it is there. Where it would not, it is not."
       />
 
-      <Container width="wide">
-        <Stack className="py-20 sm:py-28">
-          {things.length > 0 && (
-            <section className="flex flex-col gap-10">
-              <SectionHeader
-                eyebrow="Best things to do"
-                title="Worth building a day around"
-                description="Landmarks, museums and walks that repay the queue — with notes on when to arrive and what to book ahead."
-                href="/activities"
-                linkLabel="All things to do"
-              />
-              <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {things.map((activity) => (
-                  <ContentCard
-                    key={activity.id}
-                    href={activityPath(activity)}
-                    title={activity.name}
-                    summary={activity.summary}
-                    media={activity.hero}
-                    imageKeys={[activity.city.slug]}
-                    eyebrow={activity.city.name}
-                    meta={formatDuration(activity.duration_minutes)}
-                  />
-                ))}
-              </Reveal>
-            </section>
-          )}
+      {things.length > 0 && (
+        <Band tone="white">
+          <section className="flex flex-col gap-10">
+            <SectionHeader
+              eyebrow="Best things to do"
+              title="Worth building a day around"
+              description="Landmarks, museums and walks that repay the queue — with notes on when to arrive and what to book ahead."
+              href="/activities"
+              linkLabel="All things to do"
+            />
+            <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {things.map((activity) => (
+                <ContentCard
+                  key={activity.id}
+                  href={activityPath(activity)}
+                  title={activity.name}
+                  summary={activity.summary}
+                  media={activity.hero}
+                  imageKeys={[activity.city.slug]}
+                  eyebrow={activity.city.name}
+                  meta={formatDuration(activity.duration_minutes)}
+                />
+              ))}
+            </Reveal>
+          </section>
+        </Band>
+      )}
 
-          {/* Stays, deals and the comparison render only when the data is
-              genuinely there. An empty rail filled with placeholder cards would
-              be an invented recommendation, which is the one thing this site
-              does not do. */}
-          {stays.length > 0 && (
-            <section className="flex flex-col gap-10">
-              <SectionHeader
-                eyebrow="Best places to stay"
-                title="Where to sleep, and why there"
-                description="We describe the hotel and the neighbourhood around it. Prices and availability come live from booking partners — they are never stored here."
-                href="/hotels"
-                linkLabel="All stays"
-              />
-              <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {stays.map((hotel) => (
-                  <ContentCard
-                    key={hotel.id}
-                    href={hotelPath(hotel)}
-                    title={hotel.name}
-                    summary={hotel.summary}
-                    media={hotel.hero}
-                    eyebrow={hotel.city.name}
-                    meta={hotel.star_rating ? `${hotel.star_rating}-star` : null}
-                  />
-                ))}
-              </Reveal>
-            </section>
-          )}
+      {/* Stays, deals and the comparison render only when the data is genuinely
+          there. An empty rail filled with placeholder cards would be an
+          invented recommendation, which is the one thing this site does not do. */}
+      {stays.length > 0 && (
+        <Band tone="sand">
+          <section className="flex flex-col gap-10">
+            <SectionHeader
+              eyebrow="Best places to stay"
+              title="Where to sleep, and why there"
+              description="We describe the hotel and the neighbourhood around it. Prices and availability come live from booking partners — they are never stored here."
+              href="/hotels"
+              linkLabel="All stays"
+            />
+            <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {stays.map((hotel) => (
+                <ContentCard
+                  key={hotel.id}
+                  href={hotelPath(hotel)}
+                  title={hotel.name}
+                  summary={hotel.summary}
+                  media={hotel.hero}
+                  eyebrow={hotel.city.name}
+                  meta={hotel.star_rating ? `${hotel.star_rating}-star` : null}
+                />
+              ))}
+            </Reveal>
+          </section>
+        </Band>
+      )}
 
-          {latestGuides.length > 0 && (
-            <section className="flex flex-col gap-10">
-              <SectionHeader
-                eyebrow="Travel guides"
-                title="Read before you book"
-                description="Long-form writing on getting a trip right: what to reserve weeks ahead, what to leave open, and when to go at all."
-                href="/guides"
-                linkLabel="All guides"
-              />
-              <GuideShowcase guides={latestGuides} />
-            </section>
-          )}
+      {latestGuides.length > 0 && (
+        <Band tone="ivory">
+          <section className="flex flex-col gap-10">
+            <SectionHeader
+              eyebrow="Travel guides"
+              title="Read before you book"
+              description="Long-form writing on getting a trip right: what to reserve weeks ahead, what to leave open, and when to go at all."
+              href="/guides"
+              linkLabel="All guides"
+            />
+            <GuideShowcase guides={latestGuides} />
+          </section>
+        </Band>
+      )}
 
-          {comparison && (
-            <section className="flex flex-col gap-10">
-              <SectionHeader
-                eyebrow="Where should you go next?"
-                title={`${comparison.left.title} or ${comparison.right.title}?`}
-                description="Two cities side by side, on the things we actually know about them."
-                align="center"
-              />
-              <Comparison left={comparison.left} right={comparison.right} />
-            </section>
-          )}
+      {comparison && (
+        <Band tone="white">
+          <section className="flex flex-col gap-10">
+            <SectionHeader
+              eyebrow="Where should you go next?"
+              tone="ember"
+              title={`${comparison.left.title} or ${comparison.right.title}?`}
+              description="Two cities side by side, on the things we actually know about them."
+              align="center"
+            />
+            <Comparison left={comparison.left} right={comparison.right} />
+          </section>
+        </Band>
+      )}
 
-          {routes.length > 0 && (
-            <section className="flex flex-col gap-10">
-              <SectionHeader
-                eyebrow="Getting there"
-                title="Flights for your next trip"
-                description="Route guides on journey times, which airport to use — and when the train is quietly the better call."
-                href="/flights"
-                linkLabel="All routes"
-              />
-              <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {routes.map((route) => (
-                  <ContentCard
-                    key={route.id}
-                    href={flightRoutePath(route)}
-                    title={route.title}
-                    summary={`${route.origin.name} to ${route.destination.name}`}
-                    media={null}
-                    imageKeys={[route.destination.slug, route.origin.slug]}
-                    eyebrow={
-                      route.origin.iata_code && route.destination.iata_code
-                        ? `${route.origin.iata_code} → ${route.destination.iata_code}`
-                        : "Route guide"
-                    }
-                  />
-                ))}
-              </Reveal>
-            </section>
-          )}
+      {routes.length > 0 && (
+        <Band tone="sand">
+          <section className="flex flex-col gap-10">
+            <SectionHeader
+              eyebrow="Getting there"
+              title="Flights for your next trip"
+              description="Route guides on journey times, which airport to use — and when the train is quietly the better call."
+              href="/flights"
+              linkLabel="All routes"
+            />
+            <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {routes.map((route) => (
+                <ContentCard
+                  key={route.id}
+                  href={flightRoutePath(route)}
+                  title={route.title}
+                  summary={`${route.origin.name} to ${route.destination.name}`}
+                  media={null}
+                  imageKeys={[route.destination.slug, route.origin.slug]}
+                  eyebrow={
+                    route.origin.iata_code && route.destination.iata_code
+                      ? `${route.origin.iata_code} → ${route.destination.iata_code}`
+                      : "Route guide"
+                  }
+                />
+              ))}
+            </Reveal>
+          </section>
+        </Band>
+      )}
 
-          {currentDeals.length > 0 && (
-            <section className="flex flex-col gap-10">
-              <SectionHeader
-                eyebrow="Best deals right now"
-                title="Checked before they were published"
-                description="Time-limited offers we looked at first. Expired ones disappear on their own, so this never shows a stale discount."
-                href="/deals"
-                linkLabel="All deals"
-              />
-              <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {currentDeals.map((deal) => (
-                  <ContentCard
-                    key={deal.id}
-                    href={dealPath(deal.slug)}
-                    title={deal.title}
-                    summary={deal.summary}
-                    media={deal.hero}
-                    imageKeys={[deal.city?.slug]}
-                    eyebrow={deal.discount_label}
-                    meta={deal.ends_at ? `Ends ${formatShortDate(deal.ends_at)}` : null}
-                  />
-                ))}
-              </Reveal>
-            </section>
-          )}
-        </Stack>
-      </Container>
+      {currentDeals.length > 0 && (
+        <Band tone="ivory">
+          <section className="flex flex-col gap-10">
+            <SectionHeader
+              eyebrow="Best deals right now"
+              tone="ember"
+              title="Checked before they were published"
+              description="Time-limited offers we looked at first. Expired ones disappear on their own, so this never shows a stale discount."
+              href="/deals"
+              linkLabel="All deals"
+            />
+            <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {currentDeals.map((deal) => (
+                <ContentCard
+                  key={deal.id}
+                  href={dealPath(deal.slug)}
+                  title={deal.title}
+                  summary={deal.summary}
+                  media={deal.hero}
+                  imageKeys={[deal.city?.slug]}
+                  eyebrow={deal.discount_label}
+                  meta={deal.ends_at ? `Ends ${formatShortDate(deal.ends_at)}` : null}
+                />
+              ))}
+            </Reveal>
+          </section>
+        </Band>
+      )}
 
       <FinalCta />
     </>
