@@ -2,3 +2,6 @@
 node_modules
 package-lock.json
 *.md
+
+# Generated from the Supabase schema; formatting it only creates churn.
+src/types/database.ts

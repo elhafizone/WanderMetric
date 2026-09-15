@@ -45,3 +45,6 @@ next-env.d.ts
 .idea/
 .vscode/
 Thumbs.db
+
+# Local agent/editor tooling
+.claude/

@@ -1,13 +1,34 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 
 import { JsonLd } from "@/components/seo/json-ld";
 import { site } from "@/core/seo/site";
 
 import "./globals.css";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+/**
+ * Two families, both variable, both self-hosted by `next/font` — so there is no
+ * connection to a font CDN, no render-blocking stylesheet, and one file per
+ * family rather than one per weight.
+ *
+ * Fraunces carries the editorial voice: it is the display face and never sets
+ * body copy. Inter sets everything a reader has to read at length. `swap` is
+ * deliberate on a content site — text in the fallback face beats no text while
+ * the woff2 arrives, and it keeps the font off the LCP critical path.
+ */
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  display: "swap",
+  weight: "variable",
+  axes: ["SOFT", "opsz"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 /**
  * Root metadata. `metadataBase` makes every relative canonical and Open Graph
@@ -43,8 +64,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f7faf9" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b1211" },
+    { media: "(prefers-color-scheme: light)", color: "#fbf8f3" },
+    { media: "(prefers-color-scheme: dark)", color: "#16140f" },
   ],
 };
 
@@ -54,7 +75,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
+        className={`${inter.variable} ${fraunces.variable} flex min-h-screen flex-col font-sans antialiased`}
       >
         {/* Site-level structured data. Emitted once here rather than per page so
             it cannot drift between routes. */}

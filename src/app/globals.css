@@ -1,53 +1,224 @@
 @import "tailwindcss";
 
-/*
- * WanderMetric design tokens.
- * Deliberately small — a real design system arrives with the public site in
- * Phase 4. What exists here is enough to render an accessible, themed shell.
- */
+/* =========================================================================
+   WanderMetric design tokens.
+
+   Light is the canonical theme. The dark block below keeps the site readable
+   for readers whose OS asks for it, but every design decision here was made
+   against the light palette and reviewed there.
+
+   Colour comes from photography. The palette's job is to stay out of its way:
+   a warm ivory ground, sand surfaces, charcoal ink, and exactly two accents —
+   a deep sage for interactive state, and a terracotta ember reserved for
+   time-sensitive things (a deal that ends, a season that is closing).
+   ========================================================================= */
 :root {
-  --wm-bg: #f7faf9;
+  color-scheme: light;
+
+  /* Ground and surfaces */
+  --wm-bg: #fbf8f3;
+  --wm-bg-tint: #f6f1e8;
   --wm-surface: #ffffff;
-  --wm-surface-2: #eaf1ef;
-  --wm-border: #d9e3e0;
-  --wm-ink: #10201d;
-  --wm-ink-muted: #5a6d69;
-  --wm-accent: #0b6e63;
-  --wm-accent-contrast: #ffffff;
+  --wm-surface-2: #f3eee4;
+  --wm-surface-3: #eae3d5;
+  --wm-border: #e6dece;
+  --wm-border-strong: #d6cbb6;
+
+  /* Ink — charcoal, never pure black */
+  --wm-ink: #201d18;
+  --wm-ink-soft: #4a443b;
+  --wm-ink-muted: #6e6658;
+
+  /* Accents */
+  --wm-accent: #3d5b46;
+  --wm-accent-hover: #314a39;
+  --wm-accent-soft: #e8eee7;
+  --wm-accent-contrast: #fbf8f3;
+  --wm-ember: #a9502c;
+  --wm-ember-soft: #f7ebe3;
+
+  /* On-photography ink. Fixed, not themed — these sit over an image. */
+  --wm-on-media: #ffffff;
+  --wm-on-media-muted: rgba(255, 255, 255, 0.76);
+
+  /* Elevation. Warm-tinted rather than neutral grey, so cards sit on the
+     ivory ground instead of floating above a different colour temperature. */
+  --wm-shadow-sm: 0 1px 2px rgba(45, 37, 24, 0.05);
+  --wm-shadow-md: 0 6px 20px -8px rgba(45, 37, 24, 0.14);
+  --wm-shadow-lg: 0 24px 60px -28px rgba(45, 37, 24, 0.3);
+
+  /* Motion. Shared by CSS transitions and the GSAP timelines, so a hover and
+     a scroll reveal on the same card agree with each other. */
+  --wm-dur-fast: 180ms;
+  --wm-dur: 320ms;
+  --wm-dur-slow: 620ms;
+  --wm-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --wm-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --wm-bg: #0b1211;
-    --wm-surface: #131c1b;
-    --wm-surface-2: #1a2423;
-    --wm-border: #24302e;
-    --wm-ink: #e6edeb;
-    --wm-ink-muted: #92a4a0;
-    --wm-accent: #4fbfae;
-    --wm-accent-contrast: #06201c;
+    color-scheme: dark;
+
+    --wm-bg: #16140f;
+    --wm-bg-tint: #1b1813;
+    --wm-surface: #1e1b16;
+    --wm-surface-2: #24201a;
+    --wm-surface-3: #2c2721;
+    --wm-border: #332d25;
+    --wm-border-strong: #453d32;
+
+    --wm-ink: #f0eae0;
+    --wm-ink-soft: #cdc5b8;
+    --wm-ink-muted: #9c9284;
+
+    --wm-accent: #8fb79b;
+    --wm-accent-hover: #a5c8af;
+    --wm-accent-soft: #232b25;
+    --wm-accent-contrast: #12180f;
+    --wm-ember: #d98c63;
+    --wm-ember-soft: #2b201a;
+
+    --wm-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --wm-shadow-md: 0 6px 20px -8px rgba(0, 0, 0, 0.6);
+    --wm-shadow-lg: 0 24px 60px -28px rgba(0, 0, 0, 0.8);
   }
 }
 
 @theme inline {
   --color-bg: var(--wm-bg);
+  --color-bg-tint: var(--wm-bg-tint);
   --color-surface: var(--wm-surface);
   --color-surface-2: var(--wm-surface-2);
+  --color-surface-3: var(--wm-surface-3);
   --color-border: var(--wm-border);
+  --color-border-strong: var(--wm-border-strong);
   --color-ink: var(--wm-ink);
+  --color-ink-soft: var(--wm-ink-soft);
   --color-ink-muted: var(--wm-ink-muted);
   --color-accent: var(--wm-accent);
+  --color-accent-hover: var(--wm-accent-hover);
+  --color-accent-soft: var(--wm-accent-soft);
   --color-accent-contrast: var(--wm-accent-contrast);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ember: var(--wm-ember);
+  --color-ember-soft: var(--wm-ember-soft);
+  --color-on-media: var(--wm-on-media);
+  --color-on-media-muted: var(--wm-on-media-muted);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+
+  /* Restrained on purpose. A 24px corner reads as an app card; editorial
+     layouts want the photograph to be the shape you notice, not the border. */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+
+  --shadow-sm: var(--wm-shadow-sm);
+  --shadow-md: var(--wm-shadow-md);
+  --shadow-lg: var(--wm-shadow-lg);
+
+  --ease-editorial: var(--wm-ease);
+  --ease-out-expo: var(--wm-ease-out);
 }
+
+/* ========================================================================= */
 
 body {
   background: var(--wm-bg);
   color: var(--wm-ink);
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
 }
 
-/* Respect reduced-motion globally rather than per-component. */
+/* Display type. Fraunces is an optical-size variable face; at headline sizes
+   the high optical size is what gives it the magazine feel, and at small sizes
+   it would be unreadable — so `opsz` is set per step rather than inherited.
+
+   These reference `--font-fraunces` (set by next/font on <body>) rather than
+   the `--font-display` theme token: `@theme inline` inlines its values into
+   generated utilities instead of publishing them on :root, so the token is
+   readable from a Tailwind class but not from hand-written CSS. */
+.display {
+  font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+  font-weight: 460;
+  letter-spacing: -0.015em;
+  line-height: 1.04;
+  font-variation-settings:
+    "opsz" 120,
+    "SOFT" 20;
+  text-wrap: balance;
+}
+
+.display-sm {
+  font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  font-variation-settings:
+    "opsz" 48,
+    "SOFT" 20;
+  text-wrap: balance;
+}
+
+/* Eyebrow. Sans, not mono — mono on a travel publication reads as a developer
+   tool. Tracked out and small, it does the same job with more warmth. */
+.eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+/* A hairline that ends short of the container, used above section headings. */
+.rule {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    var(--wm-border-strong),
+    var(--wm-border) 38%,
+    transparent
+  );
+}
+
+/* Scrim for text over photography. Two stops rather than one so the midtones
+   of the image survive — a flat 50% black overlay is what makes a hero look
+   like a stock template. */
+.scrim {
+  background: linear-gradient(
+    to top,
+    rgba(18, 15, 10, 0.82) 0%,
+    rgba(18, 15, 10, 0.28) 42%,
+    rgba(18, 15, 10, 0.06) 70%,
+    rgba(18, 15, 10, 0.24) 100%
+  );
+}
+
+.scrim-soft {
+  background: linear-gradient(
+    to top,
+    rgba(18, 15, 10, 0.74) 0%,
+    rgba(18, 15, 10, 0.16) 58%,
+    transparent 100%
+  );
+}
+
+/* Focus. One definition, so every control in the app agrees. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--wm-accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+::selection {
+  background: var(--wm-accent-soft);
+  color: var(--wm-ink);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -56,5 +227,172 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* =========================================================================
+   Hero entrance.
+
+   Deliberately CSS and not GSAP. The hero is the LCP element and is server
+   rendered; a JavaScript entrance can only start after hydration, which means
+   the browser paints the finished hero and then hides it again. A keyframe
+   whose 0% frame is the hidden state is applied at first paint instead, so the
+   sequence begins immediately, costs no JavaScript, and cannot flash.
+
+   GSAP earns its place further down the page, where the work is scroll-linked
+   and CSS cannot follow a scroll position.
+   ========================================================================= */
+@keyframes wm-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes wm-open {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes wm-settle {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.intro {
+  animation: wm-rise 0.9s var(--wm-ease-out) both;
+}
+.intro-1 {
+  animation-delay: 0.42s;
+}
+.intro-2 {
+  animation-delay: 0.54s;
+}
+.intro-3 {
+  animation-delay: 0.66s;
+}
+.intro-4 {
+  animation-delay: 0.8s;
+}
+
+.intro-frame {
+  animation: wm-open 1.15s var(--wm-ease-out) both;
+}
+
+.intro-media {
+  animation: wm-settle 1.9s var(--wm-ease-out) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro,
+  .intro-frame,
+  .intro-media {
+    animation: none !important;
+    opacity: 1 !important;
+    clip-path: none !important;
+    transform: none !important;
+  }
+}
+
+/* Card hover. Declared once so a destination, a guide and a deal behave
+   identically — the image eases in, the title shifts a hair, the arrow moves.
+   Everything is transform or opacity; nothing here triggers layout. */
+.card-media {
+  transition: transform var(--wm-dur-slow) var(--wm-ease-out);
+}
+.group:hover .card-media {
+  transform: scale(1.045);
+}
+
+.card-arrow {
+  transition:
+    transform var(--wm-dur) var(--wm-ease),
+    opacity var(--wm-dur) var(--wm-ease);
+}
+.group:hover .card-arrow {
+  transform: translateX(4px);
+}
+
+/* Navigation underline that grows from the left rather than fading in. */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--wm-dur) var(--wm-ease);
+}
+.nav-link:hover::after,
+.nav-link[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* =========================================================================
+   Static editorial pages (about, privacy, terms, affiliate disclosure).
+
+   These carry hand-written JSX rather than stored body text, so they cannot go
+   through <Prose>. `.prose-page` gives them the same reading typography.
+
+   Declared inside @layer components deliberately: Tailwind's utilities live in
+   a later layer, so a utility class on an element still wins. That keeps these
+   rules a baseline rather than something a page has to fight.
+   ========================================================================= */
+@layer components {
+  .prose-page {
+    max-width: 68ch;
+  }
+
+  .prose-page p,
+  .prose-page li {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--wm-ink-soft);
+  }
+
+  .prose-page h2 {
+    font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+    font-weight: 500;
+    font-variation-settings:
+      "opsz" 48,
+      "SOFT" 20;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    font-size: 1.5rem;
+    color: var(--wm-ink);
+    margin-top: 1.5rem;
+  }
+
+  .prose-page ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding-left: 1.25rem;
+    list-style: disc;
+  }
+
+  .prose-page a {
+    color: var(--wm-accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
   }
 }
