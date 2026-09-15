@@ -102,8 +102,8 @@ rather than hidden: in-process rate limiting, no CSP yet, no admin MFA yet.
 
 ## ✅ Phase 17 — Responsive UI
 
-Mobile-first, no-JavaScript navigation, semantic landmarks, visible focus,
-labelled controls, light and dark themes.
+Mobile-first, semantic landmarks, visible focus, labelled controls, light and
+dark themes. Superseded visually by Phase 25.
 
 ## ✅ Phase 18 — Seed data
 
@@ -140,6 +140,19 @@ Live at https://wandermetric.com with Let's Encrypt SSL. See
 All routes verified live: status codes, titles, canonicals, JSON-LD, robots,
 sitemap, API, security headers, admin gating, 404.
 
+## ✅ Phase 25 — Visual redesign
+
+The public site rebuilt around an editorial travel identity: a warm ivory light
+theme as the canonical experience, Fraunces and Inter in place of Geist, an
+asymmetric card system, photographic heroes, and a GSAP scroll layer that is
+dynamically imported so it never sits in the initial payload. Seven licensed
+photographs are self-hosted behind an image abstraction that prefers `media`
+rows, so it disappears the day Storage uploads are enabled.
+
+No schema, API, affiliate or SEO change. See
+[design-system.md](design-system.md) and the pre-work
+[design-audit.md](design-audit.md).
+
 ---
 
 ## Next
@@ -157,7 +170,8 @@ sitemap, API, security headers, admin gating, 404.
 
 **Then:**
 - [ ] Verify the Travelpayouts statistics API and implement conversion ingestion
-- [ ] Real photography and OG images
+- [ ] Photography for hotels, activities and guides (the registry covers five
+      cities; everything else still renders the placeholder), and OG images
 - [ ] ESP integration for the newsletter
 - [ ] Social publishing (Pinterest first — human-in-the-loop by policy)
 - [ ] Internal-link graph

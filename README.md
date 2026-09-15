@@ -17,7 +17,8 @@ incomplete — see [Known gaps](#known-gaps).
 | Layer | Choice |
 |---|---|
 | Framework | Next.js 16 (App Router, React 19), TypeScript strict |
-| Styling | Tailwind CSS v4 |
+| Styling | Tailwind CSS v4, custom token layer — see [design-system.md](docs/design-system.md) |
+| Motion | GSAP + ScrollTrigger, dynamically imported |
 | Database / Auth / Storage | Supabase (PostgreSQL 17, `us-east-1`) |
 | Validation | Zod 4 |
 | Tests | Vitest |
@@ -103,6 +104,8 @@ src/
 | Doc | Covers |
 |---|---|
 | [architecture.md](docs/architecture.md) | System design and layer boundaries |
+| [design-system.md](docs/design-system.md) | Visual language: tokens, type, components, motion, imagery |
+| [design-audit.md](docs/design-audit.md) | The pre-redesign audit the current design answers |
 | [database.md](docs/database.md) | Schema, RLS, and the reasoning behind both |
 | [erd.md](docs/erd.md) | Entity relationships |
 | [affiliate-system.md](docs/affiliate-system.md) | Link resolution, click tracking, attribution |
