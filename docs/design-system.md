@@ -44,8 +44,13 @@ appears on something that is not interactive or not the brand, that is a bug.
 `ember` spent on anything but an expiry date devalues the one colour that means
 "this will not be true next month".
 
-Dark mode is kept functional under `prefers-color-scheme` — warm charcoal, not
-blue-black — but it is explicitly not the brand.
+**There is no dark theme.** An earlier revision shipped a
+`prefers-color-scheme: dark` block that replaced every token with a near-black
+palette, so anyone whose OS was set to dark — a large share of visitors — never
+saw the light design at all. It is gone, and `color-scheme: light` on `:root`
+stops the browser darkening form controls and scrollbars underneath us. If a
+dark theme is ever wanted it should be an explicit toggle, not an ambient OS
+preference that silently overrides the brand.
 
 ### Type
 
@@ -61,6 +66,60 @@ Mono were removed, so the redesign loads one family fewer than before.
 Classes: `.display` (large headlines, `opsz` 120), `.display-sm` (card and panel
 titles, `opsz` 48), `.eyebrow` (tracked-out small caps — sans, not mono, because
 mono on a travel publication reads as a developer tool).
+
+### Type on photography
+
+Type over an image sits on a **warm ivory veil in charcoal**, never in white on
+a dark scrim. Two earlier attempts went the other way, and both failed:
+
+| Attempt | Result |
+|---|---|
+| Dark scrim at 0.82, dark photography | Legible, and the whole site read as dark |
+| Light scrim at 0.42, bright photography | Looked right, measured 1.13:1 on the hero and 1.76:1 on the Rome card |
+
+Both have the same cause: white type forces the picture to be dark. Inverting it
+fixes contrast and lightness at once. The measured minimum across every overlay
+surface is now **5.85:1**, and no dark gradient remains anywhere on the page.
+
+The veil is a property of the **caption block**, not the picture frame. Sizing
+it to the frame put the topmost line of a bottom-anchored caption in the weakest
+part of the gradient — that is what left "Spain" at 1.8:1 while the headline
+directly under it passed. Scoped to the text block, the fade lives in its own
+top padding and the photograph above stays clear at any aspect ratio.
+
+The home hero goes further and puts its type on a solid ivory plate overlapping
+the lower edge of the image: charcoal on ivory is about 13:1, the photograph
+keeps all of its light, and the first viewport contains a large warm image *and*
+a panel of warm ivory, which is what makes the site read as light immediately.
+
+`.masthead-veil` does the same job for the header, replacing a `from-black/45`
+gradient that dimmed the brightest part of the best photograph on the site.
+
+**Ember never sets small type over a photograph.** Terracotta `#a9502c` has a
+relative luminance of 0.142, so 4.5:1 needs a background above 0.814 —
+essentially undiluted ivory. No veil that leaves a photograph looking like a
+photograph gets there. It reads at 5.1:1 on the hero plate and in section
+headers, which is where it is used; eyebrows over imagery are charcoal.
+
+### Brand photography
+
+Brand images are chosen on measured light, not on taste. Each candidate is
+sampled for mean luminance (0–255) and warmth (mean R minus mean B) before use:
+
+| Image | Luminance | Warmth | Role |
+|---|---|---|---|
+| `horizon` | 130 | +45 | Home hero |
+| `village` | 155 | −4 | Editorial band |
+| `hills` | 105 | +32 | Closing panel |
+| ~~`hero-coast`~~ | 94 | −18 | Retired — dark *and* cool, and the main reason the first screen read as a dark website |
+
+### Section rhythm
+
+`Band` gives each section its own ground: ivory, white or sand, in that rotation.
+The page used to be one uninterrupted ivory canvas with transparent sections on
+it, which meant photography was the only thing creating rhythm — so the
+photography had to be dark to register. Three closely related warm tones do that
+job instead, and let the imagery be bright.
 
 ### Radius, elevation, motion
 
@@ -110,11 +169,20 @@ GSAP with ScrollTrigger, confined to `src/components/motion/`. Three rules:
    about rendering, reading or navigating the page needs it. Loading it
    statically would put it in the initial payload; this way it arrives after the
    page is interactive, only on routes that use it.
-3. **Nothing animates from a hidden start unless it is off screen.** Every
-   motion component checks `alreadyOnScreen()` first and uses `gsap.from`, so
-   content is correct in the server HTML, correct if the chunk never loads, and
-   correct with reduced motion — the library only ever adds movement to
-   something already right.
+3. **Content visibility beats the animation, in three layers.** Nothing is set
+   up until a real animation frame arrives (`whenAnimatable`); anything already
+   on screen is never hidden (`alreadyOnScreen`); and anything that ends up
+   visible to the reader while still transparent has its inline styles stripped
+   (`guardVisibility`). `gsap.from` means the server HTML is already correct, so
+   no JavaScript, a failed chunk and reduced motion all leave the finished
+   layout on screen.
+
+   The frame gate is deliberately not `document.visibilityState === "visible"`.
+   A document with no animation frames cannot play a tween, so applying the
+   hidden half of a `from` leaves content invisible — but visibility and frame
+   delivery are not the same thing, and embedded or occluded contexts report
+   `hidden` while painting at 60fps. Asking whether a frame actually arrives is
+   the only question that matches the failure.
 
 `prefers-reduced-motion` cancels the CSS sequence in one rule and short-circuits
 every effect via `motionEnabled()`.
