@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
-import { Container, Stack } from "@/components/layout/container";
+import { Container, PageShell, Stack } from "@/components/layout/container";
+import { Reveal } from "@/components/motion/reveal";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
-import { CardGrid, ContentCard, EmptyState } from "@/components/ui/card";
+import { ContentCard, EmptyState } from "@/components/ui/card";
 import { Pagination } from "@/components/ui/pagination";
 import { PageHeader } from "@/components/ui/section";
 import { listHotels } from "@/core/content/queries";
@@ -32,42 +33,45 @@ export default async function HotelsPage({
   const meta = result.ok ? result.data.meta : null;
 
   return (
-    <Container>
-      <Stack>
-        <div className="flex flex-col gap-5">
-          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Hotels" }]} />
-          <PageHeader
-            eyebrow="Hotels"
-            title="Where to stay"
-            description="We write about the hotel and the neighbourhood around it. Prices and availability are never stored here - those come live from booking partners."
-          />
-        </div>
+    <PageShell>
+      <Container width="wide">
+        <Stack gap="tight">
+          <div className="flex flex-col gap-6">
+            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Hotels" }]} />
+            <PageHeader
+              eyebrow="Hotels"
+              title="Where to stay"
+              description="We write about the hotel and the neighbourhood around it. Prices and availability are never stored here - those come live from booking partners."
+            />
+            <div aria-hidden="true" className="rule w-full" />
+          </div>
 
-        {items.length > 0 ? (
-          <>
-            <CardGrid>
-              {items.map((hotel, index) => (
-                <ContentCard
-                  key={hotel.id}
-                  href={hotelPath(hotel)}
-                  title={hotel.name}
-                  summary={hotel.summary}
-                  media={hotel.hero}
-                  eyebrow={hotel.city.name}
-                  meta={hotel.star_rating ? `${hotel.star_rating}-star` : null}
-                  priority={index < 3}
-                />
-              ))}
-            </CardGrid>
-            {meta && <Pagination meta={meta} basePath="/hotels" />}
-          </>
-        ) : (
-          <EmptyState
-            title="No hotels published yet"
-            description="Hotel write-ups appear here once they are published from the admin dashboard."
-          />
-        )}
-      </Stack>
-    </Container>
+          {items.length > 0 ? (
+            <>
+              <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {items.map((hotel, index) => (
+                  <ContentCard
+                    key={hotel.id}
+                    href={hotelPath(hotel)}
+                    title={hotel.name}
+                    summary={hotel.summary}
+                    media={hotel.hero}
+                    eyebrow={hotel.city.name}
+                    meta={hotel.star_rating ? `${hotel.star_rating}-star` : null}
+                    priority={index < 3}
+                  />
+                ))}
+              </Reveal>
+              {meta && <Pagination meta={meta} basePath="/hotels" />}
+            </>
+          ) : (
+            <EmptyState
+              title="No hotels published yet"
+              description="Hotel write-ups appear here once they are published from the admin dashboard."
+            />
+          )}
+        </Stack>
+      </Container>
+    </PageShell>
   );
 }

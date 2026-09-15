@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { Container, Stack } from "@/components/layout/container";
+import { Reveal } from "@/components/motion/reveal";
 import { JsonLd } from "@/components/seo/json-ld";
-import { Breadcrumbs } from "@/components/ui/breadcrumbs";
-import { CardGrid, ContentCard, EmptyState } from "@/components/ui/card";
-import { MediaImage } from "@/components/ui/media-image";
+import { ContentCard, EmptyState } from "@/components/ui/card";
+import { DetailHero } from "@/components/ui/detail-hero";
+import { FactPanel } from "@/components/ui/fact-list";
 import { Prose } from "@/components/ui/prose";
 import { SectionHeader } from "@/components/ui/section";
 import {
@@ -78,119 +79,93 @@ export default async function CountryPage({ params }: Params) {
   const body = destination.ok ? (destination.data.body ?? record.body) : record.body;
   const bestTime = destination.ok ? destination.data.best_time : null;
 
+  // The country's own photograph first; failing that, its leading city. A photo
+  // of Lisbon on the Portugal page is a photograph of Portugal — a photo of
+  // anywhere else would not be, which is why nothing broader is tried.
+  const imageKeys = [record.slug, cityItems.find((city) => city.is_featured)?.slug];
+
   return (
-    <Container>
-      <Stack>
-        <JsonLd
-          data={{
-            "@context": "https://schema.org",
-            "@type": "Country",
-            name: record.name,
-            description: record.summary ?? undefined,
-            url: new URL(`/destinations/${country}`, site.url).toString(),
-          }}
-        />
+    <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Country",
+          name: record.name,
+          description: record.summary ?? undefined,
+          url: new URL(`/destinations/${country}`, site.url).toString(),
+        }}
+      />
 
-        <div className="flex flex-col gap-5">
-          <Breadcrumbs
-            items={[
-              { label: "Home", href: "/" },
-              { label: "Destinations", href: "/destinations" },
-              { label: record.name },
-            ]}
-          />
+      <DetailHero
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Destinations", href: "/destinations" },
+          { label: record.name },
+        ]}
+        eyebrow={record.continent?.replace(/_/g, " ")}
+        title={record.name}
+        description={record.summary}
+        media={record.hero}
+        imageKeys={imageKeys}
+      />
 
-          <div className="bg-surface-2 relative aspect-[21/9] w-full max-w-full overflow-hidden rounded-2xl">
-            <MediaImage
-              media={record.hero}
-              label={record.name}
-              priority
-              sizes="(max-width: 1024px) 100vw, 1152px"
-              className="h-full w-full"
-            />
+      <Container width="wide">
+        <Stack className="py-16 sm:py-24">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
+            <article className="flex flex-col gap-10">
+              <Prose text={body} />
+              {bestTime && (
+                <section className="border-border-strong border-l-2 pl-6">
+                  <h2 className="display-sm mb-2 text-xl">When to visit</h2>
+                  <p className="text-ink-soft max-w-[58ch] text-[1.0625rem]/[1.7]">
+                    {bestTime}
+                  </p>
+                </section>
+              )}
+            </article>
+
+            <aside className="h-fit lg:sticky lg:top-28">
+              <FactPanel
+                title="Country facts"
+                facts={[
+                  { label: "Capital", value: record.capital },
+                  { label: "Currency", value: record.currency_code, mono: true },
+                  { label: "Country code", value: record.iso2, mono: true },
+                  { label: "Cities covered", value: String(cityItems.length) },
+                ]}
+              />
+            </aside>
           </div>
 
-          <header className="flex flex-col gap-3 pt-2">
-            <p className="text-accent font-mono text-xs tracking-[0.16em] uppercase">
-              {record.continent?.replace(/_/g, " ")}
-            </p>
-            <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
-              {record.name}
-            </h1>
-            {record.summary && (
-              <p className="text-ink-muted max-w-[65ch] text-lg/relaxed">
-                {record.summary}
-              </p>
-            )}
-          </header>
-        </div>
-
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_280px]">
-          <article className="flex flex-col gap-8">
-            <Prose text={body} />
-            {bestTime && (
-              <section className="border-border bg-surface rounded-xl border p-6">
-                <h2 className="mb-2 text-lg font-semibold">When to visit</h2>
-                <p className="text-ink-muted">{bestTime}</p>
-              </section>
-            )}
-          </article>
-
-          <aside className="border-border bg-surface h-fit rounded-xl border p-5 lg:sticky lg:top-24">
-            <h2 className="mb-3 text-sm font-medium">Country facts</h2>
-            <dl className="flex flex-col gap-2 text-sm">
-              {record.capital && (
-                <div className="flex justify-between gap-3">
-                  <dt className="text-ink-muted">Capital</dt>
-                  <dd>{record.capital}</dd>
-                </div>
-              )}
-              {record.currency_code && (
-                <div className="flex justify-between gap-3">
-                  <dt className="text-ink-muted">Currency</dt>
-                  <dd className="font-mono">{record.currency_code}</dd>
-                </div>
-              )}
-              {record.iso2 && (
-                <div className="flex justify-between gap-3">
-                  <dt className="text-ink-muted">Country code</dt>
-                  <dd className="font-mono">{record.iso2}</dd>
-                </div>
-              )}
-              <div className="flex justify-between gap-3">
-                <dt className="text-ink-muted">Cities covered</dt>
-                <dd>{cityItems.length}</dd>
-              </div>
-            </dl>
-          </aside>
-        </div>
-
-        <section className="flex flex-col gap-6">
-          <SectionHeader
-            title={`Cities in ${record.name}`}
-            description="Each city page covers when to go and what is worth your time."
-          />
-          {cityItems.length > 0 ? (
-            <CardGrid>
-              {cityItems.map((city) => (
-                <ContentCard
-                  key={city.id}
-                  href={cityPath(country, city.slug)}
-                  title={city.name}
-                  summary={city.summary}
-                  media={city.hero}
-                  eyebrow={record.name}
-                />
-              ))}
-            </CardGrid>
-          ) : (
-            <EmptyState
-              title="No cities published yet"
-              description={`Cities in ${record.name} will appear here once published.`}
+          <section className="flex flex-col gap-10">
+            <SectionHeader
+              eyebrow="Where to go"
+              title={`Cities in ${record.name}`}
+              description="Each city page covers when to go and what is worth your time."
             />
-          )}
-        </section>
-      </Stack>
-    </Container>
+            {cityItems.length > 0 ? (
+              <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {cityItems.map((city) => (
+                  <ContentCard
+                    key={city.id}
+                    href={cityPath(country, city.slug)}
+                    title={city.name}
+                    summary={city.summary}
+                    media={city.hero}
+                    imageKeys={[city.slug]}
+                    eyebrow={record.name}
+                  />
+                ))}
+              </Reveal>
+            ) : (
+              <EmptyState
+                title="No cities published yet"
+                description={`Cities in ${record.name} will appear here once published.`}
+              />
+            )}
+          </section>
+        </Stack>
+      </Container>
+    </>
   );
 }

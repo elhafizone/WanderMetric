@@ -17,31 +17,29 @@ export function Pagination({ meta, basePath }: { meta: PageMeta; basePath: strin
   const href = (page: number) =>
     page === 1 ? basePath : `${basePath}${separator}page=${page}`;
 
+  const link =
+    "border-border-strong hover:border-ink inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm transition-colors duration-200";
+
   return (
-    <nav aria-label="Pagination" className="flex items-center justify-between gap-4 pt-4">
+    <nav
+      aria-label="Pagination"
+      className="border-border mt-4 flex items-center justify-between gap-4 border-t pt-10"
+    >
       {meta.hasPrevious ? (
-        <Link
-          rel="prev"
-          href={href(meta.page - 1)}
-          className="border-border hover:border-accent hover:text-accent rounded-md border px-4 py-2 text-sm"
-        >
-          ← Previous
+        <Link rel="prev" href={href(meta.page - 1)} className={link}>
+          <span aria-hidden="true">←</span> Previous
         </Link>
       ) : (
         <span />
       )}
 
-      <span className="text-ink-muted text-sm" aria-live="polite">
+      <span className="text-ink-muted text-xs tracking-wide" aria-live="polite">
         Page {meta.page} of {meta.totalPages}
       </span>
 
       {meta.hasNext ? (
-        <Link
-          rel="next"
-          href={href(meta.page + 1)}
-          className="border-border hover:border-accent hover:text-accent rounded-md border px-4 py-2 text-sm"
-        >
-          Next →
+        <Link rel="next" href={href(meta.page + 1)} className={link}>
+          Next <span aria-hidden="true">→</span>
         </Link>
       ) : (
         <span />

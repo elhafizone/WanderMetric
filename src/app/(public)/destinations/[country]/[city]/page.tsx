@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { Container, Stack } from "@/components/layout/container";
 import { AffiliateDisclosure } from "@/components/affiliate/disclosure";
+import { Container, Stack } from "@/components/layout/container";
+import { Reveal } from "@/components/motion/reveal";
 import { JsonLd } from "@/components/seo/json-ld";
-import { Breadcrumbs } from "@/components/ui/breadcrumbs";
-import { CardGrid, ContentCard } from "@/components/ui/card";
-import { MediaImage } from "@/components/ui/media-image";
+import { ContentCard } from "@/components/ui/card";
+import { DetailHero } from "@/components/ui/detail-hero";
+import { FactPanel } from "@/components/ui/fact-list";
 import { Prose } from "@/components/ui/prose";
 import { SectionHeader } from "@/components/ui/section";
 import {
@@ -17,6 +18,7 @@ import {
 } from "@/core/content/queries";
 import { buildMetadata } from "@/core/seo/metadata";
 import { site } from "@/core/seo/site";
+import { formatDuration, formatReadingTime } from "@/lib/format";
 import { activityPath, countryPath, guidePath, hotelPath } from "@/lib/paths";
 import { createSupabasePublicClient } from "@/lib/supabase/public";
 
@@ -102,195 +104,175 @@ export default async function CityDestinationPage({ params }: Params) {
   const hasAffiliateSurfaces = hotelItems.length > 0 || tourItems.length > 0;
 
   const path = `/destinations/${country}/${city}`;
+  const imageKeys = [destination.city?.slug, destination.country.slug];
 
   return (
-    <Container>
-      <Stack>
-        <JsonLd
-          data={{
-            "@context": "https://schema.org",
-            "@type": "TouristDestination",
-            name: destination.title,
-            description: destination.excerpt ?? undefined,
-            url: new URL(path, site.url).toString(),
-            ...(destination.city?.latitude && destination.city?.longitude
-              ? {
-                  geo: {
-                    "@type": "GeoCoordinates",
-                    latitude: destination.city.latitude,
-                    longitude: destination.city.longitude,
-                  },
-                }
-              : {}),
-            containedInPlace: {
-              "@type": "Country",
-              name: destination.country.name,
-            },
-          }}
-        />
+    <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "TouristDestination",
+          name: destination.title,
+          description: destination.excerpt ?? undefined,
+          url: new URL(path, site.url).toString(),
+          ...(destination.city?.latitude && destination.city?.longitude
+            ? {
+                geo: {
+                  "@type": "GeoCoordinates",
+                  latitude: destination.city.latitude,
+                  longitude: destination.city.longitude,
+                },
+              }
+            : {}),
+          containedInPlace: {
+            "@type": "Country",
+            name: destination.country.name,
+          },
+        }}
+      />
 
-        <div className="flex flex-col gap-5">
-          <Breadcrumbs
-            items={[
-              { label: "Home", href: "/" },
-              { label: "Destinations", href: "/destinations" },
-              {
-                label: destination.country.name,
-                href: countryPath(destination.country.slug),
-              },
-              { label: destination.title },
-            ]}
-          />
+      <DetailHero
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Destinations", href: "/destinations" },
+          {
+            label: destination.country.name,
+            href: countryPath(destination.country.slug),
+          },
+          { label: destination.title },
+        ]}
+        eyebrow={destination.country.name}
+        title={destination.title}
+        description={destination.excerpt}
+        media={destination.hero}
+        imageKeys={imageKeys}
+      />
 
-          <div className="bg-surface-2 relative aspect-[21/9] w-full max-w-full overflow-hidden rounded-2xl">
-            <MediaImage
-              media={destination.hero}
-              label={destination.title}
-              priority
-              sizes="(max-width: 1024px) 100vw, 1152px"
-              className="h-full w-full"
-            />
+      <Container width="wide">
+        <Stack className="py-16 sm:py-24">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
+            <article className="flex flex-col gap-10">
+              <Prose text={destination.body} />
+
+              {destination.best_time && (
+                <section className="border-border-strong border-l-2 pl-6">
+                  <h2 className="display-sm mb-2 text-xl">When to visit</h2>
+                  <p className="text-ink-soft max-w-[58ch] text-[1.0625rem]/[1.7]">
+                    {destination.best_time}
+                  </p>
+                </section>
+              )}
+            </article>
+
+            <aside className="flex h-fit flex-col gap-6 lg:sticky lg:top-28">
+              <FactPanel
+                facts={[
+                  { label: "Country", value: destination.country.name },
+                  { label: "Airport", value: destination.city?.iata_code, mono: true },
+                  { label: "Written by", value: destination.author?.full_name },
+                ]}
+              />
+              {hasAffiliateSurfaces && <AffiliateDisclosure />}
+            </aside>
           </div>
 
-          <header className="flex flex-col gap-3 pt-2">
-            <p className="text-accent font-mono text-xs tracking-[0.16em] uppercase">
-              {destination.country.name}
-            </p>
-            <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
-              {destination.title}
-            </h1>
-            {destination.excerpt && (
-              <p className="text-ink-muted max-w-[65ch] text-lg/relaxed">
-                {destination.excerpt}
-              </p>
-            )}
-          </header>
-        </div>
+          {activityItems.length > 0 && (
+            <section className="flex flex-col gap-10">
+              <SectionHeader
+                eyebrow="Things to do"
+                title={`Worth your time in ${destination.title}`}
+                href={`/activities/${city}`}
+                linkLabel="See all"
+              />
+              <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {activityItems.map((activity) => (
+                  <ContentCard
+                    key={activity.id}
+                    href={activityPath(activity)}
+                    title={activity.name}
+                    summary={activity.summary}
+                    media={activity.hero}
+                    imageKeys={[activity.city.slug]}
+                    meta={formatDuration(activity.duration_minutes)}
+                  />
+                ))}
+              </Reveal>
+            </section>
+          )}
 
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
-          <article className="flex flex-col gap-8">
-            <Prose text={destination.body} />
+          {tourItems.length > 0 && (
+            <section className="flex flex-col gap-10">
+              <SectionHeader
+                eyebrow="Guided"
+                title={`Tours in ${destination.title}`}
+                href={`/tours/${city}`}
+                linkLabel="See all"
+              />
+              <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {tourItems.map((tour) => (
+                  <ContentCard
+                    key={tour.id}
+                    href={activityPath(tour)}
+                    title={tour.name}
+                    summary={tour.summary}
+                    media={tour.hero}
+                    imageKeys={[tour.city.slug]}
+                    meta={formatDuration(tour.duration_minutes)}
+                  />
+                ))}
+              </Reveal>
+            </section>
+          )}
 
-            {destination.best_time && (
-              <section className="border-border bg-surface rounded-xl border p-6">
-                <h2 className="mb-2 text-lg font-semibold">When to visit</h2>
-                <p className="text-ink-muted">{destination.best_time}</p>
-              </section>
-            )}
-          </article>
+          {hotelItems.length > 0 && (
+            <section className="flex flex-col gap-10">
+              <SectionHeader
+                eyebrow="Where to stay"
+                title={`Sleeping in ${destination.title}`}
+                href={`/hotels/${city}`}
+                linkLabel="See all"
+              />
+              <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {hotelItems.map((hotel) => (
+                  <ContentCard
+                    key={hotel.id}
+                    href={hotelPath(hotel)}
+                    title={hotel.name}
+                    summary={hotel.summary}
+                    media={hotel.hero}
+                    meta={hotel.star_rating ? `${hotel.star_rating}-star` : null}
+                  />
+                ))}
+              </Reveal>
+            </section>
+          )}
 
-          <aside className="flex h-fit flex-col gap-4 lg:sticky lg:top-24">
-            <div className="border-border bg-surface rounded-xl border p-5">
-              <h2 className="mb-3 text-sm font-medium">At a glance</h2>
-              <dl className="flex flex-col gap-2 text-sm">
-                <div className="flex justify-between gap-3">
-                  <dt className="text-ink-muted">Country</dt>
-                  <dd>{destination.country.name}</dd>
-                </div>
-                {destination.city?.iata_code && (
-                  <div className="flex justify-between gap-3">
-                    <dt className="text-ink-muted">Airport code</dt>
-                    <dd className="font-mono">{destination.city.iata_code}</dd>
-                  </div>
-                )}
-                {destination.author?.full_name && (
-                  <div className="flex justify-between gap-3">
-                    <dt className="text-ink-muted">Written by</dt>
-                    <dd>{destination.author.full_name}</dd>
-                  </div>
-                )}
-              </dl>
-            </div>
-            {hasAffiliateSurfaces && <AffiliateDisclosure />}
-          </aside>
-        </div>
-
-        {activityItems.length > 0 && (
-          <section className="flex flex-col gap-6">
-            <SectionHeader
-              title={`Things to do in ${destination.title}`}
-              href={`/activities/${city}`}
-            />
-            <CardGrid>
-              {activityItems.map((activity) => (
-                <ContentCard
-                  key={activity.id}
-                  href={activityPath(activity)}
-                  title={activity.name}
-                  summary={activity.summary}
-                  media={activity.hero}
-                  meta={
-                    activity.duration_minutes
-                      ? `About ${Math.round(activity.duration_minutes / 60)} h`
-                      : null
-                  }
-                />
-              ))}
-            </CardGrid>
-          </section>
-        )}
-
-        {tourItems.length > 0 && (
-          <section className="flex flex-col gap-6">
-            <SectionHeader
-              title={`Tours in ${destination.title}`}
-              href={`/tours/${city}`}
-            />
-            <CardGrid>
-              {tourItems.map((tour) => (
-                <ContentCard
-                  key={tour.id}
-                  href={activityPath(tour)}
-                  title={tour.name}
-                  summary={tour.summary}
-                  media={tour.hero}
-                />
-              ))}
-            </CardGrid>
-          </section>
-        )}
-
-        {hotelItems.length > 0 && (
-          <section className="flex flex-col gap-6">
-            <SectionHeader
-              title={`Where to stay in ${destination.title}`}
-              href={`/hotels/${city}`}
-            />
-            <CardGrid>
-              {hotelItems.map((hotel) => (
-                <ContentCard
-                  key={hotel.id}
-                  href={hotelPath(hotel)}
-                  title={hotel.name}
-                  summary={hotel.summary}
-                  media={hotel.hero}
-                  meta={hotel.star_rating ? `${hotel.star_rating}-star` : null}
-                />
-              ))}
-            </CardGrid>
-          </section>
-        )}
-
-        {guideItems.length > 0 && (
-          <section className="flex flex-col gap-6">
-            <SectionHeader title={`Guides for ${destination.title}`} href="/guides" />
-            <CardGrid>
-              {guideItems.map((guide) => (
-                <ContentCard
-                  key={guide.id}
-                  href={guidePath(guide.slug)}
-                  title={guide.title}
-                  summary={guide.excerpt}
-                  media={guide.hero}
-                  meta={
-                    guide.reading_minutes ? `${guide.reading_minutes} min read` : null
-                  }
-                />
-              ))}
-            </CardGrid>
-          </section>
-        )}
-      </Stack>
-    </Container>
+          {guideItems.length > 0 && (
+            <section className="flex flex-col gap-10">
+              <SectionHeader
+                eyebrow="Read next"
+                title={`Guides for ${destination.title}`}
+                href="/guides"
+                linkLabel="All guides"
+              />
+              <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {guideItems.map((guide) => (
+                  <ContentCard
+                    key={guide.id}
+                    href={guidePath(guide.slug)}
+                    title={guide.title}
+                    summary={guide.excerpt}
+                    media={guide.hero}
+                    imageKeys={imageKeys}
+                    eyebrow={guide.category?.name}
+                    meta={formatReadingTime(guide.reading_minutes)}
+                  />
+                ))}
+              </Reveal>
+            </section>
+          )}
+        </Stack>
+      </Container>
+    </>
   );
 }

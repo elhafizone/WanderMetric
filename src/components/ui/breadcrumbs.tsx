@@ -14,8 +14,18 @@ export interface Crumb {
  * Both matter: the markup earns the breadcrumb treatment in search results,
  * and the visible trail is what actually helps someone who landed deep in the
  * site from a search engine.
+ *
+ * `onMedia` switches the palette for a trail set over a photograph. The colours
+ * are fixed rather than themed, because the background there is an image and
+ * not the page.
  */
-export function Breadcrumbs({ items }: { items: Crumb[] }) {
+export function Breadcrumbs({
+  items,
+  onMedia = false,
+}: {
+  items: Crumb[];
+  onMedia?: boolean;
+}) {
   if (items.length === 0) return null;
 
   return (
@@ -32,21 +42,30 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
           })),
         }}
       />
-      <nav aria-label="Breadcrumb" className="text-ink-muted text-sm">
+      <nav
+        aria-label="Breadcrumb"
+        className={`text-xs tracking-wide ${onMedia ? "text-on-media-muted" : "text-ink-muted"}`}
+      >
         <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
           {items.map((item, index) => (
             <li key={`${item.label}-${index}`} className="flex items-center gap-2">
               {index > 0 && (
-                <span aria-hidden="true" className="text-border">
+                <span aria-hidden="true" className="opacity-50">
                   /
                 </span>
               )}
               {item.href ? (
-                <Link className="hover:text-accent hover:underline" href={item.href}>
+                <Link
+                  className="underline-offset-4 transition-opacity hover:underline hover:opacity-100"
+                  href={item.href}
+                >
                   {item.label}
                 </Link>
               ) : (
-                <span aria-current="page" className="text-ink">
+                <span
+                  aria-current="page"
+                  className={onMedia ? "text-on-media" : "text-ink"}
+                >
                   {item.label}
                 </span>
               )}

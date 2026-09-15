@@ -2,16 +2,17 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { AffiliateDisclosure } from "@/components/affiliate/disclosure";
-import { Container, Stack } from "@/components/layout/container";
+import { Container } from "@/components/layout/container";
 import { JsonLd } from "@/components/seo/json-ld";
-import { Breadcrumbs } from "@/components/ui/breadcrumbs";
-import { MediaImage } from "@/components/ui/media-image";
+import { DetailHero } from "@/components/ui/detail-hero";
+import { FactPanel } from "@/components/ui/fact-list";
 import { Prose } from "@/components/ui/prose";
 import { getActivityBySlug } from "@/core/content/queries";
 import { buildMetadata } from "@/core/seo/metadata";
 import { site } from "@/core/seo/site";
 import { activityCityPath, activityPath } from "@/lib/paths";
 import { publicMediaUrl } from "@/lib/media";
+import { formatDuration } from "@/lib/format";
 import { createSupabasePublicClient } from "@/lib/supabase/public";
 
 export const revalidate = 86400;
@@ -53,62 +54,53 @@ export default async function ToursDetailPage({ params }: Params) {
   const item = result.data;
 
   return (
-    <Container width="narrow">
-      <Stack>
-        {/* Only facts we hold. No rating or price is emitted, because none is
-            stored -- that data is provider-owned and fetched live. */}
-        <JsonLd
-          data={{
-            "@context": "https://schema.org",
-            "@type": "TouristAttraction",
-            name: item.name,
-            description: item.summary ?? undefined,
-            url: new URL(activityPath(item), site.url).toString(),
-            containedInPlace: { "@type": "City", name: item.city.name },
-          }}
-        />
+    <>
+      {/* Only facts we hold. No rating or price is emitted, because none is
+          stored — that data is provider-owned and fetched live. */}
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "TouristAttraction",
+          name: item.name,
+          description: item.summary ?? undefined,
+          url: new URL(activityPath(item), site.url).toString(),
+          containedInPlace: { "@type": "City", name: item.city.name },
+        }}
+      />
 
-        <div className="flex flex-col gap-5">
-          <Breadcrumbs
-            items={[
-              { label: "Home", href: "/" },
-              { label: "Tours", href: "/tours" },
-              { label: item.city.name, href: activityCityPath("tour", item.city.slug) },
-              { label: item.name },
-            ]}
-          />
+      <DetailHero
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Tours", href: "/tours" },
+          { label: item.city.name, href: activityCityPath("tour", item.city.slug) },
+          { label: item.name },
+        ]}
+        eyebrow={item.city.name}
+        title={item.name}
+        description={item.summary}
+        media={item.hero}
+        imageKeys={[item.city.slug]}
+      />
 
-          <div className="bg-surface-2 relative aspect-[16/9] w-full max-w-full overflow-hidden rounded-2xl">
-            <MediaImage
-              media={item.hero}
-              label={item.name}
-              priority
-              sizes="(max-width: 768px) 100vw, 768px"
-              className="h-full w-full"
+      <Container width="wide">
+        <div className="grid gap-12 py-16 sm:py-24 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
+          <article>
+            <Prose text={item.body} />
+          </article>
+
+          <aside className="flex h-fit flex-col gap-6 lg:sticky lg:top-28">
+            <FactPanel
+              title="Practical"
+              facts={[
+                { label: "City", value: item.city.name },
+                { label: "Typical visit", value: formatDuration(item.duration_minutes) },
+                { label: "Type", value: item.category?.name },
+              ]}
             />
-          </div>
-
-          <header className="flex flex-col gap-3">
-            <p className="text-accent font-mono text-xs tracking-[0.16em] uppercase">
-              {item.city.name}
-            </p>
-            <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              {item.name}
-            </h1>
-            {item.summary && (
-              <p className="text-ink-muted text-lg/relaxed">{item.summary}</p>
-            )}
-            {item.duration_minutes && (
-              <p className="text-ink-muted text-sm">
-                Typically about {Math.round(item.duration_minutes / 60)} hours
-              </p>
-            )}
-          </header>
+            <AffiliateDisclosure />
+          </aside>
         </div>
-
-        <Prose text={item.body} />
-        <AffiliateDisclosure />
-      </Stack>
-    </Container>
+      </Container>
+    </>
   );
 }

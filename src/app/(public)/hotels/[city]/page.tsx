@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { Container, Stack } from "@/components/layout/container";
+import { Container, PageShell, Stack } from "@/components/layout/container";
+import { Reveal } from "@/components/motion/reveal";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
-import { CardGrid, ContentCard, EmptyState } from "@/components/ui/card";
+import { ContentCard, EmptyState } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/section";
 import { listHotels } from "@/core/content/queries";
 import { buildMetadata } from "@/core/seo/metadata";
@@ -62,56 +63,59 @@ export default async function HotelsByCityPage({ params }: Params) {
   const items = result.ok ? result.data.items : [];
 
   return (
-    <Container>
-      <Stack>
-        <div className="flex flex-col gap-5">
-          <Breadcrumbs
-            items={[
-              { label: "Home", href: "/" },
-              { label: "Hotels", href: "/hotels" },
-              { label: record.name },
-            ]}
-          />
-          <PageHeader
-            eyebrow={record.country?.name ?? "Hotels"}
-            title={`Hotels in ${record.name}`}
-            description={`Places to stay in ${record.name}, with notes on the neighbourhood each one sits in.`}
-          />
-          {record.country && (
-            <p className="text-ink-muted text-sm">
-              See the full{" "}
-              <a
-                className="text-accent underline-offset-4 hover:underline"
-                href={cityPath(record.country.slug, record.slug)}
-              >
-                {record.name} travel guide
-              </a>
-              .
-            </p>
-          )}
-        </div>
+    <PageShell>
+      <Container width="wide">
+        <Stack gap="tight">
+          <div className="flex flex-col gap-6">
+            <Breadcrumbs
+              items={[
+                { label: "Home", href: "/" },
+                { label: "Hotels", href: "/hotels" },
+                { label: record.name },
+              ]}
+            />
+            <PageHeader
+              eyebrow={record.country?.name ?? "Hotels"}
+              title={`Hotels in ${record.name}`}
+              description={`Places to stay in ${record.name}, with notes on the neighbourhood each one sits in.`}
+            />
+            {record.country && (
+              <p className="text-ink-muted text-sm">
+                See the full{" "}
+                <a
+                  className="text-accent underline-offset-4 hover:underline"
+                  href={cityPath(record.country.slug, record.slug)}
+                >
+                  {record.name} travel guide
+                </a>
+                .
+              </p>
+            )}
+            <div aria-hidden="true" className="rule w-full" />
+          </div>
 
-        {items.length > 0 ? (
-          <CardGrid>
-            {items.map((hotel, index) => (
-              <ContentCard
-                key={hotel.id}
-                href={hotelPath(hotel)}
-                title={hotel.name}
-                summary={hotel.summary}
-                media={hotel.hero}
-                meta={hotel.star_rating ? `${hotel.star_rating}-star` : null}
-                priority={index < 3}
-              />
-            ))}
-          </CardGrid>
-        ) : (
-          <EmptyState
-            title={`No hotels published for ${record.name} yet`}
-            description="Hotel write-ups appear here once they are published."
-          />
-        )}
-      </Stack>
-    </Container>
+          {items.length > 0 ? (
+            <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {items.map((hotel, index) => (
+                <ContentCard
+                  key={hotel.id}
+                  href={hotelPath(hotel)}
+                  title={hotel.name}
+                  summary={hotel.summary}
+                  media={hotel.hero}
+                  meta={hotel.star_rating ? `${hotel.star_rating}-star` : null}
+                  priority={index < 3}
+                />
+              ))}
+            </Reveal>
+          ) : (
+            <EmptyState
+              title={`No hotels published for ${record.name} yet`}
+              description="Hotel write-ups appear here once they are published."
+            />
+          )}
+        </Stack>
+      </Container>
+    </PageShell>
   );
 }

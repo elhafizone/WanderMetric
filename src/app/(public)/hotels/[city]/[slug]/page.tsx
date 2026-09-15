@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { AffiliateDisclosure } from "@/components/affiliate/disclosure";
-import { Container, Stack } from "@/components/layout/container";
+import { Container } from "@/components/layout/container";
 import { JsonLd } from "@/components/seo/json-ld";
-import { Breadcrumbs } from "@/components/ui/breadcrumbs";
-import { MediaImage } from "@/components/ui/media-image";
+import { DetailHero } from "@/components/ui/detail-hero";
+import { FactPanel } from "@/components/ui/fact-list";
 import { Prose } from "@/components/ui/prose";
 import { getHotelBySlug } from "@/core/content/queries";
 import { buildMetadata } from "@/core/seo/metadata";
@@ -54,94 +54,80 @@ export default async function HotelDetailPage({ params }: Params) {
   const hotel = result.data;
 
   return (
-    <Container width="narrow">
-      <Stack>
-        {/* Hotel schema carries only facts we actually hold. No aggregateRating
-            or priceRange is emitted, because we store neither -- inventing them
-            would be both fabrication and a structured-data policy violation. */}
-        <JsonLd
-          data={{
-            "@context": "https://schema.org",
-            "@type": "Hotel",
-            name: hotel.name,
-            description: hotel.summary ?? undefined,
-            url: new URL(hotelPath(hotel), site.url).toString(),
-            ...(hotel.star_rating
-              ? {
-                  starRating: {
-                    "@type": "Rating",
-                    ratingValue: hotel.star_rating,
-                    bestRating: 5,
-                  },
-                }
-              : {}),
-            address: {
-              "@type": "PostalAddress",
-              addressLocality: hotel.city.name,
-              ...(hotel.address ? { streetAddress: hotel.address } : {}),
-            },
-            ...(hotel.latitude && hotel.longitude
-              ? {
-                  geo: {
-                    "@type": "GeoCoordinates",
-                    latitude: hotel.latitude,
-                    longitude: hotel.longitude,
-                  },
-                }
-              : {}),
-          }}
-        />
+    <>
+      {/* Hotel schema carries only facts we actually hold. No aggregateRating
+          or priceRange is emitted, because we store neither -- inventing them
+          would be both fabrication and a structured-data policy violation. */}
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Hotel",
+          name: hotel.name,
+          description: hotel.summary ?? undefined,
+          url: new URL(hotelPath(hotel), site.url).toString(),
+          ...(hotel.star_rating
+            ? {
+                starRating: {
+                  "@type": "Rating",
+                  ratingValue: hotel.star_rating,
+                  bestRating: 5,
+                },
+              }
+            : {}),
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: hotel.city.name,
+            ...(hotel.address ? { streetAddress: hotel.address } : {}),
+          },
+          ...(hotel.latitude && hotel.longitude
+            ? {
+                geo: {
+                  "@type": "GeoCoordinates",
+                  latitude: hotel.latitude,
+                  longitude: hotel.longitude,
+                },
+              }
+            : {}),
+        }}
+      />
 
-        <div className="flex flex-col gap-5">
-          <Breadcrumbs
-            items={[
-              { label: "Home", href: "/" },
-              { label: "Hotels", href: "/hotels" },
-              { label: hotel.city.name, href: hotelCityPath(hotel.city.slug) },
-              { label: hotel.name },
-            ]}
-          />
+      {/* No `imageKeys`: a photograph above a property name reads as a
+          photograph of that property, so a hotel without its own media row gets
+          the placeholder rather than a picture of the city it sits in. */}
+      <DetailHero
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Hotels", href: "/hotels" },
+          { label: hotel.city.name, href: hotelCityPath(hotel.city.slug) },
+          { label: hotel.name },
+        ]}
+        eyebrow={hotel.city.name}
+        title={hotel.name}
+        description={hotel.summary}
+        media={hotel.hero}
+      />
 
-          <div className="bg-surface-2 relative aspect-[16/9] w-full max-w-full overflow-hidden rounded-2xl">
-            <MediaImage
-              media={hotel.hero}
-              label={hotel.name}
-              priority
-              sizes="(max-width: 768px) 100vw, 768px"
-              className="h-full w-full"
+      <Container width="wide">
+        <div className="grid gap-12 py-16 sm:py-24 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
+          <article>
+            <Prose text={hotel.body} />
+          </article>
+
+          <aside className="flex h-fit flex-col gap-6 lg:sticky lg:top-28">
+            <FactPanel
+              facts={[
+                { label: "City", value: hotel.city.name },
+                {
+                  label: "Rating",
+                  value: hotel.star_rating ? `${hotel.star_rating}-star` : null,
+                },
+                { label: "Address", value: hotel.address },
+              ]}
             />
-          </div>
-
-          <header className="flex flex-col gap-3">
-            <p className="text-accent font-mono text-xs tracking-[0.16em] uppercase">
-              {hotel.city.name}
-            </p>
-            <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              {hotel.name}
-            </h1>
-            {hotel.summary && (
-              <p className="text-ink-muted text-lg/relaxed">{hotel.summary}</p>
-            )}
-            <dl className="text-ink-muted flex flex-wrap gap-x-6 gap-y-1 text-sm">
-              {hotel.star_rating && (
-                <div className="flex gap-2">
-                  <dt>Rating</dt>
-                  <dd className="text-ink">{hotel.star_rating}-star</dd>
-                </div>
-              )}
-              {hotel.address && (
-                <div className="flex gap-2">
-                  <dt>Address</dt>
-                  <dd className="text-ink">{hotel.address}</dd>
-                </div>
-              )}
-            </dl>
-          </header>
+            <AffiliateDisclosure />
+          </aside>
         </div>
-
-        <Prose text={hotel.body} />
-        <AffiliateDisclosure />
-      </Stack>
-    </Container>
+      </Container>
+    </>
   );
 }

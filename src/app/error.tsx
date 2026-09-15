@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useEffect } from "react";
 
+import { buttonClass } from "@/components/ui/button";
+
 /**
  * Route-level error boundary.
  *
@@ -31,28 +33,21 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-5 py-20">
-      <div className="flex flex-col gap-4">
-        <p className="text-accent font-mono text-xs tracking-[0.16em] uppercase">Error</p>
-        <h1 className="text-3xl font-semibold tracking-tight">Something went wrong</h1>
-        <p className="text-ink-muted max-w-prose">
+    <div className="mx-auto w-full max-w-3xl px-5 py-28 sm:px-8">
+      <div className="flex flex-col gap-6">
+        <p className="eyebrow text-accent">Error</p>
+        <h1 className="display text-[2.25rem] sm:text-[3rem]">Something went wrong</h1>
+        <p className="text-ink-soft max-w-[52ch] text-lg/[1.65]">
           This page failed to load. Trying again often resolves it.
         </p>
         {error.digest && (
           <p className="text-ink-muted font-mono text-xs">Reference: {error.digest}</p>
         )}
         <div className="flex flex-wrap gap-3 pt-2">
-          <button
-            type="button"
-            onClick={reset}
-            className="bg-accent text-accent-contrast rounded-md px-5 py-2.5 text-sm font-medium hover:opacity-90"
-          >
+          <button type="button" onClick={reset} className={buttonClass("primary", "md")}>
             Try again
           </button>
-          <Link
-            href="/"
-            className="border-border hover:border-accent hover:text-accent rounded-md border px-5 py-2.5 text-sm font-medium"
-          >
+          <Link href="/" className={buttonClass("secondary", "md")}>
             Go home
           </Link>
         </div>

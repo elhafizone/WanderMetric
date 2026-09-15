@@ -1,52 +1,47 @@
-import Link from "next/link";
-
-import { Container, Stack } from "@/components/layout/container";
+import { Container, PageShell, Stack } from "@/components/layout/container";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SearchForm } from "@/components/search/search-form";
+import { ButtonLink } from "@/components/ui/button";
 
 /**
  * 404. Returns a genuine 404 status (Next handles that for this file), which
  * matters: a "soft 404" that returns 200 gets the URL indexed as a real page.
+ *
+ * It leads with the search box rather than an apology. Someone who lands here
+ * came looking for a place, and the fastest route back to the site is to let
+ * them name it.
  */
 export default function NotFound() {
   return (
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
       <main className="flex-1">
-        <Container width="narrow">
-          <Stack>
-            <div className="flex flex-col gap-4 py-10">
-              <p className="text-accent font-mono text-xs tracking-[0.16em] uppercase">
-                404
-              </p>
-              <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-                We could not find that page
-              </h1>
-              <p className="text-ink-muted max-w-prose">
-                It may have moved, or the link may be wrong. Try a search, or start from
-                the destinations index.
-              </p>
-              <div className="max-w-lg pt-2">
-                <SearchForm />
+        <PageShell>
+          <Container width="narrow">
+            <Stack gap="tight">
+              <div className="flex flex-col gap-6">
+                <p className="eyebrow text-accent">404</p>
+                <h1 className="display text-[2.25rem] sm:text-[3.25rem]">
+                  We could not find that page
+                </h1>
+                <p className="text-ink-soft max-w-[52ch] text-lg/[1.65]">
+                  It may have moved, or the link may be wrong. Search for somewhere, or
+                  start from the destinations index.
+                </p>
+                <div className="pt-2">
+                  <SearchForm autoFocus />
+                </div>
+                <div className="flex flex-wrap gap-3 pt-2">
+                  <ButtonLink href="/destinations">Browse destinations</ButtonLink>
+                  <ButtonLink href="/guides" variant="secondary">
+                    Read the guides
+                  </ButtonLink>
+                </div>
               </div>
-              <div className="flex flex-wrap gap-3 pt-2">
-                <Link
-                  href="/destinations"
-                  className="bg-accent text-accent-contrast rounded-md px-5 py-2.5 text-sm font-medium hover:opacity-90"
-                >
-                  Browse destinations
-                </Link>
-                <Link
-                  href="/"
-                  className="border-border hover:border-accent hover:text-accent rounded-md border px-5 py-2.5 text-sm font-medium"
-                >
-                  Go home
-                </Link>
-              </div>
-            </div>
-          </Stack>
-        </Container>
+            </Stack>
+          </Container>
+        </PageShell>
       </main>
       <SiteFooter />
     </div>

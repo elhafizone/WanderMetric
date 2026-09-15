@@ -2,14 +2,16 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { AffiliateDisclosure } from "@/components/affiliate/disclosure";
-import { Container, Stack } from "@/components/layout/container";
+import { Container } from "@/components/layout/container";
 import { JsonLd } from "@/components/seo/json-ld";
-import { Breadcrumbs } from "@/components/ui/breadcrumbs";
-import { MediaImage } from "@/components/ui/media-image";
+import { Badge } from "@/components/ui/badge";
+import { DetailHero } from "@/components/ui/detail-hero";
+import { FactPanel } from "@/components/ui/fact-list";
 import { Prose } from "@/components/ui/prose";
 import { getDealBySlug } from "@/core/content/queries";
 import { buildMetadata } from "@/core/seo/metadata";
 import { site } from "@/core/seo/site";
+import { formatDate } from "@/lib/format";
 import { dealPath } from "@/lib/paths";
 import { publicMediaUrl } from "@/lib/media";
 import { createSupabasePublicClient } from "@/lib/supabase/public";
@@ -58,73 +60,66 @@ export default async function DealDetailPage({ params }: Params) {
   if (!result.ok) notFound();
   const deal = result.data;
 
-  const formatDate = (value: string) =>
-    new Date(value).toLocaleDateString("en-GB", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-
   return (
-    <Container width="narrow">
-      <Stack>
-        <JsonLd
-          data={{
-            "@context": "https://schema.org",
-            "@type": "Article",
-            headline: deal.title,
-            description: deal.summary ?? undefined,
-            url: new URL(dealPath(deal.slug), site.url).toString(),
-            datePublished: deal.published_at ?? undefined,
-            publisher: { "@id": `${site.url}#organization` },
-          }}
-        />
+    <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: deal.title,
+          description: deal.summary ?? undefined,
+          url: new URL(dealPath(deal.slug), site.url).toString(),
+          datePublished: deal.published_at ?? undefined,
+          publisher: { "@id": `${site.url}#organization` },
+        }}
+      />
 
-        <div className="flex flex-col gap-5">
-          <Breadcrumbs
-            items={[
-              { label: "Home", href: "/" },
-              { label: "Deals", href: "/deals" },
-              { label: deal.title },
-            ]}
-          />
+      <DetailHero
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Deals", href: "/deals" },
+          { label: deal.title },
+        ]}
+        eyebrow={deal.city?.name ?? deal.country?.name ?? "Travel deal"}
+        title={deal.title}
+        description={deal.summary}
+        media={deal.hero}
+        imageKeys={[deal.city?.slug, deal.country?.slug]}
+        meta={
+          deal.ends_at ? (
+            <Badge tone="onMedia">
+              Ends <time dateTime={deal.ends_at}>{formatDate(deal.ends_at)}</time>
+            </Badge>
+          ) : null
+        }
+      />
 
-          <div className="bg-surface-2 relative aspect-[16/9] w-full max-w-full overflow-hidden rounded-2xl">
-            <MediaImage
-              media={deal.hero}
-              label={deal.title}
-              priority
-              sizes="(max-width: 768px) 100vw, 768px"
-              className="h-full w-full"
+      <Container width="wide">
+        <div className="grid gap-12 py-16 sm:py-24 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
+          <article>
+            <Prose text={deal.body} />
+          </article>
+
+          <aside className="flex h-fit flex-col gap-6 lg:sticky lg:top-28">
+            {/* `discount_label` is an editor-supplied string, never a computed
+                figure — the schema has nowhere to store a price to compute one
+                from, and that is deliberate. */}
+            <FactPanel
+              title="The offer"
+              facts={[
+                { label: "Discount", value: deal.discount_label },
+                { label: "Starts", value: formatDate(deal.starts_at) },
+                { label: "Ends", value: formatDate(deal.ends_at) },
+                { label: "Where", value: deal.city?.name ?? deal.country?.name },
+              ]}
             />
-          </div>
-
-          <header className="flex flex-col gap-3">
-            {deal.discount_label && (
-              <p className="text-accent font-mono text-xs tracking-[0.16em] uppercase">
-                {deal.discount_label}
-              </p>
-            )}
-            <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              {deal.title}
-            </h1>
-            {deal.summary && (
-              <p className="text-ink-muted text-lg/relaxed">{deal.summary}</p>
-            )}
-            {deal.ends_at && (
-              <p className="text-ink-muted text-sm">
-                Ends <time dateTime={deal.ends_at}>{formatDate(deal.ends_at)}</time>
-              </p>
-            )}
-          </header>
+            {/* Shown on every deal page: these pages exist to carry affiliate
+                links, so the disclosure belongs in context rather than only in
+                the footer. */}
+            <AffiliateDisclosure />
+          </aside>
         </div>
-
-        <Prose text={deal.body} />
-
-        {/* Shown on every deal page: these pages exist to carry affiliate links,
-            so the disclosure belongs in context rather than only in the footer. */}
-        <AffiliateDisclosure />
-      </Stack>
-    </Container>
+      </Container>
+    </>
   );
 }

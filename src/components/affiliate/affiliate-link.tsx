@@ -12,6 +12,13 @@ import type { ContentTypeName } from "@/core/shared/db";
  * rel="sponsored nofollow noopener" is required: `sponsored` is Google's
  * declared attribute for paid links, and omitting it is a policy problem, not a
  * stylistic one.
+ *
+ * The default treatment is deliberately the *secondary* button, not the primary
+ * one. On a page about a place, the loudest control should be the one that
+ * takes the reader further into the writing; the commercial link earns its
+ * click by being there when they are ready, not by shouting. `emphasis="high"`
+ * exists for the one surface where checking options genuinely is the next step
+ * — a deal page the reader arrived on for that reason.
  */
 export function AffiliateLink({
   linkSlug,
@@ -20,6 +27,7 @@ export function AffiliateLink({
   contentId,
   campaign,
   fromPath,
+  emphasis = "standard",
   className,
 }: {
   linkSlug: string;
@@ -28,6 +36,7 @@ export function AffiliateLink({
   contentId?: string;
   campaign?: string;
   fromPath?: string;
+  emphasis?: "standard" | "high";
   className?: string;
 }) {
   const params = new URLSearchParams();
@@ -39,6 +48,11 @@ export function AffiliateLink({
   const query = params.toString();
   const href = `${routes.affiliateRedirect(linkSlug)}${query ? `?${query}` : ""}`;
 
+  const treatment =
+    emphasis === "high"
+      ? "bg-accent text-accent-contrast hover:bg-accent-hover shadow-sm hover:shadow-md"
+      : "border-border-strong text-ink bg-surface hover:border-ink hover:bg-surface-2 border";
+
   return (
     <a
       href={href}
@@ -46,11 +60,16 @@ export function AffiliateLink({
       target="_blank"
       className={
         className ??
-        "bg-accent text-accent-contrast inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-medium transition-opacity hover:opacity-90"
+        `group/out ease-editorial inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition-all duration-200 ${treatment}`
       }
     >
       {children}
-      <span aria-hidden="true">→</span>
+      <span
+        aria-hidden="true"
+        className="ease-editorial transition-transform duration-200 group-hover/out:translate-x-0.5"
+      >
+        ↗
+      </span>
       <span className="sr-only">(opens in a new tab)</span>
     </a>
   );

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 
-import { Container, Stack } from "@/components/layout/container";
+import { Container, PageShell, Stack } from "@/components/layout/container";
+import { Reveal } from "@/components/motion/reveal";
 import { JsonLd } from "@/components/seo/json-ld";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
-import { CardGrid, ContentCard, EmptyState } from "@/components/ui/card";
+import { ContentCard, EmptyState } from "@/components/ui/card";
 import { Pagination } from "@/components/ui/pagination";
 import { PageHeader } from "@/components/ui/section";
 import { listFlightRoutes } from "@/core/content/queries";
@@ -34,59 +35,63 @@ export default async function FlightsPage({
   const meta = result.ok ? result.data.meta : null;
 
   return (
-    <Container>
-      <Stack>
-        <div className="flex flex-col gap-5">
-          <Breadcrumbs
-            items={[{ label: "Home", href: "/" }, { label: "Flight routes" }]}
-          />
-          <PageHeader
-            eyebrow="Flights"
-            title="Flight routes"
-            description="Route guides covering journey times, airports and whether flying is actually the right call."
-          />
-        </div>
-
-        {items.length > 0 ? (
-          <>
-            <JsonLd
-              data={{
-                "@context": "https://schema.org",
-                "@type": "ItemList",
-                itemListElement: items.map((item, index) => ({
-                  "@type": "ListItem",
-                  position: index + 1,
-                  name: item.title,
-                  url: new URL(flightRoutePath(item), site.url).toString(),
-                })),
-              }}
+    <PageShell>
+      <Container width="wide">
+        <Stack gap="tight">
+          <div className="flex flex-col gap-6">
+            <Breadcrumbs
+              items={[{ label: "Home", href: "/" }, { label: "Flight routes" }]}
             />
-            <CardGrid>
-              {items.map((item, index) => (
-                <ContentCard
-                  key={item.id}
-                  href={flightRoutePath(item)}
-                  title={item.title}
-                  summary={`${item.origin.name} to ${item.destination.name}`}
-                  media={null}
-                  eyebrow={
-                    item.origin.iata_code && item.destination.iata_code
-                      ? `${item.origin.iata_code} → ${item.destination.iata_code}`
-                      : null
-                  }
-                  priority={index < 3}
-                />
-              ))}
-            </CardGrid>
-            {meta && <Pagination meta={meta} basePath="/flights" />}
-          </>
-        ) : (
-          <EmptyState
-            title="Nothing published yet"
-            description="Route guides appear here once they are published."
-          />
-        )}
-      </Stack>
-    </Container>
+            <PageHeader
+              eyebrow="Flights"
+              title="Flight routes"
+              description="Route guides covering journey times, airports and whether flying is actually the right call."
+            />
+            <div aria-hidden="true" className="rule w-full" />
+          </div>
+
+          {items.length > 0 ? (
+            <>
+              <JsonLd
+                data={{
+                  "@context": "https://schema.org",
+                  "@type": "ItemList",
+                  itemListElement: items.map((item, index) => ({
+                    "@type": "ListItem",
+                    position: index + 1,
+                    name: item.title,
+                    url: new URL(flightRoutePath(item), site.url).toString(),
+                  })),
+                }}
+              />
+              <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {items.map((item, index) => (
+                  <ContentCard
+                    key={item.id}
+                    href={flightRoutePath(item)}
+                    title={item.title}
+                    summary={`${item.origin.name} to ${item.destination.name}`}
+                    media={null}
+                    imageKeys={[item.destination.slug, item.origin.slug]}
+                    eyebrow={
+                      item.origin.iata_code && item.destination.iata_code
+                        ? `${item.origin.iata_code} → ${item.destination.iata_code}`
+                        : null
+                    }
+                    priority={index < 3}
+                  />
+                ))}
+              </Reveal>
+              {meta && <Pagination meta={meta} basePath="/flights" />}
+            </>
+          ) : (
+            <EmptyState
+              title="Nothing published yet"
+              description="Route guides appear here once they are published."
+            />
+          )}
+        </Stack>
+      </Container>
+    </PageShell>
   );
 }

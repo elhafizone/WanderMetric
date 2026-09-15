@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { AffiliateDisclosure } from "@/components/affiliate/disclosure";
-import { Container, Stack } from "@/components/layout/container";
-import { Breadcrumbs } from "@/components/ui/breadcrumbs";
+import { Container } from "@/components/layout/container";
+import { DetailHero } from "@/components/ui/detail-hero";
 import { Prose } from "@/components/ui/prose";
 import { getFlightRouteBySlug } from "@/core/content/queries";
 import { buildMetadata } from "@/core/seo/metadata";
@@ -58,71 +59,85 @@ export default async function FlightRoutePage({ params }: Params) {
   if (!result.ok) notFound();
   const route = result.data;
 
+  const codes =
+    route.origin.iata_code && route.destination.iata_code
+      ? `${route.origin.iata_code} → ${route.destination.iata_code}`
+      : null;
+
   return (
-    <Container width="narrow">
-      <Stack>
-        <div className="flex flex-col gap-5">
-          <Breadcrumbs
-            items={[
-              { label: "Home", href: "/" },
-              { label: "Flights", href: "/flights" },
-              { label: route.title },
-            ]}
-          />
+    <>
+      <DetailHero
+        crumbs={[
+          { label: "Home", href: "/" },
+          { label: "Flights", href: "/flights" },
+          { label: route.title },
+        ]}
+        eyebrow={codes ?? "Route guide"}
+        title={route.title}
+        media={null}
+        imageKeys={[route.destination.slug, route.origin.slug]}
+      />
 
-          <header className="flex flex-col gap-3">
-            {route.origin.iata_code && route.destination.iata_code && (
-              <p className="text-accent font-mono text-xs tracking-[0.16em] uppercase">
-                {route.origin.iata_code} → {route.destination.iata_code}
-              </p>
-            )}
-            <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              {route.title}
-            </h1>
-          </header>
+      <Container width="wide">
+        <div className="grid gap-12 py-16 sm:py-24 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
+          <article>
+            <Prose text={route.body} />
+          </article>
 
-          {/* No fare is shown. Prices are provider-owned, change constantly, and
-              are never persisted -- quoting one here would be fabrication. */}
-          <dl className="border-border bg-surface grid gap-4 rounded-xl border p-5 sm:grid-cols-2">
-            <div>
-              <dt className="text-ink-muted text-sm">From</dt>
-              <dd className="font-medium">
-                {route.origin.country ? (
-                  <a
-                    className="hover:text-accent hover:underline"
-                    href={cityPath(route.origin.country.slug, route.origin.slug)}
-                  >
-                    {route.origin.name}
-                  </a>
-                ) : (
-                  route.origin.name
-                )}
-              </dd>
+          <aside className="flex h-fit flex-col gap-6 lg:sticky lg:top-28">
+            {/* No fare is shown. Prices are provider-owned, change constantly,
+                and are never persisted — quoting one here would be fabrication. */}
+            <div className="border-border bg-surface rounded-xl border p-6">
+              <h2 className="eyebrow text-ink-muted mb-4">The route</h2>
+              <dl className="flex flex-col gap-5 text-sm">
+                <Endpoint label="From" city={route.origin} />
+                <div aria-hidden="true" className="rule" />
+                <Endpoint label="To" city={route.destination} />
+              </dl>
             </div>
-            <div>
-              <dt className="text-ink-muted text-sm">To</dt>
-              <dd className="font-medium">
-                {route.destination.country ? (
-                  <a
-                    className="hover:text-accent hover:underline"
-                    href={cityPath(
-                      route.destination.country.slug,
-                      route.destination.slug,
-                    )}
-                  >
-                    {route.destination.name}
-                  </a>
-                ) : (
-                  route.destination.name
-                )}
-              </dd>
-            </div>
-          </dl>
+            <AffiliateDisclosure />
+          </aside>
         </div>
+      </Container>
+    </>
+  );
+}
 
-        <Prose text={route.body} />
-        <AffiliateDisclosure />
-      </Stack>
-    </Container>
+/** One end of a route. Links through to the city guide where one exists. */
+function Endpoint({
+  label,
+  city,
+}: {
+  label: string;
+  city: {
+    name: string;
+    slug: string;
+    iata_code?: string | null;
+    country?: { name: string; slug: string } | null;
+  };
+}) {
+  return (
+    <div className="flex flex-col gap-1">
+      <dt className="text-ink-muted eyebrow">{label}</dt>
+      <dd className="flex items-baseline justify-between gap-3">
+        <span className="display-sm text-lg">
+          {city.country ? (
+            <Link
+              className="hover:text-accent transition-colors"
+              href={cityPath(city.country.slug, city.slug)}
+            >
+              {city.name}
+            </Link>
+          ) : (
+            city.name
+          )}
+        </span>
+        {city.iata_code && (
+          <span className="text-ink-muted font-mono text-xs tracking-wider">
+            {city.iata_code}
+          </span>
+        )}
+      </dd>
+    </div>
   );
 }
