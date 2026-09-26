@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  firstPartnerLink,
   inlineText,
   parseArticleBody,
   parseInline,
@@ -214,5 +215,26 @@ describe("slugifyHeading", () => {
     expect(slugifyHeading("Day One — Start Early")).toBe("day-one-start-early");
     expect(slugifyHeading("Musée d'Orsay")).toBe("musee-d-orsay");
     expect(slugifyHeading("…")).toBe("section");
+  });
+});
+
+describe("firstPartnerLink", () => {
+  it("lifts the first /go/ link out of a body", () => {
+    expect(
+      firstPartnerLink(
+        "Read on.\n\n[Reveal the promo code](/go/deal-go-city) today, or [again](/go/other).",
+      ),
+    ).toEqual({ label: "Reveal the promo code", slug: "deal-go-city" });
+  });
+
+  it("ignores links that are not our redirector", () => {
+    expect(firstPartnerLink("[Elsewhere](https://evil.example/go/x)")).toBeNull();
+    expect(firstPartnerLink("[Internal](/guides/paris)")).toBeNull();
+    expect(firstPartnerLink(null)).toBeNull();
+  });
+
+  it("refuses a slug that is not a clean slug", () => {
+    expect(firstPartnerLink("[x](/go/../admin)")).toBeNull();
+    expect(firstPartnerLink("[x](/go/UPPER)")).toBeNull();
   });
 });

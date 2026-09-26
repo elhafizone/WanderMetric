@@ -89,6 +89,22 @@ const EMPTY: ParsedArticle = { blocks: [], headings: [], segmented: false };
  */
 const MARKER = /^\s*(#{2,3}\s|>\s|!>\s|[-*]\s|\d+[.)]\s)/;
 
+/**
+ * The first partner link written into a body, as `[label](/go/slug)`.
+ *
+ * A deal page exists to send the reader to one offer, so it lifts that link out
+ * of the copy and sets it as a button. Only `/go/` paths qualify: those are our
+ * own redirector, so this can never surface an arbitrary editor-supplied URL as
+ * a call to action.
+ */
+export function firstPartnerLink(
+  text: string | null | undefined,
+): { label: string; slug: string } | null {
+  const match = /\[([^\]\n]+)\]\(\/go\/([a-z0-9]+(?:-[a-z0-9]+)*)\)/.exec(text ?? "");
+  if (!match?.[1] || !match[2]) return null;
+  return { label: match[1], slug: match[2] };
+}
+
 export function parseArticleBody(text: string | null | undefined): ParsedArticle {
   if (!text) return EMPTY;
 

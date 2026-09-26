@@ -7,7 +7,9 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { Badge } from "@/components/ui/badge";
 import { DetailHero } from "@/components/ui/detail-hero";
 import { FactPanel } from "@/components/ui/fact-list";
-import { Prose } from "@/components/ui/prose";
+import { AffiliateLink } from "@/components/affiliate/affiliate-link";
+import { ArticleBody } from "@/components/article/article-body";
+import { firstPartnerLink, parseArticleBody } from "@/lib/article/body";
 import { getDealBySlug } from "@/core/content/queries";
 import { buildMetadata } from "@/core/seo/metadata";
 import { site } from "@/core/seo/site";
@@ -59,6 +61,8 @@ export default async function DealDetailPage({ params }: Params) {
   const result = await getDealBySlug(db, slug);
   if (!result.ok) notFound();
   const deal = result.data;
+  const article = parseArticleBody(deal.body);
+  const cta = firstPartnerLink(deal.body);
 
   return (
     <>
@@ -97,7 +101,7 @@ export default async function DealDetailPage({ params }: Params) {
       <Container width="wide">
         <div className="grid gap-12 py-16 sm:py-24 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
           <article>
-            <Prose text={deal.body} />
+            <ArticleBody blocks={article.blocks} />
           </article>
 
           <aside className="flex h-fit flex-col gap-6 lg:sticky lg:top-28">
@@ -116,6 +120,18 @@ export default async function DealDetailPage({ params }: Params) {
             {/* Shown on every deal page: these pages exist to carry affiliate
                 links, so the disclosure belongs in context rather than only in
                 the footer. */}
+            {cta && (
+              <AffiliateLink
+                linkSlug={cta.slug}
+                contentType="deal"
+                contentId={deal.id}
+                fromPath={dealPath(deal.slug)}
+                emphasis="high"
+                className="bg-accent text-accent-contrast hover:bg-accent-hover inline-flex items-center justify-center gap-2 rounded-xl px-6 py-4 text-[0.9375rem] font-medium shadow-sm transition-colors"
+              >
+                {cta.label}
+              </AffiliateLink>
+            )}
             <AffiliateDisclosure />
           </aside>
         </div>
