@@ -21,7 +21,8 @@ brand before a single link could be published.
 
 | Capability | Status | Notes |
 |---|---|---|
-| Deep links | ✅ Implemented | `marker` + `sub_id` on any brand URL |
+| Partner links | ✅ Implemented | `POST /links/v1/create` per click; needs token + project ID |
+| Search deep links | ✅ Implemented | `{q}` / `{q_slug}` / `{origin}` / `{destination}` / `{ddmm}` placeholders in a link's destination |
 | Flight data API | ✅ Implemented | Requires `TRAVELPAYOUTS_API_TOKEN` |
 | Reference data | Available, unused | `/data/en/{cities,airports,countries}.json` |
 | Widgets / White Label | Available, not used | Would embed partner UI; deep links keep our own |
@@ -44,10 +45,47 @@ Also documented and available if needed: `/v1/prices/direct`,
 
 ### Attribution
 
-- **`marker`** — the affiliate identifier. Without it a click earns nothing.
-- **`sub_id`** — free-text sub-identifier surfaced in Travelpayouts statistics.
-  We send our click UUID here, which is what makes a booking traceable back to
-  the page that produced it.
+- **`marker`** — the partner ID. Without it a click earns nothing.
+- **`trs`** — the project ID the brand programmes are connected under.
+- **`sub_id`** — sub-identifier surfaced in Travelpayouts statistics. Only Latin
+  letters, digits and `_` are allowed, so our click UUID is sent with its
+  hyphens removed. That is still what makes a booking traceable to a page.
+
+### Partner links (corrected September 2026)
+
+The first version appended `?marker=&sub_id=` to the brand URL. That is not a
+documented tracking method for the brands this account is connected to (Airalo,
+Klook, Tiqets…) and would have earned nothing. Untemplated links are now
+converted at click time through the documented partner-links API:
+
+```
+POST https://api.travelpayouts.com/links/v1/create
+x-access-token: <token>
+{ "trs": <project>, "marker": <partner id>, "shorten": false,
+  "links": [{ "url": "<brand url>", "sub_id": "<click id>" }] }
+```
+
+A brand the project is not connected to comes back as HTTP 200 with
+`"code": "failed"` on the link, so success is read from the link, not the status.
+The API is unavailable for Kiwi.com, Expedia UK, HolidayTaxis, Ticketmaster,
+Priority Pass and Indrive. Without a token and project ID, untemplated links fail
+with NOT_CONFIGURED rather than emitting an unattributed URL.
+
+### Search links
+
+A link's `destination_url` may carry placeholders the visitor fills from the home
+search tabs, validated and percent-encoded in `src/core/affiliate/destination.ts`.
+Formats checked against the live brand sites:
+
+| Tab | Brand | Destination URL |
+|---|---|---|
+| Flights | Aviasales | `https://www.aviasales.com/search/{origin}{ddmm}{destination}1` |
+| Things to do | Klook | `https://www.klook.com/en-US/search/result/?query={q}` |
+| Airport transfers | Welcome Pickups | `https://www.welcomepickups.com/{q_slug}/` |
+| Travel eSIM | Airalo | `https://www.airalo.com/{q_slug}-esim` |
+
+A tab is shown only when its link row is active and the redirector is fully
+configured.
 
 ### Rate limits
 
@@ -78,8 +116,9 @@ zero, not a broken pipeline.
 ## Activation
 
 ```bash
-TRAVELPAYOUTS_MARKER="your-marker"        # required
-TRAVELPAYOUTS_API_TOKEN="your-api-token"  # only for flight data
+TRAVELPAYOUTS_MARKER="your-partner-id"      # required
+TRAVELPAYOUTS_PROJECT_ID="your-project-id"  # required for partner links
+TRAVELPAYOUTS_API_TOKEN="your-api-token"    # required for partner links and flight data
 TRAVELPAYOUTS_CURRENCY="usd"              # optional
 TRAVELPAYOUTS_LOCALE="en"                 # optional
 ```

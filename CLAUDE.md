@@ -43,7 +43,7 @@ Do not suppress a lint rule or ignore a TypeScript error to make it pass.
   prerender once; `src/core/content/selects.ts` uses inner joins wherever the
   FK is NOT NULL.
 - **`src/lib/admin/generic-table.ts` drops to the untyped client** in three
-  places. The generated types cannot express "one of eight tables" and collapse
+  places. The generated types cannot express "one of ten tables" and collapse
   column names to `never`. Read its docstring before touching it.
 - **Four Supabase security warnings are intentional** — `authenticated` needs
   EXECUTE on the RLS helper functions or every staff policy fails.
@@ -55,5 +55,7 @@ Do not suppress a lint rule or ignore a TypeScript error to make it pass.
 - `/go/[slug]` returns 404 and `/api/v1/subscribe` returns 503 in production:
   both need `SUPABASE_SERVICE_ROLE_KEY`, which is not retrievable through the
   Supabase integration and must be copied from the dashboard.
-- Travelpayouts is implemented but dormant until `TRAVELPAYOUTS_MARKER` is set.
+- Travelpayouts is implemented but dormant until `TRAVELPAYOUTS_MARKER`,
+  `TRAVELPAYOUTS_PROJECT_ID` and `TRAVELPAYOUTS_API_TOKEN` are set. Links are
+  converted through the partner-links API; see `docs/travelpayouts.md`.
 - No conversion ingestion: the statistics API was never verified.

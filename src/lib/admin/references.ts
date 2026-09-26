@@ -67,6 +67,14 @@ export async function loadReferenceOptions(
           }));
           break;
         }
+        case "affiliate_providers": {
+          const { data } = await db
+            .from("affiliate_providers")
+            .select("id, name")
+            .order("name");
+          options[table] = (data ?? []).map((r) => ({ value: r.id, label: r.name }));
+          break;
+        }
         case "affiliate_programs": {
           const { data } = await db
             .from("affiliate_programs")

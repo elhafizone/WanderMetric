@@ -5,8 +5,8 @@ import type { Tables } from "@/core/shared/db";
 /**
  * Admin resource registry.
  *
- * Eight entities share one list screen, one form screen and one set of server
- * actions, driven by this configuration. The alternative — eight near-identical
+ * Ten entities share one list screen, one form screen and one set of server
+ * actions, driven by this configuration. The alternative — ten near-identical
  * CRUD screens — is where admin panels rot: a fix applied to six of them and
  * forgotten on the other two.
  *
@@ -38,7 +38,12 @@ export interface FieldConfig {
 }
 
 export type ReferenceTable =
-  "countries" | "cities" | "categories" | "media" | "affiliate_programs";
+  | "countries"
+  | "cities"
+  | "categories"
+  | "media"
+  | "affiliate_providers"
+  | "affiliate_programs";
 
 export interface ColumnConfig {
   name: string;
@@ -75,6 +80,26 @@ const INTEGRATION_STATUS_OPTIONS = [
   { value: "active", label: "Active" },
   { value: "paused", label: "Paused" },
   { value: "disabled", label: "Disabled" },
+];
+
+const VERTICAL_OPTIONS = [
+  { value: "flights", label: "Flights" },
+  { value: "hotels", label: "Hotels" },
+  { value: "activities", label: "Activities" },
+  { value: "tours", label: "Tours" },
+  { value: "cars", label: "Cars" },
+  { value: "insurance", label: "Insurance" },
+  { value: "transfers", label: "Transfers" },
+  { value: "other", label: "Other" },
+];
+
+const COMMISSION_MODEL_OPTIONS = [
+  { value: "unknown", label: "Unknown" },
+  { value: "percentage", label: "Percentage" },
+  { value: "fixed", label: "Fixed" },
+  { value: "cpa", label: "CPA" },
+  { value: "cpc", label: "CPC" },
+  { value: "hybrid", label: "Hybrid" },
 ];
 
 const statusField: FieldConfig = {
@@ -460,6 +485,103 @@ export const RESOURCES: Record<string, ResourceConfig> = {
     ],
   },
 
+  "affiliate-providers": {
+    slug: "affiliate-providers",
+    table: "affiliate_providers",
+    label: "Affiliate providers",
+    labelSingular: "Affiliate provider",
+    description:
+      "A network such as Travelpayouts. Credentials never go here — they are environment variables. Activate a provider only once its credentials are set.",
+    searchColumn: "name",
+    orderBy: { column: "name", ascending: true },
+    softDelete: false,
+    adminOnly: true,
+    columns: [
+      { name: "name", label: "Name" },
+      { name: "slug", label: "Slug" },
+      { name: "status", label: "Status", status: true },
+    ],
+    fields: [
+      { name: "name", label: "Name", kind: "text", required: true },
+      {
+        name: "slug",
+        label: "Slug",
+        kind: "slug",
+        required: true,
+        help: "Must match the adapter's slug, e.g. travelpayouts.",
+      },
+      { name: "homepage_url", label: "Homepage", kind: "text" },
+      {
+        name: "status",
+        label: "Status",
+        kind: "select",
+        required: true,
+        options: INTEGRATION_STATUS_OPTIONS,
+      },
+    ],
+  },
+
+  "affiliate-programs": {
+    slug: "affiliate-programs",
+    table: "affiliate_programs",
+    label: "Affiliate programmes",
+    labelSingular: "Affiliate programme",
+    description:
+      "One brand within a provider — Airalo, Klook, Aviasales. Commission and cookie figures are copied from the provider's programme page, or left empty: an unknown rate stays unknown.",
+    searchColumn: "name",
+    orderBy: { column: "name", ascending: true },
+    softDelete: false,
+    adminOnly: true,
+    columns: [
+      { name: "name", label: "Name" },
+      { name: "vertical", label: "Vertical" },
+      { name: "status", label: "Status", status: true },
+    ],
+    fields: [
+      { name: "name", label: "Name", kind: "text", required: true },
+      { name: "slug", label: "Slug", kind: "slug", required: true },
+      {
+        name: "provider_id",
+        label: "Provider",
+        kind: "reference",
+        referenceTable: "affiliate_providers",
+        required: true,
+      },
+      {
+        name: "vertical",
+        label: "Vertical",
+        kind: "select",
+        required: true,
+        options: VERTICAL_OPTIONS,
+      },
+      {
+        name: "commission_model",
+        label: "Commission model",
+        kind: "select",
+        required: true,
+        options: COMMISSION_MODEL_OPTIONS,
+      },
+      {
+        name: "commission_rate",
+        label: "Commission rate (%)",
+        kind: "number",
+        help: "Only a single figure the provider states. Leave empty for a range or when unknown. Never shown publicly.",
+      },
+      {
+        name: "cookie_days",
+        label: "Cookie lifetime (days)",
+        kind: "number",
+      },
+      {
+        name: "status",
+        label: "Status",
+        kind: "select",
+        required: true,
+        options: INTEGRATION_STATUS_OPTIONS,
+      },
+    ],
+  },
+
   "affiliate-links": {
     slug: "affiliate-links",
     table: "affiliate_links",
@@ -497,14 +619,14 @@ export const RESOURCES: Record<string, ResourceConfig> = {
         label: "Destination URL",
         kind: "text",
         required: true,
-        help: "Must be an absolute http(s) URL — enforced by a database constraint.",
+        help: "Must be an absolute http(s) URL — enforced by a database constraint. A search link may contain {q}, {q_slug}, {origin}, {destination} or {ddmm}, filled from the visitor's search.",
       },
       {
         name: "deep_link_template",
         label: "Deep link template",
         kind: "textarea",
         rows: 2,
-        help: "Optional. Placeholders: {marker} {clickId} {subId} {url} {campaign}.",
+        help: "Optional, and rarely needed: without it the link is converted through the Travelpayouts partner-links API. Placeholders: {marker} {clickId} {subId} {url} {campaign}.",
       },
       { name: "city_id", label: "City", kind: "reference", referenceTable: "cities" },
       {

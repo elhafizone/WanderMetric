@@ -10,8 +10,14 @@ import { Reveal } from "@/components/motion/reveal";
 import { ContentCard, FeatureCard, Mosaic } from "@/components/ui/card";
 import { SectionHeader } from "@/components/ui/section";
 import {
+  partnerLinksReady,
+  travelpayoutsConfigFromEnv,
+} from "@/core/affiliate/providers/travelpayouts";
+import { listAvailablePartnerSearches, type PartnerSearch } from "@/core/affiliate/search";
+import {
   getDestinationByPath,
   listActivities,
+  listCities,
   listDeals,
   listDestinations,
   listFlightRoutes,
@@ -58,14 +64,17 @@ export default async function HomePage() {
   const db = createSupabasePublicClient();
 
   // Independent queries, so run them concurrently rather than in series.
-  const [destinations, guides, hotels, activities, flights, deals] = await Promise.all([
-    listDestinations(db, { featuredOnly: true, perPage: 6 }),
-    listGuides(db, { perPage: 5 }),
-    listHotels(db, { perPage: 3 }),
-    listActivities(db, { kind: "activity", perPage: 6 }),
-    listFlightRoutes(db, { perPage: 3 }),
-    listDeals(db, { perPage: 3 }),
-  ]);
+  const [destinations, guides, hotels, activities, flights, deals, searches, cities] =
+    await Promise.all([
+      listDestinations(db, { featuredOnly: true, perPage: 6 }),
+      listGuides(db, { perPage: 5 }),
+      listHotels(db, { perPage: 3 }),
+      listActivities(db, { kind: "activity", perPage: 6 }),
+      listFlightRoutes(db, { perPage: 3 }),
+      listDeals(db, { perPage: 3 }),
+      listAvailablePartnerSearches(db),
+      listCities(db, { perPage: 100 }),
+    ]);
 
   const featured = destinations.ok ? destinations.data.items : [];
   const latestGuides = guides.ok ? guides.data.items : [];
@@ -76,9 +85,20 @@ export default async function HomePage() {
 
   const comparison = await buildComparison(db, featured);
 
+  // Partner search tabs need a live link row *and* a redirector able to turn
+  // it into a tracked link. Offering a tab that ends in a 404 would be worse
+  // than not offering it.
+  const partnerSearches: PartnerSearch[] =
+    searches.ok && redirectorReady() ? searches.data : [];
+  const airports = cities.ok
+    ? cities.data.items.flatMap((city) =>
+        city.iata_code ? [{ code: city.iata_code, city: city.name }] : [],
+      )
+    : [];
+
   return (
     <>
-      <HomeHero />
+      <HomeHero partnerSearches={partnerSearches} airports={airports} />
 
       {featured.length > 0 && (
         <Band tone="ivory">
@@ -292,6 +312,18 @@ export default async function HomePage() {
 
       <FinalCta />
     </>
+  );
+}
+
+/**
+ * Whether /go can produce a tracked partner link: it reads links with the
+ * service role and converts them through the Travelpayouts partner-links API.
+ * Presence only — neither value is read here beyond that.
+ */
+function redirectorReady(): boolean {
+  return (
+    Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY) &&
+    partnerLinksReady(travelpayoutsConfigFromEnv())
   );
 }
 

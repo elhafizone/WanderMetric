@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 
 import { ensureProvidersRegistered } from "@/core/affiliate/bootstrap";
+import { resolveDestination } from "@/core/affiliate/destination";
 import { getAffiliateProvider } from "@/core/affiliate/registry";
 import { extractUtm } from "@/core/tracking/classify";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
@@ -97,8 +98,32 @@ export async function GET(
     return notFound();
   }
 
-  const requestContext = await getRequestContext();
   const params = request.nextUrl.searchParams;
+
+  // A search link carries placeholders the visitor fills (the home search
+  // tabs). Resolved before the click is recorded, so a malformed search is
+  // rejected without counting as a click.
+  const destination = resolveDestination(link.destination_url, {
+    q: params.get("q"),
+    origin: params.get("origin"),
+    destination: params.get("destination"),
+    date: params.get("date"),
+  });
+  if (!destination.ok) {
+    // Usually a search term the brand URL cannot carry. Send the visitor to
+    // our own search with what they typed rather than to a dead end; the
+    // target is a fixed internal path, so nothing here can redirect off-site.
+    logWarn("go.redirect.destination", destination.error.message, { slug });
+    const fallback = new URL("/search", request.nextUrl.origin);
+    const q = params.get("q")?.slice(0, 80);
+    if (q) fallback.searchParams.set("q", q);
+    return NextResponse.redirect(fallback, {
+      status: 302,
+      headers: { "x-robots-tag": "noindex, nofollow", "cache-control": "no-store" },
+    });
+  }
+
+  const requestContext = await getRequestContext();
   const utm = extractUtm(params);
 
   // Bots get a redirect but no click row: counting crawlers as clicks would
@@ -131,7 +156,7 @@ export async function GET(
   }
 
   const deepLink = await provider.buildDeepLink({
-    destinationUrl: link.destination_url,
+    destinationUrl: destination.data,
     deepLinkTemplate: link.deep_link_template,
     // Fall back to a throwaway id so a failed insert still produces a valid,
     // attributed outbound link rather than an unattributed one.

@@ -126,6 +126,22 @@ function InlineContent({ nodes }: { nodes: Inline[] }) {
               </em>
             );
           case "link": {
+            // A partner link written into the body as [text](/go/slug). It
+            // leaves the site through the redirector, so it is a plain anchor
+            // (next/link would try to prefetch a 302) and carries `sponsored`,
+            // the attribute search engines require on a paid link.
+            if (node.href.startsWith("/go/")) {
+              return (
+                <a
+                  key={index}
+                  href={node.href}
+                  rel="sponsored nofollow noopener"
+                  target="_blank"
+                >
+                  <InlineContent nodes={node.children} />
+                </a>
+              );
+            }
             const external = node.href.startsWith("https://");
             // Internal links go through next/link so a reader moving between
             // guides gets a client transition rather than a full reload.

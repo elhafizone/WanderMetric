@@ -15,12 +15,20 @@ import { appError, err, ok, type Result } from "@/core/shared/result";
  *   Auth            `x-access-token` header, or a `token` query parameter.
  *   Flight data v1  https://api.travelpayouts.com/v1/prices/{cheap,direct,calendar,monthly}
  *                   plus /city-directions and /airline-directions.
- *   Attribution     `marker` identifies the affiliate; `sub_id` is the free-text
- *                   sub-identifier that appears in Travelpayouts statistics. We
- *                   send our click UUID as `sub_id`, which is what makes a
- *                   conversion traceable back to a page.
- *   Rate limit      The partner-links API is documented at 100 requests per
- *                   minute per marker, 10 links per request.
+ *   Partner links   POST https://api.travelpayouts.com/links/v1/create with
+ *                   { trs, marker, shorten, links: [{ url, sub_id }] } returns
+ *                   `partner_url` for each brand URL. This is the documented
+ *                   way to turn a brand page into a tracked link. Appending
+ *                   `?marker=` to a brand URL is not, and earns nothing on the
+ *                   brands this account is connected to. Unavailable for
+ *                   Kiwi.com, Expedia UK, HolidayTaxis, Ticketmaster, Priority
+ *                   Pass and Indrive.
+ *   Attribution     `marker` is the partner ID; `trs` is the project ID the
+ *                   brand programmes are connected under. `sub_id` appears in
+ *                   statistics and may contain only Latin letters, digits and
+ *                   "_", so our click UUID is sent with its hyphens removed.
+ *   Rate limit      Partner links: 100 requests per minute per marker, at most
+ *                   10 links per request. One click is one request.
  *
  * Travelpayouts is an aggregator: one integration reaches Booking.com, Viator,
  * GetYourGuide and 100+ other brands, which is why it is the first adapter.
@@ -33,12 +41,16 @@ import { appError, err, ok, type Result } from "@/core/shared/result";
 
 const API_BASE = "https://api.travelpayouts.com";
 const REQUEST_TIMEOUT_MS = 8000;
+/** A visitor is waiting on this one, so it gets far less patience. */
+const PARTNER_LINK_TIMEOUT_MS = 4000;
 
 export interface TravelpayoutsConfig {
-  /** Affiliate ID. Without it no link can be attributed, so none is emitted. */
+  /** Partner ID. Without it no link can be attributed, so none is emitted. */
   marker: string;
-  /** Required only for the data APIs, not for deep links. */
+  /** Required for partner links (any link without a template) and flight data. */
   apiToken?: string;
+  /** Project ID (`trs`) the brand programmes are connected under. */
+  projectId?: string;
   currency?: string;
   locale?: string;
 }
@@ -51,9 +63,19 @@ export function travelpayoutsConfigFromEnv(): TravelpayoutsConfig | null {
   return {
     marker,
     apiToken: process.env.TRAVELPAYOUTS_API_TOKEN?.trim() || undefined,
+    projectId: process.env.TRAVELPAYOUTS_PROJECT_ID?.trim() || undefined,
     currency: process.env.TRAVELPAYOUTS_CURRENCY?.trim() || "usd",
     locale: process.env.TRAVELPAYOUTS_LOCALE?.trim() || "en",
   };
+}
+
+/**
+ * Whether an untemplated link can be turned into a tracked partner link — the
+ * condition for offering anything that depends on one, such as the home
+ * search tabs.
+ */
+export function partnerLinksReady(config: TravelpayoutsConfig | null): boolean {
+  return Boolean(config?.marker && config.apiToken && config.projectId);
 }
 
 const NOT_CONFIGURED = appError(
@@ -73,36 +95,115 @@ function missingToken(what: string) {
 }
 
 /**
- * Applies attribution to a destination URL.
- *
- * A template wins when the link row defines one, so an editor can express a
- * brand-specific URL shape without a code change. Otherwise marker and sub_id
- * are appended, preserving any query string the destination already carries.
+ * Our click UUID as a Travelpayouts SubID. SubIDs accept Latin letters, digits
+ * and "_" only, so the hyphens go; the 32 hex digits that remain are still
+ * unique and map back to the click row unambiguously.
  */
-function applyAttribution(
+export function toSubId(clickId: string): string {
+  return clickId.replace(/[^A-Za-z0-9_]/g, "");
+}
+
+/**
+ * Fills a link row's template. For a brand whose tracked URL shape an editor
+ * has confirmed by hand; everything else goes through the partner-links API,
+ * which is the documented path.
+ */
+function fillTemplate(
+  template: string,
   destinationUrl: string,
   config: TravelpayoutsConfig,
   input: DeepLinkInput,
-  template?: string | null,
 ): string {
-  if (template) {
-    return template
-      .replaceAll("{marker}", encodeURIComponent(config.marker))
-      .replaceAll("{clickId}", encodeURIComponent(input.clickId))
-      .replaceAll("{subId}", encodeURIComponent(input.clickId))
-      .replaceAll("{url}", encodeURIComponent(destinationUrl))
-      .replaceAll("{campaign}", encodeURIComponent(input.campaign ?? ""));
-  }
+  const subId = toSubId(input.clickId);
+  return template
+    .replaceAll("{marker}", encodeURIComponent(config.marker))
+    .replaceAll("{clickId}", encodeURIComponent(subId))
+    .replaceAll("{subId}", encodeURIComponent(subId))
+    .replaceAll("{url}", encodeURIComponent(destinationUrl))
+    .replaceAll("{campaign}", encodeURIComponent(input.campaign ?? ""));
+}
 
+/** Merges a link row's default parameters into the brand URL itself. */
+function withParams(destinationUrl: string, params?: Record<string, string>): string {
   const url = new URL(destinationUrl);
-  url.searchParams.set("marker", config.marker);
-  url.searchParams.set("sub_id", input.clickId);
-
-  for (const [key, value] of Object.entries(input.params ?? {})) {
+  for (const [key, value] of Object.entries(params ?? {})) {
     url.searchParams.set(key, value);
   }
-
   return url.toString();
+}
+
+/** Shape of a /links/v1/create response, per the published documentation. */
+interface PartnerLinksResponse {
+  code?: string;
+  status?: number;
+  error?: string;
+  result?: {
+    links?: { url?: string; code?: string; message?: string; partner_url?: string }[];
+  };
+}
+
+async function createPartnerLink(
+  brandUrl: string,
+  subId: string,
+  config: { marker: string; apiToken: string; projectId: string },
+): Promise<Result<string>> {
+  const failed = (message: string) =>
+    err(
+      appError("PROVIDER_ERROR", `Travelpayouts partner link failed: ${message}`, {
+        publicMessage: "This offer is temporarily unavailable.",
+      }),
+    );
+
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE}/links/v1/create`, {
+      method: "POST",
+      headers: {
+        "x-access-token": config.apiToken,
+        "content-type": "application/json",
+        accept: "application/json",
+      },
+      body: JSON.stringify({
+        // Both are numeric in the documented examples.
+        trs: Number(config.projectId),
+        marker: Number(config.marker),
+        shorten: false,
+        links: [{ url: brandUrl, sub_id: subId }],
+      }),
+      signal: AbortSignal.timeout(PARTNER_LINK_TIMEOUT_MS),
+      cache: "no-store",
+    });
+  } catch (error) {
+    return failed(error instanceof Error ? error.message : "network error");
+  }
+
+  if (response.status === 429) {
+    return err(
+      appError("RATE_LIMITED", "Travelpayouts partner-link rate limit reached", {
+        publicMessage: "Too many requests. Please try again shortly.",
+      }),
+    );
+  }
+
+  let body: PartnerLinksResponse;
+  try {
+    body = (await response.json()) as PartnerLinksResponse;
+  } catch {
+    return failed(`HTTP ${response.status} with an unreadable body`);
+  }
+
+  if (!response.ok || body.code !== "success") {
+    return failed(body.error ?? `HTTP ${response.status}`);
+  }
+
+  // "trs is not subscribed for brand" and "can't create partner link" both
+  // arrive with HTTP 200, so success has to be read from the link itself.
+  const link = body.result?.links?.[0];
+  if (link?.code !== "success" || !link.partner_url) {
+    return failed(link?.message ?? "no partner_url returned");
+  }
+
+  return ok(link.partner_url);
 }
 
 async function getJson<T>(path: string, token: string): Promise<Result<T>> {
@@ -174,25 +275,39 @@ export function createTravelpayoutsProvider(
     async buildDeepLink(input: DeepLinkInput): Promise<Result<DeepLinkResult>> {
       if (!config.marker) return err(NOT_CONFIGURED);
 
+      let brandUrl: string;
       try {
-        const url = applyAttribution(
-          input.destinationUrl,
-          config,
-          input,
-          input.deepLinkTemplate,
-        );
-        return ok({ url, trackingAttached: true });
+        brandUrl = withParams(input.destinationUrl, input.params);
       } catch {
         return err(
-          appError(
-            "VALIDATION_FAILED",
-            `Invalid destination URL: ${input.destinationUrl}`,
-            {
-              publicMessage: "This link is misconfigured.",
-            },
-          ),
+          appError("VALIDATION_FAILED", `Invalid destination URL: ${input.destinationUrl}`, {
+            publicMessage: "This link is misconfigured.",
+          }),
         );
       }
+
+      if (input.deepLinkTemplate) {
+        return ok({
+          url: fillTemplate(input.deepLinkTemplate, brandUrl, config, input),
+          trackingAttached: true,
+        });
+      }
+
+      // Without a token and project there is no documented way to attribute
+      // this click. Emitting the bare brand URL would look like a working link
+      // and earn nothing, so fail visibly instead.
+      if (!config.apiToken || !config.projectId) {
+        return err(missingToken("partner links (with TRAVELPAYOUTS_PROJECT_ID)"));
+      }
+
+      const partnerUrl = await createPartnerLink(brandUrl, toSubId(input.clickId), {
+        marker: config.marker,
+        apiToken: config.apiToken,
+        projectId: config.projectId,
+      });
+      if (!partnerUrl.ok) return partnerUrl;
+
+      return ok({ url: partnerUrl.data, trackingAttached: true });
     },
 
     async search(query: SearchQuery): Promise<Result<ProviderOffer[]>> {

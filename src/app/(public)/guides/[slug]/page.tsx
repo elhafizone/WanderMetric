@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { AffiliateDisclosure } from "@/components/affiliate/disclosure";
 import { ArticleBody } from "@/components/article/article-body";
 import { ArticleFacts } from "@/components/article/article-facts";
 import { ArticleHero } from "@/components/article/article-hero";
@@ -121,6 +122,7 @@ export default async function GuideDetailPage({ params }: Params) {
   const guide = result.data;
 
   const article = parseArticleBody(guide.body);
+  const hasPartnerLinks = /\]\(\/go\//.test(guide.body ?? "");
 
   // The guide's own relations first, then any place its slug names.
   const imageKeys = [
@@ -324,6 +326,9 @@ export default async function GuideDetailPage({ params }: Params) {
             </aside>
 
             <div className="min-w-0">
+              {/* Disclosure belongs next to the links it describes, so it
+                  appears only on a guide whose body carries a partner link. */}
+              {hasPartnerLinks && <AffiliateDisclosure className="mb-8" />}
               <ArticleBody blocks={article.blocks} />
             </div>
           </div>

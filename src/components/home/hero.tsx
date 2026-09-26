@@ -1,6 +1,8 @@
 import Image from "next/image";
 
-import { SearchForm } from "@/components/search/search-form";
+import { HeroClouds } from "@/components/home/hero-clouds";
+import { HeroSearch } from "@/components/search/hero-search";
+import type { PartnerSearch } from "@/core/affiliate/search";
 import { brandImage } from "@/core/media/imagery";
 
 /**
@@ -11,29 +13,38 @@ import { brandImage } from "@/core/media/imagery";
  * paint rather than waiting for hydration, so nothing appears, blinks out and
  * re-enters. `prefers-reduced-motion` cancels it in one rule.
  *
- * The composition is a photographic band with an ivory plate laid over its
- * lower edge, and that is a correctness decision as much as an aesthetic one.
+ * A full-viewport photograph with the type anchored in its sky. That is only
+ * possible because the type is charcoal, not white: the earlier white-on-photo
+ * hero measured 1.13:1 against this same sunlit sky (see docs/design-system.md),
+ * while charcoal against it is the easy direction. Three things keep it that
+ * way whatever the crop does:
  *
- * The previous hero set white type directly on the photograph. That only works
- * if the photograph is dark, and the whole problem with the first revision was
- * that it was: the image was picked for its darkness so the type would read.
- * Choosing a bright, warm photograph instead inverted the failure — measured
- * against the sunlit sky, the headline came out at 1.13:1 contrast and the
- * supporting line at 1.71:1, where AA wants 3:1 and 4.5:1. The only ways to
- * rescue white-on-photo were to darken the image again or to crop to its
- * gloomiest third, both of which give back exactly what this redesign was for.
+ * - the type sits in the top of the frame, where the photograph is haze;
+ * - `.hero-glow`, an ivory halo centred on the type, lifts whatever is behind
+ *   it — including the sun, when a narrow crop pushes it towards the centre.
+ *   It is what carries the supporting line past the horizon into the trees,
+ *   and why that line is ink rather than ink-soft (measurements in
+ *   globals.css);
+ * - the drifting clouds are white and sit behind the type, so they can only
+ *   add light under it.
  *
- * So the type moved off the photograph. Charcoal on ivory is about 13:1, the
- * image keeps every bit of its light, the scrim can stay almost nothing, and
- * the first viewport now contains a large warm photograph *and* a panel of
- * warm ivory — which is what makes the site read as light within a second.
+ * The foot of the frame dissolves into the page ground, so the photograph
+ * hands over to the first ivory band instead of ending in a hard edge.
  */
-export function HomeHero() {
+export function HomeHero({
+  partnerSearches = [],
+  airports = [],
+}: {
+  /** Partner search tabs whose links are live. Empty means site search only. */
+  partnerSearches?: PartnerSearch[];
+  /** Airports we cover, offered as suggestions in the flights tab. */
+  airports?: { code: string; city: string }[];
+}) {
   const image = brandImage("hero");
 
   return (
-    <section className="relative">
-      <div className="relative h-[44svh] min-h-[19rem] overflow-hidden sm:h-[54svh] lg:h-[60svh]">
+    <section className="relative isolate flex min-h-[100svh] flex-col overflow-hidden">
+      <div className="absolute inset-0 -z-10">
         <Image
           src={image.src}
           alt={image.alt}
@@ -45,36 +56,54 @@ export function HomeHero() {
           style={{ objectPosition: image.focus }}
           className="intro-media object-cover"
         />
+        <HeroClouds />
+        <div aria-hidden="true" className="hero-glow absolute inset-0" />
+        <div aria-hidden="true" className="hero-foot absolute inset-x-0 bottom-0 h-[38%]" />
       </div>
 
-      <div className="mx-auto w-full max-w-[84rem] px-5 sm:px-8 lg:px-10">
-        <div className="bg-bg relative -mt-14 rounded-t-2xl px-6 pt-10 pb-12 shadow-[0_-24px_60px_-40px_rgba(45,37,24,0.45)] sm:-mt-20 sm:px-12 sm:pt-14 sm:pb-16 lg:-mt-24 lg:px-16">
-          <div className="flex max-w-3xl flex-col gap-5">
-            <p className="intro intro-1 eyebrow text-ember">Travel discovery, measured</p>
+      <div className="mx-auto flex w-full max-w-[84rem] flex-1 flex-col items-center px-5 pt-[clamp(7.5rem,21svh,12.5rem)] text-center sm:px-8 lg:px-10">
+        <p className="intro intro-1 eyebrow text-ink-soft rounded-full border border-white/60 bg-white/45 px-4 py-1.5 backdrop-blur-md">
+          Travel discovery, measured
+        </p>
 
-            <h1 className="intro intro-2 display text-[2.5rem] sm:text-[3.75rem] lg:text-[4.5rem]">
-              Find your next unforgettable trip.
-            </h1>
+        <h1 className="intro intro-2 display mt-6 max-w-[15ch] text-[2.6rem] sm:text-[4rem] lg:text-[5.25rem]">
+          Find your next unforgettable trip.
+        </h1>
 
-            <p className="intro intro-3 text-ink-soft max-w-[52ch] text-lg/[1.6] sm:text-xl/[1.6]">
-              Discover remarkable places, inspiring stays and unforgettable experiences —
-              with the practical information you need to actually plan the journey.
-            </p>
-          </div>
+        <p className="intro intro-3 text-ink mt-6 max-w-[48ch] text-lg/[1.6] sm:text-xl/[1.6]">
+          Remarkable places, inspiring stays and experiences worth the journey —
+          with the practical detail you need to actually plan it.
+        </p>
 
-          <div className="intro intro-4 mt-9 max-w-4xl">
-            <SearchForm variant="hero" />
-          </div>
+        <div
+          className={`intro intro-4 hero-glass mt-10 w-full max-w-4xl text-left ${
+            partnerSearches.length
+              ? "rounded-[1.75rem] p-2"
+              : "rounded-[1.75rem] p-1.5 sm:rounded-full"
+          }`}
+        >
+          <HeroSearch partners={partnerSearches} airports={airports} />
+        </div>
 
-          {/* Attribution sits on the plate, not on the photograph: the plate
-              now overlaps the lower edge of the image where a credit used to
-              go, and muted charcoal on ivory is legible where small white type
-              over a picture never reliably is. */}
-          <p className="text-ink-muted/80 mt-8 text-right text-[10px] tracking-wide">
+        <div className="mt-auto grid w-full grid-cols-[1fr_auto_1fr] items-end gap-4 pt-12 pb-6">
+          <span aria-hidden="true" />
+          <a
+            href="#explore"
+            className="text-ink-muted hover:text-ink eyebrow flex flex-col items-center gap-2 transition-colors"
+          >
+            Scroll to explore
+            <span className="hero-cue bg-ink-muted/50 block h-8 w-px" />
+          </a>
+          {/* Credit on the ivory foot, not on the photograph's busy middle. */}
+          <p className="text-ink-muted/80 justify-self-end text-right text-[10px] tracking-wide">
             Photograph: {image.credit.photographer} / {image.credit.source}
           </p>
         </div>
       </div>
+
+      {/* Target for the scroll cue: the hero's bottom edge, offset for the
+          fixed header so the next band starts clear of it. */}
+      <span id="explore" aria-hidden="true" className="absolute bottom-0 scroll-mt-16" />
     </section>
   );
 }

@@ -334,6 +334,176 @@ body {
   }
 }
 
+/* =========================================================================
+   Hero clouds. See HeroClouds.
+
+   Each layer is one tile wider than the hero and slides left by exactly one
+   tile, then restarts — the tile's stitched edges make the restart invisible.
+   Only `transform` changes, so the noise is rasterised once and the drift is
+   pure compositing. The sky mask keeps cloud out of the lower half, where the
+   road and the search panel are; the clouds fade in after the photograph has
+   settled rather than arriving with it.
+   ========================================================================= */
+@keyframes wm-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-1 * var(--cloud-tile)), 0, 0);
+  }
+}
+
+@keyframes wm-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.cloud-sky {
+  mask-image: linear-gradient(to bottom, #000 0%, #000 38%, transparent 72%);
+  animation: wm-fade-in 2.4s var(--wm-ease) 0.3s both;
+}
+
+.cloud-layer {
+  position: absolute;
+  left: 0;
+  width: calc(100% + var(--cloud-tile));
+  background-repeat: repeat-x;
+  background-size: var(--cloud-tile) 100%;
+  /* Feathered top and bottom, so no layer ever shows the edge of its box. */
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 30%, #000 62%, transparent 100%);
+  animation: wm-drift var(--cloud-duration) linear infinite;
+  will-change: transform;
+}
+
+/* An ivory halo behind the headline, strongest where the type sits and gone
+   well before the frame edge. The supporting line runs down past the horizon
+   into trees and road, so the halo is what carries it. Measured on the
+   photograph alone (clouds and the foot fade only add light), the darkest 1%
+   of pixels behind the type give: headline 8.6:1 desktop, 11:1 phone;
+   supporting line 8.9:1 desktop, 7.8:1 phone. With ink-soft instead of ink the
+   supporting line fell to 2.4:1 on a phone, which is why it is set in ink. */
+.hero-glow {
+  background: radial-gradient(
+    ellipse 62% 64% at 50% 40%,
+    rgba(251, 248, 243, 0.86) 0%,
+    rgba(251, 248, 243, 0.68) 45%,
+    rgba(251, 248, 243, 0) 100%
+  );
+}
+
+/* On a phone the text spans the full width, out to where the trees are, so
+   the halo widens and rises with it. */
+@media (max-width: 639px) {
+  .hero-glow {
+    background: radial-gradient(
+      ellipse 95% 58% at 50% 38%,
+      rgba(251, 248, 243, 0.86) 0%,
+      rgba(251, 248, 243, 0.68) 45%,
+      rgba(251, 248, 243, 0) 100%
+    );
+  }
+}
+
+/* The foot of the hero dissolves into the page ground, so the first band
+   below reads as the same paper rather than a new block under a photograph. */
+.hero-foot {
+  background: linear-gradient(
+    to top,
+    var(--wm-bg) 0%,
+    rgba(251, 248, 243, 0.55) 38%,
+    rgba(251, 248, 243, 0) 100%
+  );
+}
+
+/* A frosted rim around the search form where it floats over the photograph. */
+.hero-glass {
+  background: rgba(251, 248, 243, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  box-shadow: var(--wm-shadow-lg);
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+}
+
+/* Home search tabs. Radio inputs drive them with no JavaScript: only the panel
+   whose radio is checked shows. Without `:has()` support every panel shows,
+   stacked, which is still a working set of forms. */
+.search-tab {
+  flex-shrink: 0;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 0.45rem 0.95rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--wm-ink-soft);
+  white-space: nowrap;
+  transition:
+    background-color var(--wm-dur-fast) var(--wm-ease),
+    color var(--wm-dur-fast) var(--wm-ease);
+}
+.search-tab:hover {
+  color: var(--wm-ink);
+  background: rgba(255, 255, 255, 0.5);
+}
+.search-tab:has(input:checked) {
+  background: var(--wm-surface);
+  color: var(--wm-ink);
+  box-shadow: var(--wm-shadow-sm);
+}
+.search-tab:has(input:focus-visible) {
+  outline: 2px solid var(--wm-accent);
+  outline-offset: 2px;
+}
+
+.search-panel {
+  flex-direction: column;
+  gap: 0.5rem;
+}
+@supports selector(:has(*)) {
+  .search-panel {
+    display: none;
+  }
+  .search-tabs:has(input[value="site"]:checked) .search-panel[data-panel="site"],
+  .search-tabs:has(input[value="flights"]:checked) .search-panel[data-panel="flights"],
+  .search-tabs:has(input[value="activities"]:checked) .search-panel[data-panel="activities"],
+  .search-tabs:has(input[value="transfers"]:checked) .search-panel[data-panel="transfers"],
+  .search-tabs:has(input[value="esim"]:checked) .search-panel[data-panel="esim"] {
+    display: flex;
+  }
+}
+
+/* The scroll cue: a hairline that draws downward, pauses, and repeats. */
+@keyframes wm-cue {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  45% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+.hero-cue {
+  animation: wm-cue 2.6s var(--wm-ease) 1.6s infinite both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cue,
+  .cloud-sky,
+  .cloud-layer {
+    animation: none !important;
+  }
+}
+
 /* Card hover. Declared once so a destination, a guide and a deal behave
    identically — the image eases in, the title shifts a hair, the arrow moves.
    Everything is transform or opacity; nothing here triggers layout. */
