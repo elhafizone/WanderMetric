@@ -236,6 +236,20 @@ describe("search placeholders in a destination", () => {
     expect(result.ok && result.data).toBe("https://www.aviasales.com/search/CAI1210PAR1");
   });
 
+  it("adds a return leg when given, and leaves it out for a one-way search", () => {
+    const url = "https://www.aviasales.com/search/{origin}{ddmm}{destination}{return}1";
+    const both = { origin: "CAI", destination: "PAR", date: "2026-10-12", returnDate: "2026-10-26" };
+    expect(resolveDestination(url, both)).toEqual({
+      ok: true,
+      data: "https://www.aviasales.com/search/CAI1210PAR26101",
+    });
+    expect(resolveDestination(url, { ...both, returnDate: "" })).toEqual({
+      ok: true,
+      data: "https://www.aviasales.com/search/CAI1210PAR1",
+    });
+    expect(resolveDestination(url, { ...both, returnDate: "2026-10-01" }).ok).toBe(false);
+  });
+
   it("rejects an impossible date", () => {
     const result = resolveDestination("https://a.example/{ddmm}", { date: "2026-02-30" });
     expect(result.ok).toBe(false);

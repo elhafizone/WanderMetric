@@ -108,6 +108,7 @@ export async function GET(
     origin: params.get("origin"),
     destination: params.get("destination"),
     date: params.get("date"),
+    returnDate: params.get("return"),
   });
   if (!destination.ok) {
     // Usually a search term the brand URL cannot carry. Send the visitor to

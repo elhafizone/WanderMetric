@@ -22,7 +22,9 @@ import { appError, err, ok, type Result } from "@/core/shared/result";
  *   {origin}       IATA code, upper case
  *   {destination}  IATA code, upper case
  *   {ddmm}         departure date as DDMM, e.g. Aviasales
- *                  `/search/{origin}{ddmm}{destination}1`
+ *                  `/search/{origin}{ddmm}{destination}{return}1`
+ *   {return}       return date as DDMM, or nothing for a one-way search. The
+ *                  only placeholder that may legitimately be empty.
  *
  * A URL with no placeholders passes through untouched, so ordinary links are
  * unaffected.
@@ -34,6 +36,8 @@ export interface SearchParams {
   destination?: string | null;
   /** ISO date, YYYY-MM-DD, as a native date input submits it. */
   date?: string | null;
+  /** Optional return date, same format. Empty means one-way. */
+  returnDate?: string | null;
 }
 
 const PLACEHOLDER = /\{([a-z_]+)\}/g;
@@ -58,6 +62,16 @@ function slugify(text: string): string {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+}
+
+/** YYYY-MM-DD to DDMM, or null when it is not a real calendar date. */
+function toDdmm(iso: string | null | undefined): string | null {
+  const match = ISO_DATE.exec(iso?.trim() ?? "");
+  if (!match) return null;
+  const [, year, month, day] = match;
+  const date = new Date(Date.UTC(Number(year), Number(month) - 1, Number(day)));
+  if (date.getUTCDate() !== Number(day)) return null;
+  return `${day}${month}`;
 }
 
 export function placeholdersIn(url: string): string[] {
@@ -92,12 +106,22 @@ export function resolveDestination(
         break;
       }
       case "ddmm": {
-        const match = ISO_DATE.exec(params.date?.trim() ?? "");
-        if (!match) return invalid("Invalid departure date");
-        const [, year, month, day] = match;
-        const date = new Date(Date.UTC(Number(year), Number(month) - 1, Number(day)));
-        if (date.getUTCDate() !== Number(day)) return invalid("Invalid departure date");
-        values[name] = `${day}${month}`;
+        const ddmm = toDdmm(params.date);
+        if (!ddmm) return invalid("Invalid departure date");
+        values[name] = ddmm;
+        break;
+      }
+      case "return": {
+        const raw = params.returnDate?.trim();
+        if (!raw) {
+          values[name] = "";
+          break;
+        }
+        const ddmm = toDdmm(raw);
+        if (!ddmm) return invalid("Invalid return date");
+        // A return before the departure is a typo, not a trip.
+        if (params.date && raw < params.date.trim()) return invalid("Return before departure");
+        values[name] = ddmm;
         break;
       }
       default:

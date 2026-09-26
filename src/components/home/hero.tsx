@@ -75,13 +75,7 @@ export function HomeHero({
           with the practical detail you need to actually plan it.
         </p>
 
-        <div
-          className={`intro intro-4 hero-glass mt-10 w-full max-w-4xl text-left ${
-            partnerSearches.length
-              ? "rounded-[1.75rem] p-2"
-              : "rounded-[1.75rem] p-1.5 sm:rounded-full"
-          }`}
-        >
+        <div className="intro intro-4 mt-10 w-full max-w-5xl text-left">
           <HeroSearch partners={partnerSearches} airports={airports} />
         </div>
 
