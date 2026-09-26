@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+
+import { Logo } from "@/components/brand/logo";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -93,12 +95,8 @@ export function SiteHeader() {
       )}
 
       <div className="text-ink mx-auto flex w-full max-w-[84rem] items-center gap-6 px-5 sm:px-8 lg:px-10">
-        <Link
-          href="/"
-          className="font-display shrink-0 text-[1.375rem] leading-none tracking-tight"
-          style={{ fontVariationSettings: '"opsz" 40, "SOFT" 20' }}
-        >
-          Wander<span className="text-accent">Metric</span>
+        <Link href="/" aria-label="WanderMetric, home" className="shrink-0">
+          <Logo className="h-7 w-auto sm:h-8" />
         </Link>
 
         <nav aria-label="Primary" className="ml-auto hidden lg:block">

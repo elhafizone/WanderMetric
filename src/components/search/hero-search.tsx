@@ -46,12 +46,12 @@ export function HeroSearch({
   ];
 
   return (
-    <div className="search-tabs bg-surface border-border overflow-hidden rounded-2xl border shadow-[0_24px_60px_-28px_rgba(45,37,24,0.45)]">
+    <div className="search-tabs bg-surface rounded-lg shadow-lg">
       {tabs.length > 1 && (
         <div
           role="radiogroup"
           aria-label="What to search"
-          className="border-border flex gap-1 overflow-x-auto border-b px-2 pt-1 [scrollbar-width:none] sm:px-4"
+          className="flex gap-0.5 overflow-x-auto p-2 pb-0 [scrollbar-width:none] sm:p-3 sm:pb-0"
         >
           {tabs.map((tab, index) => (
             <label key={tab.key} className="search-tab">
@@ -84,15 +84,14 @@ export function HeroSearch({
   );
 }
 
-const FIELDS =
-  "grid gap-px overflow-hidden rounded-xl border border-border bg-border";
+const FIELDS = "grid gap-2";
 const FIELD =
-  "bg-surface flex min-w-0 items-center gap-3 px-4 py-3 transition-colors focus-within:bg-bg";
-const LABEL = "eyebrow text-ink-muted block";
+  "bg-surface border-field focus-within:border-accent flex min-w-0 items-center gap-3 rounded-md border px-3.5 py-2.5 transition-colors";
+const LABEL = "text-ink-muted block text-xs/4 font-semibold";
 const INPUT =
-  "text-ink placeholder:text-ink-muted/60 w-full min-w-0 bg-transparent text-base outline-none";
+  "text-ink placeholder:text-ink-muted/70 w-full min-w-0 bg-transparent text-[0.9375rem] font-bold outline-none placeholder:font-medium";
 const BUTTON =
-  "bg-accent text-accent-contrast hover:bg-accent-hover inline-flex shrink-0 items-center justify-center gap-2 rounded-xl px-7 py-4 text-[0.9375rem] font-medium transition-colors duration-200";
+  "bg-cta text-on-cta hover:bg-cta-hover inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-md px-7 py-3 text-base font-extrabold transition-colors duration-200";
 
 function Field({
   id,
@@ -140,6 +139,7 @@ function SiteForm() {
         </Field>
       </div>
       <button type="submit" className={BUTTON}>
+        <Icon name="search" />
         Search
       </button>
     </form>

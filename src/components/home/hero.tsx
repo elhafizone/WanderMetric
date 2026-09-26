@@ -66,7 +66,7 @@ export function HomeHero({
           Travel discovery, measured
         </p>
 
-        <h1 className="intro intro-2 display mt-6 max-w-[15ch] text-[2.6rem] sm:text-[4rem] lg:text-[5.25rem]">
+        <h1 className="intro intro-2 display mt-6 max-w-[18ch] text-[2.25rem] sm:text-[3.25rem] lg:text-[3.75rem]">
           Find your next unforgettable trip.
         </h1>
 

@@ -50,7 +50,7 @@ export function AffiliateLink({
 
   const treatment =
     emphasis === "high"
-      ? "bg-accent text-accent-contrast hover:bg-accent-hover shadow-sm hover:shadow-md"
+      ? "bg-cta text-on-cta hover:bg-cta-hover font-extrabold shadow-sm hover:shadow-md"
       : "border-border-strong text-ink bg-surface hover:border-ink hover:bg-surface-2 border";
 
   return (
@@ -60,7 +60,7 @@ export function AffiliateLink({
       target="_blank"
       className={
         className ??
-        `group/out ease-editorial inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition-all duration-200 ${treatment}`
+        `group/out ease-editorial inline-flex min-h-11 items-center justify-center gap-2 rounded-md px-6 py-3 text-sm font-semibold transition-all duration-200 ${treatment}`
       }
     >
       {children}

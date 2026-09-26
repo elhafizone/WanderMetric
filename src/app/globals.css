@@ -1,58 +1,85 @@
 @import "tailwindcss";
 
 /* =========================================================================
-   WanderMetric design tokens.
+   WanderMetric design tokens — identity "Survey", v1.0 (September 2026).
 
-   Light is the canonical theme. The dark block below keeps the site readable
-   for readers whose OS asks for it, but every design decision here was made
-   against the light palette and reviewed there.
+   Light is the only theme. The palette is warm sand neutrals, one calm green
+   for brand and interactive state (Lagoon), one high-visibility colour that
+   means "take the booking or search action" (Marigold, always with an ink
+   label), a blue for guides and information (Harbour), and a terracotta that is
+   reserved for things that expire (Ember: a deal that ends, never decoration).
 
-   Colour comes from photography. The palette's job is to stay out of its way:
-   a warm ivory ground, sand surfaces, charcoal ink, and exactly two accents —
-   a deep sage for interactive state, and a terracotta ember reserved for
-   time-sensitive things (a deal that ends, a season that is closing).
+   Contrast ratios are those measured in the identity handoff, WCAG 2.2.
    ========================================================================= */
 :root {
   color-scheme: light;
 
   /* Ground and surfaces */
-  --wm-bg: #fbf8f3;
-  --wm-bg-tint: #f6f1e8;
+  --wm-bg: #faf8f4;
+  --wm-bg-tint: #f3efe7;
   --wm-surface: #ffffff;
-  --wm-surface-2: #f3eee4;
-  --wm-surface-3: #eae3d5;
-  --wm-border: #e6dece;
-  --wm-border-strong: #d6cbb6;
+  --wm-surface-2: #f3efe7;
+  --wm-surface-3: #e4ded3;
+  --wm-border: #e4ded3;
+  /* Visible edges on cards and quiet controls. Form fields use `--wm-field`,
+     which is darker: a control's boundary needs 3:1. */
+  --wm-border-strong: #cfc7b9;
+  --wm-field: #8e877b;
 
-  /* Ink — charcoal, never pure black */
-  --wm-ink: #201d18;
-  --wm-ink-soft: #4a443b;
-  --wm-ink-muted: #6e6658;
+  /* Ink — warm charcoal, never pure black */
+  --wm-ink: #1c1a17;
+  --wm-ink-soft: #48433c;
+  --wm-ink-muted: #6a6358;
 
-  /* Accents */
-  --wm-accent: #3d5b46;
-  --wm-accent-hover: #314a39;
-  --wm-accent-soft: #e8eee7;
-  --wm-accent-contrast: #fbf8f3;
-  --wm-ember: #a9502c;
-  --wm-ember-soft: #f7ebe3;
+  /* Lagoon: brand and interactive state (links, selected tabs, focus) */
+  --wm-accent: #0b6660;
+  --wm-accent-hover: #084f4a;
+  --wm-accent-soft: #e2f0ec;
+  --wm-accent-contrast: #ffffff;
 
-  /* On-photography ink. Fixed, not themed — these sit over an image. */
+  /* Marigold: the booking / search action. Ink label only, 9.6:1. */
+  --wm-cta: #ffb21e;
+  --wm-cta-hover: #f5a000;
+  --wm-on-cta: #1c1a17;
+
+  /* Harbour: guides, information, category icons */
+  --wm-secondary: #2a4f86;
+  --wm-secondary-soft: #e8eef7;
+
+  /* Ember: reserved for things that expire. Always with a clock and words. */
+  --wm-ember: #c0400e;
+  --wm-ember-soft: #fceae1;
+
+  /* Section bands */
+  --wm-band-sand: #f5ecdd;
+
+  /* Semantic */
+  --wm-success: #1c7443;
+  --wm-success-soft: #e4f3ea;
+  --wm-warning: #8a5200;
+  --wm-warning-soft: #fff2d4;
+  --wm-error: #b3243f;
+  --wm-error-soft: #fbe8ec;
+  --wm-info: #2a5da8;
+  --wm-info-soft: #e8effa;
+
+  /* On-photography ink. Fixed, not themed — these sit over an image, and only
+     ever on a plate or a veil. */
   --wm-on-media: #ffffff;
   --wm-on-media-muted: rgba(255, 255, 255, 0.76);
 
   /* Elevation. Warm-tinted rather than neutral grey, so cards sit on the
-     ivory ground instead of floating above a different colour temperature. */
-  --wm-shadow-sm: 0 1px 2px rgba(45, 37, 24, 0.05);
-  --wm-shadow-md: 0 6px 20px -8px rgba(45, 37, 24, 0.14);
-  --wm-shadow-lg: 0 24px 60px -28px rgba(45, 37, 24, 0.3);
+     ground instead of floating above a different colour temperature. */
+  --wm-shadow-sm: 0 1px 2px rgba(28, 26, 23, 0.06), 0 1px 1px rgba(28, 26, 23, 0.04);
+  --wm-shadow-md: 0 4px 16px rgba(28, 26, 23, 0.08), 0 1px 3px rgba(28, 26, 23, 0.06);
+  --wm-shadow-lg: 0 12px 40px rgba(28, 26, 23, 0.12);
 
   /* Motion. Shared by CSS transitions and the GSAP timelines, so a hover and
      a scroll reveal on the same card agree with each other. */
-  --wm-dur-fast: 180ms;
-  --wm-dur: 320ms;
+  --wm-dur-fast: 150ms;
+  --wm-dur: 200ms;
   --wm-dur-slow: 620ms;
-  --wm-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --wm-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --wm-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -78,6 +105,7 @@
   --color-surface-3: var(--wm-surface-3);
   --color-border: var(--wm-border);
   --color-border-strong: var(--wm-border-strong);
+  --color-field: var(--wm-field);
   --color-ink: var(--wm-ink);
   --color-ink-soft: var(--wm-ink-soft);
   --color-ink-muted: var(--wm-ink-muted);
@@ -85,20 +113,34 @@
   --color-accent-hover: var(--wm-accent-hover);
   --color-accent-soft: var(--wm-accent-soft);
   --color-accent-contrast: var(--wm-accent-contrast);
+  --color-cta: var(--wm-cta);
+  --color-cta-hover: var(--wm-cta-hover);
+  --color-on-cta: var(--wm-on-cta);
+  --color-secondary: var(--wm-secondary);
+  --color-secondary-soft: var(--wm-secondary-soft);
   --color-ember: var(--wm-ember);
   --color-ember-soft: var(--wm-ember-soft);
+  --color-band-sand: var(--wm-band-sand);
+  --color-success: var(--wm-success);
+  --color-success-soft: var(--wm-success-soft);
+  --color-warning: var(--wm-warning);
+  --color-warning-soft: var(--wm-warning-soft);
+  --color-error: var(--wm-error);
+  --color-error-soft: var(--wm-error-soft);
+  --color-info: var(--wm-info);
+  --color-info-soft: var(--wm-info-soft);
   --color-on-media: var(--wm-on-media);
   --color-on-media-muted: var(--wm-on-media-muted);
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
 
-  /* Restrained on purpose. A 24px corner reads as an app card; editorial
-     layouts want the photograph to be the shape you notice, not the border. */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
+  /* Corner steps from the identity: 6 / 10 / 14 px for controls and cards. The
+     two largest steps are unchanged so the existing panels keep their shape. */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
   --radius-xl: 1rem;
   --radius-2xl: 1.25rem;
 
@@ -113,39 +155,37 @@
 /* ========================================================================= */
 
 body {
+  font-variant-numeric: lining-nums;
   background: var(--wm-bg);
   color: var(--wm-ink);
   font-synthesis-weight: none;
   text-rendering: optimizeLegibility;
 }
 
-/* Display type. Fraunces is an optical-size variable face; at headline sizes
-   the high optical size is what gives it the magazine feel, and at small sizes
-   it would be unreadable — so `opsz` is set per step rather than inherited.
+/* Display type. Bricolage Grotesque is an optical-size variable face; with
+   `font-optical-sizing: auto` the browser picks the optical size from the
+   rendered size, so a 60px headline gets its expressive cut and a 20px card
+   title stays plain.
 
-   These reference `--font-fraunces` (set by next/font on <body>) rather than
+   These reference `--font-bricolage` (set by next/font on <body>) rather than
    the `--font-display` theme token: `@theme inline` inlines its values into
    generated utilities instead of publishing them on :root, so the token is
    readable from a Tailwind class but not from hand-written CSS. */
 .display {
-  font-family: var(--font-fraunces), ui-serif, Georgia, serif;
-  font-weight: 460;
-  letter-spacing: -0.015em;
-  line-height: 1.04;
-  font-variation-settings:
-    "opsz" 120,
-    "SOFT" 20;
+  font-family: var(--font-bricolage), var(--font-manrope), system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  font-optical-sizing: auto;
   text-wrap: balance;
 }
 
 .display-sm {
-  font-family: var(--font-fraunces), ui-serif, Georgia, serif;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  line-height: 1.15;
-  font-variation-settings:
-    "opsz" 48,
-    "SOFT" 20;
+  font-family: var(--font-bricolage), var(--font-manrope), system-ui, sans-serif;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.18;
+  font-optical-sizing: auto;
   text-wrap: balance;
 }
 
@@ -201,11 +241,11 @@ body {
 .veil {
   background: linear-gradient(
     to top,
-    rgba(251, 248, 243, 0.95) 0%,
-    rgba(251, 248, 243, 0.93) 46%,
-    rgba(251, 248, 243, 0.74) 70%,
-    rgba(251, 248, 243, 0.3) 88%,
-    rgba(251, 248, 243, 0) 100%
+    rgba(250, 248, 244, 0.95) 0%,
+    rgba(250, 248, 244, 0.93) 46%,
+    rgba(250, 248, 244, 0.74) 70%,
+    rgba(250, 248, 244, 0.3) 88%,
+    rgba(250, 248, 244, 0) 100%
   );
 }
 
@@ -229,9 +269,9 @@ body {
 .masthead-veil {
   background: linear-gradient(
     to bottom,
-    rgba(251, 248, 243, 0.72) 0%,
-    rgba(251, 248, 243, 0.42) 46%,
-    rgba(251, 248, 243, 0) 100%
+    rgba(250, 248, 244, 0.72) 0%,
+    rgba(250, 248, 244, 0.42) 46%,
+    rgba(250, 248, 244, 0) 100%
   );
 }
 
@@ -386,9 +426,9 @@ body {
 .hero-glow {
   background: radial-gradient(
     ellipse 62% 64% at 50% 40%,
-    rgba(251, 248, 243, 0.86) 0%,
-    rgba(251, 248, 243, 0.68) 45%,
-    rgba(251, 248, 243, 0) 100%
+    rgba(250, 248, 244, 0.86) 0%,
+    rgba(250, 248, 244, 0.68) 45%,
+    rgba(250, 248, 244, 0) 100%
   );
 }
 
@@ -398,9 +438,9 @@ body {
   .hero-glow {
     background: radial-gradient(
       ellipse 95% 58% at 50% 38%,
-      rgba(251, 248, 243, 0.86) 0%,
-      rgba(251, 248, 243, 0.68) 45%,
-      rgba(251, 248, 243, 0) 100%
+      rgba(250, 248, 244, 0.86) 0%,
+      rgba(250, 248, 244, 0.68) 45%,
+      rgba(250, 248, 244, 0) 100%
     );
   }
 }
@@ -411,50 +451,44 @@ body {
   background: linear-gradient(
     to top,
     var(--wm-bg) 0%,
-    rgba(251, 248, 243, 0.55) 38%,
-    rgba(251, 248, 243, 0) 100%
+    rgba(250, 248, 244, 0.55) 38%,
+    rgba(250, 248, 244, 0) 100%
   );
 }
 /* Home search tabs. Radio inputs drive them with no JavaScript: only the panel
    whose radio is checked shows. Without `:has()` support every panel shows,
    stacked, which is still a working set of forms. */
 .search-tab {
-  position: relative;
   display: inline-flex;
   flex-shrink: 0;
   cursor: pointer;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.85rem 0.9rem;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  padding: 0 0.85rem;
+  border-radius: 0.5rem;
   font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--wm-ink-muted);
+  font-weight: 600;
+  color: var(--wm-ink-soft);
   white-space: nowrap;
-  transition: color var(--wm-dur-fast) var(--wm-ease);
-}
-.search-tab::after {
-  content: "";
-  position: absolute;
-  inset: auto 0.6rem -1px;
-  height: 2px;
-  border-radius: 2px 2px 0 0;
-  background: var(--wm-accent);
-  transform: scaleX(0);
-  transition: transform var(--wm-dur) var(--wm-ease-out);
+  transition:
+    background-color var(--wm-dur-fast) var(--wm-ease),
+    color var(--wm-dur-fast) var(--wm-ease);
 }
 .search-tab:hover {
   color: var(--wm-ink);
+  background: var(--wm-bg-tint);
 }
+/* Selected: Lagoon on its tint, the identity's "brand / interactive" pairing. */
 .search-tab:has(input:checked) {
-  color: var(--wm-ink);
-}
-.search-tab:has(input:checked)::after {
-  transform: scaleX(1);
+  background: var(--wm-accent-soft);
+  color: var(--wm-accent);
+  font-weight: 700;
 }
 .search-tab:has(input:focus-visible) {
-  outline: 2px solid var(--wm-accent);
-  outline-offset: -2px;
-  border-radius: 0.5rem;
+  box-shadow:
+    0 0 0 2px var(--wm-surface),
+    0 0 0 4px var(--wm-accent);
 }
 
 .search-panel {
@@ -569,11 +603,9 @@ body {
   }
 
   .prose-page h2 {
-    font-family: var(--font-fraunces), ui-serif, Georgia, serif;
-    font-weight: 500;
-    font-variation-settings:
-      "opsz" 48,
-      "SOFT" 20;
+    font-family: var(--font-bricolage), var(--font-manrope), system-ui, sans-serif;
+    font-weight: 650;
+    font-optical-sizing: auto;
     letter-spacing: -0.01em;
     line-height: 1.2;
     font-size: 1.5rem;
@@ -636,13 +668,13 @@ body {
     margin-top: 1.4em;
   }
 
-  /* Section headings. Fraunces at a lower optical size than a masthead: these
+  /* Section headings. Bricolage at a lower optical size than a masthead: these
      are signposts inside the reading, not display type competing with the H1. */
   .article h2,
   .article h3 {
-    font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+    font-family: var(--font-bricolage), var(--font-manrope), system-ui, sans-serif;
     color: var(--wm-ink);
-    font-weight: 500;
+    font-weight: 650;
     letter-spacing: -0.012em;
     text-wrap: balance;
   }
@@ -650,17 +682,13 @@ body {
   .article h2 {
     font-size: 1.625rem;
     line-height: 1.22;
-    font-variation-settings:
-      "opsz" 60,
-      "SOFT" 20;
+    font-optical-sizing: auto;
   }
 
   .article h3 {
     font-size: 1.25rem;
     line-height: 1.3;
-    font-variation-settings:
-      "opsz" 36,
-      "SOFT" 20;
+    font-optical-sizing: auto;
   }
 
   @media (min-width: 640px) {
@@ -711,11 +739,9 @@ body {
 
   @media (min-width: 30rem) {
     .article p.lede::first-letter {
-      font-family: var(--font-fraunces), ui-serif, Georgia, serif;
-      font-variation-settings:
-        "opsz" 144,
-        "SOFT" 20;
-      font-weight: 460;
+      font-family: var(--font-bricolage), var(--font-manrope), system-ui, sans-serif;
+    font-optical-sizing: auto;
+      font-weight: 700;
       float: left;
       font-size: 3.9em;
       line-height: 0.82;
@@ -770,7 +796,7 @@ body {
 
   /*
    * Pull quote. No quotation marks and no card — a rule, a change of face and
-   * a lot of air. Set in Fraunces at a size below the H2 so it reads as the
+   * a lot of air. Set in the display face at a size below the H2 so it reads as the
    * article speaking up rather than as a new section starting.
    */
   .article blockquote {
@@ -781,11 +807,9 @@ body {
   }
 
   .article blockquote p {
-    font-family: var(--font-fraunces), ui-serif, Georgia, serif;
-    font-variation-settings:
-      "opsz" 72,
-      "SOFT" 20;
-    font-weight: 400;
+    font-family: var(--font-bricolage), var(--font-manrope), system-ui, sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
     font-size: 1.375rem;
     line-height: 1.42;
     letter-spacing: -0.01em;

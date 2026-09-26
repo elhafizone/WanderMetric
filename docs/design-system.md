@@ -9,6 +9,40 @@ affiliate relationship is disclosed in words and invisible as a design idea.
 
 ---
 
+## Identity v1.0, "Survey" (September 2026)
+
+**This section supersedes the colour and type values further down.** The values
+in the Colour and Type tables below are the previous identity (ivory, sage,
+Fraunces, Inter) and are kept for the reasoning they record, not as current
+specification. The live values are in `src/app/globals.css`, taken from the
+Claude Design handoff ("Identity directions and logo system").
+
+| Role | Value | Use |
+|---|---|---|
+| `accent` Lagoon | `#0B6660` | Brand and interactive state: links, selected tabs, focus |
+| `cta` Marigold | `#FFB21E` | The search or booking action. **Ink label only** (9.6:1); never white text |
+| `secondary` Harbour | `#2A4F86` | Guides, information, category icons |
+| `ember` | `#C0400E` | Things that expire. Always with a clock and words; never decoration |
+| `bg` / `bg-tint` / `band-sand` | `#FAF8F4` / `#F3EFE7` / `#F5ECDD` | Ground, tint, section bands |
+| `ink` / `ink-soft` / `ink-muted` | `#1C1A17` / `#48433C` / `#6A6358` | Text |
+| `field` | `#8E877B` | Form-field borders (3:1) |
+
+Type: **Bricolage Grotesque** for display and the wordmark, **Manrope** for all
+UI and body copy (true tabular figures for prices and dates). Both are
+self-hosted by `next/font`. Corners: 6 / 10 / 14 px for controls and cards.
+Buttons have four treatments: `cta`, `primary`, `secondary`, `quiet`.
+
+The logo is `src/components/brand/logo.tsx` (inline, so the wordmark uses the
+page's own font and the colours come from the tokens). Static files are in
+`public/brand/`; the favicon and app icons are `src/app/icon.svg`, `icon.png`
+and `apple-icon.png`. Minimum sizes: mark 16px (use the favicon below 24px),
+horizontal lockup 96px wide; clear space is the height of the origin dot.
+
+Not yet designed: the component sheet and page layouts. Those pages still use
+the previous layouts, restyled by the tokens above.
+
+---
+
 ## Tokens
 
 All of it lives in `src/app/globals.css`. Nothing defines a colour, radius or

@@ -1,17 +1,20 @@
 import Link from "next/link";
 
 /**
- * The site's three button treatments.
+ * The site's four button treatments.
  *
- * Kept to three on purpose. A travel page that offers four visually distinct
- * actions has not decided what it wants the reader to do, and the commercial
- * one always ends up shouting loudest.
+ * Kept few on purpose. A travel page that offers five visually distinct
+ * actions has not decided what it wants the reader to do.
  *
- * - `primary`   one per view, the thing we actually want them to do next
+ * - `cta`       Marigold. The one colour that means "search or book": it leaves
+ *               the site for a partner, or runs a search. Ink label only
+ *               (9.6:1); a white label on it would fail.
+ * - `primary`   Lagoon. The main move inside the site
  * - `secondary` an equally legitimate alternative route
  * - `quiet`     a link that happens to need a hit area
  */
 const VARIANTS = {
+  cta: "bg-cta text-on-cta hover:bg-cta-hover font-extrabold shadow-sm hover:shadow-md",
   primary:
     "bg-accent text-accent-contrast hover:bg-accent-hover shadow-sm hover:shadow-md",
   secondary:
@@ -20,13 +23,14 @@ const VARIANTS = {
 } as const;
 
 const SIZES = {
-  sm: "px-4 py-2 text-sm",
-  md: "px-5 py-2.5 text-sm",
-  lg: "px-7 py-3.5 text-base",
+  sm: "min-h-11 px-4 py-2 text-sm",
+  md: "min-h-11 px-5 py-2.5 text-sm",
+  lg: "min-h-12 px-7 py-3.5 text-base",
 } as const;
 
+// 44px minimum hit target on every size, and the identity's 10px corner.
 const BASE =
-  "group/btn inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-200 ease-editorial disabled:opacity-60";
+  "group/btn inline-flex items-center justify-center gap-2 rounded-md font-semibold transition-all duration-200 ease-editorial disabled:opacity-60";
 
 export function buttonClass(
   variant: keyof typeof VARIANTS = "primary",

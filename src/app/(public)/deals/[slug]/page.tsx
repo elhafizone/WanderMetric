@@ -127,7 +127,7 @@ export default async function DealDetailPage({ params }: Params) {
                 contentId={deal.id}
                 fromPath={dealPath(deal.slug)}
                 emphasis="high"
-                className="bg-accent text-accent-contrast hover:bg-accent-hover inline-flex items-center justify-center gap-2 rounded-xl px-6 py-4 text-[0.9375rem] font-medium shadow-sm transition-colors"
+                className="bg-cta text-on-cta hover:bg-cta-hover inline-flex min-h-12 items-center justify-center gap-2 rounded-md px-6 py-4 text-base font-extrabold shadow-sm transition-colors"
               >
                 {cta.label}
               </AffiliateLink>

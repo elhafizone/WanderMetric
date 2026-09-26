@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { CookieSettingsButton } from "@/components/analytics/consent";
 
+import { CookieSettingsButton } from "@/components/analytics/consent";
+import { Logo } from "@/components/brand/logo";
 import { SubscribeForm } from "@/components/newsletter/subscribe-form";
 
 /**
@@ -35,15 +36,11 @@ export function SiteFooter() {
       <div className="mx-auto w-full max-w-[84rem] px-5 sm:px-8 lg:px-10">
         <div className="grid gap-12 py-16 sm:py-20 lg:grid-cols-[1.5fr_1fr_1fr] lg:gap-16">
           <div className="flex max-w-md flex-col gap-5">
-            <p
-              className="font-display text-2xl leading-none tracking-tight"
-              style={{ fontVariationSettings: '"opsz" 40, "SOFT" 20' }}
-            >
-              Wander<span className="text-accent">Metric</span>
-            </p>
+            <Logo className="h-9 w-auto self-start" />
             <p className="text-ink-soft text-base/[1.7]">
-              A travel publication for people who would rather read one honest page about
-              a place than ten that were written to rank.
+              Independent travel search and planning. We point you to trusted partners,
+              say what we know and what we do not, and tell you whenever a link may earn
+              us a commission.
             </p>
 
             <div className="border-border mt-2 border-t pt-6">
