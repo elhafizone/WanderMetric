@@ -11,6 +11,8 @@ export const site = {
   description:
     "WanderMetric helps travellers find destinations, stays and things to do — with research-backed guides and transparent recommendations.",
   locale: "en_US",
+  /** Google Analytics 4 measurement ID. Public by design; loaded only after consent. */
+  analyticsId: "G-WN3HYN2RL7",
   twitterHandle: "@wandermetric",
   get url() {
     return getSiteUrl();

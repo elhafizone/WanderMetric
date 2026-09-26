@@ -55,8 +55,22 @@ export default function PrivacyPage() {
                 No name, email or other personal detail, unless you choose to give it to
                 us by subscribing to the newsletter.
               </li>
-              <li>No advertising network trackers.</li>
+              <li>
+                No advertising trackers. Advertising features are switched off in the one
+                analytics tool we use, described below.
+              </li>
             </ul>
+            <h2 className="mt-4 text-xl font-semibold tracking-tight">
+              Google Analytics, only if you accept
+            </h2>
+            <p>
+              If you press Accept on the cookie notice, we load Google Analytics to
+              measure which pages are read. It sets its own cookies and sends usage data
+              to Google. Google signals and ad personalisation are switched off, so it is
+              used for measurement only. If you press Decline, nothing is requested from
+              Google. You can change your choice at any time with &ldquo;Cookie
+              settings&rdquo; in the footer.
+            </p>
             <h2 className="mt-4 text-xl font-semibold tracking-tight">
               The session cookie
             </h2>

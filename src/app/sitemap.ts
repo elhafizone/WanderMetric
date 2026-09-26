@@ -47,7 +47,9 @@ function entry(
 ): MetadataRoute.Sitemap[number] {
   return {
     url: new URL(path, site.url).toString(),
-    lastModified: lastModified ? new Date(lastModified) : new Date(),
+    // Static pages have no real modification date, and a made-up one ("now")
+    // teaches Google to ignore lastmod for the whole file. Omit it instead.
+    lastModified: lastModified ? new Date(lastModified) : undefined,
     changeFrequency,
     priority,
   };

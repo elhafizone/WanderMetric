@@ -1,5 +1,7 @@
+import { ConsentManager } from "@/components/analytics/consent";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { site } from "@/core/seo/site";
 
 /**
  * Chrome for the public site.
@@ -26,6 +28,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         {children}
       </main>
       <SiteFooter />
+      <ConsentManager gaId={site.analyticsId} />
     </div>
   );
 }

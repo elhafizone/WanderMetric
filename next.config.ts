@@ -15,6 +15,18 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // The www host answered 200 with the same pages, so every URL existed twice.
+  // One canonical host, permanently.
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host" as const, value: "www.wandermetric.com" }],
+        destination: "https://wandermetric.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

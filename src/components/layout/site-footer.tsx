@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CookieSettingsButton } from "@/components/analytics/consent";
 
 import { SubscribeForm } from "@/components/newsletter/subscribe-form";
 
@@ -59,7 +60,10 @@ export function SiteFooter() {
         </div>
 
         <div className="border-border text-ink-muted flex flex-col gap-3 border-t py-8 text-xs sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} WanderMetric. All rights reserved.</p>
+          <p className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <span>© {new Date().getFullYear()} WanderMetric. All rights reserved.</span>
+            <CookieSettingsButton className="hover:text-ink underline underline-offset-2 transition-colors" />
+          </p>
           {/* Site-wide disclosure. Pages carrying affiliate links repeat it in
               context, because a footer mention alone is not adequate. */}
           <p className="max-w-prose">

@@ -25,8 +25,13 @@ Travel discovery + affiliate platform. Next.js 16 · TypeScript · Supabase.
 8. **No mass-generated thin pages.** The publish gate is a database constraint.
 9. **Public pages must use `createSupabasePublicClient`** (cookie-free). The
    session client reads cookies, which silently disables static rendering.
-10. **Collect the minimum.** No raw IP, no fingerprinting, no third-party
-    trackers.
+10. **Collect the minimum.** No raw IP, no fingerprinting, no advertising
+    trackers. Third-party scripts load only after the reader accepts the cookie
+    notice (`src/components/analytics/consent.tsx`). Allowed: Google Analytics
+    (measurement only, ad features off) and, on the flight-search page alone, a
+    Travelpayouts White Label widget. The owner relaxed this rule from "no
+    third-party trackers" on 2026-09-26 because commission revenue is the goal;
+    consent, not absence, is now the line.
 
 ## Before committing
 
