@@ -168,3 +168,18 @@ an external sink before relying on them.
 - [ ] **Perform and document a database restore drill** — an untested backup is
       a hypothesis, not a backup
 - [ ] Add a Content-Security-Policy, report-only first
+
+---
+
+## Build uses webpack, not Turbopack (October 2026)
+
+On 4 October 2026 every Hostinger build with the default Turbopack bundler failed
+at `src/app/globals.css` with `TurbopackInternalError ... node process exited
+before we could connect to it with exit status: 0`, on Node 20 and Node 22, and
+even with the previous stylesheet. The same code builds locally. Webpack avoids
+the PostCSS worker pool Turbopack spawns, so `npm run build` is
+`next build --webpack`. Revisit when Next or the host changes.
+
+Also: the `hosting_deploy-js-application` helper starts its build on Node 20.
+Start the build explicitly with `node_version: 22` (`hosting_nodejs_start-build`)
+against the uploaded archive.
