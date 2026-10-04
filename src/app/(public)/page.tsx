@@ -2,9 +2,9 @@ import { BadgeCheck, CalendarCheck, PenLine, Scale, type LucideIcon } from "luci
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { FeaturedHero } from "@/components/home/featured-hero";
 import { Band, Container } from "@/components/layout/container";
 import { OfferCard } from "@/components/offer/offer-card";
-import { SearchModule } from "@/components/search/search-module";
 import { CountryTabs } from "@/components/section/country-tabs";
 import { SectionIcon } from "@/components/section/section-icon";
 import { SectionHeader } from "@/components/ui/section";
@@ -12,7 +12,6 @@ import { countOffersBySection, listCountriesWithOffers, listOffers } from "@/cor
 import { SECTIONS, countryHubPath, sectionPath } from "@/core/sections/sections";
 import { buildMetadata } from "@/core/seo/metadata";
 import { site } from "@/core/seo/site";
-import { loadSearchModuleData } from "@/lib/search-module-data";
 import { createSupabasePublicClient } from "@/lib/supabase/public";
 
 export const metadata: Metadata = buildMetadata({
@@ -35,11 +34,10 @@ const PILLARS: Array<{ icon: LucideIcon; title: string; text: string }> = [
 export default async function HomePage() {
   const db = createSupabasePublicClient();
 
-  const [offers, countries, counts, search] = await Promise.all([
+  const [offers, countries, counts] = await Promise.all([
     listOffers(db, { perPage: 6 }),
     listCountriesWithOffers(db),
     countOffersBySection(db),
-    loadSearchModuleData(db),
   ]);
 
   const latest = offers.ok ? offers.data.items : [];
@@ -47,33 +45,21 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="bg-bg-tint border-border border-b">
-        <Container className="flex flex-col gap-5 pt-6 pb-6 sm:gap-7 sm:pt-10 sm:pb-10 lg:pt-14 lg:pb-12">
-          <div className="flex max-w-[51rem] flex-col gap-3">
-            <h1 className="display text-[2rem]/[2.25rem] tracking-[-0.03em] sm:text-[2.75rem]/[3rem] lg:text-[3.75rem]/[4rem]">
-              Compare the trip. Book direct with partners you can trust.
-            </h1>
-            <p className="text-ink-soft text-base/6 font-medium sm:text-[1.125rem]/7">
-              Tours, flights, car rentals, transfers, eSIMs, insurance and more. No invented
-              prices.
-            </p>
-          </div>
+      <FeaturedHero offers={latest.slice(0, 4)} />
 
-          <SearchModule partners={search.partners} airports={search.airports} />
-
-          <ul className="flex flex-col gap-1.5 sm:flex-row sm:flex-wrap sm:gap-x-7 sm:gap-y-2">
-            {TRUST.map((line) => (
-              <li
-                key={line}
-                className="text-ink-soft flex items-center gap-2 text-[0.8125rem] font-bold sm:text-sm"
-              >
-                <BadgeCheck aria-hidden="true" className="text-success h-[1.125rem] w-[1.125rem]" />
-                {line}
-              </li>
-            ))}
-          </ul>
-        </Container>
-      </section>
+      <Container className="pt-6 sm:pt-8">
+        <ul className="flex flex-col gap-1.5 sm:flex-row sm:flex-wrap sm:gap-x-7 sm:gap-y-2">
+          {TRUST.map((line) => (
+            <li
+              key={line}
+              className="text-ink-soft flex items-center gap-2 text-[0.8125rem] font-bold sm:text-sm"
+            >
+              <BadgeCheck aria-hidden="true" className="text-success h-[1.125rem] w-[1.125rem]" />
+              {line}
+            </li>
+          ))}
+        </ul>
+      </Container>
 
       <Container className="flex flex-col gap-5 pt-12 sm:gap-6 sm:pt-16">
         <SectionHeader title="Browse by section" description="Ten ways to plan a trip." />

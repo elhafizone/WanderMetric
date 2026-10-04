@@ -6,6 +6,7 @@ import { OfferGuidePanel } from "@/components/offer/offer-guide-panel";
 import { JsonLd } from "@/components/seo/json-ld";
 import { DetailHero } from "@/components/ui/detail-hero";
 import { Prose } from "@/components/ui/prose";
+import { editorialImage } from "@/core/media/imagery";
 import { getOffer } from "@/core/offers/offers";
 import { getSection, offerPath, sectionCountryPath, sectionPath } from "@/core/sections/sections";
 import { buildMetadata } from "@/core/seo/metadata";
@@ -47,6 +48,7 @@ export default async function OfferPage({ params }: Params) {
   if (!data) notFound();
   const { info, offer } = data;
   const where = offer.city ? `${offer.city.name}, ${offer.country.name}` : offer.country.name;
+  const photo = editorialImage(offer.slug, offer.city?.slug, offer.country.slug);
 
   return (
     <>
@@ -84,13 +86,18 @@ export default async function OfferPage({ params }: Params) {
         title={offer.name}
         description={offer.summary}
         media={null}
-        imageKeys={[offer.city?.slug, offer.country.slug]}
+        imageKeys={[offer.slug, offer.city?.slug, offer.country.slug]}
       />
 
       <Container width="wide">
         <div className="grid gap-12 py-16 sm:py-24 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
           <article>
             <Prose text={offer.body} />
+            {photo && (
+              <p className="text-ink-muted mt-10 text-xs">
+                Photo: {photo.credit.photographer} on {photo.credit.source}
+              </p>
+            )}
           </article>
           <aside className="flex h-fit flex-col gap-6 lg:sticky lg:top-24">
             <OfferGuidePanel item={offer} />

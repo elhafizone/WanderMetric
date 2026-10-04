@@ -147,6 +147,40 @@ export const editorialImagery: Record<string, EditorialImage> = {
     focus: "50% 45%",
     credit: unsplash("mos design", "https://unsplash.com/@mosdesign"),
   },
+  // Offer guides. Each photograph depicts the subject its guide is about, and the
+  // alt text describes the frame, not the booking.
+  "rome-colosseum-forum-palatine-guided-tour": {
+    src: "/imagery/offers/rome-colosseum-forum-palatine-guided-tour.jpg",
+    width: 1600,
+    height: 1065,
+    alt: "The Colosseum in Rome under a clear sky at golden hour",
+    focus: "50% 50%",
+    credit: unsplash("Matteo del Piano", "https://unsplash.com/@matteodelpiano"),
+  },
+  "kyoto-fushimi-inari-evening-walking-tour": {
+    src: "/imagery/offers/kyoto-fushimi-inari-evening-walking-tour.jpg",
+    width: 1600,
+    height: 1067,
+    alt: "A stone path through a tunnel of orange torii gates at Fushimi Inari in Kyoto",
+    focus: "50% 50%",
+    credit: unsplash("David Emrich", "https://unsplash.com/@davidemrich"),
+  },
+  "barcelona-sagrada-familia-tickets-and-tours": {
+    src: "/imagery/offers/barcelona-sagrada-familia-tickets-and-tours.jpg",
+    width: 1600,
+    height: 1067,
+    alt: "The vaulted ceiling of the Sagrada Familia in Barcelona with branching stone columns",
+    focus: "50% 50%",
+    credit: unsplash("Adam Young", "https://unsplash.com/@hossua34"),
+  },
+  "aswan-abu-simbel-temples-full-day-guided-tour": {
+    src: "/imagery/offers/aswan-abu-simbel-temples-full-day-guided-tour.jpg",
+    width: 1600,
+    height: 899,
+    alt: "The Great Temple of Abu Simbel in Egypt",
+    focus: "50% 50%",
+    credit: unsplash("Tang wei-chen", "https://unsplash.com/@weichen"),
+  },
 };
 
 /**

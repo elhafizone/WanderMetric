@@ -18,6 +18,10 @@ for full-bleed brand imagery, visibly on the page.
 | `barcelona.jpg` | Colin + Meg | https://unsplash.com/@colinandmeg | Barcelona / Spain |
 | `lisbon.jpg` | Aayush Gupta | https://unsplash.com/@aayush_gupta | Lisbon / Portugal |
 | `tokyo.jpg` | mos design | https://unsplash.com/@mosdesign | Tokyo / Japan |
+| `offers/rome-colosseum-forum-palatine-guided-tour.jpg` | Matteo del Piano | https://unsplash.com/@matteodelpiano | Rome Colosseum guide |
+| `offers/kyoto-fushimi-inari-evening-walking-tour.jpg` | David Emrich | https://unsplash.com/@davidemrich | Kyoto Fushimi Inari guide |
+| `offers/barcelona-sagrada-familia-tickets-and-tours.jpg` | Adam Young | https://unsplash.com/@hossua34 | Barcelona Sagrada Familia guide |
+| `offers/aswan-abu-simbel-temples-full-day-guided-tour.jpg` | Tang wei-chen | https://unsplash.com/@weichen | Aswan Abu Simbel guide |
 
 `hero-coast.jpg` (Daniel R.) was removed: measured at 94 mean luminance and
 −18 warmth, it was both dark and cool, and as the hero it was the main reason
