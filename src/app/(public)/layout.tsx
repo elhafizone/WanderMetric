@@ -1,9 +1,7 @@
 import { ConsentManager } from "@/components/analytics/consent";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { listCountriesWithOffers } from "@/core/offers/offers";
 import { site } from "@/core/seo/site";
-import { createSupabasePublicClient } from "@/lib/supabase/public";
 
 /**
  * Chrome for the public site.
@@ -16,9 +14,7 @@ import { createSupabasePublicClient } from "@/lib/supabase/public";
  * full-bleed hero clear it with `PageShell`, and hero pages deliberately run
  * underneath it.
  */
-export default async function PublicLayout({ children }: { children: React.ReactNode }) {
-  const countries = await listCountriesWithOffers(createSupabasePublicClient());
-
+export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
       <a
@@ -27,7 +23,7 @@ export default async function PublicLayout({ children }: { children: React.React
       >
         Skip to content
       </a>
-      <SiteHeader countries={countries.ok ? countries.data : []} />
+      <SiteHeader />
       <main id="main" className="flex-1">
         {children}
       </main>

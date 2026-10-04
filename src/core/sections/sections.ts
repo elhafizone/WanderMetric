@@ -229,6 +229,19 @@ export function getSection(slug: string): SectionInfo | null {
 /** A country page is indexed only when it has enough offers to be worth a visit. */
 export const MIN_OFFERS_FOR_COUNTRY_PAGE = 3;
 
+/**
+ * Sections whose providers can be compared side by side. A comparison is only
+ * ever made inside one category: flights are never set against an eSIM. A section
+ * joins this list once it has partners to compare.
+ */
+export const COMPARE_SECTIONS: readonly SectionInfo[] = SECTIONS.filter(
+  (section) => section.partnerCategory !== undefined,
+);
+
+export function comparePath(section: SectionSlug): string {
+  return `/compare/${section}`;
+}
+
 export function sectionPath(section: SectionSlug): string {
   return `/${section}`;
 }
