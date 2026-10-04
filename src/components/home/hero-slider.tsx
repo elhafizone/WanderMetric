@@ -99,7 +99,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
         role="group"
         aria-roledescription="carousel"
         aria-label="Featured guides"
-        className="border-border bg-surface relative overflow-hidden rounded-lg border"
+        className="bg-surface relative overflow-hidden rounded-lg"
       >
         <div className="grid">
           {slides.map((slide, index) => {
@@ -152,7 +152,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
         </div>
 
         {count > 1 && (
-          <div className="border-border flex items-center justify-between gap-3 border-t px-4 py-2.5">
+          <div className="flex items-center justify-between gap-3 px-4 py-2.5">
             <ul className="flex items-center gap-1.5" aria-label="Choose a guide">
               {slides.map((slide, index) => (
                 <li key={slide.id}>
@@ -198,7 +198,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
         <ul className="flex flex-col gap-4" aria-label="Up next">
           {next.map((slide) => (
             <li key={slide.id} className="flex-1">
-              <article className="border-border bg-surface relative flex h-full gap-4 overflow-hidden rounded-lg border p-3 motion-safe:animate-[hero-fade_700ms_ease-out]">
+              <article className="bg-surface relative flex h-full gap-4 overflow-hidden rounded-lg p-3 motion-safe:animate-[hero-fade_700ms_ease-out]">
                 <div className="bg-surface-2 relative min-h-32 w-24 shrink-0 self-stretch overflow-hidden rounded-md sm:w-36">
                   <Photo slide={slide} sizes="144px" />
                 </div>
@@ -216,7 +216,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                   </p>
                   <Link
                     href={slide.href}
-                    className="border-accent text-accent hover:bg-accent-soft mt-2 inline-flex min-h-9 w-fit items-center whitespace-nowrap gap-1.5 rounded-md border-[1.5px] px-3.5 text-sm font-extrabold transition-colors"
+                    className="text-accent hover:bg-accent-soft -ml-2 mt-1 inline-flex min-h-9 w-fit items-center gap-1.5 whitespace-nowrap rounded-md px-2 text-sm font-extrabold transition-colors"
                   >
                     Read the guide
                     <ArrowRight aria-hidden="true" className="h-4 w-4" />
