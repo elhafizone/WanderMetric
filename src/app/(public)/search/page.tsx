@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { Container, PageShell, Stack } from "@/components/layout/container";
+import { Container } from "@/components/layout/container";
 import { SearchForm } from "@/components/search/search-form";
-import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { EmptyState } from "@/components/ui/card";
 import { Pagination } from "@/components/ui/pagination";
 import { PageHeader } from "@/components/ui/section";
@@ -79,52 +78,48 @@ export default async function SearchPage({
   }`;
 
   return (
-    <PageShell>
-      <Container width="default">
-        <Stack gap="tight">
-          <div className="flex flex-col gap-6">
-            <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Search" }]} />
-            <PageHeader
-              eyebrow="Search"
-              title={query ? `Results for “${query}”` : "Search WanderMetric"}
-              description={
-                query
-                  ? null
-                  : "Search across destinations, guides, hotels, tours and things to do."
-              }
-            />
-            <SearchForm defaultValue={query} autoFocus={!query} />
+    <>
+      <PageHeader
+        crumbs={[{ label: "Home", href: "/" }, { label: "Search" }]}
+        eyebrow="Search"
+        title={query ? `Results for “${query}”` : "Search WanderMetric"}
+        description={
+          query ? null : "Search across destinations, guides, hotels, tours and things to do."
+        }
+      >
+        <div className="flex max-w-2xl flex-col gap-4">
+          <SearchForm defaultValue={query} autoFocus={!query} />
+          {query && (
+            <ul className="flex flex-wrap gap-2">
+              {FILTERS.map((filter) => {
+                const active = (activeType ?? "") === filter.value;
+                return (
+                  <li key={filter.value || "all"}>
+                    <Link
+                      href={filterHref(filter.value)}
+                      aria-current={active ? "true" : undefined}
+                      className={`inline-flex min-h-11 items-center rounded-full border px-4 text-sm font-bold transition-colors ${
+                        active
+                          ? "border-accent bg-accent text-accent-contrast"
+                          : "border-border-strong bg-surface text-ink-soft hover:border-ink"
+                      }`}
+                    >
+                      {filter.label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </div>
+      </PageHeader>
 
-            {query && (
-              <ul className="flex flex-wrap gap-2">
-                {FILTERS.map((filter) => {
-                  const active = (activeType ?? "") === filter.value;
-                  return (
-                    <li key={filter.value || "all"}>
-                      <Link
-                        href={filterHref(filter.value)}
-                        aria-current={active ? "true" : undefined}
-                        className={`inline-flex rounded-full border px-4 py-1.5 text-sm transition-colors duration-200 ${
-                          active
-                            ? "border-accent bg-accent text-accent-contrast"
-                            : "border-border-strong text-ink-soft hover:border-ink"
-                        }`}
-                      >
-                        {filter.label}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-
-            <div aria-hidden="true" className="rule w-full" />
-          </div>
-
+      <Container className="pt-8 pb-16 sm:pt-10 sm:pb-24">
+        <div className="flex max-w-4xl flex-col gap-6">
           {query && items.length === 0 && (
             <EmptyState
               title="No matches"
-              description="Try a broader term — a city or country name usually works best."
+              description="Try a broader term. A city or country name usually works best."
             />
           )}
 
@@ -134,25 +129,17 @@ export default async function SearchPage({
                 {items.length} result{items.length === 1 ? "" : "s"} on this page
               </p>
 
-              <ul className="divide-border border-border flex flex-col divide-y border-y">
+              <ul className="flex flex-col gap-3">
                 {items.map((hit) => (
                   <li key={`${hit.content_type}-${hit.id}`}>
                     <Link
                       href={hit.path}
-                      className="group hover:bg-surface -mx-4 flex flex-col gap-1.5 px-4 py-6 transition-colors duration-200"
+                      className="group border-border bg-surface hover:border-accent flex flex-col gap-1.5 rounded-lg border p-5 transition-colors"
                     >
                       <span className="eyebrow text-accent">
                         {TYPE_LABEL[hit.content_type] ?? hit.content_type}
                       </span>
-                      <span className="display-sm flex items-center gap-3 text-xl">
-                        {hit.title}
-                        <span
-                          aria-hidden="true"
-                          className="card-arrow text-ink-muted text-sm opacity-0 group-hover:opacity-100"
-                        >
-                          →
-                        </span>
-                      </span>
+                      <span className="display-sm text-xl">{hit.title}</span>
                       {hit.summary && (
                         <span className="text-ink-muted line-clamp-2 max-w-[70ch] text-[0.9375rem]/[1.6]">
                           {hit.summary}
@@ -166,8 +153,8 @@ export default async function SearchPage({
               {meta && <Pagination meta={meta} basePath={basePath} />}
             </>
           )}
-        </Stack>
+        </div>
       </Container>
-    </PageShell>
+    </>
   );
 }

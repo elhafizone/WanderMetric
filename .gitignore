@@ -48,3 +48,6 @@ Thumbs.db
 
 # Local agent/editor tooling
 .claude/
+
+# design handoff bundles (kept out of the repo)
+*-handoff*.zip

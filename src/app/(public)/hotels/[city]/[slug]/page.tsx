@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { AffiliateDisclosure } from "@/components/affiliate/disclosure";
 import { Container } from "@/components/layout/container";
 import { JsonLd } from "@/components/seo/json-ld";
 import { DetailHero } from "@/components/ui/detail-hero";
@@ -113,7 +112,7 @@ export default async function HotelDetailPage({ params }: Params) {
             <Prose text={hotel.body} />
           </article>
 
-          <aside className="flex h-fit flex-col gap-6 lg:sticky lg:top-28">
+          <aside className="flex h-fit flex-col gap-6 lg:sticky lg:top-24">
             <FactPanel
               facts={[
                 { label: "City", value: hotel.city.name },
@@ -124,7 +123,6 @@ export default async function HotelDetailPage({ params }: Params) {
                 { label: "Address", value: hotel.address },
               ]}
             />
-            <AffiliateDisclosure />
           </aside>
         </div>
       </Container>

@@ -1,10 +1,9 @@
+import { CalendarCheck, Clock } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { AffiliateDisclosure } from "@/components/affiliate/disclosure";
 import { ArticleBody } from "@/components/article/article-body";
 import { ArticleFacts } from "@/components/article/article-facts";
-import { ArticleHero } from "@/components/article/article-hero";
 import {
   KeepExploring,
   type ExploreLink,
@@ -14,8 +13,8 @@ import { ArticleToc } from "@/components/article/article-toc";
 import { ReadingProgress } from "@/components/article/reading-progress";
 import { Container } from "@/components/layout/container";
 import { SubscribeForm } from "@/components/newsletter/subscribe-form";
-import { ButtonLink } from "@/components/ui/button";
 import { JsonLd } from "@/components/seo/json-ld";
+import { Badge } from "@/components/ui/badge";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import {
   getDestinationByPath,
@@ -27,7 +26,7 @@ import { placeKeysFromSlug } from "@/core/media/imagery";
 import { buildMetadata } from "@/core/seo/metadata";
 import { site } from "@/core/seo/site";
 import { parseArticleBody } from "@/lib/article/body";
-import { formatDate, formatReadingTime } from "@/lib/format";
+import { formatDate, formatMonthYear, formatReadingTime } from "@/lib/format";
 import { activityPath, cityPath, guidePath } from "@/lib/paths";
 import { publicMediaUrl } from "@/lib/media";
 import { createSupabasePublicClient } from "@/lib/supabase/public";
@@ -122,14 +121,6 @@ export default async function GuideDetailPage({ params }: Params) {
   const guide = result.data;
 
   const article = parseArticleBody(guide.body);
-  const hasPartnerLinks = /\]\(\/go\//.test(guide.body ?? "");
-
-  // The guide's own relations first, then any place its slug names.
-  const imageKeys = [
-    guide.city?.slug,
-    guide.country?.slug,
-    ...placeKeysFromSlug(guide.slug),
-  ];
 
   // Onward reading. Same category where one exists, otherwise the most recent
   // guides; and, where the guide is tied to a city, the real entries we hold
@@ -193,6 +184,7 @@ export default async function GuideDetailPage({ params }: Params) {
   }
 
   const published = formatDate(guide.published_at);
+  const updated = formatMonthYear(guide.updated_at);
   const reading = formatReadingTime(guide.reading_minutes);
 
   return (
@@ -205,6 +197,7 @@ export default async function GuideDetailPage({ params }: Params) {
           description: guide.excerpt ?? undefined,
           url: new URL(guidePath(guide.slug), site.url).toString(),
           datePublished: guide.published_at ?? undefined,
+          dateModified: guide.updated_at,
           ...(publicMediaUrl(guide.hero) ? { image: publicMediaUrl(guide.hero) } : {}),
           ...(guide.author?.full_name
             ? { author: { "@type": "Person", name: guide.author.full_name } }
@@ -216,96 +209,52 @@ export default async function GuideDetailPage({ params }: Params) {
       <ReadingProgress targetId={ARTICLE_ID} />
 
       <article id={ARTICLE_ID}>
-        <Container width="wide">
-          <div className="flex flex-col gap-10 pt-24 sm:gap-14 sm:pt-32">
-            <header className="flex flex-col gap-6">
-              <div className="article-intro article-intro-1">
-                <Breadcrumbs
-                  items={[
-                    { label: "Home", href: "/" },
-                    { label: "Guides", href: "/guides" },
-                    { label: guide.title },
-                  ]}
-                />
-              </div>
+        <Container className="max-w-[70rem] pt-4 sm:pt-5">
+          <div className="flex flex-col gap-4">
+            <Breadcrumbs
+              items={[
+                { label: "Home", href: "/" },
+                { label: "Guides", href: "/guides" },
+                ...(guide.category ? [{ label: guide.category.name }] : [{ label: guide.title }]),
+              ]}
+            />
 
-              <div className="flex flex-col gap-5">
-                {guide.category && (
-                  <p className="article-intro article-intro-1 eyebrow text-accent">
-                    {guide.category.name}
-                  </p>
-                )}
-                {/* The page's one H1. The measure is capped on the heading
-                    itself, not on a wrapper: `ch` resolves against the element's
-                    own font size, so the same value on a 16px parent would
-                    silently produce a column a quarter of the intended width. */}
-                <h1 className="article-intro article-intro-2 display max-w-[16ch] text-[2.125rem] sm:text-[3.25rem] lg:text-[4rem]">
-                  {guide.title}
-                </h1>
-              </div>
+            {/* The page's one H1. */}
+            <h1 className="display max-w-[24ch] text-[2rem]/[2.25rem] lg:text-[2.75rem]/[3.125rem]">
+              {guide.title}
+            </h1>
 
-              {guide.excerpt && (
-                <p className="article-intro article-intro-3 text-ink-soft max-w-[54ch] text-lg/[1.6] sm:text-xl/[1.62]">
-                  {guide.excerpt}
-                </p>
+            {guide.excerpt && (
+              <p className="text-ink-soft max-w-[60ch] text-[1.0625rem]/[1.75rem] sm:text-[1.125rem]/[1.75rem]">
+                {guide.excerpt}
+              </p>
+            )}
+
+            {/* Byline row: only what the record holds. No guide currently has an
+                author, so no "By" appears rather than a house name standing in
+                for a person. */}
+            <div className="text-ink-muted flex flex-wrap items-center gap-x-3.5 gap-y-2 text-sm font-semibold">
+              {guide.author?.full_name && (
+                <span>
+                  By <span className="text-ink">{guide.author.full_name}</span>
+                </span>
               )}
-
-              {/* Byline, date and reading time — only what the row holds. No
-                  guide currently has an author, so no "By" appears rather than
-                  a house name standing in for a person. */}
-              {(guide.author?.full_name || published || reading) && (
-                <div className="article-intro article-intro-3 border-border text-ink-muted flex flex-wrap items-center gap-x-3 gap-y-1 border-t pt-5 text-[0.8125rem]">
-                  {guide.author?.full_name && (
-                    <>
-                      <span>
-                        By <span className="text-ink">{guide.author.full_name}</span>
-                      </span>
-                      <span aria-hidden="true" className="opacity-40">
-                        ·
-                      </span>
-                    </>
-                  )}
-                  {published && guide.published_at && (
-                    <time dateTime={guide.published_at}>{published}</time>
-                  )}
-                  {published && reading && (
-                    <span aria-hidden="true" className="opacity-40">
-                      ·
-                    </span>
-                  )}
-                  {reading && <span>{reading}</span>}
-                </div>
+              {updated && (
+                <Badge tone="success" icon={<CalendarCheck aria-hidden="true" className="h-3.5 w-3.5" />}>
+                  Updated {updated}
+                </Badge>
               )}
-            </header>
+              {reading && (
+                <span className="flex items-center gap-1.5">
+                  <Clock aria-hidden="true" className="h-4 w-4" />
+                  {reading}
+                </span>
+              )}
+            </div>
 
-            {/* Deliberately not wrapped in an `.intro` entrance. The hero is
-                the LCP element: an opacity keyframe with a delay would make the
-                browser paint the article's largest image and then hide it for
-                most of a second, which is a measured regression dressed up as
-                polish. The photograph arrives with the page, and the only
-                motion on it is the scroll-linked drift inside ArticleHero. */}
-            <ArticleHero media={guide.hero} label={guide.title} imageKeys={imageKeys} />
           </div>
-        </Container>
 
-        <Container width="wide">
-          {/*
-           * The reading block is narrower than the hero above it and centred
-           * under it. That asymmetry is the composition: the photograph breaks
-           * out to the full container while the words stay at a readable
-           * measure, which is how a magazine uses a wide page. Left-aligning
-           * the pair instead would leave several hundred pixels of dead margin
-           * down the right at 1440 and above.
-           */}
-          <div className="mx-auto grid w-full max-w-[70rem] gap-x-12 gap-y-10 pt-14 pb-20 sm:pt-20 sm:pb-28 lg:grid-cols-[12.5rem_minmax(0,1fr)] xl:gap-x-16">
-            {/*
-             * The rail. First in the document because "what is in this piece"
-             * belongs before the piece for a screen reader as much as for a
-             * scanning eye, and because on a phone that stacking order is the
-             * one that works — a folded table of contents costs a line, and a
-             * facts panel at the top of a travel article is a magazine
-             * convention rather than an afterthought.
-             */}
+          <div className="grid gap-x-12 gap-y-8 pt-8 pb-16 sm:pb-24 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-x-14">
             <aside className="flex flex-col gap-6 lg:sticky lg:top-24 lg:self-start">
               <ArticleToc headings={article.headings} />
               <ArticleFacts
@@ -325,25 +274,17 @@ export default async function GuideDetailPage({ params }: Params) {
               />
             </aside>
 
-            <div className="min-w-0">
-              {/* Disclosure belongs next to the links it describes, so it
-                  appears only on a guide whose body carries a partner link. */}
-              {hasPartnerLinks && <AffiliateDisclosure className="mb-8" />}
+            <div className="min-w-0 max-w-[47.5rem]">
               <ArticleBody blocks={article.blocks} />
             </div>
           </div>
         </Container>
       </article>
 
-      {/*
-       * The ending. A reader who reaches the last line should not fall straight
-       * into the footer, so the page changes paper stock and offers somewhere
-       * to go: more of this place first, then the invitation.
-       */}
       {(stories.length > 0 || links.length > 0) && (
         <div className="bg-surface border-border border-t">
-          <Container width="wide">
-            <div className="py-16 sm:py-20">
+          <Container>
+            <div className="py-12 sm:py-16">
               <KeepExploring
                 place={guide.city?.name ?? guide.country?.name ?? null}
                 stories={stories}
@@ -354,24 +295,18 @@ export default async function GuideDetailPage({ params }: Params) {
         </div>
       )}
 
-      <div className="bg-bg border-border border-t">
+      <div className="bg-bg-tint border-border border-t">
         <Container width="default">
-          <div className="flex flex-col items-center gap-6 py-16 text-center sm:py-20">
-            <p className="eyebrow text-ink-muted">New guides, once in a while</p>
-            <h2 className="display max-w-[18ch] text-[2rem] sm:text-[2.75rem]">
-              Where will you go next?
+          <div className="flex flex-col items-center gap-5 py-12 text-center sm:py-16">
+            <h2 className="display max-w-[20ch] text-[1.75rem]/[2.125rem] sm:text-[2rem]/[2.375rem]">
+              Get new guides by email
             </h2>
-            <p className="text-ink-muted max-w-[46ch] text-base/[1.7]">
-              A short email when something worth reading is published. Nothing else — and
+            <p className="text-ink-soft max-w-[46ch] text-base/[1.625rem]">
+              A short email when something worth reading is published. Nothing else, and
               you can leave at any time.
             </p>
-            <div className="mt-2 w-full max-w-md">
+            <div className="w-full max-w-md">
               <SubscribeForm source="guide" />
-            </div>
-            <div className="mt-2">
-              <ButtonLink href="/destinations" variant="secondary">
-                Explore destinations
-              </ButtonLink>
             </div>
           </div>
         </Container>

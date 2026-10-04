@@ -124,7 +124,7 @@ export default async function CountryPage({ params }: Params) {
               )}
             </article>
 
-            <aside className="h-fit lg:sticky lg:top-28">
+            <aside className="h-fit lg:sticky lg:top-24">
               <FactPanel
                 title="Country facts"
                 facts={[

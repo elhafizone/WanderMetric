@@ -1,10 +1,10 @@
 "use client";
 
+import { Cookie } from "lucide-react";
 import Link from "next/link";
 import Script from "next/script";
 import { useEffect, useState, useSyncExternalStore } from "react";
 
-import { buttonClass } from "@/components/ui/button";
 
 /**
  * Cookie consent, and the only place Google Analytics is loaded.
@@ -102,30 +102,37 @@ export function ConsentManager({ gaId }: { gaId: string }) {
       {showBanner && (
         <div
           role="dialog"
-          aria-label="Cookie preferences"
-          className="border-border bg-surface fixed inset-x-3 bottom-3 z-[70] rounded-2xl border p-5 shadow-[0_24px_60px_-20px_rgba(45,37,24,0.45)] sm:right-auto sm:bottom-5 sm:left-5 sm:max-w-md"
+          aria-label="Cookie choices"
+          className="border-border bg-surface fixed inset-x-3 bottom-3 z-[70] flex flex-col gap-3.5 rounded-lg border p-4 shadow-lg sm:right-auto sm:bottom-5 sm:left-5 sm:max-w-[30rem] sm:px-5 sm:py-[1.125rem]"
         >
-          <p className="text-ink text-sm/[1.55]">
-            We would like to use Google Analytics to see which pages are useful. It sets
-            cookies only if you accept, and advertising features are switched off.{" "}
-            <Link href="/privacy" className="underline underline-offset-2">
-              Privacy policy
-            </Link>
-          </p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={() => decide("granted")}
-              className={buttonClass("primary", "sm")}
+          <div className="flex gap-2.5">
+            <Cookie aria-hidden="true" className="text-ink-soft mt-0.5 h-5 w-5 shrink-0" />
+            <p className="text-ink-soft text-sm/[1.3125rem]">
+              <strong className="text-ink">Cookies, your call.</strong> We use essential
+              cookies to run the site. Optional analytics cookies (Google Analytics, with
+              advertising features off) help us see which pages are useful.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <Link
+              href="/privacy#cookies"
+              className="text-accent mr-auto flex min-h-11 items-center text-sm font-bold underline underline-offset-2"
             >
-              Accept
-            </button>
+              Choose cookies
+            </Link>
             <button
               type="button"
               onClick={() => decide("denied")}
-              className={buttonClass("secondary", "sm")}
+              className="border-accent text-accent hover:bg-accent-soft min-h-11 rounded-md border-[1.5px] px-4 text-sm font-extrabold transition-colors"
             >
-              Decline
+              Essential only
+            </button>
+            <button
+              type="button"
+              onClick={() => decide("granted")}
+              className="border-accent bg-accent hover:bg-accent-hover min-h-11 rounded-md border-[1.5px] px-4 text-sm font-extrabold text-white transition-colors"
+            >
+              Accept all
             </button>
           </div>
         </div>

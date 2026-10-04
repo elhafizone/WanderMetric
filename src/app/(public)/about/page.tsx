@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
-import { Container, PageShell, Stack } from "@/components/layout/container";
-import { Breadcrumbs } from "@/components/ui/breadcrumbs";
+import { Container } from "@/components/layout/container";
 import { PageHeader } from "@/components/ui/section";
 import { buildMetadata } from "@/core/seo/metadata";
 
@@ -14,17 +13,10 @@ export const metadata: Metadata = buildMetadata({
 
 export default function AboutPage() {
   return (
-    <PageShell>
-      <Container width="narrow">
-        <Stack gap="tight">
-          <div className="flex flex-col gap-6">
-            <Breadcrumbs
-              items={[{ label: "Home", href: "/" }, { label: "About WanderMetric" }]}
-            />
-            <PageHeader eyebrow="About" title="About WanderMetric" />
-            <div aria-hidden="true" className="rule w-full" />
-          </div>
-          <div className="prose-page flex flex-col gap-5">
+    <>
+      <PageHeader crumbs={[{ label: "Home", href: "/" }, { label: "About WanderMetric" }]} eyebrow="About" title="About WanderMetric" />
+      <Container width="narrow" className="pt-8 pb-16 sm:pt-10 sm:pb-24">
+        <div className="prose-page flex flex-col gap-5">
             <p>
               WanderMetric is a travel discovery platform. We write destination guides,
               describe what is genuinely worth your time in a place, and point you at the
@@ -71,8 +63,7 @@ export default function AboutPage() {
               .
             </p>
           </div>
-        </Stack>
       </Container>
-    </PageShell>
+    </>
   );
 }

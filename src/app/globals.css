@@ -24,6 +24,7 @@
   /* Visible edges on cards and quiet controls. Form fields use `--wm-field`,
      which is darker: a control's boundary needs 3:1. */
   --wm-border-strong: #cfc7b9;
+  --wm-n-400: #cfc7b9;
   --wm-field: #8e877b;
 
   /* Ink — warm charcoal, never pure black */
@@ -106,6 +107,7 @@
   --color-border: var(--wm-border);
   --color-border-strong: var(--wm-border-strong);
   --color-field: var(--wm-field);
+  --color-n-400: var(--wm-n-400);
   --color-ink: var(--wm-ink);
   --color-ink-soft: var(--wm-ink-soft);
   --color-ink-muted: var(--wm-ink-muted);
@@ -189,14 +191,13 @@ body {
   text-wrap: balance;
 }
 
-/* Eyebrow. Sans, not mono — mono on a travel publication reads as a developer
-   tool. Tracked out and small, it does the same job with more warmth. */
+/* Overline: 12px, extra-bold, tracked, uppercase. Never smaller than 12px. */
 .eyebrow {
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  line-height: 1.4;
+  line-height: 1rem;
 }
 
 /* A hairline that ends short of the container, used above section headings. */
@@ -210,70 +211,6 @@ body {
   );
 }
 
-/*
- * Treatments for type set over photography.
- *
- * The site went through two wrong answers here before this one. First a heavy
- * dark scrim (0.82 at the baseline) so white type would read — which made the
- * whole site look dark. Then a much lighter scrim over deliberately brighter
- * photographs — which looked right and measured terribly: white type came out
- * at 1.13:1 over a sunlit sky and 1.76:1 over the Rome facade, against AA
- * minimums of 3:1 and 4.5:1.
- *
- * Both failures have the same cause: white type forces the image to be dark.
- * So the type is not white any more. A warm ivory veil lifts the lower part of
- * the frame and charcoal sits on it, which is how a magazine actually handles a
- * caption over a bright photograph. Contrast goes up, the photograph keeps its
- * light, and there is no dark overlay left on the page to make it feel heavy.
- */
-
-/*
- * The veil is applied to the caption block, not to the picture frame.
- *
- * Sizing it to the frame was the mistake in the first attempt: a caption is
- * anchored to the bottom, so its topmost line — the eyebrow — always landed in
- * the weakest part of a frame-height gradient. Measured, that put "Spain" at
- * 1.8:1 and "Start planning" at 3.78:1 while the headlines directly beneath
- * them passed comfortably. Making the gradient a property of the text block
- * means it lines up with the type at any card aspect ratio, and the fade lives
- * entirely in the block's top padding, so the photograph above stays clear.
- */
-.veil {
-  background: linear-gradient(
-    to top,
-    rgba(250, 248, 244, 0.95) 0%,
-    rgba(250, 248, 244, 0.93) 46%,
-    rgba(250, 248, 244, 0.74) 70%,
-    rgba(250, 248, 244, 0.3) 88%,
-    rgba(250, 248, 244, 0) 100%
-  );
-}
-
-/*
- * Ember is never used for small type over a photograph.
- *
- * Terracotta #a9502c has a relative luminance of 0.142, so 4.5:1 needs a
- * background above 0.814 — essentially undiluted ivory. No veil that still
- * leaves a photograph looking like a photograph gets there. It reads at 5.1:1
- * on the ivory plate and in section headers, which is where it belongs;
- * eyebrows over imagery are charcoal, which clears AA at a veil weak enough to
- * keep the picture intact.
- */
-
-/*
- * Masthead veil. The header used to lay `from-black/45` over the hero, which
- * darkened the brightest part of the best photograph on the site. This is the
- * inverse: a soft ivory wash that lets the navigation sit in charcoal and
- * reads as an extension of the page rather than a shadow over the image.
- */
-.masthead-veil {
-  background: linear-gradient(
-    to bottom,
-    rgba(250, 248, 244, 0.72) 0%,
-    rgba(250, 248, 244, 0.42) 46%,
-    rgba(250, 248, 244, 0) 100%
-  );
-}
 
 /* Focus. One definition, so every control in the app agrees. */
 :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
@@ -298,176 +235,20 @@ body {
   }
 }
 
-/* =========================================================================
-   Hero entrance.
-
-   Deliberately CSS and not GSAP. The hero is the LCP element and is server
-   rendered; a JavaScript entrance can only start after hydration, which means
-   the browser paints the finished hero and then hides it again. A keyframe
-   whose 0% frame is the hidden state is applied at first paint instead, so the
-   sequence begins immediately, costs no JavaScript, and cannot flash.
-
-   GSAP earns its place further down the page, where the work is scroll-linked
-   and CSS cannot follow a scroll position.
-   ========================================================================= */
-@keyframes wm-rise {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 20px, 0);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@keyframes wm-open {
-  from {
-    clip-path: inset(0 0 100% 0);
-  }
-  to {
-    clip-path: inset(0 0 0 0);
-  }
-}
-
-@keyframes wm-settle {
-  from {
-    transform: scale(1.08);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-
-.intro {
-  animation: wm-rise 0.9s var(--wm-ease-out) both;
-}
-.intro-1 {
-  animation-delay: 0.42s;
-}
-.intro-2 {
-  animation-delay: 0.54s;
-}
-.intro-3 {
-  animation-delay: 0.66s;
-}
-.intro-4 {
-  animation-delay: 0.8s;
-}
-
-.intro-frame {
-  animation: wm-open 1.15s var(--wm-ease-out) both;
-}
-
-.intro-media {
-  animation: wm-settle 1.9s var(--wm-ease-out) both;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .intro,
-  .intro-frame,
-  .intro-media {
-    animation: none !important;
-    opacity: 1 !important;
-    clip-path: none !important;
-    transform: none !important;
-  }
-}
-
-/* =========================================================================
-   Hero clouds. See HeroClouds.
-
-   Each layer is one tile wider than the hero and slides left by exactly one
-   tile, then restarts — the tile's stitched edges make the restart invisible.
-   Only `transform` changes, so the noise is rasterised once and the drift is
-   pure compositing. The sky mask keeps cloud out of the lower half, where the
-   road and the search panel are; the clouds fade in after the photograph has
-   settled rather than arriving with it.
-   ========================================================================= */
-@keyframes wm-drift {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(calc(-1 * var(--cloud-tile)), 0, 0);
-  }
-}
-
-@keyframes wm-fade-in {
-  from {
-    opacity: 0;
-  }
-}
-
-.cloud-sky {
-  mask-image: linear-gradient(to bottom, #000 0%, #000 38%, transparent 72%);
-  animation: wm-fade-in 2.4s var(--wm-ease) 0.3s both;
-}
-
-.cloud-layer {
-  position: absolute;
-  left: 0;
-  width: calc(100% + var(--cloud-tile));
-  background-repeat: repeat-x;
-  background-size: var(--cloud-tile) 100%;
-  /* Feathered top and bottom, so no layer ever shows the edge of its box. */
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 30%, #000 62%, transparent 100%);
-  animation: wm-drift var(--cloud-duration) linear infinite;
-  will-change: transform;
-}
-
-/* An ivory halo behind the headline, strongest where the type sits and gone
-   well before the frame edge. The supporting line runs down past the horizon
-   into trees and road, so the halo is what carries it. Measured on the
-   photograph alone (clouds and the foot fade only add light), the darkest 1%
-   of pixels behind the type give: headline 8.6:1 desktop, 11:1 phone;
-   supporting line 8.9:1 desktop, 7.8:1 phone. With ink-soft instead of ink the
-   supporting line fell to 2.4:1 on a phone, which is why it is set in ink. */
-.hero-glow {
-  background: radial-gradient(
-    ellipse 62% 64% at 50% 40%,
-    rgba(250, 248, 244, 0.86) 0%,
-    rgba(250, 248, 244, 0.68) 45%,
-    rgba(250, 248, 244, 0) 100%
-  );
-}
-
-/* On a phone the text spans the full width, out to where the trees are, so
-   the halo widens and rises with it. */
-@media (max-width: 639px) {
-  .hero-glow {
-    background: radial-gradient(
-      ellipse 95% 58% at 50% 38%,
-      rgba(250, 248, 244, 0.86) 0%,
-      rgba(250, 248, 244, 0.68) 45%,
-      rgba(250, 248, 244, 0) 100%
-    );
-  }
-}
-
-/* The foot of the hero dissolves into the page ground, so the first band
-   below reads as the same paper rather than a new block under a photograph. */
-.hero-foot {
-  background: linear-gradient(
-    to top,
-    var(--wm-bg) 0%,
-    rgba(250, 248, 244, 0.55) 38%,
-    rgba(250, 248, 244, 0) 100%
-  );
-}
-/* Home search tabs. Radio inputs drive them with no JavaScript: only the panel
-   whose radio is checked shows. Without `:has()` support every panel shows,
-   stacked, which is still a working set of forms. */
+/* Search module tabs. Radio inputs drive them with no JavaScript: only the
+   panel whose radio is checked shows. Without `:has()` support every panel
+   shows, stacked, which is still a working set of forms. */
 .search-tab {
+  position: relative;
   display: inline-flex;
   flex-shrink: 0;
   cursor: pointer;
   align-items: center;
-  gap: 0.4rem;
-  min-height: 2.75rem;
-  padding: 0 0.85rem;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
+  gap: 0.5rem;
+  height: 3rem;
+  padding: 0 0.875rem;
+  border-radius: 0.625rem 0.625rem 0 0;
+  font-size: 0.9375rem;
   font-weight: 600;
   color: var(--wm-ink-soft);
   white-space: nowrap;
@@ -476,68 +257,81 @@ body {
     color var(--wm-dur-fast) var(--wm-ease);
 }
 .search-tab:hover {
-  color: var(--wm-ink);
   background: var(--wm-bg-tint);
+  color: var(--wm-ink);
 }
-/* Selected: Lagoon on its tint, the identity's "brand / interactive" pairing. */
+/* Selected: Lagoon, extra-bold, with a 3px bar on the tab bar's hairline. */
 .search-tab:has(input:checked) {
-  background: var(--wm-accent-soft);
   color: var(--wm-accent);
-  font-weight: 700;
+  font-weight: 800;
+  background: none;
+}
+.search-tab:has(input:checked)::after {
+  content: "";
+  position: absolute;
+  inset: auto 0.5rem 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--wm-accent);
 }
 .search-tab:has(input:focus-visible) {
-  box-shadow:
-    0 0 0 2px var(--wm-surface),
-    0 0 0 4px var(--wm-accent);
+  box-shadow: inset 0 0 0 2px var(--wm-accent);
 }
 
-.search-panel {
-  flex-direction: column;
-  gap: 0.5rem;
-}
 @supports selector(:has(*)) {
   .search-panel {
     display: none;
   }
-  .search-tabs:has(input[value="site"]:checked) .search-panel[data-panel="site"],
   .search-tabs:has(input[value="flights"]:checked) .search-panel[data-panel="flights"],
-  .search-tabs:has(input[value="activities"]:checked) .search-panel[data-panel="activities"],
+  .search-tabs:has(input[value="cars"]:checked) .search-panel[data-panel="cars"],
   .search-tabs:has(input[value="transfers"]:checked) .search-panel[data-panel="transfers"],
+  .search-tabs:has(input[value="activities"]:checked) .search-panel[data-panel="activities"],
   .search-tabs:has(input[value="esim"]:checked) .search-panel[data-panel="esim"] {
-    display: flex;
+    display: block;
   }
 }
 
-/* The scroll cue: a hairline that draws downward, pauses, and repeats. */
-@keyframes wm-cue {
-  0% {
-    transform: scaleY(0);
-    transform-origin: top;
-  }
-  45% {
-    transform: scaleY(1);
-    transform-origin: top;
-  }
-  55% {
-    transform: scaleY(1);
-    transform-origin: bottom;
-  }
-  100% {
-    transform: scaleY(0);
-    transform-origin: bottom;
-  }
+/* Return / One-way chips. A one-way search hides the return date. */
+.trip-chip {
+  display: inline-flex;
+  height: 2.25rem;
+  cursor: pointer;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0 0.875rem;
+  border: 1px solid var(--wm-border-strong);
+  border-radius: 999px;
+  background: var(--wm-surface);
+  color: var(--wm-ink-soft);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition:
+    border-color var(--wm-dur-fast) var(--wm-ease),
+    background-color var(--wm-dur-fast) var(--wm-ease);
 }
-
-.hero-cue {
-  animation: wm-cue 2.6s var(--wm-ease) 1.6s infinite both;
+.trip-chip:hover {
+  border-color: var(--wm-ink);
+  color: var(--wm-ink);
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-cue,
-  .cloud-sky,
-  .cloud-layer {
-    animation: none !important;
-  }
+.trip-chip .trip-check {
+  display: none;
+}
+.trip-chip:has(input:checked) {
+  border: 1.5px solid var(--wm-accent);
+  background: var(--wm-accent-soft);
+  color: var(--wm-accent);
+  font-weight: 700;
+}
+.trip-chip:has(input:checked) .trip-check {
+  display: block;
+}
+.trip-chip:has(input:focus-visible) {
+  box-shadow:
+    0 0 0 2px var(--wm-surface),
+    0 0 0 4px var(--wm-accent);
+}
+.flight-form:has(input[value="oneway"]:checked) .field-return {
+  display: none;
 }
 
 /* Card hover. Declared once so a destination, a guide and a deal behave

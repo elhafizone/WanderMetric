@@ -76,3 +76,22 @@ export async function listAvailablePartnerSearches(
   const live = new Set((data ?? []).map((row) => row.slug));
   return ok(PARTNER_SEARCHES.filter((search) => live.has(search.linkSlug)));
 }
+
+/**
+ * Which of these `affiliate_links` slugs are live right now: active, not
+ * deleted, and readable under RLS. The category pages use it to list a partner
+ * only while its link works.
+ */
+export async function listLiveLinkSlugs(db: Db, slugs: string[]): Promise<Result<Set<string>>> {
+  if (slugs.length === 0) return ok(new Set());
+
+  const { data, error } = await db
+    .from("affiliate_links")
+    .select("slug")
+    .in("slug", slugs)
+    .eq("status", "active")
+    .is("deleted_at", null);
+
+  if (error) return err(fromPostgrestError(error, "listLiveLinkSlugs"));
+  return ok(new Set((data ?? []).map((row) => row.slug)));
+}

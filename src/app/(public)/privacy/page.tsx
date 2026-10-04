@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
-import { Container, PageShell, Stack } from "@/components/layout/container";
-import { Breadcrumbs } from "@/components/ui/breadcrumbs";
+import { Container } from "@/components/layout/container";
 import { PageHeader } from "@/components/ui/section";
 import { buildMetadata } from "@/core/seo/metadata";
 
@@ -14,17 +13,10 @@ export const metadata: Metadata = buildMetadata({
 
 export default function PrivacyPage() {
   return (
-    <PageShell>
-      <Container width="narrow">
-        <Stack gap="tight">
-          <div className="flex flex-col gap-6">
-            <Breadcrumbs
-              items={[{ label: "Home", href: "/" }, { label: "Privacy policy" }]}
-            />
-            <PageHeader eyebrow="Legal" title="Privacy policy" />
-            <div aria-hidden="true" className="rule w-full" />
-          </div>
-          <div className="prose-page flex flex-col gap-5">
+    <>
+      <PageHeader crumbs={[{ label: "Home", href: "/" }, { label: "Privacy policy" }]} eyebrow="Legal" title="Privacy policy" />
+      <Container width="narrow" className="pt-8 pb-16 sm:pt-10 sm:pb-24">
+        <div className="prose-page flex flex-col gap-5">
             <p>
               This policy describes what this site actually does. It is written against
               the implementation rather than copied from a template.
@@ -60,7 +52,7 @@ export default function PrivacyPage() {
                 analytics tool we use, described below.
               </li>
             </ul>
-            <h2 className="mt-4 text-xl font-semibold tracking-tight">
+            <h2 id="cookies" className="mt-4 scroll-mt-24 text-xl font-semibold tracking-tight">
               Google Analytics, only if you accept
             </h2>
             <p>
@@ -116,8 +108,7 @@ export default function PrivacyPage() {
               .
             </p>
           </div>
-        </Stack>
       </Container>
-    </PageShell>
+    </>
   );
 }

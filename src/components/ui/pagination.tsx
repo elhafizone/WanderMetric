@@ -1,3 +1,4 @@
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import type { PageMeta } from "@/core/shared/pagination";
@@ -18,7 +19,7 @@ export function Pagination({ meta, basePath }: { meta: PageMeta; basePath: strin
     page === 1 ? basePath : `${basePath}${separator}page=${page}`;
 
   const link =
-    "border-border-strong hover:border-ink inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm transition-colors duration-200";
+    "border-accent text-accent hover:bg-accent-soft inline-flex min-h-11 items-center gap-2 rounded-md border-[1.5px] px-5 text-sm font-extrabold transition-colors duration-200";
 
   return (
     <nav
@@ -27,19 +28,19 @@ export function Pagination({ meta, basePath }: { meta: PageMeta; basePath: strin
     >
       {meta.hasPrevious ? (
         <Link rel="prev" href={href(meta.page - 1)} className={link}>
-          <span aria-hidden="true">←</span> Previous
+          <ArrowLeft aria-hidden="true" className="h-4 w-4" /> Previous
         </Link>
       ) : (
         <span />
       )}
 
-      <span className="text-ink-muted text-xs tracking-wide" aria-live="polite">
+      <span className="text-ink-muted text-sm font-semibold tabular-nums" aria-live="polite">
         Page {meta.page} of {meta.totalPages}
       </span>
 
       {meta.hasNext ? (
         <Link rel="next" href={href(meta.page + 1)} className={link}>
-          Next <span aria-hidden="true">→</span>
+          Next <ArrowRight aria-hidden="true" className="h-4 w-4" />
         </Link>
       ) : (
         <span />

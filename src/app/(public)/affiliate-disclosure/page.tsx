@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
-import { Container, PageShell, Stack } from "@/components/layout/container";
-import { Breadcrumbs } from "@/components/ui/breadcrumbs";
+import { Container } from "@/components/layout/container";
 import { PageHeader } from "@/components/ui/section";
 import { buildMetadata } from "@/core/seo/metadata";
 
@@ -14,17 +13,10 @@ export const metadata: Metadata = buildMetadata({
 
 export default function AffiliateDisclosurePage() {
   return (
-    <PageShell>
-      <Container width="narrow">
-        <Stack gap="tight">
-          <div className="flex flex-col gap-6">
-            <Breadcrumbs
-              items={[{ label: "Home", href: "/" }, { label: "Affiliate disclosure" }]}
-            />
-            <PageHeader eyebrow="Legal" title="Affiliate disclosure" />
-            <div aria-hidden="true" className="rule w-full" />
-          </div>
-          <div className="prose-page flex flex-col gap-5">
+    <>
+      <PageHeader crumbs={[{ label: "Home", href: "/" }, { label: "Affiliate disclosure" }]} eyebrow="Legal" title="Affiliate disclosure" />
+      <Container width="narrow" className="pt-8 pb-16 sm:pt-10 sm:pb-24">
+        <div className="prose-page flex flex-col gap-5">
             <p>
               WanderMetric earns commission when a reader books through some of the links
               on this site. This page explains exactly how that works.
@@ -69,8 +61,7 @@ export default function AffiliateDisclosurePage() {
               reading makes money.
             </p>
           </div>
-        </Stack>
       </Container>
-    </PageShell>
+    </>
   );
 }

@@ -30,17 +30,17 @@ export function FactPanel({
   if (present.length === 0) return null;
 
   return (
-    <div className={`border-border bg-surface rounded-xl border p-6 ${className ?? ""}`}>
-      <h2 className="eyebrow text-ink-muted mb-4">{title}</h2>
-      <dl className="divide-border flex flex-col divide-y text-sm">
+    <div className={`border-border bg-surface rounded-lg border p-5 ${className ?? ""}`}>
+      <h2 className="eyebrow text-ink-muted mb-3">{title}</h2>
+      <dl className="divide-border flex flex-col divide-y text-[0.9375rem]">
         {present.map((fact) => (
           <div
             key={fact.label}
-            className="flex items-baseline justify-between gap-4 py-3 first:pt-0 last:pb-0"
+            className="flex items-baseline justify-between gap-4 py-2.5 first:pt-0 last:pb-0"
           >
             <dt className="text-ink-muted shrink-0">{fact.label}</dt>
             <dd
-              className={`text-right ${fact.mono ? "font-mono text-xs tracking-wider" : ""}`}
+              className={`text-right font-bold ${fact.mono ? "font-mono text-xs tracking-wider" : ""}`}
             >
               {fact.value}
             </dd>

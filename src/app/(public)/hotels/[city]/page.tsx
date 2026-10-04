@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { Container, PageShell, Stack } from "@/components/layout/container";
+import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
-import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { ContentCard, EmptyState } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/section";
 import { listHotels } from "@/core/content/queries";
@@ -63,23 +62,17 @@ export default async function HotelsByCityPage({ params }: Params) {
   const items = result.ok ? result.data.items : [];
 
   return (
-    <PageShell>
-      <Container width="wide">
-        <Stack gap="tight">
-          <div className="flex flex-col gap-6">
-            <Breadcrumbs
-              items={[
+    <>
+      <PageHeader crumbs={[
                 { label: "Home", href: "/" },
                 { label: "Hotels", href: "/hotels" },
                 { label: record.name },
-              ]}
-            />
-            <PageHeader
-              eyebrow={record.country?.name ?? "Hotels"}
+              ]} eyebrow={record.country?.name ?? "Hotels"}
               title={`Hotels in ${record.name}`}
-              description={`Places to stay in ${record.name}, with notes on the neighbourhood each one sits in.`}
-            />
-            {record.country && (
+              description={`Places to stay in ${record.name}, with notes on the neighbourhood each one sits in.`} />
+      <Container className="pt-8 pb-16 sm:pt-10 sm:pb-24">
+        <div className="flex flex-col gap-8 sm:gap-10">
+          {record.country && (
               <p className="text-ink-muted text-sm">
                 See the full{" "}
                 <a
@@ -91,8 +84,6 @@ export default async function HotelsByCityPage({ params }: Params) {
                 .
               </p>
             )}
-            <div aria-hidden="true" className="rule w-full" />
-          </div>
 
           {items.length > 0 ? (
             <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -114,8 +105,8 @@ export default async function HotelsByCityPage({ params }: Params) {
               description="Hotel write-ups appear here once they are published."
             />
           )}
-        </Stack>
+        </div>
       </Container>
-    </PageShell>
+    </>
   );
 }

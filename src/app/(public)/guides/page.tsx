@@ -1,18 +1,14 @@
 import type { Metadata } from "next";
 
-import { GuideShowcase } from "@/components/home/guide-showcase";
-import { Container, PageShell, Stack } from "@/components/layout/container";
-import { Reveal } from "@/components/motion/reveal";
+import { Container } from "@/components/layout/container";
 import { JsonLd } from "@/components/seo/json-ld";
-import { Breadcrumbs } from "@/components/ui/breadcrumbs";
-import { ContentCard, EmptyState } from "@/components/ui/card";
+import { ArticleTile } from "@/components/ui/article-tile";
+import { EmptyState } from "@/components/ui/card";
 import { Pagination } from "@/components/ui/pagination";
 import { PageHeader } from "@/components/ui/section";
 import { listGuides } from "@/core/content/queries";
-import { placeKeysFromSlug } from "@/core/media/imagery";
 import { buildMetadata } from "@/core/seo/metadata";
 import { site } from "@/core/seo/site";
-import { formatReadingTime } from "@/lib/format";
 import { guidePath } from "@/lib/paths";
 import { createSupabasePublicClient } from "@/lib/supabase/public";
 
@@ -39,26 +35,13 @@ export default async function GuidesPage({
   const items = result.ok ? result.data.items : [];
   const meta = result.ok ? result.data.meta : null;
 
-  // The cover story is a page-one idea. Further pages are an archive, and an
-  // archive reads better as an even grid than as a run of competing features.
-  const showcase = currentPage === 1 ? items.slice(0, 5) : [];
-  const rest = currentPage === 1 ? items.slice(5) : items;
-
   return (
-    <PageShell>
-      <Container width="wide">
-        <Stack gap="tight">
-          <div className="flex flex-col gap-6">
-            <Breadcrumbs
-              items={[{ label: "Home", href: "/" }, { label: "Travel guides" }]}
-            />
-            <PageHeader
-              eyebrow="Guides"
+    <>
+      <PageHeader crumbs={[{ label: "Home", href: "/" }, { label: "Travel guides" }]} eyebrow="Guides"
               title="Travel guides"
-              description="Practical writing on planning and getting the most out of a trip — what to book ahead, what to skip, and when to go."
-            />
-            <div aria-hidden="true" className="rule w-full" />
-          </div>
+        description="Short, practical guides: what to book ahead, what to skip, and how to compare. Each one shows when it was last updated." />
+      <Container className="pt-8 pb-16 sm:pt-10 sm:pb-24">
+        <div className="flex flex-col gap-8 sm:gap-10">
 
           {items.length > 0 ? (
             <>
@@ -75,25 +58,11 @@ export default async function GuidesPage({
                 }}
               />
 
-              {showcase.length > 0 && <GuideShowcase guides={showcase} />}
-
-              {rest.length > 0 && (
-                <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                  {rest.map((item, index) => (
-                    <ContentCard
-                      key={item.id}
-                      href={guidePath(item.slug)}
-                      title={item.title}
-                      summary={item.excerpt}
-                      media={item.hero}
-                      imageKeys={placeKeysFromSlug(item.slug)}
-                      eyebrow={item.category?.name}
-                      meta={formatReadingTime(item.reading_minutes)}
-                      priority={currentPage > 1 && index < 3}
-                    />
-                  ))}
-                </Reveal>
-              )}
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {items.map((item) => (
+                  <ArticleTile key={item.id} guide={item} />
+                ))}
+              </div>
 
               {meta && <Pagination meta={meta} basePath="/guides" />}
             </>
@@ -103,8 +72,8 @@ export default async function GuidesPage({
               description="Guides appear here once they are published."
             />
           )}
-        </Stack>
-      </Container>
-    </PageShell>
+      </div>
+    </Container>
+    </>
   );
 }

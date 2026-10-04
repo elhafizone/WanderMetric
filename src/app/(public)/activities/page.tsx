@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 
-import { Container, PageShell, Stack } from "@/components/layout/container";
+import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
-import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { ContentCard, EmptyState } from "@/components/ui/card";
 import { Pagination } from "@/components/ui/pagination";
 import { PageHeader } from "@/components/ui/section";
@@ -38,20 +37,12 @@ export default async function ActivitiesPage({
   const meta = result.ok ? result.data.meta : null;
 
   return (
-    <PageShell>
-      <Container width="wide">
-        <Stack gap="tight">
-          <div className="flex flex-col gap-6">
-            <Breadcrumbs
-              items={[{ label: "Home", href: "/" }, { label: "Things to do" }]}
-            />
-            <PageHeader
-              eyebrow="Things to do"
+    <>
+      <PageHeader crumbs={[{ label: "Home", href: "/" }, { label: "Things to do" }]} eyebrow="Things to do"
               title="Things to do"
-              description="Attractions, museums and landmarks worth the time, with notes on booking ahead and when to arrive."
-            />
-            <div aria-hidden="true" className="rule w-full" />
-          </div>
+              description="Attractions, museums and landmarks worth the time, with notes on booking ahead and when to arrive." />
+      <Container className="pt-8 pb-16 sm:pt-10 sm:pb-24">
+        <div className="flex flex-col gap-8 sm:gap-10">
 
           {items.length > 0 ? (
             <>
@@ -78,8 +69,8 @@ export default async function ActivitiesPage({
               description="Entries appear here once they are published from the admin dashboard."
             />
           )}
-        </Stack>
-      </Container>
-    </PageShell>
+      </div>
+    </Container>
+    </>
   );
 }

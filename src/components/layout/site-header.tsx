@@ -1,190 +1,136 @@
 "use client";
 
+import { Info, Menu, Search, X } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 import { Logo } from "@/components/brand/logo";
-import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
 
 /**
  * Site header.
  *
- * This is a client component, which is a deliberate exception on a site that is
- * otherwise entirely server-rendered. It needs two things it cannot get on the
- * server: whether the current route opens with a full-bleed hero (so the header
- * can sit *on* the photograph rather than above it), and how far the reader has
- * scrolled (so it can resolve into a solid bar). The markup is still rendered
- * on the server and the component holds no data — the cost is a few hundred
- * bytes of behaviour, not a client-side application.
+ * White, in flow and sticky, with a hairline beneath: the identity's header.
+ * The primary navigation is the eight things a visitor comes to do — the search
+ * verticals first, then deals and guides — and the current section carries a
+ * 3px Lagoon underline. "How we earn" sits on the right because a site that
+ * earns commission should be easy to ask about.
  *
- * The mobile menu remains a native `<details>`: keyboard accessible, and it
- * still opens if the JavaScript never arrives. The only thing script adds is
- * closing it after a client-side navigation, which a full page load would have
- * done by itself.
- *
- * Over a hero the bar is not dark. It used to lay `from-black/45` over the
- * photograph, which dimmed the brightest, warmest part of the best image on
- * the site to buy legibility for white links. The hero photograph measures 198
- * luminance across its top fifth — bright sky — so white type was the wrong
- * choice there anyway. Instead a soft ivory veil carries charcoal navigation:
- * legible over a bright sky (effective background ~232) and still legible over
- * a dark one (~190), and it reads as the page reaching up over the image
- * rather than a shadow laid across it.
+ * It is a client component only to know the current route, so the active item
+ * can be marked. The markup is still rendered on the server and holds no data.
+ * The mobile menu stays a native `<details>`: keyboard accessible, and it still
+ * opens if the JavaScript never arrives. Script only closes it after a
+ * client-side navigation.
  */
 
 const NAV = [
-  { href: "/destinations", label: "Destinations" },
-  { href: "/hotels", label: "Hotels" },
-  { href: "/activities", label: "Things to Do" },
   { href: "/flights", label: "Flights" },
-  { href: "/guides", label: "Guides" },
+  { href: "/car-hire", label: "Car hire" },
+  { href: "/transfers", label: "Transfers" },
+  { href: "/activities", label: "Things to do" },
+  { href: "/esim", label: "eSIM" },
+  { href: "/insurance", label: "Insurance" },
   { href: "/deals", label: "Deals" },
+  { href: "/guides", label: "Guides" },
 ];
 
-/** Routes whose first element is a photograph the header should sit over. */
-const OVERLAY_ROUTES = new Set(["/"]);
+/** Reached from the menu and the footer, not the main bar. */
+const MORE = [
+  { href: "/destinations", label: "Destinations" },
+  { href: "/hotels", label: "Hotels & stays" },
+  { href: "/affiliate-disclosure", label: "How we make money" },
+];
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const overlay = OVERLAY_ROUTES.has(pathname);
-  const [scrolled, setScrolled] = useState(false);
   const menu = useRef<HTMLDetailsElement>(null);
-
-  useEffect(() => {
-    // rAF-throttled so a fast scroll cannot queue a state update per event.
-    let frame = 0;
-    const onScroll = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(() => {
-        frame = 0;
-        setScrolled(window.scrollY > 24);
-      });
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (frame) window.cancelAnimationFrame(frame);
-    };
-  }, []);
 
   // Close the mobile sheet when the route changes under it.
   useEffect(() => {
     if (menu.current) menu.current.open = false;
   }, [pathname]);
 
-  const solid = scrolled || !overlay;
-  // Overlaying a photograph, but never "on dark" — the veil keeps it light.
-  const overlaying = overlay && !scrolled;
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header
-      className={`ease-editorial fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,padding,box-shadow] duration-300 ${
-        solid
-          ? "bg-bg/88 border-border border-b py-3 backdrop-blur-md"
-          : "border-b border-transparent py-5"
-      }`}
-    >
-      {/* Ivory veil under the bar while it overlays a photograph, so charcoal
-          navigation stays readable whatever the image is doing underneath. */}
-      {overlaying && (
-        <div
-          aria-hidden="true"
-          className="masthead-veil pointer-events-none absolute inset-x-0 top-0 -z-10 h-32"
-        />
-      )}
-
-      <div className="text-ink mx-auto flex w-full max-w-[84rem] items-center gap-6 px-5 sm:px-8 lg:px-10">
-        <Link href="/" aria-label="WanderMetric, home" className="shrink-0">
-          <Logo className="h-7 w-auto sm:h-8" />
+    <header className="border-border bg-surface sticky top-0 z-50 border-b">
+      <div className="mx-auto flex h-14 w-full max-w-[80rem] items-center gap-2 pr-1.5 pl-4 lg:h-[4.25rem] lg:gap-8 lg:px-10">
+        <Link href="/" aria-label="WanderMetric, home" className="flex-1 lg:flex-none">
+          <Logo className="h-7 w-auto lg:h-8" />
         </Link>
 
-        <nav aria-label="Primary" className="ml-auto hidden lg:block">
-          <ul className="flex items-center gap-7">
-            {NAV.map((item) => {
-              const active = pathname.startsWith(item.href);
-              return (
-                <li key={item.href}>
+        <nav aria-label="Main" className="hidden h-full flex-1 items-stretch gap-0.5 lg:flex">
+          {NAV.map((item) => {
+            const active = isActive(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={active ? "page" : undefined}
+                className={`relative flex items-center px-3 text-[0.9375rem] font-semibold transition-colors ${
+                  active ? "text-accent font-extrabold" : "text-ink-soft hover:text-accent"
+                }`}
+              >
+                {item.label}
+                {active && (
+                  <span
+                    aria-hidden="true"
+                    className="bg-accent absolute inset-x-3 bottom-0 h-[3px] rounded-t-[3px]"
+                  />
+                )}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <Link
+          href="/affiliate-disclosure"
+          className="text-accent hover:bg-accent-soft hidden min-h-11 items-center gap-1.5 rounded-md px-3 text-sm font-semibold transition-colors lg:flex"
+        >
+          <Info aria-hidden="true" className="h-[1.125rem] w-[1.125rem]" />
+          How we earn
+        </Link>
+
+        <Link
+          href="/search"
+          aria-label="Search the site"
+          className="hover:bg-bg-tint flex h-11 w-11 items-center justify-center rounded-md transition-colors lg:hidden"
+        >
+          <Search aria-hidden="true" className="h-[1.375rem] w-[1.375rem]" />
+        </Link>
+
+        <details ref={menu} className="group lg:hidden">
+          <summary
+            aria-label="Menu"
+            className="hover:bg-bg-tint flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-md transition-colors marker:content-['']"
+          >
+            <Menu aria-hidden="true" className="h-6 w-6 group-open:hidden" />
+            <X aria-hidden="true" className="hidden h-6 w-6 group-open:block" />
+          </summary>
+          <nav
+            aria-label="Mobile"
+            className="border-border bg-surface fixed inset-x-0 top-14 z-50 max-h-[calc(100svh-3.5rem)] overflow-y-auto border-b p-3 shadow-lg"
+          >
+            <ul className="flex flex-col">
+              {[...NAV, ...MORE].map((item, index) => (
+                <li
+                  key={item.href}
+                  className={index === NAV.length ? "border-border mt-2 border-t pt-2" : ""}
+                >
                   <Link
                     href={item.href}
-                    aria-current={active ? "page" : undefined}
-                    className={`nav-link text-sm transition-opacity hover:opacity-100 ${
-                      active ? "opacity-100" : "opacity-80"
+                    className={`hover:bg-bg-tint flex min-h-12 items-center justify-between rounded-md px-3 text-base font-semibold ${
+                      isActive(item.href) ? "text-accent font-extrabold" : ""
                     }`}
                   >
                     {item.label}
                   </Link>
                 </li>
-              );
-            })}
-          </ul>
-        </nav>
-
-        <Link
-          href="/search"
-          className="border-border-strong hover:border-ink hover:bg-surface/70 ml-auto inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors lg:ml-0"
-        >
-          <SearchIcon />
-          <span className="hidden sm:inline">Search</span>
-          <span className="sr-only sm:hidden">Search</span>
-        </Link>
-
-        <details ref={menu} className="lg:hidden">
-          <summary
-            aria-label="Open menu"
-            className="border-border-strong hover:bg-surface/70 cursor-pointer list-none rounded-full border px-4 py-2 text-sm transition-colors marker:content-['']"
-          >
-            Menu
-          </summary>
-          <nav
-            aria-label="Mobile"
-            className="border-border bg-surface text-ink fixed inset-x-3 top-[4.5rem] z-50 rounded-xl border p-3 shadow-lg"
-          >
-            <ul className="flex flex-col">
-              {NAV.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="hover:bg-surface-2 flex items-center justify-between rounded-lg px-4 py-3.5 text-[0.9375rem]"
-                  >
-                    {item.label}
-                    <span aria-hidden="true" className="text-ink-muted">
-                      →
-                    </span>
-                  </Link>
-                </li>
               ))}
-              <li>
-                <Link
-                  href="/tours"
-                  className="hover:bg-surface-2 flex items-center justify-between rounded-lg px-4 py-3.5 text-[0.9375rem]"
-                >
-                  Tours
-                  <span aria-hidden="true" className="text-ink-muted">
-                    →
-                  </span>
-                </Link>
-              </li>
             </ul>
           </nav>
         </details>
       </div>
     </header>
-  );
-}
-
-function SearchIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 16 16"
-      fill="none"
-      className="h-4 w-4"
-      stroke="currentColor"
-      strokeWidth="1.5"
-    >
-      <circle cx="7" cy="7" r="4.75" />
-      <path d="M10.5 10.5 14 14" strokeLinecap="round" />
-    </svg>
   );
 }

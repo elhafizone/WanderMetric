@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { AffiliateDisclosure } from "@/components/affiliate/disclosure";
 import { Container } from "@/components/layout/container";
 import { JsonLd } from "@/components/seo/json-ld";
 import { DetailHero } from "@/components/ui/detail-hero";
 import { FactPanel } from "@/components/ui/fact-list";
+import { OfferGuidePanel } from "@/components/offer/offer-guide-panel";
 import { Prose } from "@/components/ui/prose";
 import { getActivityBySlug } from "@/core/content/queries";
 import { buildMetadata } from "@/core/seo/metadata";
@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
   const item = result.data;
   return buildMetadata({
-    title: `${item.name}, ${item.city.name}`,
+    title: item.name.includes(item.city.name) ? item.name : `${item.name}, ${item.city.name}`,
     description: item.summary ?? `${item.name} in ${item.city.name}.`,
     path: activityPath(item),
     type: "article",
@@ -88,16 +88,19 @@ export default async function ToursDetailPage({ params }: Params) {
             <Prose text={item.body} />
           </article>
 
-          <aside className="flex h-fit flex-col gap-6 lg:sticky lg:top-28">
-            <FactPanel
-              title="Practical"
-              facts={[
-                { label: "City", value: item.city.name },
-                { label: "Typical visit", value: formatDuration(item.duration_minutes) },
-                { label: "Type", value: item.category?.name },
-              ]}
-            />
-            <AffiliateDisclosure />
+          <aside className="flex h-fit flex-col gap-6 lg:sticky lg:top-24">
+            {item.link ? (
+              <OfferGuidePanel item={item} />
+            ) : (
+              <FactPanel
+                title="Practical"
+                facts={[
+                  { label: "City", value: item.city.name },
+                  { label: "Typical visit", value: formatDuration(item.duration_minutes) },
+                  { label: "Type", value: item.category?.name },
+                ]}
+              />
+            )}
           </aside>
         </div>
       </Container>

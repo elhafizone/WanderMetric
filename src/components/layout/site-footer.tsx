@@ -1,104 +1,110 @@
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import { CookieSettingsButton } from "@/components/analytics/consent";
 import { Logo } from "@/components/brand/logo";
-import { SubscribeForm } from "@/components/newsletter/subscribe-form";
 
 /**
- * Site footer.
+ * Site footer: ink ground, the brand, the long form of the affiliate
+ * disclosure, and four columns of links.
+ *
+ * The long disclosure lives here (the short form sits beside the search module
+ * and above the first affiliate link on a page), and it is never collapsed.
  *
  * No social links: no platform is connected yet (see
  * `src/core/social/provider.ts`), and icons pointing at accounts that do not
  * exist are worse than none. They belong here the day an account is real.
  */
 
-const EXPLORE = [
-  { href: "/destinations", label: "Destinations" },
-  { href: "/guides", label: "Travel guides" },
-  { href: "/hotels", label: "Hotels" },
-  { href: "/activities", label: "Things to do" },
-  { href: "/tours", label: "Tours" },
-  { href: "/flights", label: "Flights" },
-  { href: "/deals", label: "Deals" },
+const GROUPS: Array<{
+  title: string;
+  links: Array<{ href: string; label: string }>;
+}> = [
+  {
+    title: "Search",
+    links: [
+      { href: "/flights", label: "Flights" },
+      { href: "/car-hire", label: "Car hire" },
+      { href: "/transfers", label: "Airport transfers" },
+      { href: "/activities", label: "Things to do" },
+      { href: "/esim", label: "eSIMs" },
+      { href: "/insurance", label: "Travel insurance" },
+    ],
+  },
+  {
+    title: "Plan",
+    links: [
+      { href: "/destinations", label: "Destinations" },
+      { href: "/deals", label: "Deals" },
+      { href: "/guides", label: "Guides" },
+      { href: "/hotels", label: "Hotels & stays" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { href: "/about", label: "About us" },
+      { href: "/affiliate-disclosure", label: "How we make money" },
+      { href: "/contact", label: "Contact" },
+    ],
+  },
 ];
 
-const COMPANY = [
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
-  { href: "/privacy", label: "Privacy" },
-  { href: "/terms", label: "Terms" },
-  { href: "/affiliate-disclosure", label: "Affiliate disclosure" },
-];
+const LINK =
+  "text-n-400 flex min-h-9 items-center text-sm font-medium transition-colors hover:text-white hover:underline";
 
 export function SiteFooter() {
   return (
-    <footer className="bg-bg-tint border-border mt-auto border-t">
-      <div className="mx-auto w-full max-w-[84rem] px-5 sm:px-8 lg:px-10">
-        <div className="grid gap-12 py-16 sm:py-20 lg:grid-cols-[1.5fr_1fr_1fr] lg:gap-16">
-          <div className="flex max-w-md flex-col gap-5">
-            <Logo className="h-9 w-auto self-start" />
-            <p className="text-ink-soft text-base/[1.7]">
-              Independent travel search and planning. We point you to trusted partners,
-              say what we know and what we do not, and tell you whenever a link may earn
-              us a commission.
-            </p>
-
-            <div className="border-border mt-2 border-t pt-6">
-              <h2 className="display-sm mb-1 text-lg">New guides, once in a while</h2>
-              <p className="text-ink-muted mb-4 text-sm/relaxed">
-                A short email when something worth reading is published. Nothing else.
-              </p>
-              <SubscribeForm source="footer" />
-            </div>
+    <footer className="bg-ink text-n-400 mt-auto">
+      <div className="mx-auto w-full max-w-[80rem] px-5 pt-10 pb-8 sm:px-8 lg:px-10 lg:pt-16 lg:pb-10">
+        <div className="flex flex-col gap-10 lg:flex-row lg:justify-between lg:gap-16">
+          <div className="flex max-w-[27.5rem] flex-col gap-4">
+            <Logo tone="reversed" className="h-8 w-auto self-start" />
+            <Link
+              href="/affiliate-disclosure"
+              className="flex min-h-11 items-center gap-1.5 self-start text-sm font-bold text-white"
+            >
+              Read how we earn
+              <ArrowRight aria-hidden="true" className="h-4 w-4" />
+            </Link>
           </div>
 
-          <FooterNav id="footer-explore" title="Explore" items={EXPLORE} />
-          <FooterNav id="footer-company" title="WanderMetric" items={COMPANY} />
+          <div className="grid grid-cols-2 gap-x-4 gap-y-7 sm:grid-cols-4 lg:gap-x-6">
+            {GROUPS.map((group) => (
+              <nav key={group.title} aria-label={group.title} className="flex flex-col gap-0.5">
+                <h2 className="mb-1.5 text-xs/4 font-extrabold tracking-[0.08em] text-white uppercase">
+                  {group.title}
+                </h2>
+                {group.links.map((link) => (
+                  <Link key={link.href} href={link.href} className={LINK}>
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            ))}
+            <nav aria-label="Legal" className="flex flex-col gap-0.5">
+              <h2 className="mb-1.5 text-xs/4 font-extrabold tracking-[0.08em] text-white uppercase">
+                Legal
+              </h2>
+              <Link href="/privacy" className={LINK}>
+                Privacy
+              </Link>
+              <CookieSettingsButton className={`${LINK} w-full text-left`} />
+              <Link href="/terms" className={LINK}>
+                Terms
+              </Link>
+            </nav>
+          </div>
         </div>
 
-        <div className="border-border text-ink-muted flex flex-col gap-3 border-t py-8 text-xs sm:flex-row sm:items-center sm:justify-between">
-          <p className="flex flex-wrap items-center gap-x-4 gap-y-1">
-            <span>© {new Date().getFullYear()} WanderMetric. All rights reserved.</span>
-            <CookieSettingsButton className="hover:text-ink underline underline-offset-2 transition-colors" />
-          </p>
-          {/* Site-wide disclosure. Pages carrying affiliate links repeat it in
-              context, because a footer mention alone is not adequate. */}
-          <p className="max-w-prose">
-            Some links on this site are affiliate links. We may earn a commission at no
-            cost to you.
-          </p>
+        <div className="mt-10 flex flex-col gap-2 border-t border-[#3a3631] pt-5 text-[0.8125rem]/5 font-medium sm:flex-row sm:flex-wrap sm:justify-between sm:gap-x-6">
+          <span>© {new Date().getFullYear()} WanderMetric · wandermetric.com</span>
+          <span>
+            Prices, where shown, are last-seen partner figures and may have changed. Always
+            check the final price before you book.
+          </span>
         </div>
       </div>
     </footer>
-  );
-}
-
-function FooterNav({
-  id,
-  title,
-  items,
-}: {
-  id: string;
-  title: string;
-  items: ReadonlyArray<{ href: string; label: string }>;
-}) {
-  return (
-    <nav aria-labelledby={id} className="flex flex-col gap-4">
-      <h2 id={id} className="eyebrow text-ink-muted">
-        {title}
-      </h2>
-      <ul className="flex flex-col gap-3 text-[0.9375rem]">
-        {items.map((item) => (
-          <li key={item.href}>
-            <Link
-              className="text-ink-soft hover:text-accent inline-block transition-colors duration-200"
-              href={item.href}
-            >
-              {item.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
   );
 }

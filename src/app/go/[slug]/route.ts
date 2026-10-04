@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
 
 import { ensureProvidersRegistered } from "@/core/affiliate/bootstrap";
 import { resolveDestination } from "@/core/affiliate/destination";
+import { isPrebuiltAffiliateUrl } from "@/core/affiliate/prebuilt";
 import { getAffiliateProvider } from "@/core/affiliate/registry";
 import { extractUtm } from "@/core/tracking/classify";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
@@ -86,8 +87,11 @@ export async function GET(
   const link = data?.[0];
   if (!link) return notFound();
 
-  const provider = getAffiliateProvider(link.provider_slug);
-  if (!provider) {
+  // A stored tpx.li link was attributed when it was generated in the partner
+  // dashboard, so it needs no provider and must not be wrapped a second time.
+  const prebuilt = isPrebuiltAffiliateUrl(link.destination_url);
+  const provider = prebuilt ? null : getAffiliateProvider(link.provider_slug);
+  if (!prebuilt && !provider) {
     // The link exists but its provider has no credentials configured. Redirect
     // without attribution would earn nothing while looking like it worked, so
     // fail visibly instead.
@@ -108,7 +112,8 @@ export async function GET(
     origin: params.get("origin"),
     destination: params.get("destination"),
     date: params.get("date"),
-    returnDate: params.get("return"),
+    // A one-way search hides the return field but the browser still submits it.
+    returnDate: params.get("trip") === "oneway" ? null : params.get("return"),
   });
   if (!destination.ok) {
     // Usually a search term the brand URL cannot carry. Send the visitor to
@@ -155,6 +160,19 @@ export async function GET(
       clickId = recorded.data;
     }
   }
+
+  if (prebuilt) {
+    return NextResponse.redirect(destination.data, {
+      status: 302,
+      headers: {
+        "x-robots-tag": "noindex, nofollow",
+        "cache-control": "no-store, no-cache, must-revalidate",
+        "referrer-policy": "no-referrer-when-downgrade",
+      },
+    });
+  }
+
+  if (!provider) return notFound();
 
   const deepLink = await provider.buildDeepLink({
     destinationUrl: destination.data,

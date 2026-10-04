@@ -80,6 +80,7 @@ export interface DestinationCard {
   title: string;
   slug: string;
   excerpt: string | null;
+  best_time: string | null;
   is_featured: boolean;
   published_at: string | null;
   country: CountryRef;
@@ -89,7 +90,7 @@ export interface DestinationCard {
 
 export interface DestinationDetail extends DestinationCard {
   body: string | null;
-  best_time: string | null;
+  updated_at: string;
   status: ContentStatus;
   author: AuthorRef | null;
 }
@@ -101,6 +102,7 @@ export interface GuideCard {
   excerpt: string | null;
   reading_minutes: number | null;
   published_at: string | null;
+  updated_at: string;
   is_featured: boolean;
   category: CategoryRef | null;
   hero: MediaRef | null;
@@ -151,6 +153,14 @@ export interface ActivityDetail extends ActivityCard {
   status: ContentStatus;
   published_at: string | null;
   category: CategoryRef | null;
+  /** Offer guides only: where the facts were read, and when. */
+  source_url: string | null;
+  facts: Record<string, unknown>;
+  facts_read_on: string | null;
+  /** Free text, dated, optional. Never a numeric price. */
+  price_note: string | null;
+  /** The `affiliate_links.slug` behind /go/{slug}; null for editorial activities. */
+  link: { slug: string } | null;
 }
 
 export interface DealCard {

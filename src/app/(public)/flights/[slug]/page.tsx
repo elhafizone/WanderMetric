@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { AffiliateDisclosure } from "@/components/affiliate/disclosure";
 import { Container } from "@/components/layout/container";
 import { DetailHero } from "@/components/ui/detail-hero";
 import { Prose } from "@/components/ui/prose";
@@ -84,7 +83,7 @@ export default async function FlightRoutePage({ params }: Params) {
             <Prose text={route.body} />
           </article>
 
-          <aside className="flex h-fit flex-col gap-6 lg:sticky lg:top-28">
+          <aside className="flex h-fit flex-col gap-6 lg:sticky lg:top-24">
             {/* No fare is shown. Prices are provider-owned, change constantly,
                 and are never persisted — quoting one here would be fabrication. */}
             <div className="border-border bg-surface rounded-xl border p-6">
@@ -95,7 +94,6 @@ export default async function FlightRoutePage({ params }: Params) {
                 <Endpoint label="To" city={route.destination} />
               </dl>
             </div>
-            <AffiliateDisclosure />
           </aside>
         </div>
       </Container>

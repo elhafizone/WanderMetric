@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { AffiliateDisclosure } from "@/components/affiliate/disclosure";
 import { Container } from "@/components/layout/container";
 import { JsonLd } from "@/components/seo/json-ld";
 import { Badge } from "@/components/ui/badge";
@@ -104,7 +103,7 @@ export default async function DealDetailPage({ params }: Params) {
             <ArticleBody blocks={article.blocks} />
           </article>
 
-          <aside className="flex h-fit flex-col gap-6 lg:sticky lg:top-28">
+          <aside className="flex h-fit flex-col gap-6 lg:sticky lg:top-24">
             {/* `discount_label` is an editor-supplied string, never a computed
                 figure — the schema has nowhere to store a price to compute one
                 from, and that is deliberate. */}
@@ -132,7 +131,6 @@ export default async function DealDetailPage({ params }: Params) {
                 {cta.label}
               </AffiliateLink>
             )}
-            <AffiliateDisclosure />
           </aside>
         </div>
       </Container>

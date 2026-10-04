@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 
-import { Container, PageShell, Stack } from "@/components/layout/container";
+import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
-import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { ContentCard, EmptyState, FeatureCard, Mosaic } from "@/components/ui/card";
 import { Pagination } from "@/components/ui/pagination";
 import { PageHeader } from "@/components/ui/section";
@@ -49,20 +48,12 @@ export default async function DestinationsPage({
   const remainder = useMosaic ? items.slice(3) : items;
 
   return (
-    <PageShell>
-      <Container width="wide">
-        <Stack gap="tight">
-          <div className="flex flex-col gap-6">
-            <Breadcrumbs
-              items={[{ label: "Home", href: "/" }, { label: "Destinations" }]}
-            />
-            <PageHeader
-              eyebrow="Destinations"
+    <>
+      <PageHeader crumbs={[{ label: "Home", href: "/" }, { label: "Destinations" }]} eyebrow="Destinations"
               title="Where to go"
-              description="Cities and countries we have researched properly. Each page covers when to visit, what is worth the time, and what to skip."
-            />
-            <div aria-hidden="true" className="rule w-full" />
-          </div>
+              description="Cities and countries we have researched properly. Each page covers when to visit, what is worth the time, and what to skip." />
+      <Container className="pt-8 pb-16 sm:pt-10 sm:pb-24">
+        <div className="flex flex-col gap-8 sm:gap-10">
 
           {items.length > 0 ? (
             <>
@@ -135,8 +126,8 @@ export default async function DestinationsPage({
               description="Destinations appear here once they are published from the admin dashboard."
             />
           )}
-        </Stack>
-      </Container>
-    </PageShell>
+      </div>
+    </Container>
+    </>
   );
 }

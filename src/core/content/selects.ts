@@ -18,22 +18,22 @@ export const CITY_CARD = `id, name, slug, latitude, longitude, iata_code, summar
    country:countries!cities_country_id_fkey!inner(id, name, slug, iso2, continent),
    hero:media!cities_hero_media_id_fkey(${MEDIA_FIELDS})`;
 
-export const DESTINATION_CARD = `id, title, slug, excerpt, is_featured, published_at,
+export const DESTINATION_CARD = `id, title, slug, excerpt, best_time, is_featured, published_at,
    country:countries!destinations_country_id_fkey!inner(id, name, slug, continent),
    city:cities!destinations_city_id_fkey(id, name, slug),
    hero:media!destinations_hero_media_id_fkey(${MEDIA_FIELDS})`;
 
-export const DESTINATION_DETAIL = `id, title, slug, excerpt, body, best_time, status, published_at, is_featured,
+export const DESTINATION_DETAIL = `id, title, slug, excerpt, body, best_time, status, published_at, updated_at, is_featured,
    country:countries!destinations_country_id_fkey!inner(id, name, slug, iso2, continent),
    city:cities!destinations_city_id_fkey(id, name, slug, latitude, longitude, iata_code),
    author:profiles!destinations_author_id_fkey(id, full_name, avatar_url),
    hero:media!destinations_hero_media_id_fkey(${MEDIA_FIELDS})`;
 
-export const GUIDE_CARD = `id, title, slug, excerpt, reading_minutes, published_at, is_featured,
+export const GUIDE_CARD = `id, title, slug, excerpt, reading_minutes, published_at, updated_at, is_featured,
    category:categories!guides_category_id_fkey(id, name, slug),
    hero:media!guides_hero_media_id_fkey(${MEDIA_FIELDS})`;
 
-export const GUIDE_DETAIL = `id, title, slug, excerpt, body, reading_minutes, status, published_at,
+export const GUIDE_DETAIL = `id, title, slug, excerpt, body, reading_minutes, status, published_at, updated_at,
    category:categories!guides_category_id_fkey(id, name, slug),
    country:countries!guides_country_id_fkey(id, name, slug),
    city:cities!guides_city_id_fkey(id, name, slug),
@@ -53,6 +53,8 @@ export const ACTIVITY_CARD = `id, name, slug, kind, summary, duration_minutes, i
    hero:media!activities_hero_media_id_fkey(${MEDIA_FIELDS})`;
 
 export const ACTIVITY_DETAIL = `id, name, slug, kind, summary, body, duration_minutes, status, published_at,
+   source_url, facts, facts_read_on, price_note,
+   link:affiliate_links!activities_affiliate_link_id_fkey(slug),
    category:categories!activities_category_id_fkey(id, name, slug),
    city:cities!activities_city_id_fkey!inner(id, name, slug, country:countries!cities_country_id_fkey!inner(id, name, slug)),
    hero:media!activities_hero_media_id_fkey(${MEDIA_FIELDS})`;
