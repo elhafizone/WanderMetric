@@ -25,15 +25,15 @@ export default function NotFound() {
             </h1>
             <p className="text-ink-soft max-w-[52ch] text-lg/[1.65]">
               It may have moved, or the link may be wrong. Search for somewhere, or start from
-              the destinations index.
+              the sections.
             </p>
             <div className="pt-2">
               <SearchForm autoFocus />
             </div>
             <div className="flex flex-wrap gap-3 pt-2">
-              <ButtonLink href="/destinations">Browse destinations</ButtonLink>
-              <ButtonLink href="/guides" variant="secondary">
-                Read the guides
+              <ButtonLink href="/tours-activities">Browse tours and activities</ButtonLink>
+              <ButtonLink href="/" variant="secondary">
+                Back to the home page
               </ButtonLink>
             </div>
           </div>

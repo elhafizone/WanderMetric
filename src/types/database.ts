@@ -1428,6 +1428,117 @@ export type Database = {
           },
         ]
       }
+      offers: {
+        Row: {
+          affiliate_link_id: string | null
+          body: string | null
+          city_id: string | null
+          country_id: string
+          created_at: string
+          deleted_at: string | null
+          duration_minutes: number | null
+          facts: Json
+          facts_read_on: string | null
+          hero_media_id: string | null
+          id: string
+          is_featured: boolean
+          name: string
+          price_note: string | null
+          program_id: string
+          published_at: string | null
+          section: Database["public"]["Enums"]["offer_section"]
+          slug: string
+          source_url: string | null
+          status: Database["public"]["Enums"]["content_status"]
+          summary: string | null
+          updated_at: string
+        }
+        Insert: {
+          affiliate_link_id?: string | null
+          body?: string | null
+          city_id?: string | null
+          country_id: string
+          created_at?: string
+          deleted_at?: string | null
+          duration_minutes?: number | null
+          facts?: Json
+          facts_read_on?: string | null
+          hero_media_id?: string | null
+          id?: string
+          is_featured?: boolean
+          name: string
+          price_note?: string | null
+          program_id: string
+          published_at?: string | null
+          section: Database["public"]["Enums"]["offer_section"]
+          slug: string
+          source_url?: string | null
+          status?: Database["public"]["Enums"]["content_status"]
+          summary?: string | null
+          updated_at?: string
+        }
+        Update: {
+          affiliate_link_id?: string | null
+          body?: string | null
+          city_id?: string | null
+          country_id?: string
+          created_at?: string
+          deleted_at?: string | null
+          duration_minutes?: number | null
+          facts?: Json
+          facts_read_on?: string | null
+          hero_media_id?: string | null
+          id?: string
+          is_featured?: boolean
+          name?: string
+          price_note?: string | null
+          program_id?: string
+          published_at?: string | null
+          section?: Database["public"]["Enums"]["offer_section"]
+          slug?: string
+          source_url?: string | null
+          status?: Database["public"]["Enums"]["content_status"]
+          summary?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "offers_affiliate_link_id_fkey"
+            columns: ["affiliate_link_id"]
+            isOneToOne: false
+            referencedRelation: "affiliate_links"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "offers_city_id_fkey"
+            columns: ["city_id"]
+            isOneToOne: false
+            referencedRelation: "cities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "offers_country_id_fkey"
+            columns: ["country_id"]
+            isOneToOne: false
+            referencedRelation: "countries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "offers_hero_media_id_fkey"
+            columns: ["hero_media_id"]
+            isOneToOne: false
+            referencedRelation: "media"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "offers_program_id_fkey"
+            columns: ["program_id"]
+            isOneToOne: false
+            referencedRelation: "affiliate_programs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       page_views: {
         Row: {
           content_id: string | null
@@ -1853,6 +1964,18 @@ export type Database = {
         | "deal"
         | "flight_route"
         | "page"
+        | "offer"
+      offer_section:
+        | "tours-activities"
+        | "hotels"
+        | "car-rentals"
+        | "flights"
+        | "trains-buses"
+        | "transfers"
+        | "package-tours"
+        | "insurance"
+        | "sim-cards"
+        | "travel-services"
       continent:
         | "africa"
         | "antarctica"
@@ -2029,6 +2152,19 @@ export const Constants = {
         "deal",
         "flight_route",
         "page",
+        "offer",
+      ],
+      offer_section: [
+        "tours-activities",
+        "hotels",
+        "car-rentals",
+        "flights",
+        "trains-buses",
+        "transfers",
+        "package-tours",
+        "insurance",
+        "sim-cards",
+        "travel-services",
       ],
       continent: [
         "africa",

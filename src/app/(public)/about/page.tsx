@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
 import { PageHeader } from "@/components/ui/section";
@@ -54,12 +55,12 @@ export default function AboutPage() {
             <h2 className="mt-4 text-xl font-semibold tracking-tight">Get in touch</h2>
             <p>
               Corrections and questions are welcome — see the{" "}
-              <a
+              <Link
                 className="text-accent underline-offset-4 hover:underline"
                 href="/contact"
-              >
+                >
                 contact page
-              </a>
+              </Link>
               .
             </p>
           </div>

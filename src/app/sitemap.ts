@@ -1,5 +1,14 @@
 import type { MetadataRoute } from "next";
 
+import { listOfferSitemapEntries } from "@/core/offers/offers";
+import {
+  MIN_OFFERS_FOR_COUNTRY_PAGE,
+  SECTIONS,
+  countryHubPath,
+  offerPath,
+  sectionCountryPath,
+  sectionPath,
+} from "@/core/sections/sections";
 import { site } from "@/core/seo/site";
 import { createSupabasePublicClient } from "@/lib/supabase/public";
 
@@ -7,15 +16,15 @@ import { createSupabasePublicClient } from "@/lib/supabase/public";
  * Sitemap generated from real, published database content.
  *
  * Two rules it follows:
- *  - Only URLs that actually exist and are indexable are listed. A sitemap full
- *    of thin or non-existent pages wastes crawl budget and damages trust in the
- *    whole file.
+ *  - Only URLs that actually exist and are indexable are listed. A country page
+ *    appears only once it has enough offers to be worth indexing, matching the
+ *    `noindex` the page itself emits below that threshold.
  *  - Nothing under /go/, /admin/ or /api/ appears, matching robots.txt.
  *
  * RLS means the anon client can only see published rows, so the "is it
  * publishable?" question is answered by the database rather than duplicated
  * here. When the corpus approaches the 50,000-URL limit this must be split
- * behind a sitemap index — see docs/seo.md.
+ * behind a sitemap index.
  */
 export const revalidate = 3600;
 
@@ -25,13 +34,11 @@ const STATIC_ROUTES: Array<{
   priority: number;
 }> = [
   { path: "/", changeFrequency: "daily", priority: 1 },
-  { path: "/destinations", changeFrequency: "daily", priority: 0.9 },
-  { path: "/guides", changeFrequency: "daily", priority: 0.9 },
-  { path: "/hotels", changeFrequency: "weekly", priority: 0.8 },
-  { path: "/activities", changeFrequency: "weekly", priority: 0.8 },
-  { path: "/tours", changeFrequency: "weekly", priority: 0.8 },
-  { path: "/flights", changeFrequency: "weekly", priority: 0.7 },
-  { path: "/deals", changeFrequency: "daily", priority: 0.7 },
+  ...SECTIONS.map((section) => ({
+    path: sectionPath(section.slug),
+    changeFrequency: "weekly" as const,
+    priority: 0.9,
+  })),
   { path: "/about", changeFrequency: "yearly", priority: 0.3 },
   { path: "/contact", changeFrequency: "yearly", priority: 0.3 },
   { path: "/privacy", changeFrequency: "yearly", priority: 0.2 },
@@ -56,81 +63,48 @@ function entry(
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const db = createSupabasePublicClient();
-
-  const [countries, destinations, guides, hotels, activities, deals, routes] =
-    await Promise.all([
-      db.from("countries").select("slug, updated_at").is("deleted_at", null),
-      db
-        .from("destinations")
-        .select(
-          "updated_at, country:countries!destinations_country_id_fkey(slug), city:cities!destinations_city_id_fkey(slug)",
-        )
-        .is("deleted_at", null),
-      db.from("guides").select("slug, updated_at").is("deleted_at", null),
-      db
-        .from("hotels")
-        .select("slug, updated_at, city:cities!hotels_city_id_fkey(slug)")
-        .is("deleted_at", null),
-      db
-        .from("activities")
-        .select("slug, kind, updated_at, city:cities!activities_city_id_fkey(slug)")
-        .is("deleted_at", null),
-      db.from("deals").select("slug, updated_at").is("deleted_at", null),
-      db.from("flight_routes").select("slug, updated_at").is("deleted_at", null),
-    ]);
-
-  const urls: MetadataRoute.Sitemap = STATIC_ROUTES.map((route) =>
+  const urls = STATIC_ROUTES.map((route) =>
     entry(route.path, null, route.changeFrequency, route.priority),
   );
 
-  for (const row of countries.data ?? []) {
-    urls.push(entry(`/destinations/${row.slug}`, row.updated_at, "weekly", 0.8));
+  const offers = await listOfferSitemapEntries(createSupabasePublicClient());
+  if (!offers.ok) return urls;
+
+  const perSectionCountry = new Map<string, number>();
+  const perCountry = new Map<string, number>();
+
+  for (const offer of offers.data) {
+    urls.push(
+      entry(
+        offerPath(offer.section, offer.countrySlug, offer.slug),
+        offer.updatedAt,
+        "monthly",
+        0.8,
+      ),
+    );
+    const sectionKey = `${offer.section}/${offer.countrySlug}`;
+    perSectionCountry.set(sectionKey, (perSectionCountry.get(sectionKey) ?? 0) + 1);
+    perCountry.set(offer.countrySlug, (perCountry.get(offer.countrySlug) ?? 0) + 1);
   }
 
-  for (const row of destinations.data ?? []) {
-    const country = row.country as unknown as { slug: string } | null;
-    const city = row.city as unknown as { slug: string } | null;
-    if (!country) continue;
-    const path = city
-      ? `/destinations/${country.slug}/${city.slug}`
-      : `/destinations/${country.slug}`;
-    urls.push(entry(path, row.updated_at, "weekly", 0.9));
+  for (const [key, count] of perSectionCountry) {
+    if (count < MIN_OFFERS_FOR_COUNTRY_PAGE) continue;
+    const [section, country] = key.split("/");
+    if (!section || !country) continue;
+    urls.push(
+      entry(
+        sectionCountryPath(section as (typeof SECTIONS)[number]["slug"], country),
+        null,
+        "weekly",
+        0.7,
+      ),
+    );
   }
 
-  for (const row of guides.data ?? []) {
-    urls.push(entry(`/guides/${row.slug}`, row.updated_at, "monthly", 0.8));
+  for (const [country, count] of perCountry) {
+    if (count < MIN_OFFERS_FOR_COUNTRY_PAGE) continue;
+    urls.push(entry(countryHubPath(country), null, "weekly", 0.7));
   }
 
-  for (const row of hotels.data ?? []) {
-    const city = row.city as unknown as { slug: string } | null;
-    if (city)
-      urls.push(
-        entry(`/hotels/${city.slug}/${row.slug}`, row.updated_at, "monthly", 0.7),
-      );
-  }
-
-  for (const row of activities.data ?? []) {
-    const city = row.city as unknown as { slug: string } | null;
-    if (!city) continue;
-    const root = row.kind === "tour" ? "tours" : "activities";
-    urls.push(entry(`/${root}/${city.slug}/${row.slug}`, row.updated_at, "monthly", 0.7));
-  }
-
-  for (const row of deals.data ?? []) {
-    urls.push(entry(`/deals/${row.slug}`, row.updated_at, "daily", 0.6));
-  }
-
-  for (const row of routes.data ?? []) {
-    urls.push(entry(`/flights/${row.slug}`, row.updated_at, "monthly", 0.6));
-  }
-
-  // Deduplicate: a country with both a countries row and a country-level
-  // destination row would otherwise be listed twice.
-  const seen = new Set<string>();
-  return urls.filter((url) => {
-    if (seen.has(url.url)) return false;
-    seen.add(url.url);
-    return true;
-  });
+  return urls;
 }

@@ -1,37 +1,17 @@
-import {
-  BadgeCheck,
-  Bus,
-  CalendarCheck,
-  Car,
-  ChevronRight,
-  PenLine,
-  Plane,
-  Scale,
-  ShieldCheck,
-  Smartphone,
-  Sun,
-  Ticket,
-  type LucideIcon,
-} from "lucide-react";
+import { BadgeCheck, CalendarCheck, PenLine, Scale, type LucideIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Band, Container } from "@/components/layout/container";
+import { OfferCard } from "@/components/offer/offer-card";
 import { SearchModule } from "@/components/search/search-module";
-import { ArticleTile } from "@/components/ui/article-tile";
-import { ContentCard } from "@/components/ui/card";
-import { DealTile } from "@/components/ui/deal-tile";
+import { CountryTabs } from "@/components/section/country-tabs";
+import { SectionIcon } from "@/components/section/section-icon";
 import { SectionHeader } from "@/components/ui/section";
-import {
-  listDeals,
-  listDestinations,
-  listFlightRoutes,
-  listGuides,
-} from "@/core/content/queries";
-import type { DestinationCard } from "@/core/content/types";
+import { countOffersBySection, listCountriesWithOffers, listOffers } from "@/core/offers/offers";
+import { SECTIONS, countryHubPath, sectionPath } from "@/core/sections/sections";
 import { buildMetadata } from "@/core/seo/metadata";
 import { site } from "@/core/seo/site";
-import { destinationPath, flightRoutePath } from "@/lib/paths";
 import { loadSearchModuleData } from "@/lib/search-module-data";
 import { createSupabasePublicClient } from "@/lib/supabase/public";
 
@@ -41,66 +21,29 @@ export const metadata: Metadata = buildMetadata({
   path: "/",
 });
 
-/**
- * Revalidate hourly. The home page aggregates several listings, so it changes
- * whenever anything is published; an hour keeps it fresh without rebuilding on
- * every request.
- */
+/** Revalidate hourly: the home page changes whenever an offer is published. */
 export const revalidate = 3600;
 
-/**
- * Image keys for a destination, most specific first: the city where there is
- * one, otherwise the country. `resolveImage` walks them in order, so a Lisbon
- * card gets the Lisbon photograph and a country overview falls back only as far
- * as an image of that country — never to a picture of somewhere else.
- */
-function keysFor(destination: Pick<DestinationCard, "city" | "country">) {
-  return [destination.city?.slug, destination.country.slug];
-}
-
-const TRUST = [
-  "No invented prices or reviews",
-  "You book directly with the partner",
-];
-
-const ESSENTIALS: Array<{ href: string; icon: LucideIcon; label: string; text: string }> = [
-  { href: "/flights", icon: Plane, label: "Flights", text: "Search fares across partners" },
-  { href: "/car-hire", icon: Car, label: "Car hire", text: "Providers and what to check" },
-  { href: "/transfers", icon: Bus, label: "Airport transfers", text: "Shared and private rides" },
-  { href: "/activities", icon: Ticket, label: "Things to do", text: "Tours, tickets, day trips" },
-  { href: "/esim", icon: Smartphone, label: "eSIMs", text: "Data before you land" },
-  { href: "/insurance", icon: ShieldCheck, label: "Travel insurance", text: "Cover explained plainly" },
-];
+const TRUST = ["No invented prices or reviews", "You book directly with the partner"];
 
 const PILLARS: Array<{ icon: LucideIcon; title: string; text: string }> = [
   { icon: Scale, title: "Honest numbers", text: "Real partner prices or nothing. Never made up." },
   { icon: PenLine, title: "Independent", text: "Partners can’t buy a recommendation." },
-  { icon: CalendarCheck, title: "Kept current", text: "Each guide shows when it was last updated." },
+  { icon: CalendarCheck, title: "Kept current", text: "Each guide shows when its details were read." },
 ];
-
-/** A best-time fact is only worth a card line when it is short enough to read. */
-function bestTimeFact(destination: DestinationCard) {
-  const text = destination.best_time?.trim();
-  if (!text || text.length > 34) return [];
-  return [{ icon: <Sun aria-hidden="true" className="h-4 w-4" />, text: `Best ${text}` }];
-}
 
 export default async function HomePage() {
   const db = createSupabasePublicClient();
 
-  // Independent queries, so run them concurrently rather than in series.
-  const [destinations, guides, flights, deals, search] = await Promise.all([
-    listDestinations(db, { featuredOnly: true, perPage: 4 }),
-    listGuides(db, { perPage: 3 }),
-    listFlightRoutes(db, { perPage: 8 }),
-    listDeals(db, { perPage: 4 }),
+  const [offers, countries, counts, search] = await Promise.all([
+    listOffers(db, { perPage: 6 }),
+    listCountriesWithOffers(db),
+    countOffersBySection(db),
     loadSearchModuleData(db),
   ]);
 
-  const featured = destinations.ok ? destinations.data.items : [];
-  const latestGuides = guides.ok ? guides.data.items : [];
-  const routes = flights.ok ? flights.data.items : [];
-  const currentDeals = deals.ok ? deals.data.items : [];
+  const latest = offers.ok ? offers.data.items : [];
+  const perSection = counts.ok ? counts.data : {};
 
   return (
     <>
@@ -111,7 +54,7 @@ export default async function HomePage() {
               Compare the trip. Book direct with partners you can trust.
             </h1>
             <p className="text-ink-soft text-base/6 font-medium sm:text-[1.125rem]/7">
-              Flights, car hire, transfers, tours, eSIMs and insurance. No invented
+              Tours, flights, car rentals, transfers, eSIMs, insurance and more. No invented
               prices.
             </p>
           </div>
@@ -132,140 +75,69 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      {featured.length > 0 && (
-        <Container className="flex flex-col gap-5 pt-12 sm:gap-6 sm:pt-16">
-          <SectionHeader
-            title="Popular destinations"
-            description="Places we have researched properly."
-            href="/destinations"
-            linkLabel="All destinations"
-          />
-          <div className="-mx-4 grid auto-cols-[15rem] grid-flow-col gap-3 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:auto-cols-auto sm:grid-flow-row sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 lg:grid-cols-4">
-            {featured.map((destination, index) => (
-              <ContentCard
-                key={destination.id}
-                href={destinationPath(destination)}
-                title={destination.city?.name ?? destination.title}
-                eyebrow={destination.country.name}
-                media={destination.hero}
-                imageKeys={keysFor(destination)}
-                facts={bestTimeFact(destination)}
-                priority={index < 2}
-              />
-            ))}
-          </div>
-        </Container>
-      )}
-
-      {currentDeals.length > 0 && (
-        <Container className="flex flex-col gap-5 pt-12 sm:gap-6 sm:pt-16">
-          <SectionHeader
-            title="Deals ending soon"
-            description="Every deal shows when it ends. Expired ones disappear on their own."
-            href="/deals"
-            linkLabel="All deals"
-          />
-          <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
-            {currentDeals.map((deal) => (
-              <DealTile key={deal.id} deal={deal} />
-            ))}
-          </div>
-        </Container>
-      )}
-
-      <Container className="grid gap-10 pt-12 sm:pt-16 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-10">
-        {routes.length > 0 && (
-          <div className="flex flex-col gap-4">
-            <SectionHeader title="Route guides" href="/flights" linkLabel="All routes" />
-            <ul className="border-border bg-surface grid overflow-hidden rounded-lg border sm:grid-cols-2">
-              {routes.map((route) => (
-                <li key={route.id} className="border-border border-r-0 border-b sm:[&:nth-child(odd)]:border-r">
-                  <Link
-                    href={flightRoutePath(route)}
-                    className="hover:bg-bg flex min-h-[4.25rem] items-center gap-3 px-4 py-2.5 transition-colors sm:px-[1.125rem]"
-                  >
-                    <span className="flex flex-1 flex-col gap-0.5">
-                      <span className="text-base/[1.375rem] font-bold">
-                        {route.origin.name} → {route.destination.name}
-                      </span>
-                      {route.origin.iata_code && route.destination.iata_code && (
-                        <span className="text-ink-muted text-[0.8125rem]/[1.125rem] tabular-nums">
-                          {route.origin.iata_code} → {route.destination.iata_code}
-                        </span>
-                      )}
-                    </span>
-                    <ChevronRight aria-hidden="true" className="text-ink-muted h-[1.125rem] w-[1.125rem]" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        <div className={`flex flex-col gap-4 ${routes.length === 0 ? "lg:col-span-2" : ""}`}>
-          <SectionHeader title="Travel essentials" />
-          <ul className={`grid grid-cols-2 gap-2.5 sm:gap-3 ${routes.length === 0 ? "lg:grid-cols-3" : ""}`}>
-            {ESSENTIALS.map((item) => (
-              <li key={item.href}>
+      <Container className="flex flex-col gap-5 pt-12 sm:gap-6 sm:pt-16">
+        <SectionHeader title="Browse by section" description="Ten ways to plan a trip." />
+        <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
+          {SECTIONS.map((section) => {
+            const count = perSection[section.slug] ?? 0;
+            return (
+              <li key={section.slug}>
                 <Link
-                  href={item.href}
-                  className="border-border bg-surface hover:border-accent flex h-full items-center gap-2.5 rounded-md border px-3 py-2 transition-colors sm:flex-col sm:items-start sm:gap-2.5 sm:rounded-lg sm:p-4"
+                  href={sectionPath(section.slug)}
+                  className="border-border bg-surface hover:border-border-strong flex h-full flex-col gap-2 rounded-lg border p-4 transition-colors"
                 >
-                  <span className="bg-accent-soft text-accent hidden h-10 w-10 items-center justify-center rounded-[0.625rem] sm:flex">
-                    <item.icon aria-hidden="true" className="h-[1.375rem] w-[1.375rem]" />
-                  </span>
-                  <item.icon aria-hidden="true" className="text-accent h-5 w-5 shrink-0 sm:hidden" />
-                  <span className="flex flex-col gap-0.5">
-                    <span className="text-sm/[1.125rem] font-extrabold sm:text-[0.9375rem]/5">
-                      {item.label}
-                    </span>
-                    <span className="text-ink-muted hidden text-[0.8125rem]/[1.125rem] sm:block">
-                      {item.text}
-                    </span>
+                  <SectionIcon icon={section.icon} className="text-accent h-6 w-6" />
+                  <span className="text-[1rem]/6 font-extrabold">{section.name}</span>
+                  <span className="text-ink-muted mt-auto text-sm">
+                    {count > 0 ? `${count} ${count === 1 ? "guide" : "guides"}` : "Providers and tips"}
                   </span>
                 </Link>
               </li>
-            ))}
-          </ul>
-        </div>
+            );
+          })}
+        </ul>
       </Container>
 
-      {latestGuides.length > 0 && (
-        <Container className="flex flex-col gap-5 pt-12 sm:gap-6 sm:pt-16">
-          <SectionHeader
-            title="Guides that get to the point"
-            href="/guides"
-            linkLabel="All guides"
+      {countries.ok && countries.data.length > 0 && (
+        <Container className="flex flex-col gap-4 pt-12 sm:pt-14">
+          <SectionHeader title="Browse by country" description="Every section, filtered to one country." />
+          <CountryTabs
+            countries={countries.data}
+            allHref="/"
+            hrefFor={countryHubPath}
+            label="Countries"
           />
-          <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-            {latestGuides.map((guide) => (
-              <ArticleTile key={guide.id} guide={guide} />
-            ))}
-          </div>
         </Container>
       )}
 
-      <div className="mt-14 sm:mt-[4.5rem]">
-        <Band tone="lagoon" padding="tight">
-          <div className="grid gap-6 lg:grid-cols-[repeat(4,minmax(0,1fr))_auto] lg:items-center lg:gap-8">
-            {PILLARS.map((pillar) => (
-              <div key={pillar.title} className="flex items-start gap-3">
-                <pillar.icon aria-hidden="true" className="text-accent h-6 w-6 shrink-0" />
-                <div className="flex flex-col gap-0.5">
-                  <strong className="text-[0.9375rem]/5 font-extrabold">{pillar.title}</strong>
-                  <span className="text-ink-soft text-sm/5">{pillar.text}</span>
-                </div>
-              </div>
+      {latest.length > 0 && (
+        <Container className="flex flex-col gap-5 pt-12 sm:gap-6 sm:pt-16">
+          <SectionHeader title="Latest guides" description="Written from each partner’s own listing." />
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {latest.map((offer) => (
+              <li key={offer.id}>
+                <OfferCard offer={offer} />
+              </li>
             ))}
-            <Link
-              href="/affiliate-disclosure"
-              className="border-accent bg-surface text-ink hover:bg-accent-soft flex min-h-11 items-center justify-center rounded-md border-[1.5px] px-4 text-sm font-extrabold whitespace-nowrap transition-colors"
-            >
-              How we make money
-            </Link>
-          </div>
-        </Band>
-      </div>
+          </ul>
+        </Container>
+      )}
+
+      <Band className="mt-12 sm:mt-16">
+        <Container className="py-10 sm:py-14">
+          <ul className="grid gap-6 sm:grid-cols-3">
+            {PILLARS.map((pillar) => (
+              <li key={pillar.title} className="flex gap-3">
+                <pillar.icon aria-hidden="true" className="text-accent mt-0.5 h-6 w-6 shrink-0" />
+                <div>
+                  <h3 className="text-base font-extrabold">{pillar.title}</h3>
+                  <p className="text-ink-soft text-sm/[1.55]">{pillar.text}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </Band>
     </>
   );
 }

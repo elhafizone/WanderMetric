@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { CookieSettingsButton } from "@/components/analytics/consent";
 import { Logo } from "@/components/brand/logo";
+import { SECTIONS, sectionPath } from "@/core/sections/sections";
 
 /**
  * Site footer: ink ground, the brand, the long form of the affiliate
@@ -21,24 +22,12 @@ const GROUPS: Array<{
   links: Array<{ href: string; label: string }>;
 }> = [
   {
-    title: "Search",
-    links: [
-      { href: "/flights", label: "Flights" },
-      { href: "/car-hire", label: "Car hire" },
-      { href: "/transfers", label: "Airport transfers" },
-      { href: "/activities", label: "Things to do" },
-      { href: "/esim", label: "eSIMs" },
-      { href: "/insurance", label: "Travel insurance" },
-    ],
+    title: "Sections",
+    links: SECTIONS.slice(0, 5).map((s) => ({ href: sectionPath(s.slug), label: s.name })),
   },
   {
-    title: "Plan",
-    links: [
-      { href: "/destinations", label: "Destinations" },
-      { href: "/deals", label: "Deals" },
-      { href: "/guides", label: "Guides" },
-      { href: "/hotels", label: "Hotels & stays" },
-    ],
+    title: "More sections",
+    links: SECTIONS.slice(5).map((s) => ({ href: sectionPath(s.slug), label: s.name })),
   },
   {
     title: "Company",

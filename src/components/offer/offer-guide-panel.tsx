@@ -5,18 +5,18 @@ import {
   formatReadOn,
   offerOptions,
 } from "@/core/content/offer-facts";
-import type { ActivityDetail } from "@/core/content/types";
-import { activityPath } from "@/lib/paths";
+import type { OfferDetail } from "@/core/offers/offers";
+import { offerPath } from "@/core/sections/sections";
 
 /**
  * Sidebar for an offer guide: the facts read from the partner listing, the
- * booking button, and the one-line disclosure beside it.
+ * and the booking button.
  *
  * Everything shown is something the listing stated. Facts are stacked (label over
  * value) because several of them are sentences, such as a meeting point or a
  * cancellation rule, and do not fit a two-column row.
  */
-export function OfferGuidePanel({ item }: { item: ActivityDetail }) {
+export function OfferGuidePanel({ item }: { item: OfferDetail }) {
   if (!item.link) return null;
 
   const rows = factRows(item.facts);
@@ -66,9 +66,9 @@ export function OfferGuidePanel({ item }: { item: ActivityDetail }) {
       <div className="flex flex-col gap-3">
         <AffiliateLink
           linkSlug={item.link.slug}
-          contentType="activity"
+          contentType="offer"
           contentId={item.id}
-          fromPath={activityPath(item)}
+          fromPath={offerPath(item.section, item.country.slug, item.slug)}
           emphasis="high"
           className="group/out ease-editorial bg-cta text-on-cta hover:bg-cta-hover inline-flex min-h-12 items-center justify-center gap-2 rounded-md px-6 py-3 text-base font-extrabold shadow-sm transition-all duration-200 hover:shadow-md"
         >
