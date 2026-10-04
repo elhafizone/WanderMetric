@@ -699,3 +699,15 @@ body {
     transform: none !important;
   }
 }
+
+/* Home hero: the "up next" cards fade in when the featured guide changes. */
+@keyframes hero-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

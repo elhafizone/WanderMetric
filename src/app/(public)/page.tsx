@@ -45,7 +45,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <FeaturedHero offers={latest.slice(0, 4)} />
+      <FeaturedHero offers={latest.slice(0, 5)} />
 
       <Container className="pt-6 sm:pt-8">
         <ul className="flex flex-col gap-1.5 sm:flex-row sm:flex-wrap sm:gap-x-7 sm:gap-y-2">
