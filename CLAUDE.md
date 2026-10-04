@@ -3,6 +3,26 @@
 Travel discovery + affiliate platform. Next.js 16 · TypeScript · Supabase.
 **Live at https://wandermetric.com.** Read `docs/roadmap.md` before adding anything.
 
+## Site structure (reorganised October 2026)
+
+Ten sections mirror the Travelpayouts categories: `tours-activities`, `hotels`,
+`car-rentals`, `flights`, `trains-buses`, `transfers`, `package-tours`,
+`insurance`, `sim-cards`, `travel-services`. They are defined once in
+`src/core/sections/sections.ts` and as the `offer_section` enum in the database.
+
+- Pages: `/{section}`, `/{section}/{country}`, `/{section}/{country}/{slug}`,
+  plus `/countries/{country}`. **Destination is a filter, not a section.**
+- A page is an `offers` row: facts read from the partner listing, original text,
+  a stored affiliate link. The database publish gate needs 800+ characters,
+  facts, a source URL and an active link. Country pages are `noindex` below 3
+  offers (`MIN_OFFERS_FOR_COUNTRY_PAGE`).
+- Guides, Deals, Destinations and hotel/flight-route pages no longer exist on the
+  site. Their tables are untouched; old URLs 301 (see `next.config.ts`).
+- Offers are authored as `content/offers/<programme>/<slug>.json` and imported
+  with `node --env-file=.env.local scripts/import-offers.mjs` (add `--publish`).
+  Each file names its `section` and a `city` or `country`.
+- Production builds use `next build --webpack` (Turbopack crashes on the host).
+
 ## Rules that matter here
 
 1. **Business logic belongs in `src/core/`.** Framework-free — no React, no

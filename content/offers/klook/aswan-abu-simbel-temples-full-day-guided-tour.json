@@ -1,5 +1,6 @@
 {
   "programme": "klook",
+  "section": "tours-activities",
   "city": "aswan",
   "city_status": "not in the site's city list yet; needs a decision before import",
   "kind": "tour",
