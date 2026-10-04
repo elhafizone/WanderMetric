@@ -199,10 +199,10 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
           {next.map((slide) => (
             <li key={slide.id} className="flex-1">
               <article className="border-border bg-surface relative flex h-full gap-4 overflow-hidden rounded-lg border p-3 motion-safe:animate-[hero-fade_700ms_ease-out]">
-                <div className="bg-surface-2 relative h-28 w-28 shrink-0 self-start overflow-hidden rounded-md sm:h-32 sm:w-36">
+                <div className="bg-surface-2 relative min-h-32 w-24 shrink-0 self-stretch overflow-hidden rounded-md sm:w-36">
                   <Photo slide={slide} sizes="144px" />
                 </div>
-                <div className="flex min-w-0 flex-1 flex-col gap-1">
+                <div className="flex min-w-0 flex-1 flex-col justify-center gap-1 py-1">
                   <p className="text-secondary text-xs/4 font-extrabold tracking-[0.06em] uppercase">
                     {slide.where}
                   </p>
@@ -216,7 +216,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                   </p>
                   <Link
                     href={slide.href}
-                    className="border-accent text-accent hover:bg-accent-soft mt-auto inline-flex min-h-9 w-fit items-center gap-1.5 rounded-md border-[1.5px] px-3.5 text-sm font-extrabold transition-colors"
+                    className="border-accent text-accent hover:bg-accent-soft mt-2 inline-flex min-h-9 w-fit items-center whitespace-nowrap gap-1.5 rounded-md border-[1.5px] px-3.5 text-sm font-extrabold transition-colors"
                   >
                     Read the guide
                     <ArrowRight aria-hidden="true" className="h-4 w-4" />
