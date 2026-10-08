@@ -10,18 +10,51 @@
   "affiliate_url": "https://klook.tpx.li/IKrohB1u",
   "facts": {
     "duration_minutes": 120,
-    "guide_language": ["English"],
+    "guide_language": [
+      "English"
+    ],
     "format": "Join-in group tour, you meet the guide on site",
     "schedule": "Departs 18:00, returns 20:00; the schedule can change with traffic and weather",
     "meeting_point": "In front of the convenience store at Daily Yamazaki Fushimi Inari Shrine, 93 Fukakusa Inarionmaecho, Fushimi Ward, Kyoto 612-0881",
     "arrive_before_minutes": 5,
-    "included": ["Admission to attractions", "English-speaking guide"],
+    "included": [
+      "Admission to attractions",
+      "English-speaking guide"
+    ],
     "cancellation": "Free cancellation up to 24 hours before the activity date (destination local time)",
     "late_policy": "Latecomers and no-shows cannot be refunded",
     "confirmation": "Instant confirmation",
     "voucher": "Mobile voucher, valid only on the booked date",
     "eligibility": "Children aged 13 and over pay the adult rate; child (3-12) and infant (0-2) categories are listed separately",
-    "physical_note": "Considerable walking and stairs; participants should be fit enough to take part"
+    "physical_note": "Considerable walking and stairs; participants should be fit enough to take part",
+    "images": [
+      {
+        "url": "https://res.klook.com/image/upload/w_1265,h_791,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/xsgpegze6ik13ihw7o1y.webp",
+        "alt": ""
+      },
+      {
+        "url": "https://res.klook.com/image/upload/w_750,h_469,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/ig5oithjbpdhejmphhbr.webp",
+        "alt": ""
+      },
+      {
+        "url": "https://res.klook.com/image/upload/w_750,h_469,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/mdd9mohngr0fiwwkt7zd.webp",
+        "alt": ""
+      },
+      {
+        "url": "https://res.klook.com/image/upload/w_750,h_469,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/geujiqik88mvfrdubiaw.webp",
+        "alt": ""
+      },
+      {
+        "url": "https://res.klook.com/image/upload/w_750,h_469,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/bz9klaywwslw321poje2.webp",
+        "alt": ""
+      }
+    ],
+    "image_credit": "Klook",
+    "rating": {
+      "score": 5.0,
+      "scale": 5,
+      "count_label": "88"
+    }
   },
   "price_note": "The 2-hour walking tour was listed at US$ 31.89 when read on 4 October 2026; price depends on date and traveller type.",
   "summary": "A two-hour guided walk up the torii-lined paths of Fushimi Inari Taisha, starting at 18:00, with the shrine's history and fox symbolism explained along the way.",

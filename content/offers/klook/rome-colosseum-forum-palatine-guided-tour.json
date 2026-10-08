@@ -10,7 +10,9 @@
   "affiliate_url": "https://klook.tpx.li/uA7kdpxy",
   "facts": {
     "departs_from": "Rome",
-    "guide_language": ["English"],
+    "guide_language": [
+      "English"
+    ],
     "group_size": "Large group, 1 to 25 people",
     "departures": "Multiple departure times",
     "included": [
@@ -20,13 +22,31 @@
       "Audio equipment (radios and headphones)",
       "Arena floor and Gladiator's Gate access, only if the Arena Floor Upgrade option is selected"
     ],
-    "not_included": ["Transport", "Meals"],
+    "not_included": [
+      "Transport",
+      "Meals"
+    ],
     "cancellation": "Free cancellation up to 24 hours before the activity date (destination local time)",
     "confirmation": "Instant confirmation",
     "operator": "Enjoy Rome",
-    "duration_note": "The listing shows a wide duration range that depends on the option and departure chosen, so check the exact length on the booking page."
+    "duration_note": "The listing shows a wide duration range that depends on the option and departure chosen, so check the exact length on the booking page.",
+    "images": [
+      {
+        "url": "https://res.klook.com/image/upload/c_crop,h_1012,w_1619,x_0,y_34,z_0.5/w_1265,h_791,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/j89qebtxvfnyekq93gue.webp",
+        "alt": ""
+      },
+      {
+        "url": "https://res.klook.com/image/upload/w_500,h_313,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/anozhpwwls4m1dctkb3a.webp",
+        "alt": ""
+      },
+      {
+        "url": "https://res.klook.com/image/upload/w_500,h_313,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/aig9dzs1tgndy7n9byju.webp",
+        "alt": ""
+      }
+    ],
+    "image_credit": "Klook"
   },
-  "price_note": "Listed from about US$ 71 per person when read on 4 October 2026; the price changes by date and option.",
+  "price_note": "Listed from about US$ 71 per person when read on 4 October 2026; the price changes by date and option. The listing showed \"From US$70.85\" on 8 October 2026; options vary by date.",
   "summary": "A guided walk through the three linked sites of ancient Rome, with tickets and audio headsets included and an optional arena-floor upgrade.",
   "body": "## Who this tour suits\n\nThe Colosseum, the Roman Forum and Palatine Hill sit next to each other and are normally visited together. This tour packages all three: one ticket flow, one guide, and a route that moves from the amphitheatre to the ruins where the city's public and political life took place. It suits first-time visitors who would rather have the order and the stories handled for them than assemble a day from separate tickets.\n\n## What the tour covers\n\nThe visit includes the Colosseum's first and second levels, the Palatine Hill and the Roman Forum. Your guide narrates throughout in English. Audio equipment, meaning radios and headphones, is part of the package, which helps in a large group where it can be hard to hear a guide over other tours in the same space.\n\nAn optional **Arena Floor Upgrade** adds the Gladiator's Gate and the arena floor. The listing is explicit that this access applies only when that option is selected, so if standing on the arena floor matters to you, choose it when you book rather than assuming it is part of the base tour.\n\n## Group size and timing\n\nGroups are listed as large, from 1 to 25 people. Several departure times are offered, so you can pick a slot that fits the rest of your day. The duration shown on the listing covers a wide range because it varies with the option and departure you choose; read the length on the booking page for the exact option rather than relying on a general figure.\n\n## What is not included\n\nTransport and meals are not part of the price. Plan how you will reach the meeting point and where you will eat afterwards.\n\n## Before you book\n\n- Cancellation is free up to 24 hours before the activity date, measured in Rome's local time.\n- If the operator has to cancel because of unforeseen events or extreme weather, the listing says you can reschedule or ask for a full refund.\n- Confirmation is instant.\n- The tour is run by Enjoy Rome, a local operator, and booked through Klook.\n\n## Practical tips\n\nChoose your option first (base tour or arena upgrade), then your date and departure time, and read the meeting-point details in your voucher before the day. The Colosseum, Forum and Palatine Hill are large open-air sites, so comfortable shoes and water are sensible regardless of the season.\n"
 }

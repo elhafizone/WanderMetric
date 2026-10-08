@@ -1,0 +1,18 @@
+{
+  "aviasales-how-it-works": { "programme": "aviasales", "label": "Aviasales: how booking works", "url": "https://aviasales.tpx.li/LyRns6p1" },
+  "aviasales-find-ticket-with-baggage": { "programme": "aviasales", "label": "Aviasales: find a ticket with baggage", "url": "https://aviasales.tpx.li/2SM5lBhG" },
+  "aviasales-add-baggage": { "programme": "aviasales", "label": "Aviasales: add baggage", "url": "https://aviasales.tpx.li/ekpwCd6i" },
+  "aviasales-arrive-at-airport": { "programme": "aviasales", "label": "Aviasales: how early to arrive", "url": "https://aviasales.tpx.li/TnVEpoYB" },
+  "aviasales-online-check-in": { "programme": "aviasales", "label": "Aviasales: online check-in", "url": "https://aviasales.tpx.li/rNnE0SRR" },
+  "aviasales-child-ticket": { "programme": "aviasales", "label": "Aviasales: child tickets", "url": "https://aviasales.tpx.li/DxqponAQ" },
+  "aviasales-travel-with-pet": { "programme": "aviasales", "label": "Aviasales: flying with a pet", "url": "https://aviasales.tpx.li/59WmMVhF" },
+  "aviasales-return-or-exchange": { "programme": "aviasales", "label": "Aviasales: return or exchange", "url": "https://aviasales.tpx.li/CHXSMCwa" },
+  "aviasales-correct-booking-mistake": { "programme": "aviasales", "label": "Aviasales: correct a booking mistake", "url": "https://aviasales.tpx.li/KiBNRl7Y" },
+  "airhelp-flight-delay-compensation": { "programme": "airhelp", "label": "AirHelp: flight delay compensation", "url": "https://airhelp.tpx.li/UZuf3pY2" },
+  "airhelp-flight-cancellation-compensation": { "programme": "airhelp", "label": "AirHelp: flight cancellation compensation", "url": "https://airhelp.tpx.li/rd8yoGpy" },
+  "airhelp-denied-boarding-compensation": { "programme": "airhelp", "label": "AirHelp: denied boarding", "url": "https://airhelp.tpx.li/JwZ47xcH" },
+  "airhelp-flight-refund": { "programme": "airhelp", "label": "AirHelp: refund vs compensation", "url": "https://airhelp.tpx.li/k9ciVpWh" },
+  "airhelp-our-fees": { "programme": "airhelp", "label": "AirHelp: fees", "url": "https://airhelp.tpx.li/bLxSsFzV" },
+  "compensair-flight-delay": { "programme": "compensair", "label": "Compensair: flight delay", "url": "https://compensair.tpx.li/55zDzJO4" },
+  "compensair-flight-cancellation": { "programme": "compensair", "label": "Compensair: flight cancellation", "url": "https://compensair.tpx.li/4dcBQI2N" }
+}

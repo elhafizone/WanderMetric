@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Container } from "@/components/layout/container";
 import { OfferCard } from "@/components/offer/offer-card";
 import { PageHeader, SectionHeader } from "@/components/ui/section";
-import { listOffers } from "@/core/offers/offers";
+import { listCitiesWithOffers, listOffers } from "@/core/offers/offers";
 import { SECTIONS, sectionCountryPath } from "@/core/sections/sections";
 import { buildMetadata } from "@/core/seo/metadata";
 import { createSupabasePublicClient } from "@/lib/supabase/public";
@@ -42,6 +43,8 @@ export default async function CountryHubPage({ params }: Params) {
   if (!offers) notFound();
 
   const name = offers[0]?.country.name ?? slug;
+  const citiesResult = await listCitiesWithOffers(createSupabasePublicClient(), slug);
+  const cities = citiesResult.ok ? citiesResult.data : [];
   const groups = SECTIONS.map((section) => ({
     section,
     offers: offers.filter((offer) => offer.section === section.slug),
@@ -55,6 +58,23 @@ export default async function CountryHubPage({ params }: Params) {
         description={`Everything we have published for ${name}, by section.`}
       />
       <Container className="flex flex-col gap-10 pt-6 pb-16 sm:gap-12 sm:pt-8 sm:pb-24">
+        {cities.length > 0 && (
+          <section className="flex flex-col gap-4">
+            <h2 className="text-xl font-semibold">Cities in {name}</h2>
+            <ul className="flex flex-wrap gap-2">
+              {cities.map((city) => (
+                <li key={city.id}>
+                  <Link
+                    href={`/countries/${slug}/${city.slug}`}
+                    className="rounded-full border px-4 py-2 text-sm hover:bg-black/5"
+                  >
+                    {city.name} · {city.offerCount}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
         {groups.map(({ section, offers: sectionOffers }) => (
           <section key={section.slug} className="flex flex-col gap-4">
             <SectionHeader

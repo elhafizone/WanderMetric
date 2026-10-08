@@ -77,10 +77,11 @@ Do not suppress a lint rule or ignore a TypeScript error to make it pass.
 
 ## Current state
 
-- `/go/[slug]` returns 404 and `/api/v1/subscribe` returns 503 in production:
-  both need `SUPABASE_SERVICE_ROLE_KEY`, which is not retrievable through the
-  Supabase integration and must be copied from the dashboard.
-- Travelpayouts is implemented but dormant until `TRAVELPAYOUTS_MARKER`,
-  `TRAVELPAYOUTS_PROJECT_ID` and `TRAVELPAYOUTS_API_TOKEN` are set. Links are
-  converted through the partner-links API; see `docs/travelpayouts.md`.
+- Production env vars (including `SUPABASE_SERVICE_ROLE_KEY` and the three
+  Travelpayouts keys) are set on the Hostinger Node.js app. Checked 2026-10-09:
+  `/go/[slug]` 302-redirects to a `tpx.li` link and `/api/v1/subscribe`
+  validates input. The last production build was 2026-10-04, so later local
+  work is not deployed until a new build is started.
+- Travelpayouts links are converted through the partner-links API; see
+  `docs/travelpayouts.md`.
 - No conversion ingestion: the statistics API was never verified.

@@ -7,6 +7,10 @@ import { PartnerList } from "@/components/category/partner-list";
 import { Container } from "@/components/layout/container";
 import { EmptyState } from "@/components/ui/card";
 import { PageHeader, SectionHeader } from "@/components/ui/section";
+import { CompareTable } from "@/components/compare/compare-table";
+import { COMPARE } from "@/core/affiliate/compare";
+import { formatReadOn } from "@/core/content/offer-facts";
+import { routes } from "@/core/seo/site";
 import { PARTNERS } from "@/core/affiliate/partners";
 import { listLiveLinkSlugs } from "@/core/affiliate/search";
 import {
@@ -60,6 +64,24 @@ export default async function CompareSectionPage({ params }: Params) {
   const liveSlugs = live.ok ? live.data : new Set<string>();
   const partners = all.filter((partner) => liveSlugs.has(partner.linkSlug));
 
+  // A category with comparison data gets the side-by-side table; the rest keep
+  // the provider list until their data has been read from the partners' sites.
+  const compare = COMPARE[section.partnerCategory];
+  const compareRows = (compare?.rows ?? [])
+    .filter((row) => liveSlugs.has(row.linkSlug))
+    .map((row) => ({
+      linkSlug: row.linkSlug,
+      name: row.name,
+      kind: row.kind,
+      logo: row.logo ?? null,
+      values: row.values,
+      sourceUrl: row.sourceUrl,
+      href: `${routes.affiliateRedirect(row.linkSlug)}?${new URLSearchParams({
+        c: `compare-${section.slug}`,
+        from: comparePath(section.slug),
+      }).toString()}`,
+    }));
+
   return (
     <>
       <PageHeader
@@ -75,11 +97,18 @@ export default async function CompareSectionPage({ params }: Params) {
       <Container className="flex flex-col gap-10 pt-6 pb-16 sm:gap-12 sm:pt-8 sm:pb-24">
         <section className="flex flex-col gap-4">
           <SectionHeader
-            title="Providers we work with"
+            title={compare ? "Compare providers" : "Providers we work with"}
+            description={compare ? "The same questions put to each provider, answered from its own website." : undefined}
             href={sectionPath(section.slug)}
             linkLabel={`Guides in ${section.shortName.toLowerCase()}`}
           />
-          {partners.length > 0 ? (
+          {compare && compareRows.length > 0 ? (
+            <CompareTable
+              criteria={compare.criteria}
+              rows={compareRows}
+              readOn={formatReadOn(compare.rows[0]?.readOn)}
+            />
+          ) : partners.length > 0 ? (
             <PartnerList partners={partners} campaign={`compare-${section.slug}`} fromPath={comparePath(section.slug)} />
           ) : (
             <EmptyState

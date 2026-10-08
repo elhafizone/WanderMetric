@@ -5,6 +5,7 @@ import {
   factsCaution,
   formatReadOn,
   offerOptions,
+  offerPhotos,
 } from "@/core/content/offer-facts";
 
 describe("factRows", () => {
@@ -15,9 +16,9 @@ describe("factRows", () => {
       duration_minutes: 120,
     });
     expect(rows).toEqual([
-      { label: "Departs from", value: "Rome" },
-      { label: "Guide language", value: "English, Italian" },
-      { label: "Duration", value: "2 hours" },
+      { key: "departs_from", label: "Departs from", value: "Rome" },
+      { key: "guide_language", label: "Guide language", value: "English, Italian" },
+      { key: "duration_minutes", label: "Duration", value: "2 hours" },
     ]);
   });
 
@@ -32,7 +33,7 @@ describe("factRows", () => {
       unclear_on_listing: "ask first",
       some_new_fact: "yes",
     });
-    expect(rows).toEqual([{ label: "Some new fact", value: "yes" }]);
+    expect(rows).toEqual([{ key: "some_new_fact", label: "Some new fact", value: "yes" }]);
   });
 });
 
@@ -62,5 +63,28 @@ describe("formatReadOn", () => {
     expect(formatReadOn("2026-10-04")).toBe("4 October 2026");
     expect(formatReadOn("nope")).toBeNull();
     expect(formatReadOn(null)).toBeNull();
+  });
+});
+
+describe("offerPhotos", () => {
+  it("keeps https photographs and drops everything else", () => {
+    const photos = offerPhotos({
+      images: [
+        { url: "https://cdn.example.com/a.jpg", alt: "A" },
+        { url: "http://cdn.example.com/b.jpg", alt: "B" },
+        { url: "javascript:alert(1)", alt: "C" },
+        { alt: "no url" },
+        "not an object",
+      ],
+    });
+    expect(photos).toEqual([{ url: "https://cdn.example.com/a.jpg", alt: "A" }]);
+  });
+
+  it("returns nothing when the listing has no photographs, and keeps them out of the rows", () => {
+    expect(offerPhotos({})).toEqual([]);
+    expect(offerPhotos(null)).toEqual([]);
+    expect(
+      factRows({ images: [{ url: "https://cdn.example.com/a.jpg", alt: "" }], image_credit: "Tiqets" }),
+    ).toEqual([]);
   });
 });

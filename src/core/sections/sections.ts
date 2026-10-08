@@ -46,6 +46,11 @@ export interface SectionInfo {
   /** Used where space is tight: the mobile strip and the home grid. */
   shortName: string;
   icon: SectionIcon;
+  /**
+   * One line for the home grid, saying what is actually on the section page.
+   * A section with no partner yet says so instead of promising content.
+   */
+  tagline: string;
   summary: string;
   checklistTitle: string;
   checklist: string[];
@@ -56,6 +61,7 @@ export interface SectionInfo {
 export const SECTIONS: readonly SectionInfo[] = [
   {
     slug: "tours-activities",
+    tagline: "Tickets, day tours, city passes and audio tours",
     name: "Tours and activities",
     shortName: "Tours",
     icon: "ticket",
@@ -72,6 +78,7 @@ export const SECTIONS: readonly SectionInfo[] = [
   },
   {
     slug: "hotels",
+    tagline: "No booking partner yet; offers appear once one is added",
     name: "Hotels and stays",
     shortName: "Hotels",
     icon: "bed",
@@ -87,6 +94,7 @@ export const SECTIONS: readonly SectionInfo[] = [
   },
   {
     slug: "car-rentals",
+    tagline: "Compare car, scooter and bike rental providers",
     name: "Car and bike rentals",
     shortName: "Cars",
     icon: "car",
@@ -105,6 +113,7 @@ export const SECTIONS: readonly SectionInfo[] = [
   },
   {
     slug: "flights",
+    tagline: "Search fares, plus answers on baggage, check-in and refunds",
     name: "Flights",
     shortName: "Flights",
     icon: "plane",
@@ -119,6 +128,7 @@ export const SECTIONS: readonly SectionInfo[] = [
   },
   {
     slug: "trains-buses",
+    tagline: "No booking partner yet; offers appear once one is added",
     name: "Trains and buses",
     shortName: "Trains",
     icon: "train",
@@ -134,6 +144,7 @@ export const SECTIONS: readonly SectionInfo[] = [
   },
   {
     slug: "transfers",
+    tagline: "Compare airport and city transfer providers",
     name: "Transfers and airport",
     shortName: "Transfers",
     icon: "bus",
@@ -151,6 +162,7 @@ export const SECTIONS: readonly SectionInfo[] = [
   },
   {
     slug: "package-tours",
+    tagline: "No booking partner yet; offers appear once one is added",
     name: "Package tours",
     shortName: "Packages",
     icon: "package",
@@ -166,6 +178,7 @@ export const SECTIONS: readonly SectionInfo[] = [
   },
   {
     slug: "insurance",
+    tagline: "What travel cover should include, and where to get a quote",
     name: "Insurance",
     shortName: "Insurance",
     icon: "shield",
@@ -184,6 +197,7 @@ export const SECTIONS: readonly SectionInfo[] = [
   },
   {
     slug: "sim-cards",
+    tagline: "Compare travel eSIM data plans before you fly",
     name: "SIM cards and eSIM",
     shortName: "SIM",
     icon: "smartphone",
@@ -201,6 +215,7 @@ export const SECTIONS: readonly SectionInfo[] = [
   },
   {
     slug: "travel-services",
+    tagline: "Flight compensation claims and luggage storage",
     name: "Travel services",
     shortName: "Services",
     icon: "life-buoy",

@@ -44,7 +44,35 @@
         "format": "Skip-the-line ticket, official English guide, unlimited free time",
         "cancellation": "Free cancellation up to 24 hours before"
       }
-    ]
+    ],
+    "images": [
+      {
+        "url": "https://res.klook.com/image/upload/w_1265,h_791,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/o1sj3hslxoc48phgudel.webp",
+        "alt": "The towers and carved façade of the Sagrada Família against a blue sky."
+      },
+      {
+        "url": "https://res.klook.com/image/upload/w_750,h_469,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/oodcsrhcis0fbdjun7rf.webp",
+        "alt": "Coloured light falling on the vaulted ceiling inside the Sagrada Família."
+      },
+      {
+        "url": "https://res.klook.com/image/upload/w_750,h_469,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/ffqge5qckbidizciuqsy.webp",
+        "alt": ""
+      },
+      {
+        "url": "https://res.klook.com/image/upload/w_750,h_469,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/bewhjfxfazdg9jv9vsjv.webp",
+        "alt": ""
+      },
+      {
+        "url": "https://res.klook.com/image/upload/w_750,h_469,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/r1vpk3x4kuzf6xjwuecw.webp",
+        "alt": ""
+      }
+    ],
+    "image_credit": "Klook",
+    "rating": {
+      "score": 4.6,
+      "scale": 5,
+      "count_label": "3.0K"
+    }
   },
   "price_note": "Listed prices when read on 4 October 2026 ranged from about US$ 35 (hosted entry) and US$ 38 (audio-guide ticket) to roughly US$ 52 to 61 for tower and guided options. Prices vary by date.",
   "summary": "Six ways to get into the Sagrada Familia, from a self-guided ticket with an audio guide to tower access, a short hosted introduction or a full guided tour.",

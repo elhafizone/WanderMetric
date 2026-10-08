@@ -74,9 +74,12 @@ export default async function HomePage() {
                 >
                   <SectionIcon icon={section.icon} className="text-accent h-6 w-6" />
                   <span className="text-[1rem]/6 font-extrabold">{section.name}</span>
-                  <span className="text-ink-muted mt-auto text-sm">
-                    {count > 0 ? `${count} ${count === 1 ? "guide" : "guides"}` : "Providers and tips"}
-                  </span>
+                  <span className="text-ink-soft text-[0.8125rem]/[1.35rem]">{section.tagline}</span>
+                  {count > 0 && (
+                    <span className="bg-accent-soft text-accent mt-auto w-fit rounded-full px-2.5 py-1 text-xs font-bold">
+                      {count} {count === 1 ? "guide" : "guides"}
+                    </span>
+                  )}
                 </Link>
               </li>
             );

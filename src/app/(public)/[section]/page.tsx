@@ -1,23 +1,31 @@
-import { Check } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { PartnerList } from "@/components/category/partner-list";
 import { Container } from "@/components/layout/container";
 import { OfferCard } from "@/components/offer/offer-card";
-import { SearchModule, type TabKey } from "@/components/search/search-module";
-import { CountryTabs } from "@/components/section/country-tabs";
 import { EmptyState } from "@/components/ui/card";
 import { PageHeader, SectionHeader } from "@/components/ui/section";
 import { PARTNERS } from "@/core/affiliate/partners";
 import { listLiveLinkSlugs } from "@/core/affiliate/search";
-import { listCountriesWithOffers, listOffers } from "@/core/offers/offers";
+import { listDestinations, listOffers, offerCardPhoto } from "@/core/offers/offers";
+import { CompareTable } from "@/components/compare/compare-table";
+import { CheckCards } from "@/components/section/check-cards";
+import { COMPARE } from "@/core/affiliate/compare";
+import { formatReadOn } from "@/core/content/offer-facts";
+import Image from "next/image";
+import { Car } from "lucide-react";
+import { FlightHelpGrid } from "@/components/flights/flight-help-grid";
+import { FlightSearch, type DestinationCard } from "@/components/flights/flight-search";
+import { FLIGHT_HELP, flightHelpSlugs } from "@/core/content/flight-help";
+import { routes } from "@/core/seo/site";
+import { ThingsToDoStrip, type StripOffer } from "@/components/section/things-to-do-strip";
+import { formatDuration } from "@/lib/format";
 import {
   SECTION_SLUGS,
   getSection,
-  sectionCountryPath,
+  offerPath,
   sectionPath,
-  type SectionSlug,
 } from "@/core/sections/sections";
 import { buildMetadata } from "@/core/seo/metadata";
 import { loadSearchModuleData } from "@/lib/search-module-data";
@@ -30,14 +38,6 @@ export function generateStaticParams() {
   return SECTION_SLUGS.map((section) => ({ section }));
 }
 
-/** The search tab each section opens, where the search module offers one. */
-const SEARCH_TAB: Partial<Record<SectionSlug, TabKey>> = {
-  flights: "flights",
-  "car-rentals": "cars",
-  transfers: "transfers",
-  "tours-activities": "activities",
-  "sim-cards": "esim",
-};
 
 interface Params {
   params: Promise<{ section: string }>;
@@ -66,13 +66,10 @@ export default async function SectionPage({ params }: Params) {
   const partnerSlugs = section.partnerCategory
     ? PARTNERS[section.partnerCategory].map((partner) => partner.linkSlug)
     : [];
-  const searchTab = SEARCH_TAB[section.slug];
 
-  const [offers, countries, live, search] = await Promise.all([
+  const [offers, live] = await Promise.all([
     listOffers(db, { section: section.slug, perPage: 48 }),
-    listCountriesWithOffers(db, section.slug),
     partnerSlugs.length > 0 ? listLiveLinkSlugs(db, partnerSlugs) : Promise.resolve(null),
-    searchTab ? loadSearchModuleData(db) : Promise.resolve(null),
   ]);
 
   const items = offers.ok ? offers.data.items : [];
@@ -80,6 +77,204 @@ export default async function SectionPage({ params }: Params) {
   const partners = section.partnerCategory
     ? PARTNERS[section.partnerCategory].filter((partner) => liveSlugs.has(partner.linkSlug))
     : [];
+
+  if (section.slug === "car-rentals") {
+    const data = COMPARE["car-hire"];
+    const liveCars = await listLiveLinkSlugs(db, (data?.rows ?? []).map((row) => row.linkSlug));
+    const liveSet = liveCars.ok ? liveCars.data : new Set<string>();
+    const rows = (data?.rows ?? []).filter((row) => liveSet.has(row.linkSlug));
+    const viewRows = rows.map((row) => ({
+      linkSlug: row.linkSlug,
+      name: row.name,
+      kind: row.kind,
+      logo: row.logo ?? null,
+      values: row.values,
+      sourceUrl: row.sourceUrl,
+      href: `${routes.affiliateRedirect(row.linkSlug)}?${new URLSearchParams({
+        c: "car-rentals",
+        from: sectionPath(section.slug),
+      }).toString()}`,
+    }));
+    const freeCancel = rows.filter((r) => /free/i.test(r.values.cancellation ?? "")).length;
+    const roundTheClock = rows.filter((r) => /24\/7/.test(r.values.support ?? "")).length;
+    const stats = [
+      { value: String(rows.length), label: "providers compared" },
+      { value: String(freeCancel), label: "state free cancellation" },
+      { value: String(roundTheClock), label: "state 24/7 support" },
+    ];
+
+    return (
+      <>
+        <PageHeader
+          crumbs={[{ label: "Home", href: "/" }, { label: section.name }]}
+          title={section.name}
+          description={section.summary}
+        />
+        <Container className="flex flex-col gap-14 pt-6 pb-16 sm:gap-16 sm:pt-8 sm:pb-24">
+          {rows.length > 0 && data ? (
+            <section aria-labelledby="providers" className="flex flex-col gap-6">
+              <div className="bg-accent-soft flex flex-col gap-6 rounded-3xl p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between">
+                <div className="flex max-w-xl flex-col gap-3">
+                  <span className="bg-accent text-accent-contrast grid size-12 place-items-center rounded-2xl">
+                    <Car aria-hidden className="size-6" />
+                  </span>
+                  <h2 id="providers" className="display text-[1.75rem]/[2rem] sm:text-[2.25rem]/[2.5rem]">
+                    Compare before you rent
+                  </h2>
+                  <p className="text-ink-soft text-base/[1.625rem]">
+                    The same questions put to each provider, answered from its own website. You book
+                    with the provider.
+                  </p>
+                  <ul className="flex -space-x-2 pt-1" aria-label="Providers compared">
+                    {rows.map((row) =>
+                      row.logo ? (
+                        <li
+                          key={row.linkSlug}
+                          className="border-surface bg-surface grid size-10 place-items-center overflow-hidden rounded-full border-2 p-1.5"
+                        >
+                          <Image
+                            src={row.logo}
+                            alt={row.name}
+                            width={28}
+                            height={28}
+                            unoptimized
+                            className="size-7 object-contain"
+                          />
+                        </li>
+                      ) : null,
+                    )}
+                  </ul>
+                </div>
+                <dl className="grid grid-cols-3 gap-3 lg:w-[26rem]">
+                  {stats.map((stat) => (
+                    <div key={stat.label} className="bg-surface rounded-2xl p-4">
+                      <dd className="display text-[2rem]/[2.25rem]">{stat.value}</dd>
+                      <dt className="text-ink-soft mt-1 text-[0.8125rem]/[1.2rem] font-medium">
+                        {stat.label}
+                      </dt>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+              <CompareTable
+                criteria={data.criteria}
+                rows={viewRows}
+                readOn={formatReadOn(data.rows[0]?.readOn)}
+              />
+            </section>
+          ) : (
+            <EmptyState
+              title="No providers are available right now"
+              description="We list a provider only while its link works. Check back soon."
+            />
+          )}
+
+          {items.length > 0 && (
+            <section className="flex flex-col gap-4">
+              <SectionHeader
+                title="Guides and offers"
+                description="What each listing includes, written from the partner's own details. You book with the partner."
+              />
+              <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {items.map((offer) => (
+                  <li key={offer.id}>
+                    <OfferCard offer={offer} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          <CheckCards title={section.checklistTitle} items={section.checklist} />
+        </Container>
+      </>
+    );
+  }
+
+  if (section.slug === "flights") {
+    const [searchData, destinations, live] = await Promise.all([
+      loadSearchModuleData(db),
+      listDestinations(db),
+      listLiveLinkSlugs(db, flightHelpSlugs()),
+    ]);
+    const flightPartner = searchData.partners.find((partner) => partner.key === "flights");
+
+    // A destination card is a city we have an airport code for and a partner
+    // photograph of, taken from one of its own offers.
+    const cards: DestinationCard[] = [];
+    for (const country of destinations.ok ? destinations.data : []) {
+      for (const city of country.cities) {
+        const airport = searchData.airports.find(
+          (a) => a.city.toLowerCase() === city.name.toLowerCase(),
+        );
+        if (airport && city.photo) {
+          cards.push({
+            code: airport.code,
+            city: city.name,
+            country: country.name,
+            offerCount: city.offerCount,
+            photo: { url: city.photo.url, alt: city.photo.alt, credit: city.photo.credit },
+          });
+        }
+      }
+    }
+    cards.sort((a, b) => b.offerCount - a.offerCount || a.city.localeCompare(b.city));
+
+    return (
+      <>
+        <PageHeader
+          crumbs={[{ label: "Home", href: "/" }, { label: section.name }]}
+          title={section.name}
+          description="Search fares across airlines and agencies, then book with the seller. Below: the answers travellers look for before and after a flight."
+        />
+        <Container className="flex flex-col gap-14 pt-6 pb-16 sm:gap-16 sm:pt-8 sm:pb-24">
+          {flightPartner ? (
+            <FlightSearch
+              action={routes.affiliateRedirect(flightPartner.linkSlug)}
+              partner={flightPartner.partner}
+              airports={searchData.airports}
+              destinations={cards.slice(0, 4)}
+            />
+          ) : null}
+          <FlightHelpGrid items={FLIGHT_HELP} liveSlugs={live.ok ? live.data : new Set<string>()} />
+        </Container>
+      </>
+    );
+  }
+
+  if (section.slug === "tours-activities") {
+    const strip: StripOffer[] = items.map((offer) => ({
+      id: offer.id,
+      name: offer.name,
+      href: offerPath(offer.section, offer.country.slug, offer.slug),
+      place: offer.city?.name ?? offer.country.name,
+      placeKey: offer.city?.slug ?? offer.country.slug,
+      section: offer.section,
+      duration: formatDuration(offer.duration_minutes),
+      provider: offer.program.name,
+      photo: offerCardPhoto(offer),
+    }));
+
+    return (
+      <>
+        <PageHeader
+          crumbs={[{ label: "Home", href: "/" }, { label: section.name }]}
+          title={section.name}
+          description={section.summary}
+        />
+        <Container className="pt-6 pb-16 sm:pt-8 sm:pb-24">
+          {strip.length > 0 ? (
+            <ThingsToDoStrip offers={strip} />
+          ) : (
+            <EmptyState
+              title="Guides for this section are on the way"
+              description="We publish a guide only when it has real details from the partner's listing."
+            />
+          )}
+        </Container>
+      </>
+    );
+  }
 
   return (
     <>
@@ -89,36 +284,28 @@ export default async function SectionPage({ params }: Params) {
         description={section.summary}
       />
 
-      <Container className="flex flex-col gap-10 pt-6 pb-16 sm:gap-12 sm:pt-8 sm:pb-24">
-        {search && searchTab && (
-          <SearchModule partners={search.partners} airports={search.airports} initialTab={searchTab} />
+      <Container className="flex flex-col gap-14 pt-6 pb-16 sm:gap-16 sm:pt-8 sm:pb-24">
+        {items.length > 0 ? (
+          <ThingsToDoStrip
+            title={`${section.shortName} guides and offers`}
+            offers={items.map((offer) => ({
+              id: offer.id,
+              name: offer.name,
+              href: offerPath(offer.section, offer.country.slug, offer.slug),
+              place: offer.city?.name ?? offer.country.name,
+              placeKey: offer.city?.slug ?? offer.country.slug,
+              section: offer.section,
+              duration: formatDuration(offer.duration_minutes),
+              provider: offer.program.name,
+              photo: offerCardPhoto(offer),
+            }))}
+          />
+        ) : (
+          <EmptyState
+            title="Guides for this section are on the way"
+            description="We publish a guide only when it has real details from the partner's listing."
+          />
         )}
-
-        <section className="flex flex-col gap-4">
-          <SectionHeader
-            title="Guides and offers"
-            description="What each listing includes, written from the partner's own details. You book with the partner."
-          />
-          <CountryTabs
-            countries={countries.ok ? countries.data : []}
-            allHref={sectionPath(section.slug)}
-            hrefFor={(country) => sectionCountryPath(section.slug, country)}
-          />
-          {items.length > 0 ? (
-            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {items.map((offer) => (
-                <li key={offer.id}>
-                  <OfferCard offer={offer} />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <EmptyState
-              title="Guides for this section are on the way"
-              description="We publish a guide only when it has real details from the partner's listing."
-            />
-          )}
-        </section>
 
         {partners.length > 0 && (
           <section className="flex flex-col gap-4">
@@ -134,20 +321,7 @@ export default async function SectionPage({ params }: Params) {
           </section>
         )}
 
-        <section className="border-border bg-surface flex flex-col gap-3 rounded-lg border p-5 sm:p-6">
-          <h2 className="display-sm text-xl">{section.checklistTitle}</h2>
-          <ul className="flex flex-col gap-2.5">
-            {section.checklist.map((item) => (
-              <li key={item} className="flex items-start gap-2.5 text-base/6">
-                <Check
-                  aria-hidden="true"
-                  className="text-accent mt-1 h-[1.125rem] w-[1.125rem] shrink-0"
-                />
-                {item}
-              </li>
-            ))}
-          </ul>
-        </section>
+        <CheckCards title={section.checklistTitle} items={section.checklist} />
       </Container>
     </>
   );

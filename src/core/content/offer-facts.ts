@@ -7,6 +7,8 @@
  */
 
 export interface FactRow {
+  /** The facts key, so the UI can pick an icon without parsing the label. */
+  key: string;
   label: string;
   value: string;
 }
@@ -17,7 +19,7 @@ export interface OfferOption {
 }
 
 /** Keys that are shown as their own section, not as a row. */
-const SECTION_KEYS = new Set(["options", "unclear_on_listing"]);
+const SECTION_KEYS = new Set(["options", "unclear_on_listing", "images", "image_credit", "rating", "included", "included_listed", "not_included"]);
 
 const LABELS: Record<string, string> = {
   departs_from: "Departs from",
@@ -77,7 +79,7 @@ export function factRows(facts: Record<string, unknown> | null | undefined): Fac
   for (const [key, value] of Object.entries(facts)) {
     if (SECTION_KEYS.has(key)) continue;
     const text = formatValue(key, value);
-    if (text) rows.push({ label: LABELS[key] ?? humanise(key), value: text });
+    if (text) rows.push({ key, label: LABELS[key] ?? humanise(key), value: text });
   }
   return rows;
 }
@@ -116,4 +118,80 @@ export function formatReadOn(isoDate: string | null | undefined): string | null 
     year: "numeric",
     timeZone: "UTC",
   });
+}
+
+export interface OfferPhoto {
+  url: string;
+  alt: string;
+}
+
+/**
+ * Photographs the partner's own listing shows for this offer, as read from the
+ * listing: `facts.images` is `[{ url, alt }]` and `facts.image_credit` names the
+ * partner. Only https URLs are accepted, and at most six are kept.
+ */
+export function offerPhotos(facts: Record<string, unknown> | null | undefined): OfferPhoto[] {
+  const raw = facts?.images;
+  if (!Array.isArray(raw)) return [];
+  const photos: OfferPhoto[] = [];
+  for (const entry of raw) {
+    if (typeof entry !== "object" || entry === null) continue;
+    const record = entry as Record<string, unknown>;
+    const url = typeof record.url === "string" ? record.url : "";
+    if (!/^https:\/\/[^\s]+$/.test(url)) continue;
+    const alt = typeof record.alt === "string" ? record.alt : "";
+    photos.push({ url, alt });
+    if (photos.length === 6) break;
+  }
+  return photos;
+}
+
+/** The partner a photograph is credited to, e.g. "Klook". */
+export function offerPhotoCredit(facts: Record<string, unknown> | null | undefined): string | null {
+  const value = facts?.image_credit;
+  return typeof value === "string" && value.trim().length > 0 ? value.trim() : null;
+}
+
+export interface OfferRating {
+  score: number;
+  scale: number;
+  /** How the listing states the number of reviews, e.g. "3.0K" or "16,479". */
+  countLabel: string;
+}
+
+/**
+ * The aggregate rating the partner's listing shows, as read from the listing:
+ * `facts.rating` is `{ score, scale, count_label }`. Only the overall score and
+ * the review count are kept. Review text belongs to its authors and stays on the
+ * partner's site.
+ */
+export function offerRating(facts: Record<string, unknown> | null | undefined): OfferRating | null {
+  const raw = facts?.rating;
+  if (typeof raw !== "object" || raw === null) return null;
+  const record = raw as Record<string, unknown>;
+  const score = typeof record.score === "number" ? record.score : NaN;
+  const scale = typeof record.scale === "number" ? record.scale : 5;
+  const countLabel = typeof record.count_label === "string" ? record.count_label.trim() : "";
+  if (!Number.isFinite(score) || score <= 0 || score > scale || countLabel.length === 0) return null;
+  return { score, scale, countLabel };
+}
+
+export interface OfferInclusions {
+  included: string[];
+  notIncluded: string[];
+}
+
+function stringList(value: unknown): string[] {
+  if (typeof value === "string") return value.trim() ? [value.trim()] : [];
+  if (!Array.isArray(value)) return [];
+  return value.filter((v): v is string => typeof v === "string" && v.trim().length > 0);
+}
+
+/** What the listing says is and is not covered, for the two-column block. */
+export function offerInclusions(
+  facts: Record<string, unknown> | null | undefined,
+): OfferInclusions | null {
+  const included = stringList(facts?.included_listed ?? facts?.included);
+  const notIncluded = stringList(facts?.not_included);
+  return included.length + notIncluded.length > 0 ? { included, notIncluded } : null;
 }
