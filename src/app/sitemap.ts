@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { listNewsForSitemap } from "@/core/news/news";
 import { listOfferSitemapEntries } from "@/core/offers/offers";
 import {
   MIN_OFFERS_FOR_COUNTRY_PAGE,
@@ -67,7 +68,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entry(route.path, null, route.changeFrequency, route.priority),
   );
 
-  const offers = await listOfferSitemapEntries(createSupabasePublicClient());
+  const db = createSupabasePublicClient();
+
+  // The news index is listed only once there is at least one article, matching
+  // the noindex the page emits while the desk is empty.
+  const news = await listNewsForSitemap(db);
+  if (news.ok && news.data.length > 0) {
+    urls.push(entry("/news", null, "daily", 0.8));
+    for (const article of news.data) {
+      urls.push(entry(`/news/${article.slug}`, article.updatedAt, "weekly", 0.7));
+    }
+  }
+
+  const offers = await listOfferSitemapEntries(db);
   if (!offers.ok) return urls;
 
   const perSectionCountry = new Map<string, number>();
