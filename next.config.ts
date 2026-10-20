@@ -45,6 +45,10 @@ const legacyRedirects: Array<[string, string]> = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // The Hostinger build host reports 57 CPUs but caps threads and memory per
+  // account; with one worker per CPU the build died with EAGAIN / SIGABRT while
+  // collecting page data (October 2026). A small fixed count builds reliably.
+  experimental: { cpus: 4 },
   // The www host answered 200 with the same pages, so every URL existed twice.
   // One canonical host, permanently.
   async redirects() {
