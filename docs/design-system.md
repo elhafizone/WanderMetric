@@ -9,52 +9,43 @@ affiliate relationship is disclosed in words and invisible as a design idea.
 
 ---
 
-## Identity v2.0, "Field Notes" (October 2026)
+## Composition v2 (October 2026), on the Survey identity
 
-**This section supersedes v1.0 below and every older colour and type table.** The
-live values are in `src/app/globals.css`. The idea: a travel journal, not a
-booking funnel. Warm paper, espresso ink, one burnt terracotta that means "act",
-and photography for everything else.
+The **identity is unchanged** (Survey, below: Lagoon, Marigold, Harbour, Bricolage
+Grotesque and Manrope, the original logo). What changed in October 2026 is the
+*composition* of the public site. A first attempt that also swapped the palette,
+type and logo was rolled back: the owner asked for a new design, not a new brand.
 
-| Role | Value | Use |
-|---|---|---|
-| `bg` / `bg-tint` / `surface` | `#F7F1E6` / `#EFE6D5` / `#FDFAF3` | Paper ground, sand bands, lifted card paper |
-| `ink` / `ink-soft` / `ink-muted` | `#1F1914` / `#473D33` / `#6C6153` | Text (15.5, 9.4 and 5.4:1 on paper) |
-| `accent` | `#A63F17` | Links, selected state, focus (5.6:1). Terracotta as text |
-| `cta` | `#BC4E25` | The search / booking fill. **White label** (4.9:1) |
-| `cta-light` | `#EE9467` | The same hue on the espresso footer and over photographs |
-| `secondary` | `#4C5A3C` | Olive: locations, guides, category marks |
-| `ember` | `#A3281F` | Crimson, **only** for things that expire. Never decorative |
+Principles of the new composition:
 
-Type: **Instrument Serif** for display only (headlines, card titles, the
-wordmark) - one upright weight and an italic, so hierarchy comes from size and it
-is never bolded or used for a label or a button. **Hanken Grotesk** for
-everything read or operated. Both are self-hosted by `next/font`. Sentence-case
-captions replace the tracked uppercase eyebrows.
+- **Cards have no frame, fill or shadow.** A soft-cornered photograph with the
+  words on the page beneath it and a hairline above the facts. Controls and
+  buttons are pills; photographs and cards use 12 px corners, large panels 16-24 px.
+- **Compositions vary on purpose**: one large card beside a run of rows (latest
+  guides), an asymmetric mosaic of destinations, the ten sections as an index list,
+  so no page reads as a catalogue of identical tiles.
+- **Captions are sentence case.** The tracked uppercase eyebrows are gone.
+- **No element overlaps another.** The home discovery bar sits *under* the hero, not
+  across its lower edge; photo credits sit on the photograph's top edge. Text over a
+  photograph is the only intended overlap, and it sits on a veil.
+- **Spacing belongs to the list item, not the row.** `first:`/`last:` on a row that
+  is the only child of its `li` matches every row; this once removed all the padding
+  from the home run of guides.
 
-Shape: controls and buttons are pills; photographs and cards use 12 px corners and
-large panels 16-24 px. **Cards have no frame, fill or shadow**: a soft-cornered
-photograph with the words on the page beneath it and a hairline above the facts.
-Compositions vary on purpose (one large card beside a run of rows; a mosaic of
-destinations; the ten sections as an index list) so no page reads as a catalogue of
-identical tiles.
+Home page, top to bottom: cinematic hero (`brandImage("hero")`, headline low-left on
+the dark road, entrance is CSS and transform only, see `.hero-*`), the discovery bar
+(a plain GET search and the real countries), the destination mosaic, the latest
+guides, the section index, the editorial band and a closing panel. On a phone the
+hero's focal point moves off the sun (`object-[36%_50%]`) and the veil is stronger,
+so white type never sits on blown-out sky.
 
-Home hero: one brand photograph (`brandImage("hero")`), the headline low-left on
-the dark road with a restrained espresso veil, and the discovery bar overlapping
-its lower edge. The entrance is CSS and transform only (`.hero-*`). On a phone the
-focal point moves off the sun (`object-[36%_50%]`) so white type never sits on
-blown-out sky.
-
-Imagery rules are unchanged and stricter in one place: a destination tile needs a
-photograph from one of its own offers, or one of ours of a place *in* that country
-(`src/components/home/destination-image.ts`); with neither it gets no tile.
+A destination tile needs a photograph from one of its own offers, or one of ours of
+a place *in* that country (`src/components/home/destination-image.ts`); with neither
+it gets no tile.
 
 ---
 
 ## Identity v1.0, "Survey" (September 2026)
-
-*Superseded by v2.0 above.* The values below are kept for the reasoning they
-record.
 
 **This section supersedes the colour and type values further down.** The values
 in the Colour and Type tables below are the previous identity (ivory, sage,

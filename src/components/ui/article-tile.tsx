@@ -47,7 +47,7 @@ export function ArticleTile({
         {guide.category && (
           <p className="text-secondary text-[0.8125rem]/[1.125rem] font-bold">{guide.category.name}</p>
         )}
-        <h3 className="display-sm text-[1.5rem]/[1.14] text-pretty">
+        <h3 className="display-sm text-[1.25rem]/[1.25] text-pretty">
           <Link
             href={guidePath(guide.slug)}
             className="decoration-transparent group-hover:decoration-ink underline decoration-1 underline-offset-[5px] transition-colors after:absolute after:inset-0"

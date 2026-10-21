@@ -13,7 +13,7 @@ import { COMPARE_SECTIONS, comparePath } from "@/core/sections/sections";
  * Site header.
  *
  * Paper-coloured, in flow and sticky, with a hairline beneath. After the logo:
- * Destinations, Tours, Flights and Compare, then one terracotta action that
+ * Destinations, Tours, Flights and Compare, then one Marigold action that
  * leads to search. Compare opens a menu of the categories that can be compared,
  * because a comparison only makes sense inside one category (never a flight
  * against an eSIM). Every other section stays reachable from the home page, the
@@ -157,7 +157,7 @@ export function SiteHeader() {
                 <li key={item.href} className="border-border border-b">
                   <Link
                     href={item.href}
-                    className={`display flex min-h-16 items-center justify-between text-[2rem] ${
+                    className={`display flex min-h-16 items-center justify-between text-[1.625rem] ${
                       isActive(item.href) ? "text-accent" : ""
                     }`}
                   >
@@ -168,7 +168,7 @@ export function SiteHeader() {
               <li className="border-border border-b pb-3">
                 <Link
                   href="/compare"
-                  className={`display flex min-h-16 items-center text-[2rem] ${
+                  className={`display flex min-h-16 items-center text-[1.625rem] ${
                     compareActive ? "text-accent" : ""
                   }`}
                 >

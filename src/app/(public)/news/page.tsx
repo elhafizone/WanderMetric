@@ -78,7 +78,7 @@ export default async function NewsIndexPage({ searchParams }: Props) {
                       >
                         {dateFormat.format(new Date(article.published_at))}
                       </time>
-                      <h2 className="display-sm text-[1.625rem]/[1.12] text-pretty">
+                      <h2 className="display-sm text-[1.3125rem]/[1.25] text-pretty">
                         <Link
                           href={`/news/${article.slug}`}
                           className="decoration-transparent group-hover:decoration-ink underline decoration-1 underline-offset-[5px] transition-colors after:absolute after:inset-0"

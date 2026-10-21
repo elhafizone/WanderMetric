@@ -48,7 +48,7 @@ export function SiteFooter() {
         <div className="flex flex-col gap-12 lg:flex-row lg:justify-between lg:gap-16">
           <div className="flex max-w-[24rem] flex-col gap-6">
             <Logo tone="reversed" className="h-10 w-auto self-start" />
-            <p className="display text-[2rem]/[1.08] text-white sm:text-[2.5rem]/[1.05]">
+            <p className="display text-[1.5rem]/[1.2] text-white sm:text-[1.875rem]/[1.15]">
               Read what a trip includes before you book it.
             </p>
             <Link

@@ -1,4 +1,4 @@
-import { ArrowUpRight, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
@@ -10,7 +10,7 @@ export interface DiscoveryCountry {
 }
 
 /**
- * The discovery bar that overlaps the hero's lower edge.
+ * The discovery bar, set directly under the hero.
  *
  * It is the one place on the home page where a visitor can type. The search is
  * a plain GET form to /search (it works without JavaScript, and is linkable),
@@ -23,8 +23,8 @@ export function DiscoveryBar({ countries }: { countries: DiscoveryCountry[] }) {
   const placeholder = example ? `Try “${example}”` : "Search by place or partner";
 
   return (
-    <Container className="relative z-10 -mt-14 sm:-mt-16">
-      <div className="border-border bg-surface flex flex-col gap-5 rounded-2xl border p-5 shadow-lg sm:p-7 lg:flex-row lg:items-center lg:gap-10">
+    <Container className="pt-8 sm:pt-10">
+      <div className="border-border bg-surface flex flex-col gap-5 rounded-2xl border p-5 shadow-md sm:p-7 lg:flex-row lg:items-center lg:gap-10">
         <form action="/search" method="get" role="search" className="flex-1">
           <label htmlFor="home-search" className="text-ink mb-2 block text-[0.9375rem] font-bold">
             Where do you want to go?
@@ -61,15 +61,6 @@ export function DiscoveryBar({ countries }: { countries: DiscoveryCountry[] }) {
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link
-                  href="/countries"
-                  className="text-accent hover:text-accent-hover inline-flex min-h-10 items-center gap-1 px-2 text-sm font-bold underline decoration-1 underline-offset-4"
-                >
-                  All destinations
-                  <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
-                </Link>
-              </li>
             </ul>
           </nav>
         )}

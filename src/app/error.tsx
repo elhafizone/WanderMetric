@@ -36,7 +36,7 @@ export default function GlobalError({
     <div className="mx-auto w-full max-w-3xl px-5 py-28 sm:px-8">
       <div className="flex flex-col gap-6">
         <p className="eyebrow text-accent">Error</p>
-        <h1 className="display text-[2.75rem]/[1] sm:text-[4.25rem]/[0.98]">Something went wrong</h1>
+        <h1 className="display text-[2.125rem]/[1.08] sm:text-[3.25rem]/[1.05]">Something went wrong</h1>
         <p className="text-ink-soft max-w-[52ch] text-lg/[1.65]">
           This page failed to load. Trying again often resolves it.
         </p>

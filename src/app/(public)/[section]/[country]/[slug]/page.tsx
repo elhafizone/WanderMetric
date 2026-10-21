@@ -122,7 +122,7 @@ export default async function OfferPage({ params }: Params) {
               <MapPin aria-hidden className="size-4" />
               {where}
             </p>
-            <h1 className="display text-[2.75rem]/[1] lg:text-[4.25rem]/[0.98]">
+            <h1 className="display text-[2.125rem]/[1.08] lg:text-[3.25rem]/[1.05]">
               {offer.name}
             </h1>
             {rating && (

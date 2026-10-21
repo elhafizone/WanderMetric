@@ -16,7 +16,7 @@ import { brandImage } from "@/core/media/imagery";
  * leaves the headline invisible.
  *
  * The line states what the site actually does. There is no search box inside
- * the photograph: the discovery bar below overlaps its lower edge instead.
+ * the photograph: the discovery bar sits directly beneath it, clear of the image.
  */
 export function HomeHero() {
   const photo = brandImage("hero");
@@ -38,15 +38,16 @@ export function HomeHero() {
         />
         <span
           aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgba(31,25,20,0.78)_0%,rgba(31,25,20,0.42)_34%,rgba(31,25,20,0)_68%),linear-gradient(to_right,rgba(31,25,20,0.4)_0%,rgba(31,25,20,0)_58%)]"
+          className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgba(31,25,20,0.82)_0%,rgba(31,25,20,0.6)_50%,rgba(31,25,20,0.14)_82%)] sm:bg-[linear-gradient(to_top,rgba(31,25,20,0.78)_0%,rgba(31,25,20,0.42)_34%,rgba(31,25,20,0)_68%),linear-gradient(to_right,rgba(31,25,20,0.4)_0%,rgba(31,25,20,0)_58%)]"
         />
 
-        <Container className="flex h-full flex-col justify-end pb-24 sm:pb-28 lg:pb-32">
+        <Container className="flex h-full flex-col justify-end pb-14 sm:pb-16 lg:pb-20">
           <h1
             id="home-title"
-            className="display-xl hero-rise hero-rise-1 max-w-[15ch] text-white"
+            className="display-xl hero-rise hero-rise-1 max-w-[20ch] text-white"
           >
-            Find the trip. Read what’s really included.
+            <span className="block">Find the trip.</span>
+            <span className="block">Read what’s really included.</span>
           </h1>
           <p className="hero-rise hero-rise-2 mt-5 max-w-[44ch] text-[1.0625rem]/[1.6] text-white/90 sm:mt-6 sm:text-lg/[1.65]">
             Guides written from each partner’s own listing, with the partner link when you’re
@@ -65,7 +66,7 @@ export function HomeHero() {
           </div>
         </Container>
 
-        <p className="absolute right-4 bottom-3 text-[0.75rem] text-white/80 sm:right-8 lg:right-10">
+        <p className="absolute top-3 right-4 text-[0.75rem] text-white/85 sm:right-8 lg:right-10">
           Photo: {photo.credit.photographer} / {photo.credit.source}
         </p>
       </div>

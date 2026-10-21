@@ -46,7 +46,7 @@ export function EditorialBand() {
         </figure>
 
         <div className="flex flex-col gap-8">
-          <h2 id="how-we-write" className="display text-[2.5rem]/[1.02] sm:text-[3.5rem]/[1] lg:text-[4rem]">
+          <h2 id="how-we-write" className="display text-[1.875rem]/[1.1] sm:text-[2.5rem]/[1.08] lg:text-[2.875rem]/[1.06]">
             Written from the listing, not the brochure.
           </h2>
           <ul className="flex flex-col gap-6">

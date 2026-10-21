@@ -54,7 +54,7 @@ export function CheckCards({ title, items }: { title: string; items: readonly st
               key={item}
               className="border-border bg-surface flex gap-4 rounded-2xl border p-5"
             >
-              <span className="bg-secondary-soft text-secondary grid size-11 shrink-0 place-items-center rounded-xl">
+              <span className="bg-ember-soft text-ember grid size-11 shrink-0 place-items-center rounded-xl">
                 <Icon aria-hidden className="size-5" />
               </span>
               <div className="flex min-w-0 flex-col gap-1">

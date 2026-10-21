@@ -45,7 +45,7 @@ const NOT_STATED = "Not stated";
 /** A tint per provider, so a list of six does not read as six copies of one tile. */
 const TINTS = [
   "bg-accent text-accent-contrast",
-  "bg-warning text-on-media",
+  "bg-ember text-on-media",
   "bg-secondary text-on-media",
   "bg-success text-on-media",
   "bg-info text-on-media",

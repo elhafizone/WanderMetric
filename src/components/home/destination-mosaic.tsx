@@ -85,8 +85,8 @@ export function DestinationMosaic({ destinations }: { destinations: MosaicDestin
                   <h3
                     className={`display ${
                       feature
-                        ? "text-[2.75rem]/[0.98] sm:text-[3.5rem] lg:text-[4.5rem]"
-                        : "text-[2.25rem]/[1] sm:text-[2.75rem]"
+                        ? "text-[2rem]/[1.05] sm:text-[2.5rem] lg:text-[3.25rem]"
+                        : "text-[1.625rem]/[1.1] sm:text-[2rem]"
                     }`}
                   >
                     {destination.name}

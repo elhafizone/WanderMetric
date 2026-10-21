@@ -25,7 +25,7 @@ export function SectionIndex({ counts }: { counts: Record<string, number> }) {
                 icon={section.icon}
                 className="text-secondary row-span-2 h-6 w-6 self-center"
               />
-              <span className="display-sm decoration-transparent group-hover:decoration-ink text-[1.75rem]/[1.1] underline decoration-1 underline-offset-[6px] transition-colors sm:text-[2rem]">
+              <span className="display-sm decoration-transparent group-hover:decoration-ink text-[1.375rem]/[1.2] underline decoration-1 underline-offset-[6px] transition-colors sm:text-[1.5rem]">
                 {section.name}
               </span>
               <span className="text-ink-muted row-span-2 flex items-center gap-3 self-center text-[0.8125rem] font-semibold">

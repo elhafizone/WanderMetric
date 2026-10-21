@@ -29,7 +29,7 @@ export function ClosingPanel() {
           />
           <h2
             id="closing-title"
-            className="display max-w-[16ch] text-[2.75rem]/[1] text-white sm:text-[4rem] lg:text-[5rem]"
+            className="display max-w-[18ch] text-[2rem]/[1.08] text-white sm:text-[3rem]/[1.05] lg:text-[3.75rem]/[1.03]"
           >
             Pick a country and start reading.
           </h2>

@@ -43,7 +43,7 @@ export function SectionHeader({
             {eyebrow}
           </p>
         )}
-        <h2 className="display text-[2.125rem]/[1.04] sm:text-[2.875rem]/[1.02]">{title}</h2>
+        <h2 className="display text-[1.75rem]/[1.12] sm:text-[2.25rem]/[1.1]">{title}</h2>
         {description && (
           <p className="text-ink-muted mt-3 max-w-prose text-base/[1.6] sm:text-[1.0625rem]/[1.65]">
             {description}
@@ -91,7 +91,7 @@ export function PageHeader({
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
           <header className="max-w-3xl">
             {eyebrow && <p className="eyebrow text-secondary mb-2">{eyebrow}</p>}
-            <h1 className="display text-[2.75rem]/[1] sm:text-[3.75rem]/[0.98] lg:text-[4.5rem]/[0.96]">
+            <h1 className="display text-[2.125rem]/[1.08] sm:text-[2.75rem]/[1.05] lg:text-[3.5rem]/[1.04]">
               {title}
             </h1>
             {description && (

@@ -61,7 +61,7 @@ export function OfferCard({
         </p>
         <h3
           className={`display-sm text-pretty ${
-            lead ? "text-[2.125rem]/[1.06] sm:text-[2.75rem]/[1.04]" : "text-[1.625rem]/[1.12]"
+            lead ? "text-[1.625rem]/[1.15] sm:text-[2.125rem]/[1.1]" : "text-[1.3125rem]/[1.25]"
           }`}
         >
           <Link
@@ -105,7 +105,7 @@ export function OfferRow({ offer }: { offer: OfferCardData }) {
   const photo = offerCardPhoto(offer);
 
   return (
-    <article className="group relative flex gap-4 py-5 first:pt-0 last:pb-0 sm:gap-5">
+    <article className="group relative flex gap-4 sm:gap-5">
       <div className="bg-surface-2 relative h-28 w-28 shrink-0 overflow-hidden rounded-lg sm:h-32 sm:w-32">
         {photo ? (
           <Image
@@ -132,7 +132,7 @@ export function OfferRow({ offer }: { offer: OfferCardData }) {
           <MapPin aria-hidden="true" className="h-3.5 w-3.5 shrink-0" />
           {where}
         </p>
-        <h3 className="display-sm text-[1.4375rem]/[1.12] text-pretty sm:text-[1.5625rem]">
+        <h3 className="display-sm text-[1.125rem]/[1.25] text-pretty sm:text-[1.25rem]">
           <Link
             href={offerPath(offer.section, offer.country.slug, offer.slug)}
             className="decoration-transparent group-hover:decoration-ink underline decoration-1 underline-offset-[5px] transition-colors after:absolute after:inset-0"

@@ -23,7 +23,7 @@ export const revalidate = 3600;
 /** One tint per card so the grid reads as separate things, not one repeated tile. */
 const TINTS = [
   { panel: "bg-accent-soft", icon: "bg-accent text-accent-contrast", chip: "bg-accent-soft text-accent" },
-  { panel: "bg-band-sand", icon: "bg-warning text-on-media", chip: "bg-band-sand text-warning" },
+  { panel: "bg-ember-soft", icon: "bg-ember text-on-media", chip: "bg-ember-soft text-ember" },
   { panel: "bg-secondary-soft", icon: "bg-secondary text-on-media", chip: "bg-secondary-soft text-secondary" },
   { panel: "bg-success-soft", icon: "bg-success text-on-media", chip: "bg-success-soft text-success" },
   { panel: "bg-info-soft", icon: "bg-info text-on-media", chip: "bg-info-soft text-info" },

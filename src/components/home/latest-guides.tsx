@@ -21,7 +21,7 @@ export function LatestGuides({ offers }: { offers: OfferCardData[] }) {
       {run.length > 0 && (
         <ul className="divide-border flex flex-col divide-y lg:col-span-5">
           {run.map((offer) => (
-            <li key={offer.id}>
+            <li key={offer.id} className="py-5 first:pt-0 last:pb-0">
               <OfferRow offer={offer} />
             </li>
           ))}

@@ -64,7 +64,7 @@ export default async function CountryHubPage({ params }: Params) {
       <Container className="flex flex-col gap-16 pt-10 pb-20 sm:gap-24 sm:pt-14 sm:pb-28">
         {cities.length > 0 && (
           <section className="flex flex-col gap-8">
-            <h2 className="display-sm text-[1.75rem]/[1.1]">Cities in {name}</h2>
+            <h2 className="display-sm text-[1.375rem]/[1.2]">Cities in {name}</h2>
             <ul className="flex flex-wrap gap-2">
               {cities.map((city) => (
                 <li key={city.id}>

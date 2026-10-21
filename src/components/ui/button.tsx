@@ -7,9 +7,9 @@ import Link from "next/link";
  * Kept few on purpose. A travel page that offers five visually distinct
  * actions has not decided what it wants the reader to do.
  *
- * - `cta`       Terracotta. The one fill that means "search or book": it leaves
- *               the site for a partner, or runs a search. White label (4.9:1).
- * - `primary`   Espresso. The main move inside the site
+ * - `cta`       Marigold. The one fill that means "search or book": it leaves
+ *               the site for a partner, or runs a search. Ink label only (9.6:1).
+ * - `primary`   Lagoon. The main move inside the site
  * - `secondary` an equally legitimate alternative route
  * - `quiet`     a link that happens to need a hit area
  *
@@ -18,7 +18,7 @@ import Link from "next/link";
  */
 const VARIANTS = {
   cta: "bg-cta text-on-cta hover:bg-cta-hover font-bold shadow-sm hover:shadow-md",
-  primary: "bg-ink text-bg hover:bg-ink-soft font-bold shadow-sm hover:shadow-md",
+  primary: "bg-accent text-accent-contrast hover:bg-accent-hover font-bold shadow-sm hover:shadow-md",
   secondary:
     "border border-border-strong text-ink bg-transparent hover:border-ink hover:bg-surface",
   quiet: "text-ink hover:text-accent",

@@ -65,7 +65,7 @@ export function ContentCard({
       <div className="flex flex-1 flex-col gap-2">
         {eyebrow && <p className="text-secondary text-[0.8125rem]/[1.125rem] font-bold">{eyebrow}</p>}
 
-        <h3 className="display-sm text-[1.625rem]/[1.12]">
+        <h3 className="display-sm text-[1.3125rem]/[1.25]">
           <Link
             href={href}
             className="decoration-transparent group-hover:decoration-ink underline decoration-1 underline-offset-[5px] transition-colors after:absolute after:inset-0"
@@ -133,7 +133,7 @@ export function EmptyState({
 }) {
   return (
     <div className="border-border-strong bg-bg-tint rounded-xl border border-dashed px-6 py-14 text-center sm:px-8 sm:py-20">
-      <p className="display-sm text-[1.75rem]">{title}</p>
+      <p className="display-sm text-[1.375rem]">{title}</p>
       <p className="text-ink-soft mx-auto mt-3 max-w-prose text-[0.9375rem]/[1.6]">
         {description}
       </p>

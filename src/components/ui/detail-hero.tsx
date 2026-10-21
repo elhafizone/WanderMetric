@@ -49,7 +49,7 @@ export function DetailHero({
           {eyebrow && (
             <p className="eyebrow text-secondary text-[0.9375rem]">{eyebrow}</p>
           )}
-          <h1 className="display max-w-[18ch] text-[2.75rem]/[1] sm:text-[3.5rem]/[0.98] lg:text-[4.75rem]/[0.97]">
+          <h1 className="display max-w-[22ch] text-[2.125rem]/[1.08] sm:text-[2.75rem]/[1.06] lg:text-[3.5rem]/[1.04]">
             {title}
           </h1>
           {description && (

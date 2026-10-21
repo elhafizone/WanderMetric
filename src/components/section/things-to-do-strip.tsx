@@ -34,11 +34,11 @@ export interface StripOffer {
  */
 const TINTS = [
   "bg-accent-soft text-accent",
+  "bg-ember-soft text-ember",
   "bg-secondary-soft text-secondary",
-  "bg-warning-soft text-warning",
   "bg-success-soft text-success",
   "bg-info-soft text-info",
-  "bg-band-sand text-ink-soft",
+  "bg-warning-soft text-ink",
 ] as const;
 
 function tintFor(section: string): string {
@@ -71,7 +71,7 @@ export function ThingsToDoStrip({
 
   return (
     <section aria-labelledby="things-to-do" className="flex flex-col gap-6 sm:gap-8">
-      <h2 id="things-to-do" className="display text-[2.125rem]/[1.04] sm:text-[2.875rem]/[1.02]">
+      <h2 id="things-to-do" className="display text-[1.75rem]/[1.12] sm:text-[2.25rem]/[1.1]">
         {title}
       </h2>
 
@@ -133,7 +133,7 @@ export function ThingsToDoStrip({
                   <MapPin aria-hidden className="size-3.5 shrink-0" />
                   {offer.place}
                 </p>
-                <h3 className="display-sm text-[1.625rem]/[1.12] text-pretty">
+                <h3 className="display-sm text-[1.3125rem]/[1.25] text-pretty">
                   <Link
                     href={offer.href}
                     className="decoration-transparent group-hover:decoration-ink underline decoration-1 underline-offset-[5px] transition-colors after:absolute after:inset-0"

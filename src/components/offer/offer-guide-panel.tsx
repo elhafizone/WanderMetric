@@ -164,7 +164,7 @@ function providerLabel(linkSlug: string): string {
 
 const GREEN = "bg-success-soft text-success";
 const TEAL = "bg-accent-soft text-accent";
-const SAND = "bg-warning-soft text-warning";
+const SAND = "bg-ember-soft text-ember";
 
 /** An icon and a tint for each kind of fact; anything unrecognised gets a plain info mark. */
 function rowIcon(key: string): { Icon: LucideIcon; tone: string } {
