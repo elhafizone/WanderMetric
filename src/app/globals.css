@@ -1,79 +1,84 @@
 @import "tailwindcss";
 
 /* =========================================================================
-   WanderMetric design tokens — identity "Survey", v1.0 (September 2026).
+   WanderMetric design tokens — identity "Field Notes", v2.0 (October 2026).
 
-   Light is the only theme. The palette is warm sand neutrals, one calm green
-   for brand and interactive state (Lagoon), one high-visibility colour that
-   means "take the booking or search action" (Marigold, always with an ink
-   label), a blue for guides and information (Harbour), and a terracotta that is
-   reserved for things that expire (Ember: a deal that ends, never decoration).
+   Light is the only theme. A travel journal rather than a booking funnel:
+   warm paper, espresso ink, and one burnt-terracotta that means "act" (search,
+   book, go to the partner). Everything else is photography. Olive carries the
+   quiet informational tone (guides, categories); crimson is kept for things that
+   expire, and never decorates.
 
-   Contrast ratios are those measured in the identity handoff, WCAG 2.2.
+   Contrast ratios are WCAG 2.2, measured against the paper ground:
+     ink 15.5:1 · ink-soft 9.4:1 · ink-muted 5.4:1 (4.7:1 on the sand wells)
+     accent (links) 5.6:1 · cta label (white on terracotta) 4.9:1
+     field edge 3.6:1 · olive 6.6:1 · lifted terracotta on the footer 7.5:1
    ========================================================================= */
 :root {
   color-scheme: light;
 
-  /* Ground and surfaces */
-  --wm-bg: #faf8f4;
-  --wm-bg-tint: #f3efe7;
-  --wm-surface: #ffffff;
-  --wm-surface-2: #f3efe7;
-  --wm-surface-3: #e4ded3;
-  --wm-border: #e4ded3;
+  /* Ground and surfaces: paper, then sand, then a lifted card-paper. */
+  --wm-bg: #f7f1e6;
+  --wm-bg-tint: #efe6d5;
+  --wm-surface: #fdfaf3;
+  --wm-surface-2: #ece2cf;
+  --wm-surface-3: #ddd0b8;
+  --wm-border: #e3d8c4;
   /* Visible edges on cards and quiet controls. Form fields use `--wm-field`,
      which is darker: a control's boundary needs 3:1. */
-  --wm-border-strong: #cfc7b9;
-  --wm-n-400: #cfc7b9;
-  --wm-field: #8e877b;
+  --wm-border-strong: #c9ba9f;
+  --wm-n-400: #cdbfa8;
+  --wm-field: #8a7d6a;
 
-  /* Ink — warm charcoal, never pure black */
-  --wm-ink: #1c1a17;
-  --wm-ink-soft: #48433c;
-  --wm-ink-muted: #6a6358;
+  /* Ink — warm espresso, never pure black */
+  --wm-ink: #1f1914;
+  --wm-ink-soft: #473d33;
+  --wm-ink-muted: #6c6153;
 
-  /* Lagoon: brand and interactive state (links, selected tabs, focus) */
-  --wm-accent: #0b6660;
-  --wm-accent-hover: #084f4a;
-  --wm-accent-soft: #e2f0ec;
+  /* Terracotta text: links, selected states, focus. 5.6:1 on paper. */
+  --wm-accent: #a63f17;
+  --wm-accent-hover: #85300f;
+  --wm-accent-soft: #f4dfd2;
   --wm-accent-contrast: #ffffff;
 
-  /* Marigold: the booking / search action. Ink label only, 9.6:1. */
-  --wm-cta: #ffb21e;
-  --wm-cta-hover: #f5a000;
-  --wm-on-cta: #1c1a17;
+  /* Terracotta fill: the search / booking action. White label, 4.9:1. */
+  --wm-cta: #bc4e25;
+  --wm-cta-hover: #9e3f1b;
+  --wm-on-cta: #ffffff;
+  /* The same hue lifted for use on the dark footer and over photographs. */
+  --wm-cta-light: #ee9467;
 
-  /* Harbour: guides, information, category icons */
-  --wm-secondary: #2a4f86;
-  --wm-secondary-soft: #e8eef7;
+  /* Olive: guides, information, category marks */
+  --wm-secondary: #4c5a3c;
+  --wm-secondary-soft: #e6e8d3;
 
-  /* Ember: reserved for things that expire. Always with a clock and words. */
-  --wm-ember: #c0400e;
-  --wm-ember-soft: #fceae1;
+  /* Crimson: reserved for things that expire. Always with a clock and words. */
+  --wm-ember: #a3281f;
+  --wm-ember-soft: #fbe4df;
 
   /* Section bands */
-  --wm-band-sand: #f5ecdd;
+  --wm-band-sand: #f0e4cf;
 
   /* Semantic */
-  --wm-success: #1c7443;
-  --wm-success-soft: #e4f3ea;
+  --wm-success: #2f6b3f;
+  --wm-success-soft: #e3efe3;
   --wm-warning: #8a5200;
-  --wm-warning-soft: #fff2d4;
+  --wm-warning-soft: #fff0d1;
   --wm-error: #b3243f;
   --wm-error-soft: #fbe8ec;
   --wm-info: #2a5da8;
   --wm-info-soft: #e8effa;
 
   /* On-photography ink. Fixed, not themed — these sit over an image, and only
-     ever on a plate or a veil. */
+     ever on a veil. */
   --wm-on-media: #ffffff;
-  --wm-on-media-muted: rgba(255, 255, 255, 0.76);
+  --wm-on-media-muted: rgba(255, 255, 255, 0.84);
 
   /* Elevation. Warm-tinted rather than neutral grey, so cards sit on the
-     ground instead of floating above a different colour temperature. */
-  --wm-shadow-sm: 0 1px 2px rgba(28, 26, 23, 0.06), 0 1px 1px rgba(28, 26, 23, 0.04);
-  --wm-shadow-md: 0 4px 16px rgba(28, 26, 23, 0.08), 0 1px 3px rgba(28, 26, 23, 0.06);
-  --wm-shadow-lg: 0 12px 40px rgba(28, 26, 23, 0.12);
+     paper instead of floating above a different colour temperature. */
+  --wm-shadow-sm: 0 1px 2px rgba(31, 25, 20, 0.06), 0 1px 1px rgba(31, 25, 20, 0.04);
+  --wm-shadow-md: 0 6px 20px rgba(31, 25, 20, 0.09), 0 1px 3px rgba(31, 25, 20, 0.06);
+  --wm-shadow-lg: 0 18px 48px rgba(31, 25, 20, 0.16);
 
   /* Motion. Shared by CSS transitions and the GSAP timelines, so a hover and
      a scroll reveal on the same card agree with each other. */
@@ -117,6 +122,7 @@
   --color-accent-contrast: var(--wm-accent-contrast);
   --color-cta: var(--wm-cta);
   --color-cta-hover: var(--wm-cta-hover);
+  --color-cta-light: var(--wm-cta-light);
   --color-on-cta: var(--wm-on-cta);
   --color-secondary: var(--wm-secondary);
   --color-secondary-soft: var(--wm-secondary-soft);
@@ -134,17 +140,17 @@
   --color-on-media: var(--wm-on-media);
   --color-on-media-muted: var(--wm-on-media-muted);
 
-  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-bricolage), var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-instrument), Georgia, "Times New Roman", serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
 
-  /* Corner steps from the identity: 6 / 10 / 14 px for controls and cards. The
-     two largest steps are unchanged so the existing panels keep their shape. */
+  /* Corner steps: 6 / 8 / 12 px for controls and cards, 16 / 24 for large
+     photographic panels. The photograph is the shape you notice. */
   --radius-sm: 0.375rem;
-  --radius-md: 0.625rem;
-  --radius-lg: 0.875rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
   --radius-xl: 1rem;
-  --radius-2xl: 1.25rem;
+  --radius-2xl: 1.5rem;
 
   --shadow-sm: var(--wm-shadow-sm);
   --shadow-md: var(--wm-shadow-md);
@@ -164,40 +170,48 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Display type. Bricolage Grotesque is an optical-size variable face; with
-   `font-optical-sizing: auto` the browser picks the optical size from the
-   rendered size, so a 60px headline gets its expressive cut and a 20px card
-   title stays plain.
+/* Display type. Instrument Serif has one upright weight and one italic, which is
+   the point: it is a headline face, so it is never bolded and never used for a
+   label, a button or a paragraph. Hierarchy comes from size, not weight.
 
-   These reference `--font-bricolage` (set by next/font on <body>) rather than
+   These reference `--font-instrument` (set by next/font on <body>) rather than
    the `--font-display` theme token: `@theme inline` inlines its values into
    generated utilities instead of publishing them on :root, so the token is
    readable from a Tailwind class but not from hand-written CSS. */
 .display {
-  font-family: var(--font-bricolage), var(--font-manrope), system-ui, sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.08;
-  font-optical-sizing: auto;
+  font-family: var(--font-instrument), Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.012em;
+  line-height: 1.06;
   text-wrap: balance;
 }
 
+/* Card and panel titles: the same face, set a little looser and taller. */
 .display-sm {
-  font-family: var(--font-bricolage), var(--font-manrope), system-ui, sans-serif;
-  font-weight: 650;
-  letter-spacing: -0.015em;
-  line-height: 1.18;
-  font-optical-sizing: auto;
+  font-family: var(--font-instrument), Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.16;
   text-wrap: balance;
 }
 
-/* Overline: 12px, extra-bold, tracked, uppercase. Never smaller than 12px. */
+/* The home page's one very large line. */
+.display-xl {
+  font-family: var(--font-instrument), Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  font-size: clamp(3.125rem, 8.2vw, 7rem);
+  letter-spacing: -0.028em;
+  line-height: 0.96;
+  text-wrap: balance;
+}
+
+/* Small lead-in above a heading or a place name. Sentence case, semibold: a
+   caption, not a shout. Never smaller than 13px. */
 .eyebrow {
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  line-height: 1rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.125rem;
 }
 
 /* A hairline that ends short of the container, used above section headings. */
@@ -211,6 +225,51 @@ body {
   );
 }
 
+/* Home hero entrance.
+
+   Transform only, never opacity: a CSS animation is driven by the document
+   timeline, and a document that is getting no frames (a background tab) never
+   advances it. With opacity in the keyframe that leaves the headline invisible
+   for good; with transform alone it is merely a few pixels low. The photograph
+   settles from a slight zoom, the lines rise one after another. */
+@keyframes wm-hero-settle {
+  from {
+    transform: scale(1.07);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes wm-hero-rise {
+  from {
+    transform: translate3d(0, 22px, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+.hero-photo {
+  animation: wm-hero-settle 2.2s var(--wm-ease-out) both;
+}
+.hero-rise {
+  animation: wm-hero-rise 0.9s var(--wm-ease-out) both;
+}
+.hero-rise-1 {
+  animation-delay: 0.08s;
+}
+.hero-rise-2 {
+  animation-delay: 0.2s;
+}
+.hero-rise-3 {
+  animation-delay: 0.32s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-photo,
+  .hero-rise {
+    animation: none !important;
+    transform: none !important;
+  }
+}
 
 /* Focus. One definition, so every control in the app agrees. */
 :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
@@ -260,7 +319,7 @@ body {
   background: var(--wm-bg-tint);
   color: var(--wm-ink);
 }
-/* Selected: Lagoon, extra-bold, with a 3px bar on the tab bar's hairline. */
+/* Selected: terracotta, extra-bold, with a 3px bar on the tab bar's hairline. */
 .search-tab:has(input:checked) {
   color: var(--wm-accent);
   font-weight: 800;
@@ -397,12 +456,11 @@ body {
   }
 
   .prose-page h2 {
-    font-family: var(--font-bricolage), var(--font-manrope), system-ui, sans-serif;
-    font-weight: 650;
-    font-optical-sizing: auto;
-    letter-spacing: -0.01em;
-    line-height: 1.2;
-    font-size: 1.5rem;
+    font-family: var(--font-instrument), Georgia, "Times New Roman", serif;
+    font-weight: 400;
+    letter-spacing: -0.005em;
+    line-height: 1.15;
+    font-size: 1.875rem;
     color: var(--wm-ink);
     margin-top: 1.5rem;
   }
@@ -466,31 +524,29 @@ body {
      are signposts inside the reading, not display type competing with the H1. */
   .article h2,
   .article h3 {
-    font-family: var(--font-bricolage), var(--font-manrope), system-ui, sans-serif;
+    font-family: var(--font-instrument), Georgia, "Times New Roman", serif;
     color: var(--wm-ink);
-    font-weight: 650;
-    letter-spacing: -0.012em;
+    font-weight: 400;
+    letter-spacing: -0.005em;
     text-wrap: balance;
   }
 
   .article h2 {
-    font-size: 1.625rem;
-    line-height: 1.22;
-    font-optical-sizing: auto;
+    font-size: 1.9375rem;
+    line-height: 1.14;
   }
 
   .article h3 {
-    font-size: 1.25rem;
-    line-height: 1.3;
-    font-optical-sizing: auto;
+    font-size: 1.5rem;
+    line-height: 1.2;
   }
 
   @media (min-width: 640px) {
     .article h2 {
-      font-size: 1.875rem;
+      font-size: 2.375rem;
     }
     .article h3 {
-      font-size: 1.375rem;
+      font-size: 1.75rem;
     }
   }
 
@@ -533,11 +589,10 @@ body {
 
   @media (min-width: 30rem) {
     .article p.lede::first-letter {
-      font-family: var(--font-bricolage), var(--font-manrope), system-ui, sans-serif;
-    font-optical-sizing: auto;
-      font-weight: 700;
+      font-family: var(--font-instrument), Georgia, "Times New Roman", serif;
+      font-weight: 400;
       float: left;
-      font-size: 3.9em;
+      font-size: 4.6em;
       line-height: 0.82;
       margin: 0.08em 0.09em 0 0;
       color: var(--wm-ink);
@@ -601,12 +656,11 @@ body {
   }
 
   .article blockquote p {
-    font-family: var(--font-bricolage), var(--font-manrope), system-ui, sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-size: 1.375rem;
-    line-height: 1.42;
-    letter-spacing: -0.01em;
+    font-family: var(--font-instrument), Georgia, "Times New Roman", serif;
+    font-weight: 400;
+    font-size: 1.625rem;
+    line-height: 1.3;
+    letter-spacing: 0;
     color: var(--wm-ink);
     text-wrap: pretty;
   }
@@ -616,7 +670,7 @@ body {
       padding-left: 2rem;
     }
     .article blockquote p {
-      font-size: 1.625rem;
+      font-size: 2rem;
     }
   }
 

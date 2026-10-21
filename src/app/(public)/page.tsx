@@ -1,15 +1,16 @@
-import { BadgeCheck, CalendarCheck, PenLine, Scale, type LucideIcon } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
 
-import { FeaturedHero } from "@/components/home/featured-hero";
-import { Band, Container } from "@/components/layout/container";
-import { OfferCard } from "@/components/offer/offer-card";
-import { CountryTabs } from "@/components/section/country-tabs";
-import { SectionIcon } from "@/components/section/section-icon";
+import { ClosingPanel } from "@/components/home/closing-panel";
+import { DestinationMosaic, type MosaicDestination } from "@/components/home/destination-mosaic";
+import { destinationPicture } from "@/components/home/destination-image";
+import { DiscoveryBar } from "@/components/home/discovery-bar";
+import { EditorialBand } from "@/components/home/editorial-band";
+import { HomeHero } from "@/components/home/home-hero";
+import { LatestGuides } from "@/components/home/latest-guides";
+import { SectionIndex } from "@/components/home/section-index";
+import { Container } from "@/components/layout/container";
 import { SectionHeader } from "@/components/ui/section";
-import { countOffersBySection, listCountriesWithOffers, listOffers } from "@/core/offers/offers";
-import { SECTIONS, countryHubPath, sectionPath } from "@/core/sections/sections";
+import { countOffersBySection, listDestinations, listOffers } from "@/core/offers/offers";
 import { buildMetadata } from "@/core/seo/metadata";
 import { site } from "@/core/seo/site";
 import { createSupabasePublicClient } from "@/lib/supabase/public";
@@ -23,110 +24,89 @@ export const metadata: Metadata = buildMetadata({
 /** Revalidate hourly: the home page changes whenever an offer is published. */
 export const revalidate = 3600;
 
-const TRUST = ["No invented prices or reviews", "You book directly with the partner"];
-
-const PILLARS: Array<{ icon: LucideIcon; title: string; text: string }> = [
-  { icon: Scale, title: "Honest numbers", text: "Real partner prices or nothing. Never made up." },
-  { icon: PenLine, title: "Independent", text: "Partners can’t buy a recommendation." },
-  { icon: CalendarCheck, title: "Kept current", text: "Each guide shows when its details were read." },
-];
+/** How many country tiles the home page shows. */
+const MAX_DESTINATIONS = 6;
 
 export default async function HomePage() {
   const db = createSupabasePublicClient();
 
-  const [offers, countries, counts] = await Promise.all([
-    listOffers(db, { perPage: 6 }),
-    listCountriesWithOffers(db),
+  const [offers, destinations, counts] = await Promise.all([
+    listOffers(db, { perPage: 4 }),
+    listDestinations(db),
     countOffersBySection(db),
   ]);
 
   const latest = offers.ok ? offers.data.items : [];
+  const countries = destinations.ok ? destinations.data : [];
   const perSection = counts.ok ? counts.data : {};
+
+  // Only a country with a real photograph gets a tile: nothing stands in for a
+  // picture of somewhere else.
+  const tiles: MosaicDestination[] = [];
+  for (const country of countries) {
+    const picture = destinationPicture(country);
+    if (!picture) continue;
+    tiles.push({
+      slug: country.slug,
+      name: country.name,
+      offerCount: country.offerCount,
+      cityCount: country.cities.length,
+      picture,
+    });
+    if (tiles.length === MAX_DESTINATIONS) break;
+  }
 
   return (
     <>
-      <FeaturedHero offers={latest.slice(0, 5)} />
+      <HomeHero />
+      <DiscoveryBar
+        countries={countries.map((country) => ({
+          slug: country.slug,
+          name: country.name,
+          offerCount: country.offerCount,
+        }))}
+      />
 
-      <Container className="pt-6 sm:pt-8">
-        <ul className="flex flex-col gap-1.5 sm:flex-row sm:flex-wrap sm:gap-x-7 sm:gap-y-2">
-          {TRUST.map((line) => (
-            <li
-              key={line}
-              className="text-ink-soft flex items-center gap-2 text-[0.8125rem] font-bold sm:text-sm"
-            >
-              <BadgeCheck aria-hidden="true" className="text-success h-[1.125rem] w-[1.125rem]" />
-              {line}
-            </li>
-          ))}
-        </ul>
-      </Container>
-
-      <Container className="flex flex-col gap-5 pt-12 sm:gap-6 sm:pt-16">
-        <SectionHeader title="Browse by section" description="Ten ways to plan a trip." />
-        <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
-          {SECTIONS.map((section) => {
-            const count = perSection[section.slug] ?? 0;
-            return (
-              <li key={section.slug}>
-                <Link
-                  href={sectionPath(section.slug)}
-                  className="border-border bg-surface hover:border-border-strong flex h-full flex-col gap-2 rounded-lg border p-4 transition-colors"
-                >
-                  <SectionIcon icon={section.icon} className="text-accent h-6 w-6" />
-                  <span className="text-[1rem]/6 font-extrabold">{section.name}</span>
-                  <span className="text-ink-soft text-[0.8125rem]/[1.35rem]">{section.tagline}</span>
-                  {count > 0 && (
-                    <span className="bg-accent-soft text-accent mt-auto w-fit rounded-full px-2.5 py-1 text-xs font-bold">
-                      {count} {count === 1 ? "guide" : "guides"}
-                    </span>
-                  )}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </Container>
-
-      {countries.ok && countries.data.length > 0 && (
-        <Container className="flex flex-col gap-4 pt-12 sm:pt-14">
-          <SectionHeader title="Browse by country" description="Every section, filtered to one country." />
-          <CountryTabs
-            countries={countries.data}
-            allHref="/"
-            hrefFor={countryHubPath}
-            label="Countries"
-          />
-        </Container>
+      {tiles.length > 0 && (
+        <section aria-label="Destinations" className="pt-20 sm:pt-28">
+          <Container className="flex flex-col gap-8 sm:gap-10">
+            <SectionHeader
+              title="Start with a place"
+              description="Every country that has a published guide, and the cities inside it."
+              href="/countries"
+              linkLabel="All destinations"
+            />
+            <DestinationMosaic destinations={tiles} />
+          </Container>
+        </section>
       )}
 
       {latest.length > 0 && (
-        <Container className="flex flex-col gap-5 pt-12 sm:gap-6 sm:pt-16">
-          <SectionHeader title="Latest guides" description="Written from each partner’s own listing." />
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {latest.map((offer) => (
-              <li key={offer.id}>
-                <OfferCard offer={offer} />
-              </li>
-            ))}
-          </ul>
-        </Container>
+        <section aria-label="Latest guides" className="pt-20 sm:pt-28">
+          <Container className="flex flex-col gap-8 sm:gap-10">
+            <SectionHeader
+              title="Latest guides"
+              description="Written from each partner’s own listing: what it includes, what to check, and when we read it."
+              href="/tours-activities"
+              linkLabel="All tours"
+            />
+            <LatestGuides offers={latest} />
+          </Container>
+        </section>
       )}
 
-      <Band className="mt-12 sm:mt-16">
-        <Container className="py-10 sm:py-14">
-          <ul className="grid gap-6 sm:grid-cols-3">
-            {PILLARS.map((pillar) => (
-              <li key={pillar.title} className="flex gap-3">
-                <pillar.icon aria-hidden="true" className="text-accent mt-0.5 h-6 w-6 shrink-0" />
-                <div>
-                  <h3 className="text-base font-extrabold">{pillar.title}</h3>
-                  <p className="text-ink-soft text-sm/[1.55]">{pillar.text}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
+      <section aria-label="Sections" className="py-20 sm:py-28">
+        <Container className="flex flex-col gap-8 sm:gap-10">
+          <SectionHeader
+            title="Ten ways to plan a trip"
+            description="From the things to do there to the SIM card you land with."
+          />
+          <SectionIndex counts={perSection} />
         </Container>
-      </Band>
+      </section>
+
+      <EditorialBand />
+      <ClosingPanel />
     </>
   );
 }

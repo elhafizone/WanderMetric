@@ -110,7 +110,7 @@ export default async function SectionPage({ params }: Params) {
           title={section.name}
           description={section.summary}
         />
-        <Container className="flex flex-col gap-14 pt-6 pb-16 sm:gap-16 sm:pt-8 sm:pb-24">
+        <Container className="flex flex-col gap-16 pt-10 pb-20 sm:gap-24 sm:pt-14 sm:pb-28">
           {rows.length > 0 && data ? (
             <section aria-labelledby="providers" className="flex flex-col gap-6">
               <div className="bg-accent-soft flex flex-col gap-6 rounded-3xl p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between">
@@ -170,12 +170,12 @@ export default async function SectionPage({ params }: Params) {
           )}
 
           {items.length > 0 && (
-            <section className="flex flex-col gap-4">
+            <section className="flex flex-col gap-8">
               <SectionHeader
                 title="Guides and offers"
                 description="What each listing includes, written from the partner's own details. You book with the partner."
               />
-              <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <ul className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
                 {items.map((offer) => (
                   <li key={offer.id}>
                     <OfferCard offer={offer} />
@@ -227,7 +227,7 @@ export default async function SectionPage({ params }: Params) {
           title={section.name}
           description="Search fares across airlines and agencies, then book with the seller. Below: the answers travellers look for before and after a flight."
         />
-        <Container className="flex flex-col gap-14 pt-6 pb-16 sm:gap-16 sm:pt-8 sm:pb-24">
+        <Container className="flex flex-col gap-16 pt-10 pb-20 sm:gap-24 sm:pt-14 sm:pb-28">
           {flightPartner ? (
             <FlightSearch
               action={routes.affiliateRedirect(flightPartner.linkSlug)}
@@ -262,7 +262,7 @@ export default async function SectionPage({ params }: Params) {
           title={section.name}
           description={section.summary}
         />
-        <Container className="pt-6 pb-16 sm:pt-8 sm:pb-24">
+        <Container className="pt-10 pb-20 sm:pt-14 sm:pb-28">
           {strip.length > 0 ? (
             <ThingsToDoStrip offers={strip} />
           ) : (
@@ -284,7 +284,7 @@ export default async function SectionPage({ params }: Params) {
         description={section.summary}
       />
 
-      <Container className="flex flex-col gap-14 pt-6 pb-16 sm:gap-16 sm:pt-8 sm:pb-24">
+      <Container className="flex flex-col gap-16 pt-10 pb-20 sm:gap-24 sm:pt-14 sm:pb-28">
         {items.length > 0 ? (
           <ThingsToDoStrip
             title={`${section.shortName} guides and offers`}
@@ -308,7 +308,7 @@ export default async function SectionPage({ params }: Params) {
         )}
 
         {partners.length > 0 && (
-          <section className="flex flex-col gap-4">
+          <section className="flex flex-col gap-8">
             <SectionHeader
               title="Providers we work with"
               description="Compare on their sites. You book with the provider."

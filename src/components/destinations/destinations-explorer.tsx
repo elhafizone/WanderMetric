@@ -8,8 +8,10 @@ import { useMemo, useState } from "react";
 export interface DestinationImage {
   src: string;
   alt: string;
-  /** The partner the photograph comes from. */
+  /** The partner the photograph comes from, or the photographer for one of ours. */
   credit: string;
+  /** False for a photograph served from our own origin; partner images are remote. */
+  remote?: boolean;
 }
 
 export interface DestinationCity {
@@ -129,8 +131,8 @@ function CountryCard({ country }: { country: DestinationCountryView }) {
           alt={country.image.alt}
           fill
           sizes="(max-width: 1024px) 100vw, 58vw"
-          unoptimized
-          referrerPolicy="no-referrer"
+          unoptimized={country.image.remote !== false}
+          referrerPolicy={country.image.remote !== false ? "no-referrer" : undefined}
           className="-z-10 object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
       ) : (
@@ -138,7 +140,7 @@ function CountryCard({ country }: { country: DestinationCountryView }) {
       )}
       <span
         aria-hidden
-        className="absolute inset-0 -z-10 bg-gradient-to-t from-black/75 via-black/20 to-transparent"
+        className="absolute inset-0 -z-10 bg-gradient-to-t from-[rgba(31,25,20,0.76)] via-[rgba(31,25,20,0.18)] to-transparent"
       />
       <div className="flex items-end justify-between gap-4 p-5 sm:p-7">
         <div className="text-on-media flex flex-col gap-1.5">
@@ -154,7 +156,7 @@ function CountryCard({ country }: { country: DestinationCountryView }) {
         </span>
       </div>
       {country.image && (
-        <span className="text-on-media-muted absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-black/35 px-2.5 py-1 text-[0.6875rem] backdrop-blur-sm">
+        <span className="text-on-media-muted absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-[rgba(31,25,20,0.42)] px-2.5 py-1 text-[0.6875rem] backdrop-blur-sm">
           <Camera aria-hidden className="size-3" />
           Photo from {country.image.credit}
         </span>
@@ -192,8 +194,8 @@ function CityGrid({ country }: { country: DestinationCountryView }) {
                 alt={city.image.alt}
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
-                unoptimized
-                referrerPolicy="no-referrer"
+                unoptimized={city.image.remote !== false}
+                referrerPolicy={city.image.remote !== false ? "no-referrer" : undefined}
                 className="-z-10 object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
             ) : (
@@ -201,7 +203,7 @@ function CityGrid({ country }: { country: DestinationCountryView }) {
             )}
             <span
               aria-hidden
-              className="absolute inset-0 -z-10 bg-gradient-to-t from-black/75 via-black/15 to-transparent"
+              className="absolute inset-0 -z-10 bg-gradient-to-t from-[rgba(31,25,20,0.76)] via-[rgba(31,25,20,0.14)] to-transparent"
             />
             <div className="flex items-end justify-between gap-3 p-4 sm:p-5">
               <div className="text-on-media flex flex-col">
@@ -214,7 +216,7 @@ function CityGrid({ country }: { country: DestinationCountryView }) {
               </span>
             </div>
             {city.image && (
-              <span className="text-on-media-muted absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-black/35 px-2.5 py-1 text-[0.6875rem] backdrop-blur-sm">
+              <span className="text-on-media-muted absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-[rgba(31,25,20,0.42)] px-2.5 py-1 text-[0.6875rem] backdrop-blur-sm">
                 <Camera aria-hidden className="size-3" />
                 Photo from {city.image.credit}
               </span>

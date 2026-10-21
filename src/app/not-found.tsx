@@ -20,7 +20,7 @@ export default function NotFound() {
         <Container width="narrow">
           <div className="flex flex-col gap-5 py-16 sm:py-24">
             <p className="eyebrow text-accent">404</p>
-            <h1 className="display text-[2.25rem] sm:text-[3.25rem]">
+            <h1 className="display text-[2.75rem]/[1] sm:text-[4.5rem]/[0.98]">
               We could not find that page
             </h1>
             <p className="text-ink-soft max-w-[52ch] text-lg/[1.65]">

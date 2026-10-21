@@ -74,7 +74,7 @@ export function OfferGuidePanel({ item }: { item: OfferDetail }) {
           contentId={item.id}
           fromPath={offerPath(item.section, item.country.slug, item.slug)}
           emphasis="high"
-          className="group/out ease-editorial bg-cta text-on-cta hover:bg-cta-hover inline-flex min-h-12 items-center justify-center gap-2 rounded-md px-4 py-3 text-[0.9375rem] font-extrabold whitespace-nowrap shadow-sm transition-all duration-200 hover:shadow-md"
+          className="group/out ease-editorial bg-cta text-on-cta hover:bg-cta-hover inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-4 py-3 text-[0.9375rem] font-bold whitespace-nowrap shadow-sm transition-all duration-200 hover:shadow-md"
         >
           Check availability on {provider}
         </AffiliateLink>
@@ -164,7 +164,7 @@ function providerLabel(linkSlug: string): string {
 
 const GREEN = "bg-success-soft text-success";
 const TEAL = "bg-accent-soft text-accent";
-const SAND = "bg-ember-soft text-ember";
+const SAND = "bg-warning-soft text-warning";
 
 /** An icon and a tint for each kind of fact; anything unrecognised gets a plain info mark. */
 function rowIcon(key: string): { Icon: LucideIcon; tone: string } {

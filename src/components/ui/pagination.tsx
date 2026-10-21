@@ -19,7 +19,7 @@ export function Pagination({ meta, basePath }: { meta: PageMeta; basePath: strin
     page === 1 ? basePath : `${basePath}${separator}page=${page}`;
 
   const link =
-    "border-accent text-accent hover:bg-accent-soft inline-flex min-h-11 items-center gap-2 rounded-md border-[1.5px] px-5 text-sm font-extrabold transition-colors duration-200";
+    "border-border-strong text-ink hover:border-ink hover:bg-surface inline-flex min-h-11 items-center gap-2 rounded-full border px-6 text-sm font-bold transition-colors duration-200";
 
   return (
     <nav

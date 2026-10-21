@@ -118,11 +118,11 @@ export default async function OfferPage({ params }: Params) {
         <Container className="pt-4 sm:pt-5">
           <Breadcrumbs items={crumbs} />
           <header className="mt-5 flex max-w-[60rem] flex-col gap-3 sm:mt-6">
-            <p className="text-secondary flex items-center gap-1.5 text-sm font-semibold">
+            <p className="text-secondary flex items-center gap-1.5 text-[0.9375rem] font-bold">
               <MapPin aria-hidden className="size-4" />
               {where}
             </p>
-            <h1 className="display text-[2.25rem]/[2.5rem] lg:text-[3.5rem]/[3.75rem]">
+            <h1 className="display text-[2.75rem]/[1] lg:text-[4.25rem]/[0.98]">
               {offer.name}
             </h1>
             {rating && (

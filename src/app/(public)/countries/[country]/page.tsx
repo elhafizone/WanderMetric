@@ -4,8 +4,9 @@ import { notFound } from "next/navigation";
 
 import { Container } from "@/components/layout/container";
 import { OfferCard } from "@/components/offer/offer-card";
+import { HeaderPhoto } from "@/components/ui/header-photo";
 import { PageHeader, SectionHeader } from "@/components/ui/section";
-import { listCitiesWithOffers, listOffers } from "@/core/offers/offers";
+import { listCitiesWithOffers, listOffers, offerCardPhoto } from "@/core/offers/offers";
 import { SECTIONS, sectionCountryPath } from "@/core/sections/sections";
 import { buildMetadata } from "@/core/seo/metadata";
 import { createSupabasePublicClient } from "@/lib/supabase/public";
@@ -49,6 +50,7 @@ export default async function CountryHubPage({ params }: Params) {
     section,
     offers: offers.filter((offer) => offer.section === section.slug),
   })).filter((group) => group.offers.length > 0);
+  const photo = offers.map((offer) => offerCardPhoto(offer)).find((found) => found !== null);
 
   return (
     <>
@@ -56,17 +58,19 @@ export default async function CountryHubPage({ params }: Params) {
         crumbs={[{ label: "Home", href: "/" }, { label: name }]}
         title={`Travel offers in ${name}`}
         description={`Everything we have published for ${name}, by section.`}
-      />
-      <Container className="flex flex-col gap-10 pt-6 pb-16 sm:gap-12 sm:pt-8 sm:pb-24">
+      >
+        <HeaderPhoto photo={photo} />
+      </PageHeader>
+      <Container className="flex flex-col gap-16 pt-10 pb-20 sm:gap-24 sm:pt-14 sm:pb-28">
         {cities.length > 0 && (
-          <section className="flex flex-col gap-4">
-            <h2 className="text-xl font-semibold">Cities in {name}</h2>
+          <section className="flex flex-col gap-8">
+            <h2 className="display-sm text-[1.75rem]/[1.1]">Cities in {name}</h2>
             <ul className="flex flex-wrap gap-2">
               {cities.map((city) => (
                 <li key={city.id}>
                   <Link
                     href={`/countries/${slug}/${city.slug}`}
-                    className="rounded-full border px-4 py-2 text-sm hover:bg-black/5"
+                    className="border-border-strong text-ink hover:border-ink hover:bg-surface inline-flex min-h-10 items-center rounded-full border px-4 text-[0.9375rem] font-semibold transition-colors"
                   >
                     {city.name} · {city.offerCount}
                   </Link>
@@ -82,7 +86,7 @@ export default async function CountryHubPage({ params }: Params) {
               href={sectionCountryPath(section.slug, slug)}
               linkLabel={`All ${section.shortName.toLowerCase()} in ${name}`}
             />
-            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
               {sectionOffers.map((offer) => (
                 <li key={offer.id}>
                   <OfferCard offer={offer} />

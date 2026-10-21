@@ -67,14 +67,14 @@ export default async function SectionCountryPage({ params }: Params) {
         title={`${data.section.name} in ${country}`}
         description={data.section.summary}
       />
-      <Container className="flex flex-col gap-6 pt-6 pb-16 sm:pt-8 sm:pb-24">
+      <Container className="flex flex-col gap-6 pt-10 pb-20 sm:pt-14 sm:pb-28">
         <CountryTabs
           countries={data.countries}
           allHref={sectionPath(data.section.slug)}
           hrefFor={(slug) => sectionCountryPath(data.section.slug, slug)}
           activeSlug={countrySlug}
         />
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
           {data.offers.map((offer) => (
             <li key={offer.id}>
               <OfferCard offer={offer} />

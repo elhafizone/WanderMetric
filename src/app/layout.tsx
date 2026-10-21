@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Manrope } from "next/font/google";
+import { Hanken_Grotesk, Instrument_Serif } from "next/font/google";
 
 import { JsonLd } from "@/components/seo/json-ld";
 import { site } from "@/core/seo/site";
@@ -7,28 +7,27 @@ import { site } from "@/core/seo/site";
 import "./globals.css";
 
 /**
- * Two families, both variable, both self-hosted by `next/font` - so there is no
- * connection to a font CDN, no render-blocking stylesheet, and one file per
- * family rather than one per weight.
+ * Two families, both self-hosted by `next/font` - so there is no connection to
+ * a font CDN, no render-blocking stylesheet, and the files come from our own
+ * origin.
  *
- * Bricolage Grotesque is the display face: headlines and the wordmark, never
- * body copy. Its optical-size axis gives it character at headline sizes and
- * keeps it plain at small ones. Manrope sets everything a reader has to read or
- * operate: it has true tabular figures, which prices and dates need, and an
- * Arabic companion path for later. `swap` is deliberate: text in the fallback
- * face beats no text while the woff2 arrives, and it keeps the font off the LCP
- * critical path.
+ * Instrument Serif is the display face: headlines, card titles and the
+ * wordmark, never body copy and never a label. It has one upright weight and an
+ * italic, so hierarchy comes from size. Hanken Grotesk sets everything a reader
+ * has to read or operate - navigation, controls, metadata, body - and ships as
+ * one variable file. `swap` is deliberate: text in the fallback face beats no
+ * text while the woff2 arrives, and it keeps the font off the LCP critical path.
  */
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
+const instrument = Instrument_Serif({
+  variable: "--font-instrument",
   subsets: ["latin"],
   display: "swap",
-  weight: "variable",
-  axes: ["opsz"],
+  weight: "400",
+  style: ["normal", "italic"],
 });
 
-const manrope = Manrope({
-  variable: "--font-manrope",
+const hanken = Hanken_Grotesk({
+  variable: "--font-hanken",
   subsets: ["latin"],
   display: "swap",
 });
@@ -68,7 +67,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   // One theme, so one theme-colour. Advertising a dark variant here would ask
   // the browser to tint its own chrome dark around a page that is not.
-  themeColor: "#faf8f4",
+  themeColor: "#f7f1e6",
 };
 
 export default function RootLayout({
@@ -77,7 +76,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${manrope.variable} ${bricolage.variable} flex min-h-screen flex-col font-sans antialiased`}
+        className={`${hanken.variable} ${instrument.variable} flex min-h-screen flex-col font-sans antialiased`}
       >
         {/* Site-level structured data. Emitted once here rather than per page so
             it cannot drift between routes. */}

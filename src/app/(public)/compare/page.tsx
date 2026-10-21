@@ -23,7 +23,7 @@ export const revalidate = 3600;
 /** One tint per card so the grid reads as separate things, not one repeated tile. */
 const TINTS = [
   { panel: "bg-accent-soft", icon: "bg-accent text-accent-contrast", chip: "bg-accent-soft text-accent" },
-  { panel: "bg-ember-soft", icon: "bg-ember text-on-media", chip: "bg-ember-soft text-ember" },
+  { panel: "bg-band-sand", icon: "bg-warning text-on-media", chip: "bg-band-sand text-warning" },
   { panel: "bg-secondary-soft", icon: "bg-secondary text-on-media", chip: "bg-secondary-soft text-secondary" },
   { panel: "bg-success-soft", icon: "bg-success text-on-media", chip: "bg-success-soft text-success" },
   { panel: "bg-info-soft", icon: "bg-info text-on-media", chip: "bg-info-soft text-info" },
@@ -44,7 +44,7 @@ export default async function ComparePage() {
         title="Compare"
         description="Choose a category. We compare providers within it, because a flight can't be set against an eSIM."
       />
-      <Container className="pt-6 pb-16 sm:pt-8 sm:pb-24">
+      <Container className="pt-10 pb-20 sm:pt-14 sm:pb-28">
         <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {COMPARE_SECTIONS.map((section, index) => {
             const tint = TINTS[index % TINTS.length]!;

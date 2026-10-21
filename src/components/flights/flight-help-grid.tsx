@@ -44,7 +44,7 @@ const GROUPS: Array<{ key: FlightHelpGroup; title: string; description: string; 
     key: "wrong",
     title: "If a flight goes wrong",
     description: "Delays, cancellations and refunds: what the claims services say you may be owed.",
-    tone: "bg-ember-soft text-ember",
+    tone: "bg-warning-soft text-warning",
   },
 ];
 

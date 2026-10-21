@@ -45,7 +45,7 @@ const NOT_STATED = "Not stated";
 /** A tint per provider, so a list of six does not read as six copies of one tile. */
 const TINTS = [
   "bg-accent text-accent-contrast",
-  "bg-ember text-on-media",
+  "bg-warning text-on-media",
   "bg-secondary text-on-media",
   "bg-success text-on-media",
   "bg-info text-on-media",
@@ -248,7 +248,7 @@ export function CompareTable({
                     href={row.href}
                     rel="sponsored nofollow noopener"
                     target="_blank"
-                    className="bg-cta text-on-cta hover:bg-cta-hover flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-4 text-[0.9375rem] font-extrabold whitespace-nowrap transition-colors"
+                    className="bg-cta text-on-cta hover:bg-cta-hover flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-4 text-[0.9375rem] font-bold whitespace-nowrap transition-colors"
                   >
                     Visit {row.name}
                     <ExternalLink aria-hidden className="size-4" />

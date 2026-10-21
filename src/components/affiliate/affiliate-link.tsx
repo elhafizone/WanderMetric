@@ -50,7 +50,7 @@ export function AffiliateLink({
 
   const treatment =
     emphasis === "high"
-      ? "bg-cta text-on-cta hover:bg-cta-hover font-extrabold shadow-sm hover:shadow-md"
+      ? "bg-cta text-on-cta hover:bg-cta-hover font-bold shadow-sm hover:shadow-md"
       : "border-border-strong text-ink bg-surface hover:border-ink hover:bg-surface-2 border";
 
   return (

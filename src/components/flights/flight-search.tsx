@@ -243,7 +243,7 @@ export function FlightSearch({
 
           <button
             type="submit"
-            className="bg-cta text-on-cta hover:bg-cta-hover inline-flex min-h-[3.75rem] shrink-0 items-center justify-center gap-2 rounded-xl px-7 text-[1.0625rem] font-extrabold whitespace-nowrap transition-colors active:translate-y-px"
+            className="bg-cta text-on-cta hover:bg-cta-hover inline-flex min-h-[3.75rem] shrink-0 items-center justify-center gap-2 rounded-full px-7 text-[1.0625rem] font-bold whitespace-nowrap transition-colors active:translate-y-px"
           >
             <Search aria-hidden className="size-5" />
             Search flights

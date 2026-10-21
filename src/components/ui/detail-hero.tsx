@@ -47,9 +47,9 @@ export function DetailHero({
       >
         <header className="flex flex-col gap-4">
           {eyebrow && (
-            <p className="eyebrow text-secondary">{eyebrow}</p>
+            <p className="eyebrow text-secondary text-[0.9375rem]">{eyebrow}</p>
           )}
-          <h1 className="display max-w-[20ch] text-[2.25rem]/[2.5rem] lg:text-[3.75rem]/[4rem]">
+          <h1 className="display max-w-[18ch] text-[2.75rem]/[1] sm:text-[3.5rem]/[0.98] lg:text-[4.75rem]/[0.97]">
             {title}
           </h1>
           {description && (
@@ -63,7 +63,7 @@ export function DetailHero({
 
         {image && (
           <figure className="flex flex-col gap-1.5">
-            <div className="bg-surface-2 relative aspect-[16/11] w-full overflow-hidden rounded-xl">
+            <div className="bg-surface-2 relative aspect-[16/11] w-full overflow-hidden rounded-2xl">
               <MediaImage
                 media={media}
                 label={title}

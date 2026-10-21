@@ -87,7 +87,7 @@ export default async function NewsArticlePage({ params }: Params) {
           ]}
         />
         <header className="mt-6 flex max-w-[48rem] flex-col gap-4">
-          <h1 className="display text-[2.25rem]/[2.5rem] lg:text-[3.25rem]/[3.5rem]">
+          <h1 className="display text-[2.75rem]/[1] lg:text-[4.25rem]/[0.98]">
             {article.title}
           </h1>
           {article.excerpt && (

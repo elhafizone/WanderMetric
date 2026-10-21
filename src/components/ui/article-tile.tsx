@@ -11,9 +11,10 @@ import { guidePath } from "@/lib/paths";
  * A guide on a card, in two shapes: a stacked card for grids and a compact row
  * for lists on a phone.
  *
- * The overline is the guide's category, the title is set in the display face,
+ * The lead-in is the guide's category, the title is set in the display face,
  * and the last line carries the two things a reader uses to decide whether to
- * trust it: how long it takes and when it was last updated.
+ * trust it: how long it takes and when it was last updated. Like every card it
+ * has no frame: a soft-cornered photograph and words on the page.
  */
 export function ArticleTile({
   guide,
@@ -27,14 +28,10 @@ export function ArticleTile({
   const meta = [reading, updated ? `Updated ${updated}` : null].filter(Boolean).join(" · ");
 
   return (
-    <article
-      className={`group border-border bg-surface hover:border-border-strong relative flex h-full overflow-hidden rounded-lg border transition-colors duration-150 ${
-        row ? "flex-row gap-3.5 p-2.5" : "flex-col"
-      }`}
-    >
+    <article className={`group relative flex h-full ${row ? "flex-row gap-4" : "flex-col gap-4"}`}>
       <div
-        className={`bg-surface-2 relative shrink-0 overflow-hidden ${
-          row ? "h-24 w-24 rounded-lg" : "aspect-video w-full"
+        className={`bg-surface-2 relative shrink-0 overflow-hidden rounded-lg ${
+          row ? "h-24 w-24" : "aspect-[16/10] w-full"
         }`}
       >
         <MediaImage
@@ -42,17 +39,19 @@ export function ArticleTile({
           label={guide.title}
           imageKeys={placeKeysFromSlug(guide.slug)}
           sizes={row ? "96px" : "(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"}
+          className="card-media"
         />
       </div>
 
-      <div className={`flex min-w-0 flex-1 flex-col gap-1.5 ${row ? "py-0.5" : "p-4"}`}>
+      <div className={`flex min-w-0 flex-1 flex-col gap-2 ${row ? "py-0.5" : ""}`}>
         {guide.category && (
-          <p className="text-secondary text-xs/4 font-extrabold tracking-[0.06em] uppercase">
-            {guide.category.name}
-          </p>
+          <p className="text-secondary text-[0.8125rem]/[1.125rem] font-bold">{guide.category.name}</p>
         )}
-        <h3 className="display-sm text-[1.125rem]/6 text-pretty">
-          <Link href={guidePath(guide.slug)} className="after:absolute after:inset-0">
+        <h3 className="display-sm text-[1.5rem]/[1.14] text-pretty">
+          <Link
+            href={guidePath(guide.slug)}
+            className="decoration-transparent group-hover:decoration-ink underline decoration-1 underline-offset-[5px] transition-colors after:absolute after:inset-0"
+          >
             {guide.title}
           </Link>
         </h3>

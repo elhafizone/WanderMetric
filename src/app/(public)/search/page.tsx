@@ -57,7 +57,7 @@ export default async function SearchPage({
         </div>
       </PageHeader>
 
-      <Container className="pt-8 pb-16 sm:pt-10 sm:pb-24">
+      <Container className="pt-10 pb-20 sm:pt-14 sm:pb-28">
         <div className="flex flex-col gap-6">
           {query && items.length === 0 && (
             <EmptyState
@@ -71,7 +71,7 @@ export default async function SearchPage({
               <p className="text-ink-muted text-sm" aria-live="polite">
                 {meta?.total ?? items.length} result{(meta?.total ?? items.length) === 1 ? "" : "s"}
               </p>
-              <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <ul className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
                 {items.map((offer) => (
                   <li key={offer.id}>
                     <OfferCard offer={offer} />

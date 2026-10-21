@@ -94,8 +94,8 @@ export default async function CompareSectionPage({ params }: Params) {
         description="Providers in this category only. Compare on their sites; you book with the provider."
       />
 
-      <Container className="flex flex-col gap-10 pt-6 pb-16 sm:gap-12 sm:pt-8 sm:pb-24">
-        <section className="flex flex-col gap-4">
+      <Container className="flex flex-col gap-16 pt-10 pb-20 sm:gap-24 sm:pt-14 sm:pb-28">
+        <section className="flex flex-col gap-8">
           <SectionHeader
             title={compare ? "Compare providers" : "Providers we work with"}
             description={compare ? "The same questions put to each provider, answered from its own website." : undefined}

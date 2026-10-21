@@ -3,8 +3,9 @@ import { notFound } from "next/navigation";
 
 import { Container } from "@/components/layout/container";
 import { OfferCard } from "@/components/offer/offer-card";
+import { HeaderPhoto } from "@/components/ui/header-photo";
 import { PageHeader, SectionHeader } from "@/components/ui/section";
-import { listOffers } from "@/core/offers/offers";
+import { listOffers, offerCardPhoto } from "@/core/offers/offers";
 import { SECTIONS, sectionCountryPath } from "@/core/sections/sections";
 import { buildMetadata } from "@/core/seo/metadata";
 import { createSupabasePublicClient } from "@/lib/supabase/public";
@@ -55,6 +56,7 @@ export default async function CityHubPage({ params }: Params) {
     section,
     offers: offers.filter((offer) => offer.section === section.slug),
   })).filter((group) => group.offers.length > 0);
+  const photo = offers.map((offer) => offerCardPhoto(offer)).find((found) => found !== null);
 
   return (
     <>
@@ -67,8 +69,10 @@ export default async function CityHubPage({ params }: Params) {
         ]}
         title={`Things to book in ${cityName}`}
         description={`Everything we have published for ${cityName}, by section.`}
-      />
-      <Container className="flex flex-col gap-10 pt-6 pb-16 sm:gap-12 sm:pt-8 sm:pb-24">
+      >
+        <HeaderPhoto photo={photo} />
+      </PageHeader>
+      <Container className="flex flex-col gap-16 pt-10 pb-20 sm:gap-24 sm:pt-14 sm:pb-28">
         {groups.map(({ section, offers: sectionOffers }) => (
           <section key={section.slug} className="flex flex-col gap-4">
             <SectionHeader
@@ -76,7 +80,7 @@ export default async function CityHubPage({ params }: Params) {
               href={sectionCountryPath(section.slug, country)}
               linkLabel={`All ${section.shortName.toLowerCase()} in ${countryName}`}
             />
-            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
               {sectionOffers.map((offer) => (
                 <li key={offer.id}>
                   <OfferCard offer={offer} />

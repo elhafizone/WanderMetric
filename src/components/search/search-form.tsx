@@ -83,7 +83,7 @@ export function SearchForm({
 
         <button
           type="submit"
-          className="bg-accent text-accent-contrast hover:bg-accent-hover shrink-0 rounded-full px-7 py-3.5 text-sm font-medium transition-colors duration-200 sm:py-4"
+          className="bg-cta text-on-cta hover:bg-cta-hover shrink-0 rounded-full px-7 py-3.5 text-[0.9375rem] font-bold transition-colors duration-200 sm:py-4"
         >
           Explore
         </button>
@@ -112,7 +112,7 @@ export function SearchForm({
       />
       <button
         type="submit"
-        className="bg-accent text-accent-contrast hover:bg-accent-hover shrink-0 rounded-full px-6 py-2.5 text-sm font-medium transition-colors duration-200"
+        className="bg-cta text-on-cta hover:bg-cta-hover shrink-0 rounded-full px-6 py-2.5 text-[0.9375rem] font-bold transition-colors duration-200"
       >
         Search
       </button>

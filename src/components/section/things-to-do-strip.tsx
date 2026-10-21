@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, MapPin } from "lucide-react";
+import { ArrowUpRight, Clock, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -25,15 +25,20 @@ export interface StripOffer {
 
 /**
  * A "Things to do" grid: choice chips on top (every place that has offers) and
- * a grid of photo cards. Picking a chip filters the grid immediately.
+ * a grid of cards. Picking a chip filters the grid immediately.
+ *
+ * Each card is a soft-cornered photograph with the words set on the page
+ * beneath it; the partner who supplied the photograph is credited under the
+ * facts. A card with no photograph gets a tinted plate and the section's icon,
+ * never a picture of somewhere else.
  */
 const TINTS = [
   "bg-accent-soft text-accent",
-  "bg-ember-soft text-ember",
   "bg-secondary-soft text-secondary",
+  "bg-warning-soft text-warning",
   "bg-success-soft text-success",
   "bg-info-soft text-info",
-  "bg-warning-soft text-ink",
+  "bg-band-sand text-ink-soft",
 ] as const;
 
 function tintFor(section: string): string {
@@ -60,17 +65,15 @@ export function ThingsToDoStrip({
   const shown = active === "all" ? offers : offers.filter((o) => o.placeKey === active);
 
   const chip =
-    "inline-flex min-h-10 items-center gap-1.5 rounded-full border px-4 text-sm font-bold whitespace-nowrap transition-colors";
-  const on = "border-ink bg-ink text-on-media";
-  const off = "border-border-strong bg-surface text-ink-soft hover:border-ink hover:text-ink";
+    "inline-flex min-h-10 items-center gap-1.5 rounded-full border px-4 text-[0.9375rem] font-semibold whitespace-nowrap transition-colors";
+  const on = "border-ink bg-ink text-bg";
+  const off = "border-border-strong bg-transparent text-ink-soft hover:border-ink hover:text-ink";
 
   return (
-    <section aria-labelledby="things-to-do" className="flex flex-col gap-5">
-      <div className="flex items-end justify-between gap-4">
-        <h2 id="things-to-do" className="display text-[1.75rem]/[2rem] sm:text-[2.25rem]/[2.5rem]">
-          {title}
-        </h2>
-      </div>
+    <section aria-labelledby="things-to-do" className="flex flex-col gap-6 sm:gap-8">
+      <h2 id="things-to-do" className="display text-[2.125rem]/[1.04] sm:text-[2.875rem]/[1.02]">
+        {title}
+      </h2>
 
       <div
         role="group"
@@ -100,77 +103,59 @@ export function ThingsToDoStrip({
         ))}
       </div>
 
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <ul className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
         {shown.map((offer) => (
           <li key={offer.id}>
-            {offer.photo ? (
-              <article className="group bg-surface-2 relative isolate flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-2xl">
-                <Image
-                  src={offer.photo.url}
-                  alt={offer.photo.alt || offer.name}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  unoptimized
-                  referrerPolicy="no-referrer"
-                  className="-z-10 object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-                <span
-                  aria-hidden
-                  className="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/25 to-transparent"
-                />
-                <div className="text-on-media flex flex-col gap-2 p-5">
-                  <p className="text-on-media-muted flex items-center gap-1.5 text-sm font-semibold">
-                    <MapPin aria-hidden className="size-4 shrink-0" />
-                    {offer.place}
-                  </p>
-                  <h3 className="display-sm text-[1.25rem]/[1.5rem] text-pretty">
-                    <Link href={offer.href} className="after:absolute after:inset-0">
-                      {offer.name}
-                    </Link>
-                  </h3>
-                  <p className="text-on-media-muted flex items-center gap-3 text-[0.8125rem] font-semibold">
-                    <span>{offer.provider}</span>
-                    {offer.duration && (
-                      <span className="flex items-center gap-1.5">
-                        <Clock aria-hidden className="size-3.5 shrink-0" />
-                        {offer.duration}
-                      </span>
-                    )}
-                  </p>
-                </div>
-                <span className="text-on-media-muted absolute top-3 left-3 rounded-full bg-black/35 px-2.5 py-1 text-[0.6875rem] backdrop-blur-sm">
-                  Photo from {offer.photo.credit}
-                </span>
-              </article>
-            ) : (
-              <article
-                className={`group relative flex h-full min-h-[16rem] flex-col justify-between gap-6 overflow-hidden rounded-2xl p-5 transition-shadow duration-200 hover:shadow-lg ${tintFor(offer.section)}`}
-              >
-                <span className="bg-surface/70 grid size-14 place-items-center rounded-2xl backdrop-blur-sm">
-                  <SectionIcon icon={sectionIcon(offer.section)} className="size-7" />
-                </span>
-                <div className="text-ink flex flex-col gap-2">
-                  <p className="flex items-center gap-1.5 text-sm font-semibold opacity-80">
-                    <MapPin aria-hidden className="size-4 shrink-0" />
-                    {offer.place}
-                  </p>
-                  <h3 className="display-sm text-[1.25rem]/[1.5rem] text-pretty">
-                    <Link href={offer.href} className="after:absolute after:inset-0">
-                      {offer.name}
-                    </Link>
-                  </h3>
-                  <p className="flex items-center gap-3 text-[0.8125rem] font-semibold opacity-80">
-                    <span>{offer.provider}</span>
-                    {offer.duration && (
-                      <span className="flex items-center gap-1.5">
-                        <Clock aria-hidden className="size-3.5 shrink-0" />
-                        {offer.duration}
-                      </span>
-                    )}
-                  </p>
-                </div>
-              </article>
-            )}
+            <article className="group relative flex h-full flex-col gap-4">
+              <div className="bg-surface-2 relative aspect-[4/3] w-full overflow-hidden rounded-lg">
+                {offer.photo ? (
+                  <Image
+                    src={offer.photo.url}
+                    alt={offer.photo.alt || offer.name}
+                    fill
+                    sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
+                    unoptimized
+                    referrerPolicy="no-referrer"
+                    className="card-media object-cover"
+                  />
+                ) : (
+                  <div
+                    aria-hidden="true"
+                    className={`grid h-full w-full place-items-center ${tintFor(offer.section)}`}
+                  >
+                    <SectionIcon icon={sectionIcon(offer.section)} className="size-10 opacity-80" />
+                  </div>
+                )}
+              </div>
+
+              <div className="flex flex-1 flex-col gap-2">
+                <p className="text-secondary flex items-center gap-1.5 text-[0.8125rem]/[1.125rem] font-bold">
+                  <MapPin aria-hidden className="size-3.5 shrink-0" />
+                  {offer.place}
+                </p>
+                <h3 className="display-sm text-[1.625rem]/[1.12] text-pretty">
+                  <Link
+                    href={offer.href}
+                    className="decoration-transparent group-hover:decoration-ink underline decoration-1 underline-offset-[5px] transition-colors after:absolute after:inset-0"
+                  >
+                    {offer.name}
+                  </Link>
+                </h3>
+                <p className="border-border text-ink-muted mt-auto flex items-center gap-3 border-t pt-3 text-[0.8125rem]/[1.125rem] font-semibold">
+                  <span>{offer.provider}</span>
+                  {offer.duration && (
+                    <span className="flex items-center gap-1.5">
+                      <Clock aria-hidden className="size-3.5 shrink-0" />
+                      {offer.duration}
+                    </span>
+                  )}
+                  <ArrowUpRight aria-hidden className="card-arrow text-ink ml-auto size-[1.125rem]" />
+                </p>
+                {offer.photo && (
+                  <p className="text-ink-muted text-[0.75rem]">Photo from {offer.photo.credit}</p>
+                )}
+              </div>
+            </article>
           </li>
         ))}
       </ul>

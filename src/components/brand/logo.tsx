@@ -1,14 +1,16 @@
 /**
- * The WanderMetric logo, from the "Survey" identity.
+ * The WanderMetric logo.
  *
  * A free-wandering route that resolves into a measured tick: the route is
- * Lagoon, the origin dot is ink, and the tick at the end is the "metric".
+ * terracotta, the origin dot is ink, and the tick at the end is the "metric".
+ * The mark is the "Survey" identity's, unchanged; the wordmark moved to the
+ * display serif in the "Field Notes" identity (October 2026).
  * Geometry is the identity's 48-unit grid, unchanged (dot r4.5 at 8,13; route
  * 8,13 → 16,35 → 23,21 → 30,35 → 38,13; tick 32→44 at y13; stroke 5, round
  * caps and joins). Clear space is the height of the dot (9 units).
  *
  * Inline rather than an <img>, for two reasons: the wordmark is live text in the
- * page's own Bricolage Grotesque (next/font hashes the family name, so a
+ * page's own Instrument Serif (next/font hashes the family name, so a
  * standalone SVG file could never reach it), and the colours come from the
  * tokens, so the logo can never drift from the palette.
  *
@@ -16,7 +18,7 @@
  * lockup 96px wide.
  */
 
-const DISPLAY = "var(--font-bricolage), var(--font-manrope), system-ui, sans-serif";
+const DISPLAY = 'var(--font-instrument), Georgia, "Times New Roman", serif';
 
 type Tone = "default" | "reversed";
 
@@ -27,12 +29,12 @@ const TONES: Record<Tone, { dot: string; route: string; word: string; accent: st
     word: "var(--wm-ink)",
     accent: "var(--wm-accent)",
   },
-  // On a Lagoon or photographic ground: white route, Marigold origin.
+  // On an espresso or photographic ground: white route, lifted-terracotta origin.
   reversed: {
-    dot: "var(--wm-cta)",
+    dot: "var(--wm-cta-light)",
     route: "#ffffff",
     word: "#ffffff",
-    accent: "#ffffff",
+    accent: "var(--wm-cta-light)",
   },
 };
 
@@ -68,10 +70,10 @@ export function Logo({ className, tone = "default" }: { className?: string; tone
       <Route tone={tone} />
       <text
         x="56"
-        y="34"
-        fontWeight="700"
-        fontSize="30"
-        letterSpacing="-0.5"
+        y="35"
+        fontWeight="400"
+        fontSize="37"
+        letterSpacing="0"
         textLength="192"
         lengthAdjust="spacing"
         style={{ fontFamily: DISPLAY }}

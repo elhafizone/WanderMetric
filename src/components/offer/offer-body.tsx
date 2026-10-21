@@ -65,7 +65,7 @@ export function OfferBody({ text }: { text: string | null }) {
         return (
           <section key={sectionIndex} className="flex max-w-[68ch] flex-col gap-4">
             {section.heading && (
-              <h2 className="flex items-center gap-3 text-[1.5rem]/[1.3] font-semibold tracking-tight">
+              <h2 className="display-sm flex items-center gap-3.5 text-[1.75rem]/[1.12] sm:text-[2.125rem]">
                 <span className="bg-accent-soft text-accent grid size-10 shrink-0 place-items-center rounded-full">
                   <Icon aria-hidden className="size-5" />
                 </span>

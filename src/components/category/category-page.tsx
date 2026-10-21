@@ -64,7 +64,7 @@ export async function CategoryPage({ config }: { config: CategoryConfig }) {
         description={config.description}
       />
 
-      <Container className="flex flex-col gap-10 pt-6 pb-16 sm:gap-12 sm:pt-8 sm:pb-24">
+      <Container className="flex flex-col gap-16 pt-10 pb-20 sm:gap-24 sm:pt-14 sm:pb-28">
         {search && config.searchTab && (
           <SearchModule
             partners={search.partners}
@@ -73,7 +73,7 @@ export async function CategoryPage({ config }: { config: CategoryConfig }) {
           />
         )}
 
-        <section className="flex flex-col gap-4">
+        <section className="flex flex-col gap-8">
           <SectionHeader
             title="Providers we work with"
             description="Compare on their sites. You book with the provider."
@@ -109,7 +109,7 @@ export async function CategoryPage({ config }: { config: CategoryConfig }) {
         </section>
 
         {config.also && alsoPartners.length > 0 && (
-          <section className="flex flex-col gap-4">
+          <section className="flex flex-col gap-8">
             <SectionHeader title={config.also.title} description={config.also.description} />
             <PartnerList
               partners={alsoPartners}

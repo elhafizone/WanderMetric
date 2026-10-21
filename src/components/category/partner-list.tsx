@@ -67,7 +67,7 @@ export function PartnerList({
                 href={href}
                 rel="sponsored nofollow noopener"
                 target="_blank"
-                className="bg-cta text-on-cta hover:bg-cta-hover flex min-h-11 w-full items-center justify-center gap-1.5 rounded-md px-4 text-[0.9375rem] font-extrabold whitespace-nowrap transition-colors"
+                className="bg-cta text-on-cta hover:bg-cta-hover flex min-h-11 w-full items-center justify-center gap-1.5 rounded-full px-4 text-[0.9375rem] font-bold whitespace-nowrap transition-colors"
               >
                 Visit {partner.name}
                 <ExternalLink aria-hidden="true" className="h-4 w-4" />

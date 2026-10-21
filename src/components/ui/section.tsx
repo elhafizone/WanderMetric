@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 import { Breadcrumbs, type Crumb } from "@/components/ui/breadcrumbs";
@@ -8,8 +8,9 @@ import { Container } from "@/components/layout/container";
  * Section heading: a display title, an optional line of support, and an "all"
  * link on the right that is always a 44px hit target.
  *
- * `eyebrow` is a small overline above the title. `tone="ember"` colours it for
- * time-bound sections (the deals rail) and nowhere else.
+ * `eyebrow` is a small lead-in above the title; use it only when it says
+ * something the title does not. `tone="ember"` colours it for time-bound
+ * sections and nowhere else.
  */
 export function SectionHeader({
   eyebrow,
@@ -32,28 +33,30 @@ export function SectionHeader({
 
   return (
     <div
-      className={`flex flex-wrap items-end gap-x-6 gap-y-2 ${
+      className={`flex flex-wrap items-end gap-x-6 gap-y-3 ${
         centered ? "flex-col items-center text-center" : "justify-between"
       }`}
     >
       <div className="max-w-2xl">
         {eyebrow && (
-          <p className={`eyebrow mb-1.5 ${tone === "ember" ? "text-ember" : "text-secondary"}`}>
+          <p className={`eyebrow mb-2 ${tone === "ember" ? "text-ember" : "text-secondary"}`}>
             {eyebrow}
           </p>
         )}
-        <h2 className="display text-[1.5rem]/[1.25] lg:text-[2rem]/[1.2]">{title}</h2>
+        <h2 className="display text-[2.125rem]/[1.04] sm:text-[2.875rem]/[1.02]">{title}</h2>
         {description && (
-          <p className="text-ink-muted mt-1.5 max-w-prose text-base/6">{description}</p>
+          <p className="text-ink-muted mt-3 max-w-prose text-base/[1.6] sm:text-[1.0625rem]/[1.65]">
+            {description}
+          </p>
         )}
       </div>
       {href && (
         <Link
           href={href}
-          className="text-ink hover:text-accent inline-flex min-h-11 shrink-0 items-center gap-1.5 text-[0.9375rem] font-extrabold transition-colors"
+          className="text-ink hover:text-accent decoration-border-strong hover:decoration-accent inline-flex min-h-11 shrink-0 items-center gap-1.5 text-[0.9375rem] font-bold underline decoration-1 underline-offset-[6px] transition-colors"
         >
           {linkLabel}
-          <ArrowRight aria-hidden="true" className="h-[1.125rem] w-[1.125rem]" />
+          <ArrowUpRight aria-hidden="true" className="h-[1.125rem] w-[1.125rem]" />
         </Link>
       )}
     </div>
@@ -61,9 +64,9 @@ export function SectionHeader({
 }
 
 /**
- * Header band for listing pages: a tinted strip with the breadcrumb, a 44px
- * title and one line of support. Actions (a search field, a sort control) go
- * in `children`, beside or beneath the title.
+ * Header band for listing pages: a sand strip with the breadcrumb, a large
+ * serif title and one line of support. Actions (a search field, a sort control)
+ * go in `children`, beside or beneath the title.
  *
  * It renders its own full-bleed band, so a page places it directly under the
  * site header and not inside a Container.
@@ -83,16 +86,16 @@ export function PageHeader({
 }) {
   return (
     <div className="bg-bg-tint border-border border-b">
-      <Container className="flex flex-col gap-3.5 pt-5 pb-7 sm:pb-8">
+      <Container className="flex flex-col gap-6 pt-5 pb-9 sm:gap-8 sm:pb-12 lg:pb-14">
         {crumbs && <Breadcrumbs items={crumbs} />}
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between lg:gap-8">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
           <header className="max-w-3xl">
-            {eyebrow && <p className="eyebrow text-secondary mb-1.5">{eyebrow}</p>}
-            <h1 className="display text-[2rem]/[2.25rem] lg:text-[2.75rem]/[3.125rem]">
+            {eyebrow && <p className="eyebrow text-secondary mb-2">{eyebrow}</p>}
+            <h1 className="display text-[2.75rem]/[1] sm:text-[3.75rem]/[0.98] lg:text-[4.5rem]/[0.96]">
               {title}
             </h1>
             {description && (
-              <p className="text-ink-soft mt-2 max-w-[62ch] text-base/6 sm:text-[1.0625rem]/[1.625rem]">
+              <p className="text-ink-soft mt-4 max-w-[58ch] text-base/[1.65] sm:text-[1.125rem]/[1.7]">
                 {description}
               </p>
             )}

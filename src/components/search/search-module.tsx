@@ -88,7 +88,7 @@ const LABEL = "text-ink-muted block text-xs/4 font-bold";
 const INPUT =
   "text-ink placeholder:text-ink-muted w-full min-w-0 bg-transparent text-base/[1.375rem] font-bold tabular-nums outline-none placeholder:font-medium";
 const CTA =
-  "bg-cta text-on-cta hover:bg-cta-hover inline-flex h-[3.25rem] shrink-0 items-center justify-center gap-2 rounded-md px-7 text-[1.0625rem] font-extrabold transition-colors active:translate-y-px lg:h-[3.75rem]";
+  "bg-cta text-on-cta hover:bg-cta-hover inline-flex h-[3.25rem] shrink-0 items-center justify-center gap-2 rounded-full px-7 text-[1.0625rem] font-bold transition-colors active:translate-y-px lg:h-[3.75rem]";
 
 export function SearchModule({
   partners,
