@@ -61,14 +61,51 @@ export function logWarn(
   emit("warn", context, message, meta);
 }
 
+/**
+ * Turns whatever was thrown or returned into a readable message plus the fields
+ * worth keeping.
+ *
+ * Supabase and PostgREST report failures as plain objects
+ * (`{ message, code, details, hint }`), not `Error` instances, so `String(error)`
+ * printed `[object Object]` and hid a failing insert for days. Anything with a
+ * string `message` is now read for it, and the database error code, details and
+ * hint ride along as `error_*` fields.
+ */
+export function describeError(error: unknown): {
+  message: string;
+  extra: Record<string, unknown>;
+} {
+  if (error instanceof Error) {
+    return { message: error.message, extra: error.stack ? { stack: error.stack } : {} };
+  }
+
+  if (typeof error === "string") return { message: error, extra: {} };
+
+  if (error !== null && typeof error === "object") {
+    const fields = error as Record<string, unknown>;
+    const extra: Record<string, unknown> = {};
+    for (const name of ["code", "details", "hint"] as const) {
+      const value = fields[name];
+      if (typeof value === "string" && value) extra[`error_${name}`] = value;
+    }
+    if (typeof fields.message === "string" && fields.message) {
+      return { message: fields.message, extra };
+    }
+    try {
+      return { message: JSON.stringify(error), extra };
+    } catch {
+      return { message: "Unserialisable error object", extra };
+    }
+  }
+
+  return { message: String(error), extra: {} };
+}
+
 export function logError(
   context: string,
   error: unknown,
   meta?: Record<string, unknown>,
 ) {
-  const message = error instanceof Error ? error.message : String(error);
-  emit("error", context, message, {
-    ...meta,
-    ...(error instanceof Error && error.stack ? { stack: error.stack } : {}),
-  });
+  const { message, extra } = describeError(error);
+  emit("error", context, message, { ...meta, ...extra });
 }
