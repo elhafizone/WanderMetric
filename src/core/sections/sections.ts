@@ -78,12 +78,12 @@ export const SECTIONS: readonly SectionInfo[] = [
   },
   {
     slug: "hotels",
-    tagline: "No booking partner yet; offers appear once one is added",
+    tagline: "Where to stay in each city, and what to check before you book",
     name: "Hotels and stays",
     shortName: "Hotels",
     icon: "bed",
     summary:
-      "Hotels, hostels and apartments. Offers appear here as booking partners are added.",
+      "Hotels, hostels and apartments, city by city, and what to check before you book.",
     checklistTitle: "Check before you book",
     checklist: [
       "The total price including taxes and local fees, not just the nightly rate.",
@@ -128,12 +128,12 @@ export const SECTIONS: readonly SectionInfo[] = [
   },
   {
     slug: "trains-buses",
-    tagline: "No booking partner yet; offers appear once one is added",
+    tagline: "Train and bus tickets, and how each route works",
     name: "Trains and buses",
     shortName: "Trains",
     icon: "train",
     summary:
-      "Train and bus tickets. Offers appear here as they are published.",
+      "Train and bus tickets between cities, and what to know before you buy one.",
     checklistTitle: "Check before you book",
     checklist: [
       "Whether the ticket is for one specific departure or flexible.",
@@ -162,12 +162,12 @@ export const SECTIONS: readonly SectionInfo[] = [
   },
   {
     slug: "package-tours",
-    tagline: "No booking partner yet; offers appear once one is added",
+    tagline: "Multi-day tours and private charters, and what each includes",
     name: "Package tours",
     shortName: "Packages",
     icon: "package",
     summary:
-      "Multi-day tours and packages. Offers appear here as they are published.",
+      "Multi-day tours and private charters, and what to check before you commit.",
     checklistTitle: "Check before you book",
     checklist: [
       "Exactly what is included: flights, hotels, transfers, meals, entry fees.",

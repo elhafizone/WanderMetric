@@ -78,10 +78,21 @@ Do not suppress a lint rule or ignore a TypeScript error to make it pass.
 ## Current state
 
 - Production env vars (including `SUPABASE_SERVICE_ROLE_KEY` and the three
-  Travelpayouts keys) are set on the Hostinger Node.js app. Checked 2026-10-09:
-  `/go/[slug]` 302-redirects to a `tpx.li` link and `/api/v1/subscribe`
-  validates input. The last production build was 2026-10-04, so later local
-  work is not deployed until a new build is started.
+  Travelpayouts keys) are set on the Hostinger Node.js app. Git pushes to `main`
+  auto-deploy (if the webhook misses, start the git build by hand). The live
+  site runs next 16.4.3 and the "Survey" identity with the composition v2
+  layout (`docs/design-system.md`).
+- Affiliate clicks are recorded: `/go/[slug]` creates the anonymous session row
+  and the click in one call (`record_affiliate_click`, migration 0020). Before
+  2026-10-26 every click failed silently on a foreign key; the logger now prints
+  database errors readably (`describeError`).
 - Travelpayouts links are converted through the partner-links API; see
   `docs/travelpayouts.md`.
-- No conversion ingestion: the statistics API was never verified.
+- No conversion ingestion: the statistics API was never verified from official
+  documentation, so `conversionFeed` stays false.
+- `page_views` has no writer. Visit analytics come only from consent-gated
+  Google Analytics; `/admin/analytics` shows 0 page views until a first-party
+  recorder exists. That is a decision for the owner, not a bug.
+- Supabase advisories still open on purpose or by plan: `public_authors`
+  security-definer view, four RLS helper functions, and leaked-password
+  protection (Pro plan and above only). Admin MFA is not enabled yet.

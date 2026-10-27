@@ -36,11 +36,15 @@ export default async function AnalyticsPage() {
     <>
       <AdminHeader
         title="Analytics"
-        description="First-party measurement. No third-party analytics or advertising trackers are loaded."
+        description="First-party affiliate measurement. Visit analytics come from Google Analytics, loaded only after the reader accepts the cookie notice."
       />
 
       <div className="mb-6 grid gap-3 sm:grid-cols-3">
-        <StatCard label="Page views" value={views.count ?? 0} hint="Bots excluded" />
+        <StatCard
+          label="Page views"
+          value={views.count ?? 0}
+          hint="Not recorded here yet; see Google Analytics"
+        />
         <StatCard
           label="Affiliate clicks"
           value={clicks.count ?? 0}

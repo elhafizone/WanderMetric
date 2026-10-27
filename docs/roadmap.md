@@ -142,24 +142,21 @@ sitemap, API, security headers, admin gating, 404.
 
 ## ✅ Phase 25 — Visual redesign
 
-The public site rebuilt around an editorial travel identity: a warm ivory light
-theme as the canonical experience, Fraunces and Inter in place of Geist, an
-asymmetric card system, photographic heroes, and a GSAP scroll layer that is
-dynamically imported so it never sits in the initial payload. Seven licensed
-photographs are self-hosted behind an image abstraction that prefers `media`
-rows, so it disappears the day Storage uploads are enabled.
+The public site rebuilt around an editorial travel identity. That first pass
+(Fraunces and Inter, ivory theme) was replaced in October 2026: the original
+"Survey" identity was restored and the new composition kept on top of it. See
+[design-system.md](design-system.md) ("Composition v2") for what is current; the
+Fraunces description in older notes no longer applies.
 
-No schema, API, affiliate or SEO change. See
-[design-system.md](design-system.md) and the pre-work
-[design-audit.md](design-audit.md).
+## ✅ Phase 26 — Sections, news and tracking repairs
+
+Ten Travelpayouts-style sections, a news system (migrations 0018, 0019), the
+Hostinger build cap (`cpus: 4`), click recording repaired (migration 0020 plus
+readable error logging), and next 16.4.3 / zod 4.6.7.
 
 ---
 
 ## Next
-
-**Immediate, unblocks three features:**
-- [ ] Add `SUPABASE_SERVICE_ROLE_KEY` to the Hostinger environment and rebuild
-- [ ] Add `TRAVELPAYOUTS_MARKER` to activate affiliate redirects
 
 **Before meaningful traffic:**
 - [ ] Enable MFA on admin accounts
@@ -169,7 +166,11 @@ No schema, API, affiliate or SEO change. See
 - [ ] Schedule the nightly `rollup_daily_stats` cron
 
 **Then:**
-- [ ] Verify the Travelpayouts statistics API and implement conversion ingestion
+- [ ] Verify the Travelpayouts statistics API from its official documentation
+      (support-centre article text or a fetchable URL) and implement conversion
+      ingestion; nothing is written until then
+- [ ] Decide whether to add a first-party, consent-gated page-view recorder
+      (`page_views` has no writer today)
 - [ ] Photography for hotels, activities and guides (the registry covers five
       cities; everything else still renders the placeholder), and OG images
 - [ ] ESP integration for the newsletter
