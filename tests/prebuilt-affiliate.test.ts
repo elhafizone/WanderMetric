@@ -3,9 +3,10 @@ import { describe, expect, it } from "vitest";
 import { isPrebuiltAffiliateUrl } from "@/core/affiliate/prebuilt";
 
 describe("isPrebuiltAffiliateUrl", () => {
-  it("accepts https tpx.li short links", () => {
+  it("accepts https tpx.li short links and tp.media links", () => {
     expect(isPrebuiltAffiliateUrl("https://klook.tpx.li/uA7kdpxy")).toBe(true);
     expect(isPrebuiltAffiliateUrl("https://tpx.li/abc")).toBe(true);
+    expect(isPrebuiltAffiliateUrl("https://tp.media/r?campaign_id=541")).toBe(true);
   });
 
   it("rejects lookalike hosts, other schemes and junk", () => {

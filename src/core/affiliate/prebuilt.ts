@@ -10,7 +10,7 @@
  * The check is on the parsed hostname, so `evil.com/?x=klook.tpx.li` and
  * `klook.tpx.li.evil.com` do not pass.
  */
-const PREBUILT_HOST = "tpx.li";
+const PREBUILT_HOSTS = ["tpx.li", "tp.media"];
 
 export function isPrebuiltAffiliateUrl(raw: string): boolean {
   let url: URL;
@@ -21,5 +21,5 @@ export function isPrebuiltAffiliateUrl(raw: string): boolean {
   }
   if (url.protocol !== "https:") return false;
   const host = url.hostname.toLowerCase();
-  return host === PREBUILT_HOST || host.endsWith(`.${PREBUILT_HOST}`);
+  return PREBUILT_HOSTS.some((target) => host === target || host.endsWith(`.${target}`));
 }
