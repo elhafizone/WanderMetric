@@ -112,11 +112,7 @@ export default async function NewsIndexPage({ searchParams }: Props) {
           <Newspaper aria-hidden className="mt-0.5 size-4 shrink-0" />
           <span>
             News is written independently of our partners. Links to bookable offers live on the
-            offer pages, not inside news stories; see our{" "}
-            <Link href="/affiliate-disclosure" className="underline underline-offset-2">
-              affiliate disclosure
-            </Link>
-            .
+            offer pages, not inside news stories.
           </span>
         </p>
       </Container>

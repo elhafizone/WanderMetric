@@ -125,12 +125,7 @@ export default async function NewsArticlePage({ params }: Params) {
           <article>
             <Prose text={article.body} lead={false} />
             <p className="border-border text-ink-muted mt-12 border-t pt-5 text-sm/[1.55]">
-              Published by {site.name}. This story is editorial and contains no paid placement. Offers
-              we earn a commission on are listed separately; see our{" "}
-              <Link href="/affiliate-disclosure" className="underline underline-offset-2">
-                affiliate disclosure
-              </Link>
-              .
+              Published by {site.name}. This story is editorial and contains no paid placement.
             </p>
           </article>
           <aside className="flex h-fit flex-col gap-3 lg:sticky lg:top-24">

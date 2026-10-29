@@ -1,39 +1,41 @@
-import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 import { CookieSettingsButton } from "@/components/analytics/consent";
 import { Logo } from "@/components/brand/logo";
-import { SECTIONS, sectionPath } from "@/core/sections/sections";
+import { COMPARE_SECTIONS, SECTIONS, comparePath, sectionPath } from "@/core/sections/sections";
 
 /**
- * Site footer: espresso ground, the brand with a one-line promise, the way the
- * site earns its money, and four columns of links.
+ * Site footer: espresso ground, the brand with a concise description and
+ * Company links, and five visual columns on desktop.
  *
- * The long disclosure lives on its own page (the short form sits beside the
- * search module and above the first affiliate link on a page); the footer links
- * straight to it and never collapses it.
+ * The affiliate disclosure lives on its own dedicated page; the footer links
+ * straight to it under Company.
  *
  * No social links: no platform is connected yet (see
  * `src/core/social/provider.ts`), and icons pointing at accounts that do not
  * exist are worse than none. They belong here the day an account is real.
  */
 
-const GROUPS: Array<{
-  title: string;
-  links: Array<{ href: string; label: string }>;
-}> = [
-  {
-    title: "Sections",
-    links: SECTIONS.map((s) => ({ href: sectionPath(s.slug), label: s.name })),
-  },
-  {
-    title: "Company",
-    links: [
-      { href: "/about", label: "About us" },
-      { href: "/affiliate-disclosure", label: "How we make money" },
-      { href: "/contact", label: "Contact" },
-    ],
-  },
+const COMPANY_LINKS: Array<{ href: string; label: string }> = [
+  { href: "/about", label: "About us" },
+  { href: "/affiliate-disclosure", label: "Affiliate disclosure" },
+  { href: "/contact", label: "Contact" },
+];
+
+const SECTION_LINKS = SECTIONS.map((s) => ({
+  href: sectionPath(s.slug),
+  label: s.name,
+}));
+
+const SECTIONS_COL_1 = SECTION_LINKS.slice(0, 5);
+const SECTIONS_COL_2 = SECTION_LINKS.slice(5);
+
+const COMPARE_LINKS = [
+  { href: "/compare", label: "All comparisons" },
+  ...COMPARE_SECTIONS.map((s) => ({
+    href: comparePath(s.slug),
+    label: s.name,
+  })),
 ];
 
 const LINK =
@@ -45,51 +47,66 @@ export function SiteFooter() {
   return (
     <footer className="bg-ink text-n-400 mt-auto">
       <div className="mx-auto w-full max-w-[80rem] px-5 pt-14 pb-8 sm:px-8 lg:px-10 lg:pt-20 lg:pb-10">
-        <div className="flex flex-col gap-12 lg:flex-row lg:justify-between lg:gap-16">
-          <div className="flex max-w-[24rem] flex-col gap-6">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.85fr)] lg:gap-x-10">
+          <div className="flex flex-col gap-6 sm:col-span-2 lg:col-span-1">
             <Logo tone="reversed" className="h-10 w-auto self-start" />
-            <p className="display text-[1.5rem]/[1.2] text-white sm:text-[1.875rem]/[1.15]">
-              Read what a trip includes before you book it.
+            <p className="text-n-400 max-w-[34ch] text-[0.9375rem]/[1.6]">
+              WanderMetric helps travelers discover real trips, experiences, and travel services
+              with the details they need to make better booking decisions.
             </p>
-            <Link
-              href="/affiliate-disclosure"
-              className="text-cta-light flex min-h-11 items-center gap-1.5 self-start text-[0.9375rem] font-bold underline decoration-1 underline-offset-[6px]"
-            >
-              How we make money
-              <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-2 gap-x-6 gap-y-9 sm:grid-cols-3 lg:w-[36rem] lg:grid-cols-[1.25fr_1fr_1fr] lg:gap-x-10">
-            {GROUPS.map((group) => (
-              <nav key={group.title} aria-label={group.title} className="flex flex-col gap-0.5">
-                <h2 className={HEADING}>{group.title}</h2>
-                {group.links.map((link) => (
-                  <Link key={link.href} href={link.href} className={LINK}>
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
-            ))}
-            <nav aria-label="Legal" className="flex flex-col gap-0.5">
-              <h2 className={HEADING}>Legal</h2>
-              <Link href="/privacy" className={LINK}>
-                Privacy
-              </Link>
-              <CookieSettingsButton className={`${LINK} w-full text-left`} />
-              <Link href="/terms" className={LINK}>
-                Terms
-              </Link>
+            <nav aria-label="Company" className="flex flex-col gap-0.5">
+              <h2 className={HEADING}>Company</h2>
+              {COMPANY_LINKS.map((link) => (
+                <Link key={link.href} href={link.href} className={LINK}>
+                  {link.label}
+                </Link>
+              ))}
             </nav>
           </div>
+
+          <nav aria-label="Sections" className="flex flex-col gap-0.5">
+            <h2 className={HEADING}>Sections</h2>
+            {SECTIONS_COL_1.map((link) => (
+              <Link key={link.href} href={link.href} className={LINK}>
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          <nav aria-label="More sections" className="flex flex-col gap-0.5">
+            <span aria-hidden="true" className={`${HEADING} hidden select-none sm:block`}>
+              &nbsp;
+            </span>
+            {SECTIONS_COL_2.map((link) => (
+              <Link key={link.href} href={link.href} className={LINK}>
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          <nav aria-label="Compare" className="flex flex-col gap-0.5">
+            <h2 className={HEADING}>Compare</h2>
+            {COMPARE_LINKS.map((link) => (
+              <Link key={link.href} href={link.href} className={LINK}>
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          <nav aria-label="Legal" className="flex flex-col gap-0.5">
+            <h2 className={HEADING}>Legal</h2>
+            <Link href="/privacy" className={LINK}>
+              Privacy
+            </Link>
+            <CookieSettingsButton className={`${LINK} w-full text-left`} />
+            <Link href="/terms" className={LINK}>
+              Terms
+            </Link>
+          </nav>
         </div>
 
-        <div className="mt-14 flex flex-col gap-2 border-t border-white/15 pt-6 text-[0.8125rem]/5 font-medium sm:flex-row sm:flex-wrap sm:justify-between sm:gap-x-8">
-          <span>© {new Date().getFullYear()} WanderMetric · wandermetric.com</span>
-          <span className="max-w-[60ch]">
-            Prices, where shown, are last-seen partner figures and may have changed. Always
-            check the final price before you book.
-          </span>
+        <div className="mt-14 flex items-center justify-center border-t border-white/15 pt-6 text-center text-[0.8125rem]/5 font-medium">
+          <span>© 2026 WanderMetric</span>
         </div>
       </div>
     </footer>

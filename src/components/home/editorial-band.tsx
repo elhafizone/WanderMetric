@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
 import { brandImage } from "@/core/media/imagery";
@@ -57,12 +56,6 @@ export function EditorialBand() {
               </li>
             ))}
           </ul>
-          <Link
-            href="/affiliate-disclosure"
-            className="text-accent hover:text-accent-hover decoration-accent/40 inline-flex min-h-11 w-fit items-center text-[0.9375rem] font-bold underline decoration-1 underline-offset-[6px]"
-          >
-            How we make money
-          </Link>
         </div>
       </Container>
     </section>
