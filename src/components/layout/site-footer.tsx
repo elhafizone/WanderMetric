@@ -5,8 +5,9 @@ import { Logo } from "@/components/brand/logo";
 import { COMPARE_SECTIONS, SECTIONS, comparePath, sectionPath } from "@/core/sections/sections";
 
 /**
- * Site footer: espresso ground, the brand with a concise description and
- * Company links, and four visual columns on desktop.
+ * Site footer: espresso ground, the brand with a concise description, and five
+ * visual columns in a single row on desktop:
+ * Brand | Sections | Compare | Company | Legal.
  *
  * The affiliate disclosure lives on its own dedicated page; the footer links
  * straight to it under Company.
@@ -44,21 +45,13 @@ export function SiteFooter() {
   return (
     <footer className="bg-ink text-n-400 mt-auto">
       <div className="mx-auto w-full max-w-[80rem] px-5 pt-14 pb-8 sm:px-8 lg:px-10 lg:pt-20 lg:pb-10">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.85fr)] lg:gap-x-12">
-          <div className="flex flex-col gap-6 sm:col-span-2 lg:col-span-1">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.85fr)_minmax(0,0.75fr)] lg:gap-x-10">
+          <div className="flex flex-col gap-5 sm:col-span-2 lg:col-span-1">
             <Logo tone="reversed" className="h-10 w-auto self-start" />
             <p className="text-n-400 max-w-[34ch] text-[0.9375rem]/[1.6]">
               WanderMetric helps travelers discover real trips, experiences, and travel services
               with the details they need to make better booking decisions.
             </p>
-            <nav aria-label="Company" className="flex flex-col gap-0.5">
-              <h2 className={HEADING}>Company</h2>
-              {COMPANY_LINKS.map((link) => (
-                <Link key={link.href} href={link.href} className={LINK}>
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
           </div>
 
           <nav aria-label="Sections" className="flex flex-col gap-0.5">
@@ -73,6 +66,15 @@ export function SiteFooter() {
           <nav aria-label="Compare" className="flex flex-col gap-0.5">
             <h2 className={HEADING}>Compare</h2>
             {COMPARE_LINKS.map((link) => (
+              <Link key={link.href} href={link.href} className={LINK}>
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          <nav aria-label="Company" className="flex flex-col gap-0.5">
+            <h2 className={HEADING}>Company</h2>
+            {COMPANY_LINKS.map((link) => (
               <Link key={link.href} href={link.href} className={LINK}>
                 {link.label}
               </Link>
