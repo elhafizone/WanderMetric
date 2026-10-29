@@ -6,7 +6,7 @@ import { COMPARE_SECTIONS, SECTIONS, comparePath, sectionPath } from "@/core/sec
 
 /**
  * Site footer: espresso ground, the brand with a concise description and
- * Company links, and five visual columns on desktop.
+ * Company links, and four visual columns on desktop.
  *
  * The affiliate disclosure lives on its own dedicated page; the footer links
  * straight to it under Company.
@@ -27,9 +27,6 @@ const SECTION_LINKS = SECTIONS.map((s) => ({
   label: s.name,
 }));
 
-const SECTIONS_COL_1 = SECTION_LINKS.slice(0, 5);
-const SECTIONS_COL_2 = SECTION_LINKS.slice(5);
-
 const COMPARE_LINKS = [
   { href: "/compare", label: "All comparisons" },
   ...COMPARE_SECTIONS.map((s) => ({
@@ -47,7 +44,7 @@ export function SiteFooter() {
   return (
     <footer className="bg-ink text-n-400 mt-auto">
       <div className="mx-auto w-full max-w-[80rem] px-5 pt-14 pb-8 sm:px-8 lg:px-10 lg:pt-20 lg:pb-10">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.85fr)] lg:gap-x-10">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.85fr)] lg:gap-x-12">
           <div className="flex flex-col gap-6 sm:col-span-2 lg:col-span-1">
             <Logo tone="reversed" className="h-10 w-auto self-start" />
             <p className="text-n-400 max-w-[34ch] text-[0.9375rem]/[1.6]">
@@ -66,18 +63,7 @@ export function SiteFooter() {
 
           <nav aria-label="Sections" className="flex flex-col gap-0.5">
             <h2 className={HEADING}>Sections</h2>
-            {SECTIONS_COL_1.map((link) => (
-              <Link key={link.href} href={link.href} className={LINK}>
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
-          <nav aria-label="More sections" className="flex flex-col gap-0.5">
-            <span aria-hidden="true" className={`${HEADING} hidden select-none sm:block`}>
-              &nbsp;
-            </span>
-            {SECTIONS_COL_2.map((link) => (
+            {SECTION_LINKS.map((link) => (
               <Link key={link.href} href={link.href} className={LINK}>
                 {link.label}
               </Link>
