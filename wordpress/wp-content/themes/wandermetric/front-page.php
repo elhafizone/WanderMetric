@@ -20,16 +20,21 @@ foreach ( $rails as &$rail_offers ) {
 }
 unset( $rail_offers );
 
-// Destination tiles: cities and countries we have a licensed photo for and at least one offer in.
+// Destination tiles: every city with a licensed photo and at least one offer,
+// most offers first. Nine tiles (one large, eight small) fill the 4-column grid exactly.
 $tiles = array();
-foreach ( array( 'paris' => 'france', 'rome' => 'italy', 'lisbon' => 'portugal', 'barcelona' => 'spain', 'tokyo' => 'japan' ) as $city => $country ) {
-	$count = wm_count_offers( array( 'city' => $city ) );
-	$photo = wm_place_photo( $city );
-	$term  = wm_get_city( $country, $city );
-	if ( $count && $photo && $term ) {
-		$tiles[] = compact( 'city', 'country', 'count', 'photo', 'term' );
+foreach ( wm_seed_place_list() as $country => $c ) {
+	foreach ( array_keys( $c['cities'] ) as $city ) {
+		$photo = isset( wm_place_photos()[ $city ] ) ? wm_place_photo( $city ) : null;
+		$term  = $photo ? wm_get_city( $country, $city ) : null;
+		$count = $term ? wm_count_offers( array( 'city' => $city ) ) : 0;
+		if ( $count ) {
+			$tiles[] = compact( 'city', 'country', 'count', 'photo', 'term' );
+		}
 	}
 }
+usort( $tiles, static fn( $a, $b ) => $b['count'] <=> $a['count'] );
+$tiles = array_slice( $tiles, 0, 9 );
 ?>
 <section class="opener">
 	<?php if ( $hero ) { wm_photo( $hero, '100vw', true, 'opener-photo' ); } ?>
