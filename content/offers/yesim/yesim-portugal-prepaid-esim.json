@@ -70,11 +70,8 @@
     "images": [
       {
         "url": "https://yesim.app/directions/countries/pt.webp?v=0.2",
-        "alt": "Yesim Portugal prepaid travel eSIM country card featuring Lisbon tram and monument illustration"
-      },
-      {
-        "url": "https://yesim.app/_next/static/media/4.2ec76427.webp",
-        "alt": "Yesim smartphone eSIM connectivity and global travel data interface"
+        "alt": "Yesim Portugal prepaid travel eSIM country card featuring Lisbon tram and monument illustration",
+        "file": "_images/yesim/yesim-portugal-prepaid-esim-1.webp"
       }
     ]
   },

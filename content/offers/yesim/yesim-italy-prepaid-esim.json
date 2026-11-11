@@ -70,11 +70,8 @@
     "images": [
       {
         "url": "https://yesim.app/directions/countries/it.webp?v=0.2",
-        "alt": "Yesim Italy prepaid travel eSIM country card featuring Italian architecture and mobile connectivity"
-      },
-      {
-        "url": "https://yesim.app/_next/static/media/2.717662e9.webp",
-        "alt": "Yesim app network selection and prepaid data plan dashboard"
+        "alt": "Yesim Italy prepaid travel eSIM country card featuring Italian architecture and mobile connectivity",
+        "file": "_images/yesim/yesim-italy-prepaid-esim-1.webp"
       }
     ]
   },

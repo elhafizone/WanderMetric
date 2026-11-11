@@ -72,11 +72,13 @@
     "images": [
       {
         "url": "https://yesim.app/_next/static/media/iphone2.ac80812b.webp",
-        "alt": "Smartphone screen showing a Yesim eSIM installation QR code with the orange Yesim signal-bars logo in the centre"
+        "alt": "Smartphone screen showing a Yesim eSIM installation QR code with the orange Yesim signal-bars logo in the centre",
+        "file": "_images/yesim/yesim-thailand-prepaid-esim-1.webp"
       },
       {
         "url": "https://yesim.app/_next/static/media/iphone3.ec4a9408.webp",
-        "alt": "Smartphone screen with a green 'eSIM installed!' confirmation banner in the Yesim app"
+        "alt": "Smartphone screen with a green 'eSIM installed!' confirmation banner in the Yesim app",
+        "file": "_images/yesim/yesim-thailand-prepaid-esim-2.webp"
       }
     ]
   },

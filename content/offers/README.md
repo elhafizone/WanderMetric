@@ -27,3 +27,12 @@ Every offer file must strictly comply with the **WanderMetric Visual Inventory P
    - **Zero AI / Generic Stock:** No fabricated images or generic city placeholders.
 3. **Verification:**
    Run `npm run check:visuals` before staging or importing.
+
+## Partners that refuse WordPress's image downloader
+
+Some partner servers (Yesim, November 2026) answer WordPress's downloader with
+HTTP 202 while serving the same file to an ordinary client. For those, download
+the image once (e.g. `curl -fsSL -o _images/<programme>/<slug>-1.webp <url>`),
+keep the original `url` in `facts.images`, and add `"file": "_images/<programme>/<file>"`.
+The importer sideloads the local copy and still records `url` as the image's source.
+`wordpress/bundle-offers.sh` ships `_images/` with the plugin.

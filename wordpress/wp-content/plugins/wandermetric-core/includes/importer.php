@@ -112,7 +112,7 @@ class WM_Offer_Importer {
 			wp_set_object_terms( $post_id, $place ? array( $place ) : array(), 'wm_place' );
 
 			if ( $images ) {
-				$images = $this->sideload_remote( $images, $post_id, $existing ? wm_offer_images( $post_id ) : array() );
+				$images = $this->sideload_remote( $images, $post_id, $existing ? wm_offer_images( $post_id ) : array(), dirname( $file, 2 ) );
 			} elseif ( $assets ) {
 				[ $images, $credit ] = $this->sideload_local( $offer['slug'], $assets, $credits, $post_id, $credit );
 			}
@@ -231,7 +231,7 @@ class WM_Offer_Importer {
 	 * @param array<int, array<string, string>>          $current
 	 * @return array<int, array{url: string, alt: string, source: string, id: int}>
 	 */
-	private function sideload_remote( array $images, int $post_id, array $current ): array {
+	private function sideload_remote( array $images, int $post_id, array $current, string $offers_dir = '' ): array {
 		require_once ABSPATH . 'wp-admin/includes/media.php';
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		require_once ABSPATH . 'wp-admin/includes/image.php';
@@ -249,7 +249,15 @@ class WM_Offer_Importer {
 				$out[] = array_merge( $known[ $source ], array( 'alt' => $alt ) );
 				continue;
 			}
-			$tmp = download_url( $source, 30 );
+			// A copy downloaded beforehand (content/offers/_images, see README): the
+			// partner's server refuses WordPress's downloader but serves the file.
+			$local = ! empty( $img['file'] ) && $offers_dir ? $offers_dir . '/' . ltrim( (string) $img['file'], '/' ) : '';
+			if ( $local && is_file( $local ) && 0 === strpos( realpath( $local ), realpath( $offers_dir ) ) ) {
+				$tmp = wp_tempnam( basename( $local ) );
+				copy( $local, $tmp );
+			} else {
+				$tmp = download_url( $source, 30 );
+			}
 			if ( is_wp_error( $tmp ) ) {
 				$this->log( 'warning', "image not downloaded ({$source}): " . $tmp->get_error_message() );
 				continue;

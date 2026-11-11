@@ -70,11 +70,8 @@
     "images": [
       {
         "url": "https://yesim.app/directions/countries/fr.webp?v=0.2",
-        "alt": "Yesim France prepaid travel eSIM country card featuring Paris Eiffel Tower illustration and 5G connectivity"
-      },
-      {
-        "url": "https://yesim.app/_next/static/media/1.c06c7a82.webp",
-        "alt": "Yesim mobile eSIM app showing active data plan and network status"
+        "alt": "Yesim France prepaid travel eSIM country card featuring Paris Eiffel Tower illustration and 5G connectivity",
+        "file": "_images/yesim/yesim-france-prepaid-esim-1.webp"
       }
     ]
   },

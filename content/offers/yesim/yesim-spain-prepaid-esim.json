@@ -70,11 +70,8 @@
     "images": [
       {
         "url": "https://yesim.app/directions/countries/es.webp?v=0.2",
-        "alt": "Yesim Spain prepaid travel eSIM country card featuring Spanish architecture and cellular connectivity"
-      },
-      {
-        "url": "https://yesim.app/_next/static/media/3.6899594b.webp",
-        "alt": "Yesim mobile eSIM profile setup and international roaming controls"
+        "alt": "Yesim Spain prepaid travel eSIM country card featuring Spanish architecture and cellular connectivity",
+        "file": "_images/yesim/yesim-spain-prepaid-esim-1.webp"
       }
     ]
   },

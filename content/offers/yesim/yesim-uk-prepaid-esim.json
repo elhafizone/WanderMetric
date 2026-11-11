@@ -59,7 +59,8 @@
     "images": [
       {
         "url": "https://yesim.app/directions/countries/gb.webp?v=0.2",
-        "alt": "Yesim's United Kingdom country card: the Elizabeth Tower and Houses of Parliament behind Westminster Bridge and the River Thames at dusk"
+        "alt": "Yesim's United Kingdom country card: the Elizabeth Tower and Houses of Parliament behind Westminster Bridge and the River Thames at dusk",
+        "file": "_images/yesim/yesim-uk-prepaid-esim-1.webp"
       }
     ]
   },

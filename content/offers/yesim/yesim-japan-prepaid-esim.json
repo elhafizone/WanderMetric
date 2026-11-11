@@ -75,11 +75,8 @@
     "images": [
       {
         "url": "https://yesim.app/directions/countries/jp.webp?v=0.2",
-        "alt": "Yesim Japan travel eSIM country card showcasing Japanese landmarks and mobile connectivity"
-      },
-      {
-        "url": "https://yesim.app/_next/static/media/1.c06c7a82.webp",
-        "alt": "Yesim mobile app eSIM installation and data plan management interface"
+        "alt": "Yesim Japan travel eSIM country card showcasing Japanese landmarks and mobile connectivity",
+        "file": "_images/yesim/yesim-japan-prepaid-esim-1.webp"
       }
     ]
   },

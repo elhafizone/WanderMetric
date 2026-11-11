@@ -12,10 +12,13 @@ DEST="$REPO/wordpress/wp-content/plugins/wandermetric-core/data/offers"
 rm -rf "$DEST"
 mkdir -p "$DEST"
 cd "$REPO/content/offers"
+# Pre-downloaded partner images (for partners that refuse WordPress's downloader).
+[ -d _images ] && cp -r _images "$DEST/_images"
 for d in */; do
+  [ "$d" = "_images/" ] && continue
   ls "$d"*.json >/dev/null 2>&1 || continue
   mkdir -p "$DEST/$d"
   cp "$d"*.json "$DEST/$d"
 done
-find "$DEST" -name '*.json' -type f | sort | xargs cat | md5sum | cut -d' ' -f1 > "$DEST/.bundle"
+find "$DEST" -type f ! -name '.bundle' | sort | xargs cat | md5sum | cut -d' ' -f1 > "$DEST/.bundle"
 echo "bundled $(find "$DEST" -name '*.json' | wc -l) offers, hash $(cat "$DEST/.bundle")"
