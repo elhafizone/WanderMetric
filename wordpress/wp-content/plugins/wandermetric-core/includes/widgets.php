@@ -26,24 +26,28 @@ function wm_widget_presets(): array {
 		'aviasales-search'    => array(
 			'partner'     => 'Aviasales',
 			'label'       => 'Flight search',
+			'layout'      => 'wide',
 			'src'         => $base . '&currency=usd&show_hotels=true&powered_by=true&primary_override=%230b6660&color_button=%230b6660&color_icons=%230b6660&dark=%231c1a17&light=%23FFFFFF&secondary=%23FFFFFF&special=%23C4C4C4&color_focused=%230b6660&border_radius=12&plain=false&promo_id=7879&campaign_id=100',
 			'needs_place' => false,
 		),
 		'welcome-pickups'     => array(
 			'partner'     => 'Welcome Pickups',
 			'label'       => 'Airport transfer search',
+			'layout'      => 'compact',
 			'src'         => $base . '&locale=en&show_header=true&powered_by=true&campaign_id=627&promo_id=8951',
 			'needs_place' => false,
 		),
 		'airalo-esim'         => array(
 			'partner'     => 'Airalo',
 			'label'       => 'eSIM search',
+			'layout'      => 'compact',
 			'src'         => $base . '&locale=en&powered_by=true&color_button=%230b6660&color_focused=%230b6660&secondary=%23FFFFFF&dark=%231c1a17&light=%23FFFFFF&special=%23C4C4C4&border_radius=12&plain=false&no_labels=true&promo_id=8588&campaign_id=541',
 			'needs_place' => false,
 		),
 		'airhelp-compensation' => array(
 			'partner'     => 'AirHelp',
 			'label'       => 'Flight compensation check',
+			'layout'      => 'compact',
 			'src'         => $base . '&lang=en&powered_by=true&campaign_id=120&promo_id=8679',
 			'needs_place' => false,
 		),
@@ -53,12 +57,14 @@ function wm_widget_presets(): array {
 		'localrent-search'    => array(
 			'partner'     => 'Localrent',
 			'label'       => 'Car rental search',
+			'layout'      => 'compact',
 			'src'         => $base . '&powered_by=true&country=2&city=264341&lang=en&width=100&background=light&logo=true&header=true&gearbox=false&cars=false&border=true&footer=true&campaign_id=87&promo_id=4322',
 			'needs_place' => true,
 		),
 		'klook-city-tours'    => array(
 			'partner'     => 'Klook',
 			'label'       => 'Tours in the city',
+			'layout'      => 'compact',
 			'src'         => $base . '&currency=USD&locale=en&city_id=4&category=4&amount=3&powered_by=true&campaign_id=137&promo_id=4497',
 			'needs_place' => true,
 		),
@@ -125,6 +131,7 @@ function wm_widget_for( string $placement ): ?array {
 			'src'     => $custom[ $placement ]['src'],
 			'partner' => $custom[ $placement ]['partner'] ?: 'the partner',
 			'label'   => $custom[ $placement ]['label'] ?: 'Search',
+			'layout'  => 'compact',
 		);
 	}
 	$preset_key = wm_widget_default_placements()[ $placement ] ?? null;
@@ -133,6 +140,7 @@ function wm_widget_for( string $placement ): ?array {
 		'src'     => $preset['src'],
 		'partner' => $preset['partner'],
 		'label'   => $preset['label'],
+		'layout'  => $preset['layout'] ?? 'compact',
 	) : null;
 }
 
@@ -147,10 +155,14 @@ function wm_widget_render( array $w, string $heading = '' ): string {
 	$heading = $heading ?: $w['label'];
 	ob_start();
 	?>
-<section class="wm-widget" data-wm-widget-src="<?php echo esc_url( $w['src'] ); ?>" aria-label="<?php echo esc_attr( $heading ); ?>">
+<section class="wm-widget wm-widget--<?php echo esc_attr( ( $w['layout'] ?? 'compact' ) === 'wide' ? 'wide' : 'compact' ); ?>" data-wm-widget-src="<?php echo esc_url( $w['src'] ); ?>" aria-label="<?php echo esc_attr( $heading ); ?>">
 	<div class="wm-widget-head">
 		<h2><?php echo esc_html( $heading ); ?></h2>
 		<p><?php echo esc_html( sprintf( 'Run by %s. Results and prices come from them, live.', $w['partner'] ) ); ?></p>
+		<ul class="wm-widget-notes">
+			<li><?php echo esc_html( sprintf( 'What you type goes to %s, not to us.', $w['partner'] ) ); ?></li>
+			<li><?php echo esc_html( sprintf( 'You book and pay on %s’s site.', $w['partner'] ) ); ?></li>
+		</ul>
 	</div>
 	<div class="wm-widget-mount"></div>
 	<div class="wm-widget-gate">

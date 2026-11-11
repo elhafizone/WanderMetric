@@ -36,7 +36,7 @@ add_action(
 	static function () {
 		$uri = get_template_directory_uri();
 		// No theme JavaScript: every page works as plain HTML and CSS.
-		wp_enqueue_style( 'wandermetric', $uri . '/assets/css/main.css', array(), WM_THEME_VERSION );
+		wp_enqueue_style( 'wandermetric', $uri . '/assets/css/main.css', array(), (string) filemtime( get_template_directory() . '/assets/css/main.css' ) );
 		// Block library CSS is only needed where post content renders.
 		if ( ! is_singular() ) {
 			wp_dequeue_style( 'wp-block-library' );

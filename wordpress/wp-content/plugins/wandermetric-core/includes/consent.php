@@ -46,7 +46,7 @@ add_action(
 add_action(
 	'wp_enqueue_scripts',
 	static function () {
-		wp_enqueue_script( 'wm-consent', plugins_url( 'assets/consent.js', WM_CORE_FILE ), array(), WM_CORE_VERSION, array( 'strategy' => 'defer', 'in_footer' => true ) );
+		wp_enqueue_script( 'wm-consent', plugins_url( 'assets/consent.js', WM_CORE_FILE ), array(), (string) filemtime( WM_CORE_DIR . 'assets/consent.js' ), array( 'strategy' => 'defer', 'in_footer' => true ) );
 	}
 );
 

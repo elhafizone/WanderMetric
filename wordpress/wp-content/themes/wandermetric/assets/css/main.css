@@ -513,6 +513,19 @@ a.chip:hover { border-color: var(--ink); color: var(--ink); }
 .wm-widget-gate { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1.5rem; padding: 1rem 1.1rem; background: var(--tint); border-radius: var(--radius); }
 .wm-widget-gate p { max-width: 52ch; font-size: var(--fs-sm); color: var(--ink-soft); }
 .wm-widget.is-loaded .wm-widget-gate { display: none; }
+.wm-widget-notes { list-style: none; margin: 0.9rem 0 0; padding: 0; display: grid; gap: 0.4rem; font-size: var(--fs-sm); color: var(--ink-soft); }
+.wm-widget-notes li { padding-inline-start: 1.1rem; position: relative; }
+.wm-widget-notes li::before { content: ""; position: absolute; inset-inline-start: 0; top: 0.55em; width: 0.4rem; height: 0.4rem; border-radius: 50%; background: var(--accent); }
+/* Compact partner forms (transfers, eSIM, claims) are narrow: explanation left, form in its own card right. */
+@media (min-width: 56rem) {
+	.wm-widget--compact { grid-template-columns: minmax(0, 1fr) minmax(0, 28rem); align-items: start; column-gap: clamp(1.5rem, 4vw, 4rem); padding: clamp(1.5rem, 3vw, 2.5rem); }
+	.wm-widget--compact .wm-widget-head { grid-column: 1; grid-row: 1 / span 2; align-self: center; max-width: 34rem; }
+	.wm-widget--compact .wm-widget-head h2 { font-size: var(--fs-2xl); }
+	.wm-widget--compact .wm-widget-mount, .wm-widget--compact .wm-widget-gate { grid-column: 2; }
+}
+.wm-widget--compact .wm-widget-mount { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); padding: 0.75rem; }
+.wm-widget--compact { background: var(--sand); border-color: transparent; }
+.wm-widget-mount tp-cascoon { display: block; width: 100%; }
 
 /* ---------- Consent notice ---------- */
 .consent {
