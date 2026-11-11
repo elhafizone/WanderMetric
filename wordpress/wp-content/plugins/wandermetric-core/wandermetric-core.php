@@ -46,6 +46,24 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once WM_CORE_DIR . 'includes/cli.php';
 }
 
+/**
+ * Bump when routes change. A site whose stored rewrite rules are older (an
+ * imported database, a plugin update deployed without re-activation) rebuilds
+ * them once, after every init-time rule has been registered.
+ */
+define( 'WM_ROUTES_VERSION', '3' );
+
+add_action(
+	'init',
+	static function () {
+		if ( WM_ROUTES_VERSION !== get_option( 'wm_routes_version' ) ) {
+			flush_rewrite_rules( false );
+			update_option( 'wm_routes_version', WM_ROUTES_VERSION, true );
+		}
+	},
+	999
+);
+
 register_activation_hook( __FILE__, 'wm_activate' );
 register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
 
