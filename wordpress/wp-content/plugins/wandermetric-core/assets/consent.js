@@ -74,7 +74,9 @@
 			loadWidgets();
 			loadAnalytics(notice ? notice.dataset.gaId : "");
 		}
-		document.documentElement.dataset.wmConsent = choice || "unset";
+		// Kept apart from [data-wm-consent] (the choice buttons): an ancestor carrying that
+		// attribute made every click on the page count as a consent choice.
+		document.documentElement.dataset.wmConsentState = choice || "unset";
 	};
 
 	const init = () => {
@@ -84,7 +86,7 @@
 		apply(choice, notice);
 
 		document.addEventListener("click", (event) => {
-			const set = event.target.closest("[data-wm-consent]");
+			const set = event.target.closest("button[data-wm-consent]");
 			if (set) {
 				const value = set.dataset.wmConsent === "all" ? "all" : "essential";
 				write(value);

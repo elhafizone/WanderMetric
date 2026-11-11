@@ -553,22 +553,93 @@ a.chip:hover { border-color: var(--ink); color: var(--ink); }
 @media (max-width: 63.99rem) { .single-wm_offer .consent { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); } }
 
 /* ---------- Footer ---------- */
-.sitefoot { margin-block-start: 5rem; background: var(--ink); color: rgba(255, 255, 255, 0.82); }
+.sitefoot {
+	--ft-text: rgba(255, 255, 255, 0.78);
+	--ft-muted: rgba(255, 255, 255, 0.56);
+	--ft-rule: rgba(255, 255, 255, 0.12);
+	margin-block-start: 5rem;
+	background: var(--ink);
+	color: var(--ft-text);
+	font-size: var(--fs-sm);
+}
 .sitefoot-inner {
 	max-width: var(--wide);
 	margin-inline: auto;
 	padding-inline-start: var(--gutter);
 	padding-inline-end: max(16px, env(safe-area-inset-right, 0px));
 }
-.sitefoot > .sitefoot-inner:first-child { padding-block: 3.5rem 2rem; display: grid; gap: 2rem; grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr)); }
-@media (max-width: 63.99rem) { .sitefoot > .sitefoot-inner:first-child { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 29.99rem) { .sitefoot > .sitefoot-inner:first-child { grid-template-columns: minmax(0, 1fr); } }
-.sitefoot-brand p { margin-block-start: 0.8rem; max-width: 34ch; font-size: var(--fs-sm); line-height: 1.55; }
-.sitefoot h2 { font-family: var(--text); font-size: var(--fs-xs); font-weight: 700; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.6); margin-block-end: 0.7rem; }
-.sitefoot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; font-size: var(--fs-sm); }
-.sitefoot a { color: rgba(255, 255, 255, 0.88); text-decoration: none; }
-.sitefoot a:hover { color: var(--on-dark); text-decoration: underline; }
-.disclosure { padding-block: 1.25rem 2.25rem; border-top: 1px solid rgba(255, 255, 255, 0.14); font-size: var(--fs-xs); line-height: 1.55; color: rgba(255, 255, 255, 0.62); }
+.sitefoot a { color: var(--ft-text); text-decoration: none; transition: color 150ms ease; }
+.sitefoot a:hover { color: var(--on-dark); }
+.sitefoot a:focus-visible { outline-color: var(--cta); }
+
+/* 1. Brand band */
+.sitefoot-band {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+	gap: 2rem clamp(2rem, 5vw, 5rem);
+	align-items: center;
+	padding-block: 3.5rem 2.75rem;
+	border-bottom: 1px solid var(--ft-rule);
+}
+.sitefoot-brand .logo { height: 2.5rem; }
+.sitefoot-brand p { margin-block-start: 1rem; max-width: 38ch; font-size: var(--fs-base); line-height: 1.6; color: var(--ft-text); }
+.sitefoot-proofs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+.sitefoot-proofs li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.75rem; align-items: start; line-height: 1.5; }
+.sitefoot-proofs .icon { width: 2.25rem; height: 2.25rem; padding: 0.5rem; border-radius: 50%; background: rgba(255, 178, 30, 0.14); color: var(--cta); }
+.sitefoot-proofs strong { display: block; color: var(--on-dark); font-weight: 700; margin-block-end: 0.15rem; }
+.sitefoot-proofs span { color: var(--ft-muted); }
+
+/* 2. Columns */
+.sitefoot-cols {
+	display: grid;
+	grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.5fr) minmax(0, 0.9fr) minmax(0, 0.9fr) minmax(0, 0.9fr);
+	gap: 2.5rem 2rem;
+	padding-block: 3rem;
+}
+.sitefoot-col h2 {
+	font-family: var(--text);
+	font-size: var(--fs-xs);
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--on-dark);
+	margin-block-end: 1.1rem;
+}
+.sitefoot-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+.sitefoot-col ul.sitefoot-two { display: block; columns: 2; column-gap: 1.5rem; }
+.sitefoot-two li { break-inside: avoid; margin-block-end: 0.6rem; }
+.sitefoot-more { margin-block-start: 1rem; }
+.sitefoot-more a { display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 700; color: var(--cta); }
+.sitefoot-more a:hover { color: var(--cta-hover); }
+.sitefoot-more .icon { width: 0.95rem; height: 0.95rem; }
+
+/* 3. Base */
+.sitefoot-base { padding-block: 1.75rem calc(2rem + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--ft-rule); display: grid; gap: 1.25rem; }
+.sitefoot-disclosure { max-width: 92ch; font-size: var(--fs-xs); line-height: 1.6; color: var(--ft-muted); }
+.sitefoot-legal { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1.5rem; font-size: var(--fs-xs); color: var(--ft-muted); }
+.sitefoot-top { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.9rem; border: 1px solid var(--ft-rule); border-radius: 999px; font-weight: 700; }
+.sitefoot-top:hover { border-color: rgba(255, 255, 255, 0.4); }
+
+@media (max-width: 75rem) {
+	.sitefoot-cols { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+	.sitefoot-col--wide { grid-column: span 2; }
+}
+@media (max-width: 63.99rem) {
+	.sitefoot-band { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 47.99rem) {
+	.sitefoot-proofs { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+	.sitefoot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.25rem 1.5rem; padding-block: 2.5rem; }
+	.sitefoot-col--wide { grid-column: 1 / -1; }
+	.sitefoot-cols > .sitefoot-col:first-child { grid-column: 1 / -1; }
+	.sitefoot-cols > .sitefoot-col:first-child ul { display: block; columns: 2; column-gap: 1.5rem; }
+	.sitefoot-cols > .sitefoot-col:first-child li { break-inside: avoid; margin-block-end: 0.6rem; }
+}
+@media (max-width: 19.99rem) {
+	.sitefoot-cols { grid-template-columns: minmax(0, 1fr); }
+}
+/* The phone booking bar sits over the bottom of offer pages. */
+@media (max-width: 63.99rem) { .single-wm_offer .sitefoot-base { padding-block-end: calc(6rem + env(safe-area-inset-bottom, 0px)); } }
 
 @media (prefers-reduced-motion: reduce) {
 	*, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
