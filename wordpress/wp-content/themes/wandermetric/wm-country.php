@@ -27,6 +27,7 @@ get_template_part(
 		'trail'    => array( array( 'Home', home_url( '/' ) ), array( 'Destinations', home_url( '/countries/' ) ), array( $country->name, null ) ),
 		'offers'   => $offers,
 		'group_by' => 'section',
+		'widget'   => wm_widget_slot( 'country:' . $country->slug ),
 		'filters'  => count( $filters ) > 1 ? $filters : array(),
 		'empty'    => 'No offers in ' . $country->name . ' yet.',
 	)

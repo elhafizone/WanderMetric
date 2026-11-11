@@ -47,7 +47,7 @@ $countries = function_exists( 'wm_countries_with_offers' ) ? wm_countries_with_o
 			?>
 		</nav>
 	</div>
-	<p class="disclosure sitefoot-inner"><?php esc_html_e( 'Links to partners are affiliate links: if you book, the partner may pay us a commission at no extra cost to you. Prices and availability are set by the partner and can change after the date shown on each page.', 'wandermetric' ); ?></p>
+	<p class="disclosure sitefoot-inner"><a href="#cookies" data-wm-consent-open><?php esc_html_e( 'Cookie settings', 'wandermetric' ); ?></a> ·<?php esc_html_e( 'Links to partners are affiliate links: if you book, the partner may pay us a commission at no extra cost to you. Prices and availability are set by the partner and can change after the date shown on each page.', 'wandermetric' ); ?></p>
 </footer>
 <?php wp_footer(); ?>
 </body>

@@ -41,7 +41,7 @@ wp plugin activate wandermetric-core
 wp theme activate wandermetric
 wp option update blogname "WanderMetric"
 wp option update blogdescription "Read before you book"
-wp rewrite structure '/%postname%/'
+wp rewrite structure '/news/%postname%'
 wp rewrite flush
 
 wp wandermetric import "$REPO/content/offers" \

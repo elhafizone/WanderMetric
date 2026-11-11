@@ -29,6 +29,7 @@ get_template_part(
 		'offers'   => $offers,
 		'group_by' => 'place',
 		'filters'  => $filters,
+		'widget'   => wm_widget_for( 'country:' . $country->slug ) ? wm_widget_slot( 'country:' . $country->slug ) : wm_widget_slot( 'section:' . $slug ),
 		'empty'    => 'Nothing in ' . $country->name . ' for this section yet.',
 	)
 );

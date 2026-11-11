@@ -29,6 +29,7 @@ get_template_part(
 		'group_by' => 'place',
 		'filters'  => count( $filters ) > 2 ? $filters : array(),
 		'empty'    => 'No partner in this section yet. We only list what we have read.',
+		'widget'   => wm_widget_slot( 'section:' . $slug ),
 	)
 );
 

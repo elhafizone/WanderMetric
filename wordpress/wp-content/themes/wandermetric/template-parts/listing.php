@@ -44,6 +44,10 @@ if ( 'section' === $args['group_by'] ) {
 	</nav>
 <?php endif; ?>
 
+<?php if ( ! empty( $args['widget'] ) ) : ?>
+	<div class="wrap"><?php echo $args['widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built and escaped by wm_widget_slot(). ?></div>
+<?php endif; ?>
+
 <?php if ( ! $offers ) : ?>
 	<p class="empty wrap"><?php echo esc_html( $args['empty'] ); ?></p>
 <?php endif; ?>

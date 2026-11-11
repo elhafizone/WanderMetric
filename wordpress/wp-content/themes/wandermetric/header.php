@@ -27,6 +27,7 @@ $nav      = array( 'tours-activities', 'transfers', 'sim-cards', 'car-rentals', 
 						<li><a href="<?php echo esc_url( wm_section_url( $slug ) ); ?>"<?php echo get_query_var( 'wm_s' ) === $slug ? ' aria-current="page"' : ''; ?>><?php echo esc_html( $sections[ $slug ]['short'] ); ?></a></li>
 					<?php endif; ?>
 				<?php endforeach; ?>
+				<li><a href="<?php echo esc_url( home_url( '/compare' ) ); ?>"<?php echo in_array( get_query_var( 'wm_route' ), array( 'compare', 'compare-section' ), true ) ? ' aria-current="page"' : ''; ?>><?php esc_html_e( 'Compare', 'wandermetric' ); ?></a></li>
 			</ul>
 		</nav>
 		<form class="mastsearch" role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">

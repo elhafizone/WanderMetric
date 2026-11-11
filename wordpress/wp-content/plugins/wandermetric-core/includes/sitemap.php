@@ -77,6 +77,12 @@ add_action(
 				$urls = array();
 				$min  = WM_MIN_OFFERS_FOR_COUNTRY_PAGE;
 				$urls[] = array( 'loc' => home_url( user_trailingslashit( 'countries' ) ) );
+				$urls[] = array( 'loc' => home_url( user_trailingslashit( 'compare' ) ) );
+				foreach ( wm_partner_data()['compare'] as $c ) {
+					if ( wm_live_partners( $c['partnerCategory'] ) ) {
+						$urls[] = array( 'loc' => home_url( user_trailingslashit( 'compare/' . $c['slug'] ) ) );
+					}
+				}
 				foreach ( array_keys( wm_sections() ) as $section ) {
 					if ( wm_count_offers( array( 'section' => $section ) ) ) {
 						$urls[] = array( 'loc' => wm_section_url( $section ) );

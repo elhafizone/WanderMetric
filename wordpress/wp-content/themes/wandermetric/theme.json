@@ -48,13 +48,13 @@
       "fontFamilies": [
         {
           "slug": "display",
-          "name": "Gloock",
-          "fontFamily": "Gloock, Georgia, 'Times New Roman', serif"
+          "name": "Bricolage Grotesque",
+          "fontFamily": "'Bricolage Grotesque', Manrope, system-ui, sans-serif"
         },
         {
           "slug": "text",
-          "name": "Hanken Grotesk",
-          "fontFamily": "'Hanken Grotesk', 'Segoe UI', Arial, sans-serif"
+          "name": "Manrope",
+          "fontFamily": "Manrope, 'Segoe UI', system-ui, sans-serif"
         }
       ],
       "fontSizes": [
@@ -77,7 +77,7 @@
     },
     "layout": {
       "contentSize": "44rem",
-      "wideSize": "76rem"
+      "wideSize": "1360px"
     },
     "spacing": {
       "customSpacingSize": false
@@ -97,7 +97,7 @@
       "heading": {
         "typography": {
           "fontFamily": "var(--wp--preset--font-family--display)",
-          "fontWeight": "400",
+          "fontWeight": "700",
           "lineHeight": "1.12"
         }
       },

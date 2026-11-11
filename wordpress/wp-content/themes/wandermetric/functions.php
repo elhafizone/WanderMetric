@@ -12,6 +12,7 @@ define( 'WM_THEME_VERSION', '0.1.0' );
 require_once get_template_directory() . '/inc/imagery.php';
 require_once get_template_directory() . '/inc/template-tags.php';
 require_once get_template_directory() . '/inc/logo.php';
+require_once get_template_directory() . '/inc/icons.php';
 
 add_action(
 	'after_setup_theme',
@@ -49,7 +50,7 @@ add_action(
 	'wp_head',
 	static function () {
 		$uri = get_template_directory_uri() . '/assets/fonts/';
-		foreach ( array( 'gloock-latin.woff2', 'hanken-grotesk-latin.woff2', 'bricolage-grotesque-700-latin.woff2' ) as $file ) {
+		foreach ( array( 'bricolage-grotesque-latin.woff2', 'manrope-latin.woff2' ) as $file ) {
 			printf( '<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n", esc_url( $uri . $file ) );
 		}
 	},

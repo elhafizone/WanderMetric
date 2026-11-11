@@ -30,6 +30,8 @@ function wm_register_routes(): void {
 	add_rewrite_rule( '^countries/([a-z0-9-]+)/([a-z0-9-]+)/?$', 'index.php?wm_route=city&wm_country=$matches[1]&wm_city=$matches[2]', 'top' );
 	add_rewrite_rule( '^countries/([a-z0-9-]+)/?$', 'index.php?wm_route=country&wm_country=$matches[1]', 'top' );
 	add_rewrite_rule( '^countries/?$', 'index.php?wm_route=countries', 'top' );
+	add_rewrite_rule( "^compare/({$s})/?$", 'index.php?wm_route=compare-section&wm_s=$matches[1]', 'top' );
+	add_rewrite_rule( '^compare/?$', 'index.php?wm_route=compare', 'top' );
 }
 
 /** Offer permalink: /{section}/{country}/{slug}/ */
@@ -81,6 +83,9 @@ add_action(
 			$bad = true;
 		}
 		if ( 'city' === $route && ! wm_get_city( $country, (string) get_query_var( 'wm_city' ) ) ) {
+			$bad = true;
+		}
+		if ( 'compare-section' === $route && ! wm_compare_section( (string) get_query_var( 'wm_s' ) ) ) {
 			$bad = true;
 		}
 		if ( 'offer' === $route ) {

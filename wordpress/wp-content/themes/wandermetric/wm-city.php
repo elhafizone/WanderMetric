@@ -21,6 +21,7 @@ get_template_part(
 		'trail'    => array( array( 'Home', home_url( '/' ) ), array( $country->name, wm_country_url( $country->slug ) ), array( $city->name, null ) ),
 		'offers'   => $offers,
 		'group_by' => 'section',
+		'widget'   => wm_widget_slot( 'city:' . $city->slug ),
 		'empty'    => 'No offers in ' . $city->name . ' yet.',
 	)
 );

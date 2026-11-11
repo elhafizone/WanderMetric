@@ -30,12 +30,17 @@ require_once WM_CORE_DIR . 'includes/sections.php';
 require_once WM_CORE_DIR . 'includes/places.php';
 require_once WM_CORE_DIR . 'includes/post-types.php';
 require_once WM_CORE_DIR . 'includes/meta.php';
+require_once WM_CORE_DIR . 'includes/offer-facts.php';
+require_once WM_CORE_DIR . 'includes/consent.php';
+require_once WM_CORE_DIR . 'includes/widgets.php';
+require_once WM_CORE_DIR . 'includes/partners.php';
 require_once WM_CORE_DIR . 'includes/publish-gate.php';
 require_once WM_CORE_DIR . 'includes/queries.php';
 require_once WM_CORE_DIR . 'includes/routing.php';
 require_once WM_CORE_DIR . 'includes/go.php';
 require_once WM_CORE_DIR . 'includes/seo.php';
 require_once WM_CORE_DIR . 'includes/sitemap.php';
+require_once WM_CORE_DIR . 'includes/redirects.php';
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once WM_CORE_DIR . 'includes/cli.php';

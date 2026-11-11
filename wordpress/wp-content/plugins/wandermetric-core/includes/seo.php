@@ -43,6 +43,19 @@ function wm_page_meta(): ?array {
 				'description' => 'Tickets, transfers and practical bookings for ' . $city->name . ', read from each partner listing.',
 				'canonical'   => wm_country_url( $country->slug, $city->slug ),
 			) : null;
+		case 'compare':
+			return array(
+				'title'       => 'Compare travel providers',
+				'description' => 'Choose a category. We compare providers within it, because a flight can’t be set against an eSIM.',
+				'canonical'   => home_url( user_trailingslashit( 'compare' ) ),
+			);
+		case 'compare-section':
+			$c = wm_compare_section( $s );
+			return $c ? array(
+				'title'       => 'Compare ' . strtolower( $c['name'] ),
+				'description' => 'Providers in this category only. Compare on their sites; you book with the provider.',
+				'canonical'   => home_url( user_trailingslashit( 'compare/' . $s ) ),
+			) : null;
 		case 'countries':
 			return array(
 				'title'       => 'Countries',

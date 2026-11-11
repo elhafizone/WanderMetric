@@ -29,11 +29,16 @@ function wm_photo( array $photo, string $sizes = '100vw', bool $eager = false, s
 
 /** An offer's first partner image, from the media library (srcset included). */
 function wm_offer_image( WP_Post $offer, string $size = 'large', string $sizes = '(min-width: 64rem) 33vw, 100vw', bool $eager = false ): string {
+	return wm_offer_image_at( $offer, 0, $size, $sizes, $eager );
+}
+
+/** The offer's partner image at position $i, or ''. */
+function wm_offer_image_at( WP_Post $offer, int $i, string $size = 'large', string $sizes = '100vw', bool $eager = false ): string {
 	$images = wm_offer_images( $offer->ID );
-	if ( ! $images ) {
+	if ( ! isset( $images[ $i ] ) ) {
 		return '';
 	}
-	$first = $images[0];
+	$first = $images[ $i ];
 	$attrs = array(
 		'alt'      => $first['alt'],
 		'sizes'    => $sizes,
