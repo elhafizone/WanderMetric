@@ -66,31 +66,7 @@ function wm_page_meta(): ?array {
 	return null;
 }
 
-add_filter(
-	'pre_get_document_title',
-	static function ( $title ) {
-		$meta = wm_page_meta();
-		return $meta ? $meta['title'] . ' | ' . get_bloginfo( 'name' ) : $title;
-	}
-);
-
-add_action(
-	'wp_head',
-	static function () {
-		$meta = wm_page_meta();
-		if ( $meta ) {
-			printf( "<meta name=\"description\" content=\"%s\">\n<link rel=\"canonical\" href=\"%s\">\n", esc_attr( $meta['description'] ), esc_url( $meta['canonical'] ) );
-			return;
-		}
-		if ( is_singular( 'wm_offer' ) ) {
-			$excerpt = get_the_excerpt();
-			if ( $excerpt ) {
-				printf( "<meta name=\"description\" content=\"%s\">\n", esc_attr( wp_trim_words( $excerpt, 32, '…' ) ) );
-			}
-		}
-	},
-	1
-);
+// Title, description, social tags and schema are printed by seo-head.php.
 
 /** Our routes print their own canonical; stop core printing a wrong one. */
 add_action(

@@ -39,6 +39,7 @@ require_once WM_CORE_DIR . 'includes/queries.php';
 require_once WM_CORE_DIR . 'includes/routing.php';
 require_once WM_CORE_DIR . 'includes/go.php';
 require_once WM_CORE_DIR . 'includes/seo.php';
+require_once WM_CORE_DIR . 'includes/seo-head.php';
 require_once WM_CORE_DIR . 'includes/sitemap.php';
 require_once WM_CORE_DIR . 'includes/redirects.php';
 require_once WM_CORE_DIR . 'includes/cache.php';
