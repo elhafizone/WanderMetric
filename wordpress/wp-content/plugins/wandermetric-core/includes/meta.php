@@ -46,8 +46,13 @@ add_action(
 	}
 );
 
+/**
+ * update_post_meta() has already unslashed the value; unslashing again here
+ * stripped the backslashes inside JSON (\" in facts and alt text) and stored
+ * invalid JSON. Trim only.
+ */
 function wm_sanitize_meta_string( $value ): string {
-	return is_string( $value ) ? trim( wp_unslash( $value ) ) : '';
+	return is_string( $value ) ? trim( $value ) : '';
 }
 
 /** @return array<string, mixed> */
@@ -86,6 +91,18 @@ function wm_programme_name( string $slug ): string {
 	$names = array(
 		'airalo'          => 'Airalo',
 		'airhelp'         => 'AirHelp',
+		'autoeurope'      => 'Auto Europe',
+		'bikesbooking'    => 'BikesBooking',
+		'compensair'      => 'Compensair',
+		'drimsim'         => 'Drimsim',
+		'economybookings' => 'EconomyBookings',
+		'gettransfer'     => 'GetTransfer.com',
+		'gigsky'          => 'GigSky',
+		'go-city'         => 'Go City',
+		'intui-travel'    => 'intui.travel',
+		'kiwitaxi'        => 'Kiwitaxi',
+		'qeeq'            => 'QEEQ',
+		'saily'           => 'Saily',
 		'ekta'            => 'EKTA',
 		'getrentacar'     => 'GetRentACar',
 		'kkday'           => 'KKday',

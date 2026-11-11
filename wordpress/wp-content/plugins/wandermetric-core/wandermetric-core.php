@@ -43,6 +43,8 @@ require_once WM_CORE_DIR . 'includes/seo-head.php';
 require_once WM_CORE_DIR . 'includes/sitemap.php';
 require_once WM_CORE_DIR . 'includes/redirects.php';
 require_once WM_CORE_DIR . 'includes/cache.php';
+require_once WM_CORE_DIR . 'includes/importer.php';
+require_once WM_CORE_DIR . 'includes/bundle-import.php';
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once WM_CORE_DIR . 'includes/cli.php';

@@ -1,0 +1,73 @@
+{
+  "programme": "yesim",
+  "section": "sim-cards",
+  "city": "dubai",
+  "kind": "esim",
+  "title": "Yesim United Arab Emirates Prepaid eSIM: Fixed Data (1–30 GB) and Unlimited Day Plans on du and Etisalat",
+  "slug": "yesim-uae-prepaid-esim",
+  "source_url": "https://yesim.app/country/united-arab-emirates/",
+  "read_on": "2026-11-11",
+  "affiliate_url": "https://yesim.tpx.li/o2zvMKZO",
+  "price_note": "Read on 11 November 2026: 30-day fixed plans listed at $3.72 (1 GB), $8.40 (3 GB), $13.20 (5 GB), $22.80 (10 GB), $38.28 (20 GB) and $47.52 (30 GB); the unlimited calculator showed $4.80 for 1 day.",
+  "facts": {
+    "network": "du and Etisalat, each listed with 3G, LTE and 5G in the page's plan data",
+    "operator": "Yesim",
+    "plan_type": "Data-only prepaid eSIM (no local phone number)",
+    "activation_policy": "Validity starts when the eSIM connects to a compatible network; the plan must be activated within 180 days of purchase",
+    "hotspot": "Depends on operator",
+    "rechargeability": "Balance top-up listed as Available",
+    "speed_limitation": "Data speed may be limited in line with the network operator's Fair Usage Policy",
+    "id_verification": "Not required",
+    "covered_cities_listed": "Abu Dhabi, Al Fujayrah, Al Ain, Dubai, Madinat Zayed, Ras Al Khaimah, Sharjah, Umm Al Quwain, Ajman and other cities",
+    "local_access_warning": "The page states that, due to local regulations, access to the Yesim app and website may be limited in the UAE, and asks buyers to purchase and install the eSIM before the trip",
+    "included": [
+      "Prepaid mobile data in the United Arab Emirates on du or Etisalat",
+      "Fixed plans with 30-day validity, or unlimited plans priced by number of days",
+      "QR code delivered after payment; install in the Yesim app",
+      "10% off when buying 2 or more eSIMs (stated in the trip calculator)"
+    ],
+    "not_included": [
+      "Local phone number, voice calls or SMS (data-only plan)"
+    ],
+    "options": [
+      {
+        "name": "Fixed Data — 1 GB / 30 days",
+        "format": "$3.72 ($3.72 per GB)"
+      },
+      {
+        "name": "Fixed Data — 3 GB / 30 days",
+        "format": "$8.40 ($2.81 per GB); strike-through price $11.16"
+      },
+      {
+        "name": "Fixed Data — 5 GB / 30 days",
+        "format": "$13.20 ($2.64 per GB); strike-through price $18.60"
+      },
+      {
+        "name": "Fixed Data — 10 GB / 30 days",
+        "format": "$22.80 ($2.28 per GB); strike-through price $37.20"
+      },
+      {
+        "name": "Fixed Data — 20 GB / 30 days",
+        "format": "$38.28 ($1.92 per GB); strike-through price $74.40"
+      },
+      {
+        "name": "Fixed Data — 30 GB / 30 days",
+        "format": "$47.52 ($1.58 per GB); strike-through price $111.60; marked most popular"
+      },
+      {
+        "name": "Unlimited — 1 day",
+        "format": "$4.80 a day in the trip calculator"
+      }
+    ],
+    "unclear_on_listing": "Only the 1-day unlimited price was rendered on the page; prices for longer unlimited plans appear after choosing a number of days in the calculator and were not read. The page does not say which of du or Etisalat a given plan uses, the daily fair-usage threshold for unlimited plans, or whether hotspot works on this country's plans ('Depends on operator').",
+    "image_credit": "Yesim",
+    "images": [
+      {
+        "url": "https://yesim.app/directions/countries/ae.webp?v=0.2",
+        "alt": "Yesim's United Arab Emirates country card: aerial view of the sail-shaped Burj Al Arab on its island off the Dubai coastline"
+      }
+    ]
+  },
+  "summary": "Data-only prepaid eSIM for the UAE on du or Etisalat, with 30-day plans from $3.72 for 1 GB to $47.52 for 30 GB and unlimited day plans from $4.80. Buy and install it before you fly.",
+  "body": "## What this eSIM is\n\nYesim's United Arab Emirates page sells a digital, data-only SIM profile for unlocked phones and tablets that support eSIM. You buy a plan, receive a QR code, install it through the Yesim app, and the line connects when you land. It keeps your home SIM active alongside it, so messaging apps stay on your usual number. There is no local UAE phone number and no SMS.\n\n## Networks and coverage\n\nThe plan data embedded in the page lists two local operators, **du** and **Etisalat**, each with 3G, LTE and 5G. Coverage is described for Dubai, Abu Dhabi, Sharjah, Ajman, Ras Al Khaimah, Al Ain, Fujairah, Umm Al Quwain, Madinat Zayed and other cities. The page does not say which operator a particular plan connects to.\n\n## Plans and prices (read 11 November 2026)\n\nAll fixed-data plans carry 30 days of validity:\n\n- **1 GB:** $3.72\n- **3 GB:** $8.40\n- **5 GB:** $13.20\n- **10 GB:** $22.80\n- **20 GB:** $38.28\n- **30 GB:** $47.52 (marked most popular, $1.58 per GB)\n\nThe page shows higher strike-through prices next to most tiers. Unlimited plans are priced by number of days; the calculator showed **$4.80 for one day**. Longer unlimited prices appear only after you choose the number of days, so they are not quoted here. Buying two or more eSIMs gives 10% off, according to the calculator.\n\n## What to check before buying\n\n1. **Buy and install before you travel.** The page warns that, because of local regulations, the Yesim app and website may be hard to reach from inside the UAE. Set everything up at home.\n2. **Activation window:** the plan must be activated within 180 days of purchase, and the validity clock starts when the eSIM first connects to a network.\n3. **Hotspot is not guaranteed.** The specs say it \"depends on operator\".\n4. **Unlimited is subject to fair usage.** Speeds may be reduced under the operator's policy, and the page gives no daily threshold.\n5. **Top-ups are available,** so you can start with a smaller tier and add data later.\n6. **Check device compatibility** with Yesim's list, or dial *#06#, which the page says also checks for eSIM support.\n"
+}

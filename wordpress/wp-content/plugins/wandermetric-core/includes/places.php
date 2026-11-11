@@ -21,8 +21,26 @@ function wm_seed_place_list(): array {
 		'japan'    => array( 'name' => 'Japan', 'cities' => array( 'tokyo' => 'Tokyo', 'kyoto' => 'Kyoto' ) ),
 		'portugal' => array( 'name' => 'Portugal', 'cities' => array( 'lisbon' => 'Lisbon' ) ),
 		'spain'    => array( 'name' => 'Spain', 'cities' => array( 'barcelona' => 'Barcelona', 'madrid' => 'Madrid' ) ),
+		'turkey'   => array( 'name' => 'Turkey', 'cities' => array( 'istanbul' => 'Istanbul' ) ),
+		'greece'   => array( 'name' => 'Greece', 'cities' => array( 'athens' => 'Athens' ) ),
+		'united-arab-emirates' => array( 'name' => 'United Arab Emirates', 'cities' => array( 'dubai' => 'Dubai' ) ),
+		'united-kingdom' => array( 'name' => 'United Kingdom', 'cities' => array( 'london' => 'London' ) ),
+		'thailand' => array( 'name' => 'Thailand', 'cities' => array( 'bangkok' => 'Bangkok', 'phuket' => 'Phuket' ) ),
 	);
 }
+
+/** Seed new places once whenever the list changes (deploys do not re-activate the plugin). */
+add_action(
+	'init',
+	static function () {
+		$hash = md5( (string) wp_json_encode( wm_seed_place_list() ) );
+		if ( get_option( 'wm_places_hash' ) !== $hash ) {
+			wm_seed_places();
+			update_option( 'wm_places_hash', $hash, true );
+		}
+	},
+	30
+);
 
 function wm_seed_places(): void {
 	foreach ( wm_seed_place_list() as $country_slug => $country ) {

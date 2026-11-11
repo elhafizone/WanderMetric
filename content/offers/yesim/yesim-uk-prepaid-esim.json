@@ -1,0 +1,68 @@
+{
+  "programme": "yesim",
+  "section": "sim-cards",
+  "city": "london",
+  "kind": "esim",
+  "title": "Yesim United Kingdom Prepaid eSIM: Fixed Data (1–30 GB) and Unlimited Day Plans on EE and O2",
+  "slug": "yesim-uk-prepaid-esim",
+  "source_url": "https://yesim.app/country/united-kingdom/",
+  "read_on": "2026-11-11",
+  "affiliate_url": "https://yesim.tpx.li/k9UNP4JG",
+  "price_note": "Read on 11 November 2026: 30-day fixed plans listed at $3.00 (1 GB), $11.52 (5 GB), $19.20 (10 GB), $26.40 (20 GB) and $33.60 (30 GB); the unlimited calculator showed $4.20 for 1 day.",
+  "facts": {
+    "network": "EE UK and O2, each listed with 3G, LTE and 5G in the page's plan data",
+    "operator": "Yesim",
+    "plan_type": "Data-only prepaid eSIM (no local +44 phone number)",
+    "activation_policy": "Validity starts when the eSIM connects to a compatible network; the plan must be activated within 180 days of purchase",
+    "hotspot": "Depends on operator",
+    "rechargeability": "Balance top-up listed as Available",
+    "speed_limitation": "Data speed may be limited in line with the network operator's Fair Usage Policy",
+    "id_verification": "Not required",
+    "covered_cities_listed": "Birmingham, Birstall, Glasgow, Leeds, Liverpool, London, Manchester, Newcastle, Portsmouth, Southampton and other cities",
+    "included": [
+      "Prepaid mobile data in the United Kingdom on EE or O2",
+      "Fixed plans with 30-day validity, or unlimited plans priced by number of days",
+      "QR code delivered after payment; install in the Yesim app",
+      "10% off when buying 2 or more eSIMs (stated in the trip calculator)"
+    ],
+    "not_included": [
+      "Local phone number, voice calls or SMS (data-only plan)"
+    ],
+    "options": [
+      {
+        "name": "Fixed Data — 1 GB / 30 days",
+        "format": "$3.00 ($3.00 per GB)"
+      },
+      {
+        "name": "Fixed Data — 5 GB / 30 days",
+        "format": "$11.52 ($2.30 per GB); strike-through price $15.00"
+      },
+      {
+        "name": "Fixed Data — 10 GB / 30 days",
+        "format": "$19.20 ($1.92 per GB); strike-through price $30.00"
+      },
+      {
+        "name": "Fixed Data — 20 GB / 30 days",
+        "format": "$26.40 ($1.32 per GB); strike-through price $60.00"
+      },
+      {
+        "name": "Fixed Data — 30 GB / 30 days",
+        "format": "$33.60 ($1.13 per GB); strike-through price $90.00; marked most popular"
+      },
+      {
+        "name": "Unlimited — 1 day",
+        "format": "$4.20 a day in the trip calculator"
+      }
+    ],
+    "unclear_on_listing": "Only the 1-day unlimited price was rendered; longer unlimited prices appear after choosing a number of days and were not read. The page does not say which plans use EE and which use O2 (most plan entries in the page data list EE UK, a few list O2), the fair-usage threshold for unlimited plans, or whether hotspot works on UK plans ('Depends on operator').",
+    "image_credit": "Yesim",
+    "images": [
+      {
+        "url": "https://yesim.app/directions/countries/gb.webp?v=0.2",
+        "alt": "Yesim's United Kingdom country card: the Elizabeth Tower and Houses of Parliament behind Westminster Bridge and the River Thames at dusk"
+      }
+    ]
+  },
+  "summary": "Data-only prepaid eSIM for the UK on EE or O2, with 30-day plans from $3.00 for 1 GB to $33.60 for 30 GB and unlimited day plans from $4.20, plus top-ups.",
+  "body": "## What this eSIM is\n\nYesim's United Kingdom page sells a data-only eSIM profile for unlocked phones and tablets that support eSIM. After paying you get a QR code, install the profile through the Yesim app, and switch it on when you arrive. Your home SIM can stay active next to it for calls and messages on your normal number. The Yesim line itself has no UK phone number and no SMS.\n\n## Networks and coverage\n\nThe plan data on the page lists **EE UK** and **O2**, each with 3G, LTE and 5G; most plan entries name EE, a few name O2. The coverage list mentions London, Birmingham, Manchester, Liverpool, Leeds, Glasgow, Newcastle, Southampton, Portsmouth and other cities. The page does not tell you in advance which network a specific plan will use.\n\n## Plans and prices (read 11 November 2026)\n\nEvery fixed-data plan is valid for 30 days:\n\n- **1 GB:** $3.00\n- **5 GB:** $11.52\n- **10 GB:** $19.20\n- **20 GB:** $26.40\n- **30 GB:** $33.60 (marked most popular, $1.13 per GB)\n\nHigher strike-through prices are shown beside the larger tiers. Unlimited plans are priced by the day; the calculator showed **$4.20 for one day**. Longer unlimited prices appear only once you pick a number of days and were not read for this guide. The calculator also states 10% off for two or more eSIMs.\n\n## What to check before buying\n\n1. **Activation window:** activate within 180 days of purchase. Validity begins when the eSIM first connects to a network, not on the purchase date.\n2. **Hotspot is listed as \"depends on operator\".** Do not count on tethering a laptop until you have tested it.\n3. **Fair usage applies to unlimited plans.** Speeds may be reduced under the operator's policy; no threshold is given.\n4. **Top-ups are available,** so a 5 GB or 10 GB plan can be extended rather than replaced.\n5. **One QR code, one device.** The FAQ says a code cannot be reused on a second phone.\n6. **Check your phone is eSIM-capable** using Yesim's compatibility list or by dialling *#06#, which the page says also checks for eSIM support.\n"
+}
