@@ -3,7 +3,8 @@
  * Site footer, espresso ground.
  *   1. Brand band: the reversed logo, the promise in one sentence, three proofs.
  *   2. Five columns: Sections · Destinations (two-column list) · Compare · Company · Legal.
- *   3. Base: the affiliate disclosure in full, then copyright, cookie settings, back to top.
+ *   3. Base: copyright and back to top. The affiliate disclosure sits next to each
+ *      booking button and on its own page (Legal column).
  * Links to pages are resolved by slug, so a renamed menu cannot break them.
  * No analytics or third-party request comes from here.
  */
@@ -96,7 +97,6 @@ $news_id = (int) get_option( 'page_for_posts' );
 	</div>
 
 	<div class="sitefoot-inner sitefoot-base">
-		<p class="sitefoot-disclosure"><?php esc_html_e( 'Links to partners are affiliate links: if you book, the partner may pay us a commission, at no extra cost to you. Prices and availability are set by the partner and can change after the date shown on each page.', 'wandermetric' ); ?></p>
 		<div class="sitefoot-legal">
 			<p>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> WanderMetric. <?php esc_html_e( 'All rights reserved.', 'wandermetric' ); ?></p>
 			<a class="sitefoot-top" href="#main"><?php esc_html_e( 'Back to top', 'wandermetric' ); ?> <span aria-hidden="true">↑</span></a>
