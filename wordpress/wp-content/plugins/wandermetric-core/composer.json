@@ -1,0 +1,13 @@
+{
+  "name": "wandermetric/wandermetric-core",
+  "description": "WanderMetric site logic for WordPress.",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "php": ">=8.1",
+    "erusev/parsedown": "^1.7"
+  },
+  "config": {
+    "optimize-autoloader": true
+  }
+}

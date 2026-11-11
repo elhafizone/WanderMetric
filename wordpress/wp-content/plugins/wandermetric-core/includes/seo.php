@@ -1,0 +1,112 @@
+<?php
+/**
+ * Titles, descriptions, canonicals and robots for the virtual pages, so no SEO
+ * plugin is needed. Thin country pages stay out of the index.
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Title and description for the current route, or null outside our routes.
+ *
+ * @return array{title: string, description: string, canonical: string}|null
+ */
+function wm_page_meta(): ?array {
+	$route    = wm_route();
+	$sections = wm_sections();
+	$s        = (string) get_query_var( 'wm_s' );
+	$country  = wm_get_country( (string) get_query_var( 'wm_country' ) );
+
+	switch ( $route ) {
+		case 'section':
+			return isset( $sections[ $s ] ) ? array(
+				'title'       => $sections[ $s ]['name'],
+				'description' => $sections[ $s ]['tagline'] . '. Facts read from each partner listing, with the date.',
+				'canonical'   => wm_section_url( $s ),
+			) : null;
+		case 'section-country':
+			return ( isset( $sections[ $s ] ) && $country ) ? array(
+				'title'       => $sections[ $s ]['name'] . ' in ' . $country->name,
+				'description' => $sections[ $s ]['tagline'] . ' in ' . $country->name . '.',
+				'canonical'   => wm_section_url( $s, $country->slug ),
+			) : null;
+		case 'country':
+			return $country ? array(
+				'title'       => $country->name . ': tickets, transfers, eSIMs and more',
+				'description' => 'What to book for ' . $country->name . ', read from each partner listing.',
+				'canonical'   => wm_country_url( $country->slug ),
+			) : null;
+		case 'city':
+			$city = $country ? wm_get_city( $country->slug, (string) get_query_var( 'wm_city' ) ) : null;
+			return $city ? array(
+				'title'       => $city->name . ', ' . $country->name,
+				'description' => 'Tickets, transfers and practical bookings for ' . $city->name . ', read from each partner listing.',
+				'canonical'   => wm_country_url( $country->slug, $city->slug ),
+			) : null;
+		case 'countries':
+			return array(
+				'title'       => 'Countries',
+				'description' => 'Every country with offers on WanderMetric.',
+				'canonical'   => home_url( user_trailingslashit( 'countries' ) ),
+			);
+	}
+	return null;
+}
+
+add_filter(
+	'pre_get_document_title',
+	static function ( $title ) {
+		$meta = wm_page_meta();
+		return $meta ? $meta['title'] . ' | ' . get_bloginfo( 'name' ) : $title;
+	}
+);
+
+add_action(
+	'wp_head',
+	static function () {
+		$meta = wm_page_meta();
+		if ( $meta ) {
+			printf( "<meta name=\"description\" content=\"%s\">\n<link rel=\"canonical\" href=\"%s\">\n", esc_attr( $meta['description'] ), esc_url( $meta['canonical'] ) );
+			return;
+		}
+		if ( is_singular( 'wm_offer' ) ) {
+			$excerpt = get_the_excerpt();
+			if ( $excerpt ) {
+				printf( "<meta name=\"description\" content=\"%s\">\n", esc_attr( wp_trim_words( $excerpt, 32, '…' ) ) );
+			}
+		}
+	},
+	1
+);
+
+/** Our routes print their own canonical; stop core printing a wrong one. */
+add_action(
+	'wp',
+	static function () {
+		if ( wm_route() && 'offer' !== wm_route() ) {
+			remove_action( 'wp_head', 'rel_canonical' );
+		}
+	}
+);
+
+/** noindex: thin country pages and the section+country filter pages below the threshold. */
+add_filter(
+	'wp_robots',
+	static function ( array $robots ) {
+		$route = wm_route();
+		if ( in_array( $route, array( 'country', 'section-country', 'city' ), true ) ) {
+			$filter = array( 'country' => (string) get_query_var( 'wm_country' ) );
+			if ( 'section-country' === $route ) {
+				$filter['section'] = (string) get_query_var( 'wm_s' );
+			}
+			if ( 'city' === $route ) {
+				$filter = array( 'city' => (string) get_query_var( 'wm_city' ) );
+			}
+			if ( wm_count_offers( $filter ) < WM_MIN_OFFERS_FOR_COUNTRY_PAGE ) {
+				$robots['noindex'] = true;
+				$robots['follow']  = true;
+			}
+		}
+		return $robots;
+	}
+);

@@ -1,0 +1,111 @@
+{
+  "$schema": "https://schemas.wp.org/wp/6.6/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": false,
+    "color": {
+      "custom": false,
+      "customGradient": false,
+      "defaultPalette": false,
+      "defaultGradients": false,
+      "defaultDuotone": false,
+      "palette": [
+        {
+          "slug": "ink",
+          "name": "Ink",
+          "color": "#1C1A17"
+        },
+        {
+          "slug": "lagoon",
+          "name": "Lagoon",
+          "color": "#0B6660"
+        },
+        {
+          "slug": "harbour",
+          "name": "Harbour",
+          "color": "#2A4F86"
+        },
+        {
+          "slug": "tint",
+          "name": "Sand tint",
+          "color": "#F3EFE7"
+        },
+        {
+          "slug": "muted",
+          "name": "Muted",
+          "color": "#6A6358"
+        },
+        {
+          "slug": "paper",
+          "name": "Paper",
+          "color": "#FAF8F4"
+        }
+      ]
+    },
+    "typography": {
+      "customFontSize": false,
+      "dropCap": false,
+      "fontFamilies": [
+        {
+          "slug": "display",
+          "name": "Gloock",
+          "fontFamily": "Gloock, Georgia, 'Times New Roman', serif"
+        },
+        {
+          "slug": "text",
+          "name": "Hanken Grotesk",
+          "fontFamily": "'Hanken Grotesk', 'Segoe UI', Arial, sans-serif"
+        }
+      ],
+      "fontSizes": [
+        {
+          "slug": "small",
+          "name": "Small",
+          "size": "0.875rem"
+        },
+        {
+          "slug": "medium",
+          "name": "Body",
+          "size": "1.0625rem"
+        },
+        {
+          "slug": "large",
+          "name": "Large",
+          "size": "1.375rem"
+        }
+      ]
+    },
+    "layout": {
+      "contentSize": "44rem",
+      "wideSize": "76rem"
+    },
+    "spacing": {
+      "customSpacingSize": false
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "var(--wp--preset--color--paper)",
+      "text": "var(--wp--preset--color--ink)"
+    },
+    "typography": {
+      "fontFamily": "var(--wp--preset--font-family--text)",
+      "fontSize": "var(--wp--preset--font-size--medium)",
+      "lineHeight": "1.65"
+    },
+    "elements": {
+      "heading": {
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--display)",
+          "fontWeight": "400",
+          "lineHeight": "1.12"
+        }
+      },
+      "link": {
+        "color": {
+          "text": "var(--wp--preset--color--lagoon)"
+        }
+      }
+    }
+  }
+}
