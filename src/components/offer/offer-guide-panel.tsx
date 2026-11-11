@@ -46,7 +46,7 @@ export function OfferGuidePanel({ item }: { item: OfferDetail }) {
   const caution = factsCaution(item.facts);
   const readOn = formatReadOn(item.facts_read_on);
 
-  const provider = providerLabel(item.link.slug);
+  const provider = item.program?.name || providerLabel(item.link.slug);
 
   return (
     <>
@@ -74,9 +74,9 @@ export function OfferGuidePanel({ item }: { item: OfferDetail }) {
           contentId={item.id}
           fromPath={offerPath(item.section, item.country.slug, item.slug)}
           emphasis="high"
-          className="group/out ease-editorial bg-cta text-on-cta hover:bg-cta-hover inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-4 py-3 text-[0.9375rem] font-bold whitespace-nowrap shadow-sm transition-all duration-200 hover:shadow-md"
+          className="group/out ease-editorial bg-cta text-on-cta hover:bg-cta-hover flex w-full min-h-12 items-center justify-center gap-2 rounded-full px-4 py-3 text-[0.9375rem] font-bold shadow-sm transition-all duration-200 hover:shadow-md"
         >
-          Check availability on {provider}
+          Check availability
         </AffiliateLink>
         {readOn && (
           <p className="text-ink-muted text-xs/[1.5]">

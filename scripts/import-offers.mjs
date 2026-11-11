@@ -17,6 +17,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 
 import { createClient } from "@supabase/supabase-js";
+import { buildVisualInventory, validateOfferVisuals } from "./lib/visual-policy.mjs";
 
 const args = new Set(process.argv.slice(2));
 const dry = args.has("--dry");
@@ -44,13 +45,18 @@ const SECTIONS = [
 ];
 
 const root = path.resolve("content/offers");
-const files = readdirSync(root, { withFileTypes: true })
-  .filter((d) => d.isDirectory())
-  .flatMap((d) =>
-    readdirSync(path.join(root, d.name))
-      .filter((f) => f.endsWith(".json"))
-      .map((f) => path.join(root, d.name, f)),
-  );
+const fileArg = process.argv.slice(2).find((a) => !a.startsWith("--"));
+const files = fileArg
+  ? [path.resolve(fileArg)]
+  : readdirSync(root, { withFileTypes: true })
+      .filter((d) => d.isDirectory())
+      .flatMap((d) =>
+        readdirSync(path.join(root, d.name))
+          .filter((f) => f.endsWith(".json"))
+          .map((f) => path.join(root, d.name, f)),
+      );
+
+const visualInventory = buildVisualInventory(root, "public");
 
 const REQUIRED = ["programme", "section", "title", "slug", "source_url", "read_on", "affiliate_url", "facts", "summary", "body"];
 
@@ -62,6 +68,7 @@ function validate(offer, file) {
   if (!offer.city && !offer.country) throw new Error(`${file}: needs a city or a country`);
   if (!/^https?:\/\//.test(offer.affiliate_url)) throw new Error(`${file}: affiliate_url must be http(s)`);
   if (publish && offer.body.length < 800) throw new Error(`${file}: body under 800 characters`);
+  validateOfferVisuals(offer, file, visualInventory, { isPublish: publish });
 }
 
 function fail(label, error) {

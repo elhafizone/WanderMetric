@@ -1,0 +1,39 @@
+{
+  "programme": "radical-storage",
+  "section": "travel-services",
+  "city": "tokyo",
+  "kind": "luggage-storage",
+  "title": "Tokyo Shinjuku Station Luggage Storage with Radical Storage",
+  "slug": "radical-storage-tokyo-shinjuku-luggage-storage",
+  "source_url": "https://radicalstorage.com/luggage-storage/tokyo/shinjuku",
+  "read_on": "2026-10-29",
+  "affiliate_url": "https://tp.media/r?campaign_id=209&marker=705982&p=5867&trs=512658&u=https%3A%2F%2Fradicalstorage.com%2Fluggage-storage%2Ftokyo%2Fshinjuku",
+  "price_note": "Read on 29 October 2026: Shinjuku FAQ states prices start from ¥270/day depending on bag size (Tokyo FAQ states ¥600/day; JSON-LD Product schema lists ¥750 JPY), plus a ¥353 per-bag guarantee and support fee at checkout.",
+  "facts": {
+    "location": "Shinjuku, Tokyo (around Shinjuku Railway Station)",
+    "headline_price": "From ¥270–¥750 per bag/day plus ¥353 per-bag guarantee fee at checkout",
+    "guarantee": "¥2,000,000 guarantee coverage per bag against damage, loss, or theft",
+    "size_limits": "No size or weight restrictions (suitcases, backpacks, sports gear, bicycles, and strollers accepted)",
+    "cancellation": "Free cancellation any time before scheduled check-in for a full refund; free booking modifications up to drop-off",
+    "how_it_works": "Reserve online via website or app, receive exact partner address and QR code confirmation, present QR code at drop-off and pickup (no walk-ins or cash accepted)",
+    "rating": {
+      "score": 4.8,
+      "scale": 5,
+      "count_label": "688,501"
+    },
+    "unclear_on_listing": "Exact street addresses are disclosed only after online booking confirmation, and operating hours vary by individual Shinjuku partner shop or hotel.",
+    "image_credit": "Radical Storage",
+    "images": [
+      {
+        "url": "https://assets.radical.storage/luggage-storage/tokyo/816.350x200.jpg",
+        "alt": "Radical Storage verified luggage drop-off location in Shinjuku, Tokyo"
+      },
+      {
+        "url": "https://assets.radical.storage/static/storage_types/hotel/hotel_1_75.png",
+        "alt": "Radical Storage hotel reception partner storage counter illustration"
+      }
+    ]
+  },
+  "summary": "Pre-booked luggage storage near Tokyo's Shinjuku Railway Station through Radical Storage's local hotel and shop partners, with no size limits, a ¥2,000,000 bag guarantee, and free cancellation before check-in.",
+  "body": "## What this service is\n\nRadical Storage's Shinjuku page (`https://radicalstorage.com/luggage-storage/tokyo/shinjuku`) lets travelers pre-book luggage storage inside vetted local businesses—including hotels, cafés, and retail shops—around **Shinjuku Railway Station** in Tokyo. Because large station coin lockers in Shinjuku frequently fill up by mid-morning and cannot fit oversized suitcases, Radical Storage provides guaranteed space with **no size or weight limits**.\n\n## Pricing and guarantee structure\n\nWhen verified on 29 October 2026, the Shinjuku listing and its structured FAQ detailed the following pricing components:\n\n- **Daily storage rate:** The Shinjuku FAQ states that daily storage prices start from **¥270 per day** depending on bag size (while the general Tokyo FAQ states **¥600 per day** and the page's JSON-LD Product offer lists **¥750 JPY**, with specific station points such as `luggage-storage-shinjuku-railway-station-2` displaying ¥850/day in their meta description).\n- **Mandatory guarantee & support fee:** A **¥353 fee per bag** is added at checkout, which funds **¥2,000,000 in coverage per bag** against damage, theft, or loss, alongside 24/7 customer support.\n\n## How check-in works and what is accepted\n\n Partner locations **do not accept walk-ins or cash payments**. You must book online via the Radical Storage website or app before arriving. Once booked, you receive a confirmation email containing the partner's exact street address and a digital QR code, which staff scan at both drop-off and pickup. Suitcases, backpacks, shopping bags, sports equipment, bicycles, and strollers are all accepted.\n\n## Cancellation and modification policy\n\nBookings can be **modified any time up to drop-off** or **canceled free of charge any time before the scheduled check-in time** for a full refund.\n\n## What to check before booking\n\nNot every Shinjuku partner point is open 24/7 (for example, partner listing `#6459817` operates from 10:00 to 19:00 and closes on certain weekdays). Always check the specific partner's opening and closing hours on the map before completing checkout.\n"
+}

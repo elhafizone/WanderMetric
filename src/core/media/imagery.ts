@@ -181,6 +181,30 @@ export const editorialImagery: Record<string, EditorialImage> = {
     focus: "50% 50%",
     credit: unsplash("Tang wei-chen", "https://unsplash.com/@weichen"),
   },
+  "paris-cdg-airport-transfer": {
+    src: "/imagery/offers/paris-cdg-airport-transfer.jpg",
+    width: 600,
+    height: 400,
+    alt: "Welcome Pickups driver standing beside a Mercedes private transfer vehicle",
+    focus: "50% 50%",
+    credit: {
+      photographer: "Welcome Pickups",
+      source: "Welcome Pickups",
+      sourceUrl: "https://www.welcomepickups.com/paris/airport-transfer/",
+    },
+  },
+  "airalo-egypt-giza-mobile-esim": {
+    src: "/imagery/offers/airalo-egypt-giza-mobile-esim.png",
+    width: 2400,
+    height: 1200,
+    alt: "Airalo Giza Mobile eSIM graphic for Egypt with mobile connection illustration",
+    focus: "50% 50%",
+    credit: {
+      photographer: "Airalo",
+      source: "Airalo",
+      sourceUrl: "https://www.airalo.com/egypt-esim",
+    },
+  },
 };
 
 /**

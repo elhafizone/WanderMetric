@@ -22,6 +22,8 @@ for full-bleed brand imagery, visibly on the page.
 | `offers/kyoto-fushimi-inari-evening-walking-tour.jpg` | David Emrich | https://unsplash.com/@davidemrich | Kyoto Fushimi Inari guide |
 | `offers/barcelona-sagrada-familia-tickets-and-tours.jpg` | Adam Young | https://unsplash.com/@hossua34 | Barcelona Sagrada Familia guide |
 | `offers/aswan-abu-simbel-temples-full-day-guided-tour.jpg` | Tang wei-chen | https://unsplash.com/@weichen | Aswan Abu Simbel guide |
+| `offers/paris-cdg-airport-transfer.jpg` | Welcome Pickups | https://www.welcomepickups.com/paris/airport-transfer/ | Paris CDG Airport Transfer guide |
+| `offers/airalo-egypt-giza-mobile-esim.png` | Airalo | https://www.airalo.com/egypt-esim | Airalo Egypt Giza Mobile eSIM guide |
 
 `hero-coast.jpg` (Daniel R.) was removed: measured at 94 mean luminance and
 −18 warmth, it was both dark and cool, and as the hero it was the main reason

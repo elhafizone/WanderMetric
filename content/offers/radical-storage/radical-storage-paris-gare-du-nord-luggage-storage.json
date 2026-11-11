@@ -1,0 +1,48 @@
+{
+  "programme": "radical-storage",
+  "section": "travel-services",
+  "city": "paris",
+  "kind": "luggage-storage",
+  "title": "Paris Gare du Nord Luggage Storage with Radical Storage",
+  "slug": "radical-storage-paris-gare-du-nord-luggage-storage",
+  "source_url": "https://radicalstorage.com/luggage-storage/paris/gare-du-nord",
+  "read_on": "2026-10-29",
+  "affiliate_url": "https://tp.media/r?campaign_id=209&marker=705982&p=5867&trs=512658&u=https%3A%2F%2Fradicalstorage.com%2Fluggage-storage%2Fparis%2Fgare-du-nord",
+  "price_note": "Read on 29 October 2026: tiered 24-hour pricing listed in the page schema starts from €3.90/day for small bags, €5.00/day for regular bags, and €6.00/day for large bags.",
+  "facts": {
+    "location": "Gare du Nord (10th arrondissement), Paris",
+    "headline_price": "Small bags from €3.90/24h, Regular bags from €5.00/24h, Large bags from €6.00/24h",
+    "sample_locations": [
+      "Gare Du Nord Grandes Lignes (#4192) — rated 4.82/5 across 721 reviews",
+      "Paris North Railway Station (#6454991) — rated 4.73/5 across 132 reviews",
+      "Paris Gare Du Nord (#5688) — rated 4.68/5 across 19 reviews",
+      "Rue La Fayette (#6458392) — rated 4.90/5 across 10 reviews"
+    ],
+    "guarantee": "€10,000 guarantee stated on page",
+    "cancellation": "Free cancellation prior to drop-off",
+    "how_it_works": "Locate a verified partner near Gare du Nord, book online for instant QR confirmation, drop bags at the shop/hotel, and pick up with your QR code",
+    "rating": {
+      "score": 4.78,
+      "scale": 5,
+      "count_label": "685,000"
+    },
+    "unclear_on_listing": "Additional per-bag service or guarantee fees added at checkout are not itemized on the headline banner and appear during the booking step.",
+    "image_credit": "Radical Storage",
+    "images": [
+      {
+        "url": "https://assets.radical.storage/luggage-storage/gare-du-nord-grandes-lignes-storefront-70f1-350x200.jpg",
+        "alt": "Storefront of Radical Storage partner Gare Du Nord Grandes Lignes (#4192) in Paris"
+      },
+      {
+        "url": "https://assets.radical.storage/luggage-storage/paris-north-railway-station-storefront-9143-350x200.jpg",
+        "alt": "Storefront of Radical Storage partner Paris North Railway Station (#6454991) near Gare du Nord"
+      },
+      {
+        "url": "https://assets.radical.storage/luggage-storage/paris/350x200.4556.jpg",
+        "alt": "Radical Storage luggage drop-off point in Paris near Gare du Nord"
+      }
+    ]
+  },
+  "summary": "Verified luggage storage points opposite Paris Gare du Nord station with Radical Storage, priced from €3.90–€6.00 per 24 hours by bag size with a €10,000 guarantee and QR-code check-in.",
+  "body": "## What this service is\n\nRadical Storage's **Gare du Nord** hub (`https://radicalstorage.com/luggage-storage/paris/gare-du-nord`) provides pre-booked luggage storage at vetted local shops, hotels, and cafés immediately outside Paris's busiest international railway terminal (serving Eurostar from London, Thalys/Eurostar from Brussels and Amsterdam, and RER B trains to CDG Airport).\n\n## Verified Gare du Nord storage points\n\nWhen inspected on 29 October 2026, the page's structured store carousel listed multiple active partner points within a 2-minute walk of the station concourse:\n\n- **Gare Du Nord Grandes Lignes (`#4192`):** Rated **4.82 out of 5** across **721 verified reviews** (`48.8799, 2.3508`).\n- **Paris North Railway Station (`#6454991`):** Rated **4.73 out of 5** across **132 reviews** (`48.8797, 2.3533`).\n- **La Fayette – Dunkerque (`#6472352`):** Rated **4.71 out of 5** across **7 reviews**.\n- **Paris Gare Du Nord (`#5688`):** Rated **4.68 out of 5** across **19 reviews**.\n- **Rue La Fayette (`#6458392`):** Rated **4.90 out of 5** across **10 reviews**.\n\n## Tiered pricing by bag size\n\nAccording to the JSON-LD `OfferCatalog` embedded on the page on 29 October 2026, 24-hour storage rates are tiered by item size:\n\n- **Small items:** From **€3.90 per 24 hours**\n- **Regular luggage:** From **€5.00 per 24 hours**\n- **Large suitcases:** From **€6.00 per 24 hours**\n\nNote that one recent customer review (`laurent`, 21 October 2026) pointed out that additional checkout fees apply on top of the headline \"starting from\" rate, so review the final cart total before confirming.\n\n## Security guarantee and booking process\n\nBookings include a **€10,000 guarantee** and **free cancellation**. Reservations must be made online in advance; you receive a QR code and the exact storefront address immediately after payment, allowing quick drop-off and retrieval without waiting in station locker security lines.\n"
+}
