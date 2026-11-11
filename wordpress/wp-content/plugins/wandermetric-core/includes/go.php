@@ -110,6 +110,11 @@ add_action(
 		}
 		header( 'X-Robots-Tag: noindex, nofollow', true );
 		nocache_headers();
+		// Never cached by LiteSpeed either (also excluded in cache.php).
+		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
+			define( 'DONOTCACHEPAGE', true );
+		}
+		do_action( 'litespeed_control_set_nocache', 'wandermetric /go/ redirect' );
 
 		$url     = '';
 		$offer   = get_page_by_path( $slug, OBJECT, 'wm_offer' );

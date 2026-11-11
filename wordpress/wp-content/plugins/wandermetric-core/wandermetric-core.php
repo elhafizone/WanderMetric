@@ -41,22 +41,27 @@ require_once WM_CORE_DIR . 'includes/go.php';
 require_once WM_CORE_DIR . 'includes/seo.php';
 require_once WM_CORE_DIR . 'includes/sitemap.php';
 require_once WM_CORE_DIR . 'includes/redirects.php';
+require_once WM_CORE_DIR . 'includes/cache.php';
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once WM_CORE_DIR . 'includes/cli.php';
 }
 
 /**
- * Bump when routes change. A site whose stored rewrite rules are older (an
- * imported database, a plugin update deployed without re-activation) rebuilds
- * them once, after every init-time rule has been registered.
+ * Our routes must be in the stored rewrite rules. They go missing when the
+ * rules are rebuilt without this plugin loaded (an imported database, another
+ * plugin activated by a host job that skips plugins). Each request checks for
+ * the /go/ and offer rules, a cheap array lookup, and rebuilds once if absent.
+ * Bump WM_ROUTES_VERSION when routes change, to rebuild on deploy.
  */
-define( 'WM_ROUTES_VERSION', '3' );
+define( 'WM_ROUTES_VERSION', '4' );
 
 add_action(
 	'init',
 	static function () {
-		if ( WM_ROUTES_VERSION !== get_option( 'wm_routes_version' ) ) {
+		$rules   = get_option( 'rewrite_rules' );
+		$missing = ! is_array( $rules ) || ! isset( $rules['^go/([a-z0-9-]+)/?$'], $rules['^countries/?$'] );
+		if ( $missing || WM_ROUTES_VERSION !== get_option( 'wm_routes_version' ) ) {
 			flush_rewrite_rules( false );
 			update_option( 'wm_routes_version', WM_ROUTES_VERSION, true );
 		}
