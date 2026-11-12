@@ -8,7 +8,7 @@
   "source_url": "https://yesim.app/country/italy/",
   "read_on": "2026-10-28",
   "affiliate_url": "https://tp.media/r?campaign_id=224&marker=705982&p=5998&trs=512658&u=https%3A%2F%2Fyesim.app%2Fcountry%2Fitaly%2F",
-  "price_note": "Read on 28 October 2026: 30-day fixed data plans range from $2.50 USD (1 GB) to $28.00 USD (30 GB); unlimited data plans range from $3.50 USD (1 day) to $57.00 USD (30 days), including $24.50 USD for 7 days and $39.00 USD for 15 days.",
+  "price_note": "Read on 28 October 2026: 30-day fixed data plans range from €2.50 (1 GB) to €28.00 (30 GB); unlimited data plans range from €3.50 (1 day) to €57.00 (30 days), including €24.50 for 7 days and €39.00 for 15 days.",
   "facts": {
     "network": "TIM (3G/LTE/5G), Vodafone (3G/LTE), WINDTRE (3G/LTE), and ILIAD (3G/LTE)",
     "operator": "Yesim (Genesis Group AG, Switzerland)",
@@ -31,37 +31,37 @@
     "options": [
       {
         "name": "Fixed Data — 1 GB / 30 Days",
-        "format": "30-day validity across TIM, Vodafone, WINDTRE, and ILIAD. Quoted at $2.50 USD.",
+        "format": "30-day validity across TIM, Vodafone, WINDTRE, and ILIAD. Quoted at €2.50.",
         "cancellation": "Digital eSIM; subject to Yesim refund policy prior to activation"
       },
       {
         "name": "Fixed Data — 5 GB / 30 Days",
-        "format": "30-day validity across 4 Italian networks. Quoted at $9.60 USD ($1.92/GB).",
+        "format": "30-day validity across 4 Italian networks. Quoted at €9.60 (€1.92/GB).",
         "cancellation": "Digital eSIM; subject to Yesim refund policy prior to activation"
       },
       {
         "name": "Fixed Data — 10 GB / 30 Days",
-        "format": "30-day validity across 4 Italian networks. Quoted at $16.00 USD ($1.60/GB).",
+        "format": "30-day validity across 4 Italian networks. Quoted at €16.00 (€1.60/GB).",
         "cancellation": "Digital eSIM; subject to Yesim refund policy prior to activation"
       },
       {
         "name": "Fixed Data — 20 GB / 30 Days",
-        "format": "30-day validity across 4 Italian networks. Quoted at $22.00 USD ($1.10/GB).",
+        "format": "30-day validity across 4 Italian networks. Quoted at €22.00 (€1.10/GB).",
         "cancellation": "Digital eSIM; subject to Yesim refund policy prior to activation"
       },
       {
         "name": "Fixed Data — 30 GB / 30 Days",
-        "format": "30-day validity across 4 Italian networks. Quoted at $28.00 USD ($0.93/GB).",
+        "format": "30-day validity across 4 Italian networks. Quoted at €28.00 (€0.93/GB).",
         "cancellation": "Digital eSIM; subject to Yesim refund policy prior to activation"
       },
       {
         "name": "Unlimited Data — 7 Days",
-        "format": "7-day unlimited data plan for Italy. Quoted at $24.50 USD ($3.50/day).",
+        "format": "7-day unlimited data plan for Italy. Quoted at €24.50 (€3.50/day).",
         "cancellation": "Digital eSIM; subject to Yesim refund policy prior to activation"
       },
       {
         "name": "Unlimited Data — 15 Days",
-        "format": "15-day unlimited data plan for Italy. Quoted at $39.00 USD ($2.60/day).",
+        "format": "15-day unlimited data plan for Italy. Quoted at €39.00 (€2.60/day).",
         "cancellation": "Digital eSIM; subject to Yesim refund policy prior to activation"
       }
     ],
@@ -75,6 +75,6 @@
       }
     ]
   },
-  "summary": "Prepaid multi-network eSIM for Italy connecting to TIM (5G/LTE), Vodafone, WINDTRE, and ILIAD, with 30-day fixed plans from $2.50 (1 GB) to $28.00 (30 GB) and 1-to-30-day unlimited packages.",
-  "body": "## What this Italy eSIM offers\n\nYesim's **Italy eSIM** (`https://yesim.app/country/italy/`) provides prepaid mobile data across Italy without requiring a physical SIM swap or Italian *codice fiscale* store registration. A standout advantage of this profile is **four-carrier network redundancy**: rather than locking you to a single Italian operator, the eSIM connects across **TIM (3G, LTE, 5G)**, **Vodafone (3G, LTE)**, **WINDTRE (3G, LTE)**, and **ILIAD (3G, LTE)**—useful when traveling between thick-walled historic centers in Rome or Florence and coastal towns around Naples or Sicily.\n\n## Verified data plans and USD pricing (read 28 October 2026)\n\n### 1. Fixed 30-Day Data Plans\n- **1 GB / 30 days:** `$2.50 USD`\n- **5 GB / 30 days:** `$9.60 USD` (`$1.92/GB`)\n- **10 GB / 30 days:** `$16.00 USD` (`$1.60/GB`)\n- **20 GB / 30 days:** `$22.00 USD` (`$1.10/GB`)\n- **30 GB / 30 days:** `$28.00 USD` (`$0.93/GB`)\n\n### 2. Custom-Length Unlimited Data Plans (1 to 30 Days)\nYesim lets you purchase unlimited data for any exact day count between 1 and 30 days:\n- **1 day:** `$3.50 USD` | **3 days:** `$10.50 USD` | **5 days:** `$17.50 USD`\n- **7 days:** `$24.50 USD` (`$3.50/day`)\n- **10 days:** `$29.94 USD` (`$2.99/day`)\n- **14 days:** `$37.19 USD` (`$2.66/day`)\n- **15 days:** `$39.00 USD` (`$2.60/day`)\n- **30 days:** `$57.00 USD` (`$1.90/day`)\n\n## Important technical details to verify\n\n- **Activation & validity:** Your plan's validity clock starts only when the eSIM connects to one of the four supported Italian networks, and you have up to **180 days from purchase** to activate it.\n- **Top-ups supported:** Unlike Yesim's Japan profile, the Italy eSIM explicitly supports **in-app balance top-ups**.\n- **Hotspot caveat:** The specification table lists **Hotspot: Depends on operator**—if tethering Fails on one carrier, manually switch the network selection in your phone's cellular settings between TIM, Vodafone, WINDTRE, and ILIAD.\n"
+  "summary": "Prepaid multi-network eSIM for Italy connecting to TIM (5G/LTE), Vodafone, WINDTRE, and ILIAD, with 30-day fixed plans from €2.50 (1 GB) to €28.00 (30 GB) and 1-to-30-day unlimited packages.",
+  "body": "## What this Italy eSIM offers\n\nYesim's **Italy eSIM** (`https://yesim.app/country/italy/`) provides prepaid mobile data across Italy without requiring a physical SIM swap or Italian *codice fiscale* store registration. A standout advantage of this profile is **four-carrier network redundancy**: rather than locking you to a single Italian operator, the eSIM connects across **TIM (3G, LTE, 5G)**, **Vodafone (3G, LTE)**, **WINDTRE (3G, LTE)**, and **ILIAD (3G, LTE)**—useful when traveling between thick-walled historic centers in Rome or Florence and coastal towns around Naples or Sicily.\n\n## Verified data plans and euro pricing (read 28 October 2026)\n\n### 1. Fixed 30-Day Data Plans\n- **1 GB / 30 days:** `€2.50`\n- **5 GB / 30 days:** `€9.60` (`€1.92/GB`)\n- **10 GB / 30 days:** `€16.00` (`€1.60/GB`)\n- **20 GB / 30 days:** `€22.00` (`€1.10/GB`)\n- **30 GB / 30 days:** `€28.00` (`€0.93/GB`)\n\n### 2. Custom-Length Unlimited Data Plans (1 to 30 Days)\nYesim lets you purchase unlimited data for any exact day count between 1 and 30 days:\n- **1 day:** `€3.50` | **3 days:** `€10.50` | **5 days:** `€17.50`\n- **7 days:** `€24.50` (`€3.50/day`)\n- **10 days:** `€29.94` (`€2.99/day`)\n- **14 days:** `€37.19` (`€2.66/day`)\n- **15 days:** `€39.00` (`€2.60/day`)\n- **30 days:** `€57.00` (`€1.90/day`)\n\n## Important technical details to verify\n\n- **Activation & validity:** Your plan's validity clock starts only when the eSIM connects to one of the four supported Italian networks, and you have up to **180 days from purchase** to activate it.\n- **Top-ups supported:** Unlike Yesim's Japan profile, the Italy eSIM explicitly supports **in-app balance top-ups**.\n- **Hotspot caveat:** The specification table lists **Hotspot: Depends on operator**—if tethering Fails on one carrier, manually switch the network selection in your phone's cellular settings between TIM, Vodafone, WINDTRE, and ILIAD.\n"
 }

@@ -6,26 +6,43 @@
   "title": "Airalo eSIM for Japan: plans from 3 to 30 days",
   "slug": "airalo-esim-japan",
   "source_url": "https://www.airalo.com/japan-esim",
-  "read_on": "2026-10-08",
+  "read_on": "2026-11-12",
   "affiliate_url": "https://airalo.tpx.li/Sywut8uR",
-  "price_note": "Read on 8 October 2026: 10.50 € for 3 days up to 63.00 € for 30 days under the Unlimited filter; the page title says eSIMs start from 4.00 €.",
+  "price_note": "Read on 12 November 2026: unlimited plans from 11.00 € (3 days) to 64.00 € (30 days); fixed-data plans from 4.00 € (1 GB, 3 days) to 23.50 € (20 GB, 30 days).",
   "facts": {
     "location": "Japan",
     "plans_listed": [
-      "3 days: 10.50 €",
-      "5 days: 15.50 €",
-      "7 days: 24.50 €",
-      "10 days: 31.50 €",
-      "15 days: 44.00 €",
-      "30 days: 63.00 €"
+      "Unlimited 3 days: 11.00 €",
+      "Unlimited 5 days: 16.00 €",
+      "Unlimited 7 days: 24.50 €",
+      "Unlimited 10 days: 32.00 €",
+      "Unlimited 15 days: 44.50 €",
+      "Unlimited 30 days: 64.00 €"
     ],
-    "filter_shown": "Unlimited (data-only and fixed-data filters also on the page)",
-    "network": "Softbank plus one more (Japan)",
+    "filter_shown": "Unlimited and fixed-data tabs",
+    "network": "The page shows Softbank '+2 others'; its description says it 'Operates on the Softbank and KDDI networks in Japan'",
     "regional_options": "Asia eSIMs from 4.00 € and global eSIMs from 8.00 €",
     "support": "24/7, multi-language, including WhatsApp chat",
     "app": "iOS and Android; the page lists 53 languages",
-    "unclear_on_listing": "The page shows prices but its text does not state the data allowance of the Unlimited plans, a fair-use limit, or the network outside Japan. Check those on the listing before buying."
+    "unclear_on_listing": "The Japan page does not say whether hotspot or tethering is allowed. The fair-use limit sits in the plan details rather than the text shown before you pick a plan.",
+    "fixed_data_plans": [
+      "1 GB, 3 days: 4.00 €",
+      "3 GB, 3 days: 7.00 €",
+      "3 GB, 7 days: 7.50 €",
+      "5 GB, 7 days: 9.50 €",
+      "10 GB, 7 days: 16.00 €",
+      "5 GB, 15 days: 10.00 €",
+      "10 GB, 15 days: 16.50 €",
+      "20 GB, 15 days: 22.50 €",
+      "5 GB, 30 days: 10.50 €",
+      "10 GB, 30 days: 17.00 €",
+      "20 GB, 30 days: 23.50 €"
+    ],
+    "fair_use": "Unlimited plans: 'Lower speed rate of 1 Mbps after 3 GB usage per day'",
+    "plan_type": "Data-only eSIM (no phone number or SMS)",
+    "validity_starts": "When the eSIM connects to a mobile network in its coverage area",
+    "top_up": "Rechargeable online"
   },
-  "summary": "Airalo's eSIM page for Japan, with six plans from 3 to 30 days, so your phone has data on arrival.",
-  "body": "## What this listing is\n\nThis is Airalo's eSIM page for Japan. An eSIM is a data plan you install on a phone that supports it, so you can be online when you land without buying a physical SIM. The page is titled \"Japan eSIM, from 4.00 €\" and sells plans for Japan only; broader plans are linked separately.\n\n## The plans listed\n\nUnder the Unlimited filter the listing showed these packages when we read it:\n\n- 3 days: 10.50 €\n- 5 days: 15.50 €\n- 7 days: 24.50 €\n- 10 days: 31.50 €\n- 15 days: 44.00 €\n- 30 days: 63.00 €\n\nThat is 10.50 € for 3 days at the short end and 63.00 € for 30 days at the long end. Worked out per day, the best value on the list is the 30-day plan at about 2.10 € a day, and the shortest plan costs about 3.50 € a day. The page also has filters for data-only, unlimited and fixed-data packages, so a smaller fixed-data plan may be cheaper than anything above.\n\n## Coverage beyond Japan\n\nIf your trip crosses borders, the page points to Asia eSIMs from 4.00 € and global eSIMs from 8.00 €. These are separate products, so compare them against the Japan plans before you buy.\n\n## Network and setup\n\nThe page names Softbank as the primary network for Japan, with one more network behind a link. Airalo says installation takes minutes and that you can install before you leave, which matters because you need a connection to download the eSIM profile. Check that your phone supports eSIM and is not locked to a carrier using the compatibility link on the page.\n\n## Support\n\nThe page states 24/7 support in several languages, including chat on WhatsApp, and an app in 53 languages. Airalo also says over 30 million people use it; that is the company's own claim, not ours.\n\n## When it fits\n\nIt suits a short city trip, such as a few days in Tokyo, where you want maps and tickets on your phone from arrival. If you use very little data, compare against your home plan's roaming price first.\n"
+  "summary": "Airalo's data-only eSIM for Japan: unlimited plans from 3 to 30 days and fixed-data plans from 1 GB, on Softbank and KDDI, read on 12 November 2026.",
+  "body": "## What this listing is\n\nThis is Airalo's eSIM page for Japan. An eSIM is a data plan you install on a phone that supports it, so you can be online when you land without buying a physical SIM. The plans are **data-only**: there is no Japanese phone number and no SMS. Airalo sells them through its Japan brand, named \"Moshi Moshi\" on the page.\n\n## Unlimited plans\n\nThese are the unlimited plans we read on 12 November 2026:\n\n- 3 days: 11.00 €\n- 5 days: 16.00 €\n- 7 days: 24.50 €\n- 10 days: 32.00 €\n- 15 days: 44.50 €\n- 30 days: 64.00 €\n\n\"Unlimited\" has a limit worth knowing. The plan details say the speed drops to **1 Mbps after 3 GB of use in a day**. That is enough for maps, messages and email, but slow for video calls or streaming until the next day.\n\n## Fixed-data plans\n\nIf you use little data, the fixed plans cost less. The page listed 1 GB for 3 days at 4.00 €, 5 GB for 7 days at 9.50 €, 10 GB for 15 days at 16.50 € and 20 GB for 30 days at 23.50 €, among eleven sizes in all. To pick a size, look at your phone's own data-usage screen for a typical week at home.\n\n## Network and validity\n\nThe page names **Softbank** with \"+2 others\", and its description says the plans \"operate on the Softbank and KDDI networks in Japan\". Validity starts **when the eSIM first connects to a network in Japan**, not when you install it, so you can install before you fly. Plans are rechargeable online if you run out.\n\n## Before you buy\n\nYour phone must support eSIM and must not be locked to a carrier. Airalo's page links to its compatibility list. The page does not say whether you can share the connection as a hotspot, so check that on the plan details if you need it for a laptop.\n\n## When it fits\n\nIt suits a city trip, such as a week in Tokyo and Kyoto, where you want maps and train times from the moment you land. Heavy users should compare the fair-use limit on the unlimited plans with the largest fixed plan.\n"
 }

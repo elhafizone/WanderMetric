@@ -3,74 +3,74 @@
   "section": "sim-cards",
   "country": "japan",
   "kind": "esim",
-  "title": "Yesim Japan Prepaid eSIM: Fixed Data (1–30 GB) & Unlimited Plans on KDDI 5G",
+  "title": "Yesim Japan Prepaid eSIM: Fixed Data (1–30 GB) & Unlimited Plans on SoftBank and KDDI",
   "slug": "yesim-japan-prepaid-esim",
   "source_url": "https://yesim.app/country/japan/",
-  "read_on": "2026-10-28",
+  "read_on": "2026-11-12",
   "affiliate_url": "https://tp.media/r?campaign_id=224&marker=705982&p=5998&trs=512658&u=https%3A%2F%2Fyesim.app%2Fcountry%2Fjapan%2F",
-  "price_note": "Read on 28 October 2026: 30-day fixed data plans range from $3.70 USD (1 GB) to $33.00 USD (30 GB); unlimited data plans range from $3.50 USD (1 day) to $55.00 USD (30 days), including $24.50 USD for 7 days and $36.00 USD for 15 days.",
+  "price_note": "Read on 12 November 2026: 30-day fixed data plans range from €3.70 (1 GB) to €33.00 (30 GB); unlimited data plans range from €3.50 (1 day) to €55.00 (30 days), including €24.50 for 7 days and €36.00 for 15 days.",
   "facts": {
-    "network": "KDDI (au) — 3G, 4G LTE, and 5G",
+    "network": "SoftBank (3G, 4G LTE, 5G) on the fixed-data plans; KDDI (3G, 4G LTE, 5G) on the unlimited plans",
     "operator": "Yesim (Genesis Group AG, Switzerland)",
     "plan_type": "Data-only prepaid eSIM (no local +81 phone number or SMS)",
     "activation_policy": "Validity period begins upon connection to a compatible network in Japan; must be activated within 90 days of purchase",
     "hotspot": "Available (personal hotspot and tethering supported)",
-    "rechargeability": "Balance top-up listed as 'Not available' for this specific Japan country profile (purchase a new plan if exhausted)",
+    "rechargeability": "Balance top-up 'Available' on the fixed-data plans and 'Not available' on the unlimited plans",
     "rating": "4.7 / 5 across 11,256 verified Yesim reviews",
     "covered_cities_listed": "Tokyo, Kyoto, Osaka, Yokohama, Sapporo, Fukuoka, Kobe, Nagoya, Saitama, and Kawanakajima",
     "included": [
-      "Prepaid 3G/4G LTE/5G mobile data across Japan on the local KDDI network",
+      "Prepaid 3G/4G LTE/5G mobile data across Japan on SoftBank (fixed plans) or KDDI (unlimited plans)",
       "Personal hotspot / tethering enabled at no extra charge",
       "Delayed activation window up to 90 days after purchase (validity starts upon local network connection)",
       "Instant digital QR code and one-tap app installation"
     ],
     "not_included": [
       "Traditional cellular voice calls or SMS (data-only eSIM; use WhatsApp, FaceTime, or LINE)",
-      "In-place balance top-up on the Japan plan ('Balance top-up: Not available')"
+      "Balance top-up on the unlimited plans ('Balance top-up: Not available')"
     ],
     "options": [
       {
         "name": "Fixed Data — 1 GB / 30 Days",
-        "format": "30-day validity on KDDI 5G/LTE. Quoted at $3.70 USD.",
+        "format": "30-day validity on SoftBank 5G/LTE. Quoted at €3.70.",
         "cancellation": "Digital eSIM; subject to Yesim refund policy prior to activation"
       },
       {
         "name": "Fixed Data — 5 GB / 30 Days",
-        "format": "30-day validity on KDDI 5G/LTE. Quoted at $8.80 USD ($1.76/GB).",
+        "format": "30-day validity on SoftBank 5G/LTE. Quoted at €8.80 (€1.76/GB).",
         "cancellation": "Digital eSIM; subject to Yesim refund policy prior to activation"
       },
       {
         "name": "Fixed Data — 10 GB / 30 Days",
-        "format": "30-day validity on KDDI 5G/LTE. Quoted at $16.00 USD ($1.60/GB).",
+        "format": "30-day validity on SoftBank 5G/LTE. Quoted at €16.00 (€1.60/GB).",
         "cancellation": "Digital eSIM; subject to Yesim refund policy prior to activation"
       },
       {
         "name": "Fixed Data — 20 GB / 30 Days",
-        "format": "30-day validity on KDDI 5G/LTE. Quoted at $24.80 USD ($1.24/GB).",
+        "format": "30-day validity on SoftBank 5G/LTE. Quoted at €24.80 (€1.24/GB).",
         "cancellation": "Digital eSIM; subject to Yesim refund policy prior to activation"
       },
       {
         "name": "Fixed Data — 30 GB / 30 Days",
-        "format": "30-day validity on KDDI 5G/LTE. Quoted at $33.00 USD ($1.10/GB).",
+        "format": "30-day validity on SoftBank 5G/LTE. Quoted at €33.00 (€1.10/GB).",
         "cancellation": "Digital eSIM; subject to Yesim refund policy prior to activation"
       },
       {
         "name": "Unlimited Data — 7 Days",
-        "format": "7-day unlimited data access on KDDI. Quoted at $24.50 USD ($3.50/day).",
+        "format": "7-day unlimited data access on KDDI. Quoted at €24.50 (€3.50/day).",
         "cancellation": "Digital eSIM; subject to Yesim refund policy prior to activation"
       },
       {
         "name": "Unlimited Data — 15 Days",
-        "format": "15-day unlimited data access on KDDI. Quoted at $36.00 USD ($2.40/day).",
+        "format": "15-day unlimited data access on KDDI. Quoted at €36.00 (€2.40/day).",
         "cancellation": "Digital eSIM; subject to Yesim refund policy prior to activation"
       },
       {
         "name": "Unlimited Data — 30 Days",
-        "format": "30-day unlimited data access on KDDI. Quoted at $55.00 USD ($1.83/day).",
+        "format": "30-day unlimited data access on KDDI. Quoted at €55.00 (€1.83/day).",
         "cancellation": "Digital eSIM; subject to Yesim refund policy prior to activation"
       }
     ],
-    "unclear_on_listing": "While Yesim offers 1-to-30-day Unlimited Data plans for Japan, the page's technical specifications table does not disclose whether KDDI enforces a daily Fair Usage Policy (FUP) speed throttle after a specific gigabyte threshold.",
+    "unclear_on_listing": "The unlimited plans say data speed 'may be limited in accordance with the network operator's Fair Usage Policy', but the page does not state at what usage the limit starts.",
     "image_credit": "Yesim",
     "images": [
       {
@@ -80,6 +80,6 @@
       }
     ]
   },
-  "summary": "Prepaid data-only eSIM for Japan operating on KDDI's 4G LTE and 5G network, offering 30-day fixed allowances from $3.70 (1 GB) to $33.00 (30 GB) and unlimited plans from 1 to 30 days with hotspot support.",
-  "body": "## What this Japan eSIM offers\n\nYesim's **Japan eSIM** (`https://yesim.app/country/japan/`) is a prepaid digital data profile for unlocked eSIM-compatible smartphones and tablets visiting Japan. Instead of renting a pocket Wi-Fi router at Narita (NRT), Haneda (HND), or Kansai (KIX) or queuing at airport SIM vending machines, you install the eSIM digitally before departure and connect upon landing.\n\n## Local carrier and network speeds\n\nWhen verified on 28 October 2026, Yesim's Japan plans operate on **KDDI (au)**, one of Japan's three major national tier-1 telecommunications carriers, supporting **3G, 4G LTE, and 5G** speeds across Tokyo, Kyoto, Osaka, Yokohama, Sapporo, Fukuoka, Kobe, Nagoya, and Saitama.\n\n## Verified plan tiers and pricing (read 28 October 2026)\n\nUnlike providers that restrict small fixed plans to 3 or 7 days, **all five of Yesim's fixed-data tiers in Japan carry a full 30-day validity window**:\n- **1 GB (30 days):** `$3.70 USD` (`$3.70/GB`)\n- **5 GB (30 days):** `$8.80 USD` (`$1.76/GB`)\n- **10 GB (30 days):** `$16.00 USD` (`$1.60/GB`)\n- **20 GB (30 days):** `$24.80 USD` (`$1.24/GB`)\n- **30 GB (30 days):** `$33.00 USD` (`$1.10/GB`)\n\nFor heavier users, Yesim also prices **Unlimited Data** plans for any exact trip length from **1 to 30 days**, including:\n- **1 day Unlimited:** `$3.50 USD`\n- **7 days Unlimited:** `$24.50 USD` (`$3.50/day`)\n- **10 days Unlimited:** `$28.81 USD` (`$2.88/day`)\n- **14 days Unlimited:** `$34.56 USD` (`$2.47/day`)\n- **15 days Unlimited:** `$36.00 USD` (`$2.40/day`)\n- **30 days Unlimited:** `$55.00 USD` (`$1.83/day`)\n\n## Technical specifications and limitations to check\n\n1. **Hotspot enabled:** Personal hotspot / tethering is explicitly listed as **Available** on Japan plans, allowing you to share KDDI 5G/LTE data with a laptop or travel companion.\n2. **90-day activation window:** The plan validity period begins only when the eSIM connects to KDDI in Japan, and must be activated within **90 days of purchase** (shorter than the 180-day window on Yesim's European plans).\n3. **No balance top-up on this profile:** The technical specifications table states **Balance top-up: Not available** for Japan—choose a data tier with sufficient headroom (such as 10 GB at `$16.00` or 20 GB at `$24.80`) so you do not run dry mid-journey.\n"
+  "summary": "Prepaid data-only eSIM for Japan on SoftBank (fixed-data plans) and KDDI (unlimited plans) 4G LTE and 5G, offering 30-day fixed allowances from €3.70 (1 GB) to €33.00 (30 GB) and unlimited plans from 1 to 30 days with hotspot support.",
+  "body": "## What this Japan eSIM offers\n\nYesim's **Japan eSIM** (`https://yesim.app/country/japan/`) is a prepaid digital data profile for unlocked eSIM-compatible smartphones and tablets visiting Japan. Instead of renting a pocket Wi-Fi router at Narita (NRT), Haneda (HND), or Kansai (KIX) or queuing at airport SIM vending machines, you install the eSIM digitally before departure and connect upon landing.\n\n## Local carrier and network speeds\n\nWhen checked on 12 November 2026, Yesim's Japan page listed two networks: the **fixed-data plans run on SoftBank** and the **unlimited plans run on KDDI**, both with **3G, 4G LTE and 5G**, for use across Tokyo, Kyoto, Osaka, Yokohama, Sapporo, Fukuoka, Kobe, Nagoya, and Saitama.\n\n## Verified plan tiers and pricing (read 12 November 2026)\n\nUnlike providers that restrict small fixed plans to 3 or 7 days, **all five of Yesim's fixed-data tiers in Japan carry a full 30-day validity window**:\n- **1 GB (30 days):** `€3.70` (`€3.70/GB`)\n- **5 GB (30 days):** `€8.80` (`€1.76/GB`)\n- **10 GB (30 days):** `€16.00` (`€1.60/GB`)\n- **20 GB (30 days):** `€24.80` (`€1.24/GB`)\n- **30 GB (30 days):** `€33.00` (`€1.10/GB`)\n\nFor heavier users, Yesim also prices **Unlimited Data** plans for any exact trip length from **1 to 30 days**, including:\n- **1 day Unlimited:** `€3.50`\n- **7 days Unlimited:** `€24.50` (`€3.50/day`)\n- **10 days Unlimited:** `€28.81` (`€2.88/day`)\n- **14 days Unlimited:** `€34.56` (`€2.47/day`)\n- **15 days Unlimited:** `€36.00` (`€2.40/day`)\n- **30 days Unlimited:** `€55.00` (`€1.83/day`)\n\n## Technical specifications and limitations to check\n\n1. **Hotspot enabled:** Personal hotspot / tethering is explicitly listed as **Available** on Japan plans, allowing you to share your plan's data with a laptop or travel companion.\n2. **90-day activation window:** The plan validity period begins only when the eSIM connects to a compatible network in Japan, and must be activated within **90 days of purchase** (shorter than the 180-day window on Yesim's European plans).\n3. **Top-ups depend on the plan type:** the technical specifications list **Balance top-up: Available** on the fixed-data plans and **Not available** on the unlimited plans, so on an unlimited plan pick a length that covers the whole trip.\n"
 }

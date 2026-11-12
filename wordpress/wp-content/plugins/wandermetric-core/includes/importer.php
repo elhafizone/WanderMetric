@@ -128,7 +128,8 @@ class WM_Offer_Importer {
 				'wm_facts'          => wp_json_encode( $facts, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ),
 				'wm_images'         => wp_json_encode( array_values( $images ), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ),
 				'wm_image_credit'   => $credit,
-				'wm_legacy_visuals' => ( ! $images && in_array( $offer['slug'], $legacy, true ) ) ? '1' : '',
+				// The bundle import has no legacy list, so an offer already flagged keeps its flag.
+				'wm_legacy_visuals' => ( ! $images && ( in_array( $offer['slug'], $legacy, true ) || ( $existing && get_post_meta( $existing->ID, 'wm_legacy_visuals', true ) ) ) ) ? '1' : '',
 			);
 			foreach ( $meta as $key => $value ) {
 				update_post_meta( $post_id, $key, wp_slash( $value ) );
