@@ -18,7 +18,8 @@ const eslintConfig = defineConfig([
       ],
     },
   },
-  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
+  // .deploy/ holds local, gitignored WordPress deploy bundles (a full core copy), not our code.
+  globalIgnores([".next/**", "out/**", "build/**", ".deploy/**", "next-env.d.ts"]),
 ]);
 
 export default eslintConfig;

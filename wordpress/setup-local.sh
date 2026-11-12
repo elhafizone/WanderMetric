@@ -41,7 +41,8 @@ wp plugin activate wandermetric-core
 wp theme activate wandermetric
 wp option update blogname "WanderMetric"
 wp option update blogdescription "Read before you book"
-wp rewrite structure '/news/%postname%'
+# The plugin pins the permalink structure (WM_PERMALINK_STRUCTURE). Never pass a
+# leading-slash argument to wp here: Git Bash rewrites it into a Windows path.
 wp rewrite flush
 
 wp wandermetric import "$REPO/content/offers" \

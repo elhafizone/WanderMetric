@@ -78,7 +78,7 @@ function wm_current_seo(): array {
 
 	$seo = array(
 		'title'       => wm_plain( (string) $title ),
-		'description' => wm_plain( (string) $description ),
+		'description' => wm_fit_description( wm_plain( (string) $description ) ),
 		'canonical'   => (string) $canonical,
 		'image'       => $image ?: wm_seo_place_image( 'home' ),
 		'type'        => $type,
@@ -89,6 +89,68 @@ function wm_current_seo(): array {
 /** Plain text from a WordPress title (which is HTML-encoded, e.g. &#038;). */
 function wm_plain( string $text ): string {
 	return trim( wp_strip_all_tags( html_entity_decode( $text, ENT_QUOTES | ENT_HTML5, 'UTF-8' ) ) );
+}
+
+/** Characters a search result shows of a title before cutting it. */
+const WM_TITLE_MAX = 60;
+
+/**
+ * A <title> that fits a search result: "Title | Site" when that fits; the bare
+ * title when only it fits; else the title cut at a natural break (":", " (",
+ * " – ", " with ", " & ", ", "), keeping the site name if there is room; else at a
+ * word. The H1 and the social titles keep the full text.
+ */
+function wm_fit_title( string $title, string $site ): string {
+	$suffix = ' | ' . $site;
+	if ( false !== stripos( $title, $site ) ) {
+		return $title;
+	}
+	if ( mb_strlen( $title . $suffix ) <= WM_TITLE_MAX ) {
+		return $title . $suffix;
+	}
+	if ( mb_strlen( $title ) <= WM_TITLE_MAX ) {
+		return $title;
+	}
+	$breaks = array();
+	foreach ( array( ': ', ' (', ' – ', ' — ', ' - ', ' with ', ' & ', ' + ', ', ' ) as $sep ) {
+		$from = 0;
+		while ( false !== ( $pos = mb_strpos( $title, $sep, $from ) ) ) {
+			if ( $pos >= 15 ) {
+				$breaks[] = $pos;
+			}
+			$from = $pos + 1;
+		}
+	}
+	sort( $breaks );
+	// The longest head that still carries the site name, then the longest head without it.
+	foreach ( array( mb_strlen( $suffix ), 0 ) as $room ) {
+		foreach ( array_reverse( $breaks ) as $pos ) {
+			if ( $pos + $room <= WM_TITLE_MAX ) {
+				return mb_substr( $title, 0, $pos ) . ( $room ? $suffix : '' );
+			}
+		}
+	}
+	return wm_cut_at_word( $title, WM_TITLE_MAX, '' );
+}
+
+/** A meta description of at most 160 characters, ending on a sentence where one fits. */
+function wm_fit_description( string $text, int $max = 160 ): string {
+	if ( mb_strlen( $text ) <= $max ) {
+		return $text;
+	}
+	if ( preg_match( '/^(.{90,' . ( $max - 1 ) . '}[.!?])(?:\s|$)/us', $text, $m ) ) {
+		return $m[1];
+	}
+	return wm_cut_at_word( $text, $max - 1, '…' );
+}
+
+/** Cut at the last space within $max characters, without a dangling joiner. */
+function wm_cut_at_word( string $text, int $max, string $ellipsis ): string {
+	if ( ! preg_match( '/^(.{1,' . $max . '})\s/us', $text, $m ) ) {
+		return mb_substr( $text, 0, $max );
+	}
+	$cut = (string) preg_replace( '/(?:\s+(?:and|or|with|on|of|for|to|the|a|in|at|from|&))+$/iu', '', rtrim( $m[1] ) );
+	return rtrim( $cut, " \t,;:–—-(&/" ) . $ellipsis;
 }
 
 /** A licensed place photo (theme imagery) as an OG image, or null. */
@@ -109,13 +171,12 @@ add_filter(
 		if ( is_front_page() ) {
 			return esc_html( wm_current_seo()['title'] );
 		}
-		$t    = wm_current_seo()['title'];
-		$site = get_bloginfo( 'name' );
+		$t = wm_current_seo()['title'];
 		if ( ! $t ) {
 			return $title;
 		}
-		// "About WanderMetric" needs no " | WanderMetric" after it.
-		return esc_html( false !== stripos( $t, $site ) ? $t : $t . ' | ' . $site );
+		// "About WanderMetric" needs no " | WanderMetric" after it; long titles are fitted.
+		return esc_html( wm_fit_title( $t, get_bloginfo( 'name' ) ) );
 	}
 );
 

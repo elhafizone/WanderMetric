@@ -16,7 +16,7 @@
 		try {
 			const v = window.localStorage.getItem(KEY);
 			if (v) return v;
-		} catch (e) {
+		} catch {
 			/* storage blocked: fall back to the cookie */
 		}
 		const m = document.cookie.match(/(?:^|;\s*)wm_consent=(all|essential)/);
@@ -26,7 +26,7 @@
 	const write = (value) => {
 		try {
 			window.localStorage.setItem(KEY, value);
-		} catch (e) {
+		} catch {
 			/* ignore */
 		}
 		const secure = location.protocol === "https:" ? "; Secure" : "";
@@ -39,7 +39,7 @@
 			let url;
 			try {
 				url = new URL(box.dataset.wmWidgetSrc);
-			} catch (e) {
+			} catch {
 				return;
 			}
 			if (url.protocol !== "https:" || !ALLOWED_HOSTS.includes(url.hostname)) return;

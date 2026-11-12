@@ -78,10 +78,20 @@ add_action(
 	}
 );
 
-/** noindex: thin country pages and the section+country filter pages below the threshold. */
+/** True once at least one news post is published. Until then /news is an empty shell. */
+function wm_has_news(): bool {
+	return (int) wp_count_posts( 'post' )->publish > 0;
+}
+
+/** noindex: an empty news page, thin country pages and the section+country filter pages below the threshold. */
 add_filter(
 	'wp_robots',
 	static function ( array $robots ) {
+		if ( is_home() && ! wm_has_news() ) {
+			$robots['noindex'] = true;
+			$robots['follow']  = true;
+			return $robots;
+		}
 		$route = wm_route();
 		if ( in_array( $route, array( 'country', 'section-country', 'city' ), true ) ) {
 			$filter = array( 'country' => (string) get_query_var( 'wm_country' ) );

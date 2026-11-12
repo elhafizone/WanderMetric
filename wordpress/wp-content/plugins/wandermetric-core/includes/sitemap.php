@@ -49,6 +49,20 @@ add_filter(
 	}
 );
 
+// The news page stays out of the sitemap until it has a story (it is noindex until then).
+add_filter(
+	'wp_sitemaps_posts_query_args',
+	static function ( array $args, string $post_type ): array {
+		$news = (int) get_option( 'page_for_posts' );
+		if ( 'page' === $post_type && $news && ! wm_has_news() ) {
+			$args['post__not_in'] = array_merge( (array) ( $args['post__not_in'] ?? array() ), array( $news ) );
+		}
+		return $args;
+	},
+	10,
+	2
+);
+
 add_filter(
 	'wp_sitemaps_add_provider',
 	static fn( $provider, string $name ) => 'users' === $name ? false : $provider,

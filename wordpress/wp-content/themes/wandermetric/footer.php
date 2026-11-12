@@ -21,7 +21,8 @@ $page_link = static function ( string $slug, string $label ): string {
 		? '<li><a href="' . esc_url( get_permalink( $page ) ) . '">' . esc_html( $label ) . '</a></li>'
 		: '';
 };
-$news_id = (int) get_option( 'page_for_posts' );
+// The news link appears once a story is published; an empty page is not worth a click.
+$news_id = function_exists( 'wm_has_news' ) && wm_has_news() ? (int) get_option( 'page_for_posts' ) : 0;
 ?>
 </main>
 <footer class="sitefoot">

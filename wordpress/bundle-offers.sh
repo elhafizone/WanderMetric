@@ -22,3 +22,11 @@ for d in */; do
 done
 find "$DEST" -type f ! -name '.bundle' | sort | xargs cat | md5sum | cut -d' ' -f1 > "$DEST/.bundle"
 echo "bundled $(find "$DEST" -name '*.json' | wc -l) offers, hash $(cat "$DEST/.bundle")"
+
+# The fixed pages (includes/pages.php updates them when this hash changes).
+PAGES="$REPO/wordpress/wp-content/plugins/wandermetric-core/data/pages"
+rm -rf "$PAGES"
+mkdir -p "$PAGES"
+cp "$REPO/wordpress/content/pages/"*.html "$PAGES/"
+find "$PAGES" -name '*.html' | sort | xargs cat | md5sum | cut -d' ' -f1 > "$PAGES/.bundle"
+echo "bundled $(find "$PAGES" -name '*.html' | wc -l) pages, hash $(cat "$PAGES/.bundle")"

@@ -54,10 +54,14 @@ add_action(
 	'wp_footer',
 	static function () {
 		$privacy = get_privacy_policy_url();
+		// Name Google Analytics only when a measurement ID is set: the notice says what loads, nothing more.
+		$text = wm_ga_id()
+			? __( 'Essential cookies run the site. Accept all to also load partner search forms (they set their own cookies) and Google Analytics, advertising features off.', 'wandermetric' )
+			: __( 'Essential cookies run the site. Accept all to also load partner search forms, which set their own cookies.', 'wandermetric' );
 		?>
 <section class="consent" id="wm-consent" aria-label="<?php esc_attr_e( 'Cookie choice', 'wandermetric' ); ?>" data-ga-id="<?php echo esc_attr( wm_ga_id() ); ?>" hidden>
 	<p class="consent-text"><strong><?php esc_html_e( 'Cookies, your call.', 'wandermetric' ); ?></strong>
-	<?php esc_html_e( 'Essential cookies run the site. If you accept, we also load partner search forms (they set the partner’s own cookies) and Google Analytics with advertising features off.', 'wandermetric' ); ?>
+	<?php echo esc_html( $text ); ?>
 	<?php if ( $privacy ) : ?><a href="<?php echo esc_url( $privacy ); ?>"><?php esc_html_e( 'Privacy', 'wandermetric' ); ?></a><?php endif; ?></p>
 	<div class="consent-actions">
 		<button type="button" class="consent-btn consent-btn--quiet" data-wm-consent="essential"><?php esc_html_e( 'Essential only', 'wandermetric' ); ?></button>

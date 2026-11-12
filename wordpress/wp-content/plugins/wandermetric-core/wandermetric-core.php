@@ -42,6 +42,8 @@ require_once WM_CORE_DIR . 'includes/seo.php';
 require_once WM_CORE_DIR . 'includes/seo-head.php';
 require_once WM_CORE_DIR . 'includes/sitemap.php';
 require_once WM_CORE_DIR . 'includes/redirects.php';
+require_once WM_CORE_DIR . 'includes/hardening.php';
+require_once WM_CORE_DIR . 'includes/pages.php';
 require_once WM_CORE_DIR . 'includes/cache.php';
 require_once WM_CORE_DIR . 'includes/importer.php';
 require_once WM_CORE_DIR . 'includes/bundle-import.php';
@@ -59,12 +61,25 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
  */
 define( 'WM_ROUTES_VERSION', '4' );
 
+/**
+ * News posts live under /news/. The structure is pinned because a WP-CLI call
+ * from Git Bash once stored a Windows path in it (MSYS turned '/news/%postname%'
+ * into '/C:/Program%20Files/Git/news/%postname%'), which broke every post,
+ * category and author link. Change it here, not under Settings → Permalinks.
+ */
+define( 'WM_PERMALINK_STRUCTURE', '/news/%postname%' );
+
 add_action(
 	'init',
 	static function () {
+		global $wp_rewrite;
+		$repair = WM_PERMALINK_STRUCTURE !== get_option( 'permalink_structure' );
+		if ( $repair ) {
+			$wp_rewrite->set_permalink_structure( WM_PERMALINK_STRUCTURE );
+		}
 		$rules   = get_option( 'rewrite_rules' );
 		$missing = ! is_array( $rules ) || ! isset( $rules['^go/([a-z0-9-]+)/?$'], $rules['^countries/?$'] );
-		if ( $missing || WM_ROUTES_VERSION !== get_option( 'wm_routes_version' ) ) {
+		if ( $repair || $missing || WM_ROUTES_VERSION !== get_option( 'wm_routes_version' ) ) {
 			flush_rewrite_rules( false );
 			update_option( 'wm_routes_version', WM_ROUTES_VERSION, true );
 		}

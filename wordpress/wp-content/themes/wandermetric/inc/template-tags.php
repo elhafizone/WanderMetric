@@ -27,18 +27,25 @@ function wm_photo( array $photo, string $sizes = '100vw', bool $eager = false, s
 	);
 }
 
-/** An offer's first partner image, from the media library (srcset included). */
-function wm_offer_image( WP_Post $offer, string $size = 'large', string $sizes = '(min-width: 64rem) 33vw, 100vw', bool $eager = false ): string {
-	return wm_offer_image_at( $offer, 0, $size, $sizes, $eager );
+/**
+ * An offer's first partner image, from the media library (srcset included).
+ * $decorative: the image sits in a link whose text already names the offer
+ * (cards), so it gets alt="" and screen readers do not hear the title twice.
+ */
+function wm_offer_image( WP_Post $offer, string $size = 'large', string $sizes = '(min-width: 64rem) 33vw, 100vw', bool $eager = false, bool $decorative = false ): string {
+	return wm_offer_image_at( $offer, 0, $size, $sizes, $eager, $decorative );
 }
 
 /** The offer's partner image at position $i, or ''. */
-function wm_offer_image_at( WP_Post $offer, int $i, string $size = 'large', string $sizes = '100vw', bool $eager = false ): string {
+function wm_offer_image_at( WP_Post $offer, int $i, string $size = 'large', string $sizes = '100vw', bool $eager = false, bool $decorative = false ): string {
 	$images = wm_offer_images( $offer->ID );
 	if ( ! isset( $images[ $i ] ) ) {
 		return '';
 	}
 	$first = $images[ $i ];
+	if ( $decorative ) {
+		$first['alt'] = '';
+	}
 	$attrs = array(
 		'alt'      => $first['alt'],
 		'sizes'    => $sizes,

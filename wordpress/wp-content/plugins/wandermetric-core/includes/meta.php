@@ -63,6 +63,8 @@ function wm_offer_facts( int $post_id ): array {
 
 /**
  * Images: `url` is ours (media library), `source` the partner original, `id` the attachment.
+ * An image the partner listing gave no description gets one from the offer title
+ * ("<title>", then "<title>, photo 2"): it names what the photo is of, nothing more.
  *
  * @return array<int, array{url: string, alt: string, source: string, id: int}>
  */
@@ -71,19 +73,19 @@ function wm_offer_images( int $post_id ): array {
 	if ( ! is_array( $images ) ) {
 		return array();
 	}
-	return array_values(
-		array_filter(
-			array_map(
-				static fn( $i ) => is_array( $i ) && ! empty( $i['url'] ) ? array(
-					'url'    => (string) $i['url'],
-					'alt'    => (string) ( $i['alt'] ?? '' ),
-					'source' => (string) ( $i['source'] ?? $i['url'] ),
-					'id'     => (int) ( $i['id'] ?? 0 ),
-				) : null,
-				$images
-			)
-		)
-	);
+	$images = array_values( array_filter( $images, static fn( $i ) => is_array( $i ) && ! empty( $i['url'] ) ) );
+	$title  = trim( html_entity_decode( wp_strip_all_tags( get_the_title( $post_id ) ), ENT_QUOTES | ENT_HTML5, 'UTF-8' ) );
+	$out    = array();
+	foreach ( $images as $n => $i ) {
+		$alt   = trim( (string) ( $i['alt'] ?? '' ) );
+		$out[] = array(
+			'url'    => (string) $i['url'],
+			'alt'    => '' !== $alt ? $alt : ( 0 === $n ? $title : sprintf( '%s, photo %d', $title, $n + 1 ) ),
+			'source' => (string) ( $i['source'] ?? $i['url'] ),
+			'id'     => (int) ( $i['id'] ?? 0 ),
+		);
+	}
+	return $out;
 }
 
 /** Display name of a partner programme slug. */

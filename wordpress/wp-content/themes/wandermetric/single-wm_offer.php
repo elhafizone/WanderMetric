@@ -204,7 +204,7 @@ while ( have_posts() ) :
 		<aside class="trip-aside" aria-label="Book">
 			<div class="pass pass--slim">
 				<p class="pass-partner"><span>Booked on</span> <strong><?php echo esc_html( $partner ); ?></strong></p>
-				<?php if ( $rating && $rating['score'] ) : ?><p class="trip-rating trip-rating--small"><span class="trip-score"><?php echo wm_icon( 'star' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><?php echo esc_html( rtrim( rtrim( number_format( $rating['score'], 1 ), '0' ), '.' ) ); ?></span><span><?php echo esc_html( $rating['count'] ? $rating['count'] . ' reviews' : 'on ' . $partner ); ?></span></p><?php endif; ?>
+				<?php if ( $rating && $rating['score'] ) : ?><p class="trip-rating trip-rating--small"><span class="trip-score"><?php echo wm_icon( 'star' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><?php echo esc_html( rtrim( rtrim( number_format( $rating['score'], 1 ), '0' ), '.' ) ); ?></span><span><?php echo esc_html( ( $rating['count'] ? $rating['count'] . ' reviews ' : '' ) . 'on ' . $partner ); ?></span></p><?php endif; ?>
 				<?php $cta( '', true ); ?>
 				<?php if ( $read_on ) : ?><p class="pass-meta"><span><?php echo wm_icon( 'calendar' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>Read on <?php echo esc_html( $read_on ); ?></span></p><?php endif; ?>
 			</div>

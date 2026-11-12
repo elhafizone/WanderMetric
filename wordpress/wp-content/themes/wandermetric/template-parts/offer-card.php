@@ -10,7 +10,8 @@ defined( 'ABSPATH' ) || exit;
 
 $offer   = $args['offer'];
 $variant = $args['variant'] ?? '';
-$image   = wm_offer_image( $offer, 'medium_large', 'large' === $variant ? '(min-width: 64rem) 50vw, 100vw' : '(min-width: 64rem) 25vw, (min-width: 40rem) 50vw, 100vw' );
+// Decorative: the card's title already names the link.
+$image   = wm_offer_image( $offer, 'medium_large', 'large' === $variant ? '(min-width: 64rem) 50vw, 100vw' : '(min-width: 64rem) 25vw, (min-width: 40rem) 50vw, 100vw', false, true );
 $partner = wm_programme_name( (string) get_post_meta( $offer->ID, 'wm_programme', true ) );
 ?>
 <article class="card <?php echo $variant ? 'card--' . esc_attr( $variant ) : ''; ?>">
