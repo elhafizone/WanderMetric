@@ -22,6 +22,9 @@ $nav      = array( 'tours-activities', 'transfers', 'sim-cards', 'car-rentals', 
 		<nav class="mainnav" aria-label="<?php esc_attr_e( 'Main', 'wandermetric' ); ?>">
 			<ul>
 				<li><a href="<?php echo esc_url( home_url( '/countries/' ) ); ?>"><?php esc_html_e( 'Destinations', 'wandermetric' ); ?></a></li>
+				<?php if ( function_exists( 'wm_get_guides' ) && wm_get_guides() ) : ?>
+					<li><a href="<?php echo esc_url( wm_guides_url() ); ?>"<?php echo in_array( get_query_var( 'wm_route' ), array( 'guides', 'guide' ), true ) ? ' aria-current="page"' : ''; ?>><?php esc_html_e( 'Guides', 'wandermetric' ); ?></a></li>
+				<?php endif; ?>
 				<?php foreach ( $nav as $slug ) : ?>
 					<?php if ( isset( $sections[ $slug ] ) ) : ?>
 						<li><a href="<?php echo esc_url( wm_section_url( $slug ) ); ?>"<?php echo get_query_var( 'wm_s' ) === $slug ? ' aria-current="page"' : ''; ?>><?php echo esc_html( $sections[ $slug ]['short'] ); ?></a></li>

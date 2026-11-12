@@ -30,3 +30,13 @@ mkdir -p "$PAGES"
 cp "$REPO/wordpress/content/pages/"*.html "$PAGES/"
 find "$PAGES" -name '*.html' | sort | xargs cat | md5sum | cut -d' ' -f1 > "$PAGES/.bundle"
 echo "bundled $(find "$PAGES" -name '*.html' | wc -l) pages, hash $(cat "$PAGES/.bundle")"
+
+# Guides (includes/guides.php imports new or changed files when this hash changes).
+GUIDES="$REPO/wordpress/wp-content/plugins/wandermetric-core/data/guides"
+rm -rf "$GUIDES"
+mkdir -p "$GUIDES"
+if ls "$REPO/content/guides/"*.json >/dev/null 2>&1; then
+  cp "$REPO/content/guides/"*.json "$GUIDES/"
+  find "$GUIDES" -name '*.json' | sort | xargs cat | md5sum | cut -d' ' -f1 > "$GUIDES/.bundle"
+fi
+echo "bundled $(find "$GUIDES" -name '*.json' | wc -l) guides"

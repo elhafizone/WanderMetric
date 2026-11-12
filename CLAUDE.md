@@ -16,8 +16,11 @@ Ten sections mirror the Travelpayouts categories: `tours-activities`, `hotels`,
   a stored affiliate link. The database publish gate needs 800+ characters,
   facts, a source URL and an active link. Country pages are `noindex` below 3
   offers (`MIN_OFFERS_FOR_COUNTRY_PAGE`).
-- Guides, Deals, Destinations and hotel/flight-route pages no longer exist on the
-  site. Their tables are untouched; old URLs 301 (see `next.config.ts`).
+- Deals, Destinations and hotel/flight-route pages no longer exist on the site.
+  Their tables are untouched; old URLs 301 (see `next.config.ts`).
+- Guides are back on the WordPress site (2026-11-12): `content/guides/<slug>.json`,
+  served at `/guides/<slug>`, every figure tied to a dated source. See
+  `content/guides/README.md`.
 - Offers are authored as `content/offers/<programme>/<slug>.json` and imported
   with `node --env-file=.env.local scripts/import-offers.mjs` (add `--publish`).
   Each file names its `section` and a `city` or `country`.

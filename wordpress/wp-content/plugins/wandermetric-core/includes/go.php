@@ -96,8 +96,9 @@ add_action(
 );
 
 /** Link to an offer's partner page, always through /go/. */
-function wm_go_url( WP_Post $offer ): string {
-	$from = wp_parse_url( get_permalink( $offer ), PHP_URL_PATH );
+/** $from: the page the click starts on (a guide, say); defaults to the offer's own page. */
+function wm_go_url( WP_Post $offer, ?WP_Post $from_post = null ): string {
+	$from = wp_parse_url( get_permalink( $from_post ?: $offer ), PHP_URL_PATH );
 	return add_query_arg( 'from', rawurlencode( (string) $from ), home_url( user_trailingslashit( 'go/' . $offer->post_name ) ) );
 }
 

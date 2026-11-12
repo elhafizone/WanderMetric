@@ -77,6 +77,7 @@ $news_id = function_exists( 'wm_has_news' ) && wm_has_news() ? (int) get_option(
 			<ul>
 				<?php
 				echo $page_link( 'about', __( 'About us', 'wandermetric' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in the closure.
+				echo function_exists( 'wm_get_guides' ) && wm_get_guides() ? '<li><a href="' . esc_url( wm_guides_url() ) . '">' . esc_html__( 'Travel guides', 'wandermetric' ) . '</a></li>' : '';
 				echo $news_id ? '<li><a href="' . esc_url( get_permalink( $news_id ) ) . '">' . esc_html__( 'Travel news', 'wandermetric' ) . '</a></li>' : '';
 				echo $page_link( 'affiliate-disclosure', __( 'How we earn', 'wandermetric' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo $page_link( 'contact', __( 'Contact', 'wandermetric' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

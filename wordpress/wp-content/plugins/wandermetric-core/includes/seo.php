@@ -56,6 +56,12 @@ function wm_page_meta(): ?array {
 				'description' => 'Providers in this category only. Compare on their sites; you book with the provider.',
 				'canonical'   => home_url( user_trailingslashit( 'compare/' . $s ) ),
 			) : null;
+		case 'guides':
+			return array(
+				'title'       => 'Travel guides',
+				'description' => 'Answers to the questions people ask before they book, checked against official sources and dated.',
+				'canonical'   => home_url( user_trailingslashit( 'guides' ) ),
+			);
 		case 'countries':
 			return array(
 				'title'       => 'Countries',
@@ -72,7 +78,7 @@ function wm_page_meta(): ?array {
 add_action(
 	'wp',
 	static function () {
-		if ( wm_route() && 'offer' !== wm_route() ) {
+		if ( wm_is_listing_route() ) {
 			remove_action( 'wp_head', 'rel_canonical' );
 		}
 	}
@@ -87,7 +93,7 @@ function wm_has_news(): bool {
 add_filter(
 	'wp_robots',
 	static function ( array $robots ) {
-		if ( is_home() && ! wm_has_news() ) {
+		if ( ( is_home() && ! wm_has_news() ) || ( 'guides' === wm_route() && ! wm_get_guides() ) ) {
 			$robots['noindex'] = true;
 			$robots['follow']  = true;
 			return $robots;

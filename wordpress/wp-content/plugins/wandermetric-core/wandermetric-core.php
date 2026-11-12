@@ -44,6 +44,7 @@ require_once WM_CORE_DIR . 'includes/sitemap.php';
 require_once WM_CORE_DIR . 'includes/redirects.php';
 require_once WM_CORE_DIR . 'includes/hardening.php';
 require_once WM_CORE_DIR . 'includes/pages.php';
+require_once WM_CORE_DIR . 'includes/guides.php';
 require_once WM_CORE_DIR . 'includes/cache.php';
 require_once WM_CORE_DIR . 'includes/importer.php';
 require_once WM_CORE_DIR . 'includes/bundle-import.php';
@@ -59,7 +60,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
  * the /go/ and offer rules, a cheap array lookup, and rebuilds once if absent.
  * Bump WM_ROUTES_VERSION when routes change, to rebuild on deploy.
  */
-define( 'WM_ROUTES_VERSION', '4' );
+define( 'WM_ROUTES_VERSION', '5' );
 
 /**
  * News posts live under /news/. The structure is pinned because a WP-CLI call

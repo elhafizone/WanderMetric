@@ -21,6 +21,7 @@ function wm_icon( string $name, string $class = '' ): string {
 		'shield'   => '<path d="M12 3.2 19.5 6v5.8c0 4.4-3.1 7.9-7.5 9-4.4-1.1-7.5-4.6-7.5-9V6z"/><path d="M8.8 12.2l2.3 2.3 4.3-4.4"/>',
 		'arrow'    => '<path d="M7 17 17 7M9 7h8v8"/>',
 		'star'     => '<path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z" fill="currentColor" stroke="none"/>',
+		'book'     => '<path d="M3 5.5c3-1.3 6-1.3 9 .5 3-1.8 6-1.8 9-.5V19c-3-1.3-6-1.3-9 .5-3-1.8-6-1.8-9-.5z"/><path d="M12 6v13.5"/>',
 		'info'     => '<circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.1"/>',
 	);
 	if ( ! isset( $paths[ $name ] ) ) {

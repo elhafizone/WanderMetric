@@ -1,0 +1,51 @@
+{
+ "slug": "japan-esim-airalo-vs-yesim",
+ "title": "Japan eSIM: Airalo or Yesim? Prices, networks and limits",
+ "section": "sim-cards",
+ "country": "japan",
+ "summary": "Airalo and Yesim both sell data-only eSIMs for Japan. We compared their plans, prices, networks and fair-use limits on the same day, with the device checks that matter.",
+ "answer": "For one week they cost the same: €24.50 for unlimited data. For 15 or 30 days Yesim is cheaper (€36 and €55, against Airalo's €44.50 and €64). Airalo states its limit plainly: 1 Mbps after 3 GB a day. Yesim lists hotspot sharing and Airalo's Japan page doesn't. Either way, your phone must support eSIM and be unlocked.",
+ "checked_on": "2026-11-12",
+ "offers": [
+  "yesim-japan-prepaid-esim",
+  "airalo-esim-japan"
+ ],
+ "sources": [
+  {
+   "name": "Airalo: Japan eSIM",
+   "url": "https://www.airalo.com/japan-esim",
+   "read_on": "2026-11-12"
+  },
+  {
+   "name": "Yesim: Japan eSIM",
+   "url": "https://yesim.app/country/japan/",
+   "read_on": "2026-11-12"
+  },
+  {
+   "name": "Yesim: Japan 1 GB, 30-day plan",
+   "url": "https://yesim.app/country/japan/30days-1gb-esim-data-plan/",
+   "read_on": "2026-11-12"
+  },
+  {
+   "name": "Apple Support: use eSIM while traveling internationally with your iPhone",
+   "url": "https://support.apple.com/en-us/118227",
+   "read_on": "2026-11-12"
+  },
+  {
+   "name": "Apple Support: how to unlock your iPhone for use with a different carrier",
+   "url": "https://support.apple.com/en-us/109316",
+   "read_on": "2026-11-12"
+  },
+  {
+   "name": "Pixel Phone Help: use your Pixel phone with any mobile carrier",
+   "url": "https://support.google.com/pixelphone/answer/7107188?hl=en",
+   "read_on": "2026-11-12"
+  },
+  {
+   "name": "Pixel Phone Help: get a SIM or eSIM and add it to your Pixel phone",
+   "url": "https://support.google.com/pixelphone/answer/7086887?hl=en",
+   "read_on": "2026-11-12"
+  }
+ ],
+ "body": "## Side by side\n\nBoth providers price their Japan plans in euros. We read both pages on 12 November 2026.\n\n| | Airalo | Yesim |\n|---|---|---|\n| Unlimited, 7 days | €24.50 | €24.50 |\n| Unlimited, 15 days | €44.50 | €36.00 |\n| Unlimited, 30 days | €64.00 | €55.00 |\n| Fair use on unlimited | 1 Mbps after 3 GB a day | \"may be limited\" under the operator's policy; no threshold given |\n| 10 GB fixed | €16.00 (7 days), €17.00 (30 days) | €16.00 (30 days) |\n| 20 GB fixed | €22.50 (15 days), €23.50 (30 days) | €24.80 (30 days) |\n| Network | Softbank and KDDI, per its description | SoftBank on fixed plans, KDDI on unlimited plans |\n| Hotspot | not stated on the Japan page | allowed |\n| Top-up | rechargeable online | fixed plans only |\n| Phone number or SMS | no, data only | no, data only |\n\n## Unlimited plans: the same for a week, cheaper with Yesim after that\n\nFor a **7-day trip** the two cost exactly the same, €24.50. The gap opens with longer trips: **15 days** is €44.50 with Airalo and €36.00 with Yesim, and **30 days** is €64.00 against €55.00. Airalo also sells 3, 5 and 10-day unlimited plans (€11.00, €16.00 and €32.00). Yesim prices unlimited plans for any length from 1 to 30 days, from €3.50 for a single day.\n\n\"Unlimited\" means something specific on each:\n\n- **Airalo** says it plainly in the plan details: speed drops to **1 Mbps once you have used 3 GB in a day**. That is enough for maps and messages, and slow for video.\n- **Yesim** says only that data speed \"may be limited in accordance with the network operator's Fair Usage Policy\", without saying where the limit starts.\n\nIf you stream, make video calls or work on a laptop, Airalo's stated limit is one you can plan around. Yesim's page gives no threshold.\n\n## Fixed-data plans: cheaper if you use little\n\nFixed plans give you a set amount of data. Airalo has eleven sizes, from **1 GB for 3 days at €4.00** to **20 GB for 30 days at €23.50**. Yesim's fixed plans all last **30 days**, from **1 GB at €3.70** to **30 GB at €33.00**; Yesim marks the 1 GB plan \"Always full speed\".\n\nAt 10 GB the two are within a euro of each other: €16.00 with Yesim for 30 days, €16.00 to €17.00 with Airalo depending on validity. At 20 GB Airalo is cheaper (€23.50 against €24.80, both for 30 days). Above that, only Yesim sells 30 GB.\n\nTo choose a size, look at your phone's own data-usage screen for a normal week at home. Maps and messages use far less than video.\n\n## Networks\n\nThe networks named on the two pages are SoftBank, KDDI and Rakuten. Neither provider lets you choose one:\n\n- **Airalo's** page names Softbank \"+2 others\", and its plan description says it \"operates on the Softbank and KDDI networks\".\n- **Yesim's** page data puts its **fixed plans on SoftBank** and its **unlimited plans on KDDI**.\n\nWe have not tested coverage ourselves, and neither page publishes a coverage comparison, so we don't rank the networks here.\n\n## Hotspot, top-ups and when the clock starts\n\n- **Hotspot:** Yesim lists \"Hotspot: Available\" on its Japan plans. Airalo's Japan page doesn't mention hotspot or tethering, so check the plan details before you buy if you need to share the connection.\n- **Top-ups:** Airalo plans are rechargeable online. On Yesim, the fixed plans can be topped up and the unlimited plans can't, so on an unlimited plan pick a length that covers the whole trip.\n- **When validity starts:** on both, the plan starts when the eSIM **first connects to a network in Japan**, not when you install it. Yesim adds one condition: the plan must be **activated within 90 days of purchase**.\n\n## Check your phone before you buy\n\nAn eSIM only works on a phone that supports eSIM and isn't locked to your home carrier.\n\n- **iPhone:** Apple's guide to travel eSIMs says you need an **iPhone XS, XS Max, XR or later**, and that the iPhone **cannot be locked to a carrier**. To check, go to **Settings > General > About**: if it says **\"No SIM Restrictions\"** next to Carrier Lock, you're fine. Apple notes that only your carrier can unlock an iPhone and that it might take a few days, so check well before you fly. You also need Wi-Fi to set up the eSIM.\n- **Google Pixel:** Google's help pages say the phone **must be SIM-unlocked**, that **Pixel 4 and later** all work with eSIM, and that a **Pixel 3a bought with Verizon service or in Japan doesn't work with eSIM**.\n\nInstall the eSIM at home on Wi-Fi a day or two before you leave, and switch your data line to it when you land.\n\n## Which one to choose\n\n- **One week, normal use:** either one: both charge €24.50 for unlimited. Pick Airalo if you want its stated 3 GB a day limit, Yesim if you need a hotspot.\n- **Two weeks or more:** Yesim's unlimited plans are cheaper: €36.00 for 15 days, €55.00 for 30.\n- **Light use:** a fixed plan. Yesim's 1 GB at €3.70 or 5 GB at €8.80 last 30 days; Airalo's 1 GB costs €4.00 for 3 days.\n- **Laptop or sharing with a travel companion:** Yesim, because it lists hotspot. Airalo's Japan page doesn't say."
+}

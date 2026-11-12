@@ -9,6 +9,7 @@
  *   /countries/{country}/            a country
  *   /countries/{country}/{city}/     a city
  *   /go/{slug}/                      affiliate redirect (go.php)
+ *   /guides/ and /guides/{slug}/     guides (guides.php)
  *
  * The router sets `wm_route` and the theme picks a template for it.
  */
@@ -64,6 +65,12 @@ function wm_route(): string {
 	return (string) get_query_var( 'wm_route' );
 }
 
+/** A route that lists things (section, country, compare…), as opposed to one offer or one guide. */
+function wm_is_listing_route(): bool {
+	$route = wm_route();
+	return '' !== $route && ! in_array( $route, array( 'offer', 'guide' ), true );
+}
+
 /**
  * Validate the route: unknown countries, cities, or an offer reached through
  * the wrong section/country path become a 404 (or a 301 to the canonical URL).
@@ -86,6 +93,9 @@ add_action(
 			$bad = true;
 		}
 		if ( 'compare-section' === $route && ! wm_compare_section( (string) get_query_var( 'wm_s' ) ) ) {
+			$bad = true;
+		}
+		if ( 'guide' === $route && ! get_queried_object() instanceof WP_Post ) {
 			$bad = true;
 		}
 		if ( 'offer' === $route ) {
@@ -120,7 +130,7 @@ add_filter(
 	'template_include',
 	static function ( string $template ) {
 		$route = wm_route();
-		if ( ! $route || 'offer' === $route || is_404() ) {
+		if ( ! $route || ! wm_is_listing_route() || is_404() ) {
 			return $template;
 		}
 		$found = locate_template( array( "wm-{$route}.php" ) );

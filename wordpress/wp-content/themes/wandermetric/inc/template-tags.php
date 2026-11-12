@@ -115,3 +115,61 @@ function wm_fact_value( $value ): string {
 	}
 	return esc_html( (string) $value );
 }
+
+/**
+ * A guide's content with an id on every <h2>, and the list of those headings
+ * for the "On this page" contents.
+ *
+ * @return array{html: string, toc: array<int, array{id: string, text: string}>}
+ */
+function wm_guide_content(): array {
+	$html = (string) apply_filters( 'the_content', get_the_content() );
+	$toc  = array();
+	$html = (string) preg_replace_callback(
+		'#<h2(?![^>]*\bid=)([^>]*)>(.*?)</h2>#s',
+		static function ( array $m ) use ( &$toc ): string {
+			$text = trim( wp_strip_all_tags( $m[2] ) );
+			$id   = sanitize_title( $text );
+			$base = $id;
+			for ( $n = 2; in_array( $id, array_column( $toc, 'id' ), true ); $n++ ) {
+				$id = $base . '-' . $n;
+			}
+			$toc[] = array( 'id' => $id, 'text' => $text );
+			return '<h2 id="' . esc_attr( $id ) . '"' . $m[1] . '>' . $m[2] . '</h2>';
+		},
+		$html
+	);
+	return array( 'html' => $html, 'toc' => $toc );
+}
+
+/** Minutes to read a block of HTML, at 220 words a minute. */
+function wm_reading_minutes( string $html ): int {
+	return max( 1, (int) round( str_word_count( wp_strip_all_tags( $html ) ) / 220 ) );
+}
+
+/** "12 November 2026" from YYYY-MM-DD. */
+function wm_human_date( string $ymd ): string {
+	$ts = $ymd ? strtotime( $ymd . ' 00:00:00 UTC' ) : false;
+	return $ts ? gmdate( 'j F Y', $ts ) : '';
+}
+
+/** One guide in a list: place photo, kicker, title, summary, checked date. */
+function wm_guide_row( WP_Post $guide, string $heading = 'h2' ): void {
+	$place = wm_guide_place( $guide->ID );
+	$where = $place['city'] ? $place['city']->name . ', ' . $place['country']->name : ( $place['country'] ? $place['country']->name : '' );
+	$photo = wm_place_photo( $place['city'] ? $place['city']->slug : ( $place['country'] ? $place['country']->slug : 'home' ) );
+	$tag   = in_array( $heading, array( 'h2', 'h3' ), true ) ? $heading : 'h2';
+	?>
+	<li class="guide-row">
+		<a href="<?php echo esc_url( get_permalink( $guide ) ); ?>">
+			<?php if ( $photo ) { wm_photo( $photo, '(min-width: 48rem) 14rem, 100vw', false, 'guide-row-photo', true ); } ?>
+			<span class="guide-row-text">
+				<?php if ( $where ) : ?><span class="guide-row-kicker"><?php echo esc_html( $where ); ?></span><?php endif; ?>
+				<<?php echo esc_html( $tag ); ?> class="guide-row-title"><?php echo esc_html( get_the_title( $guide ) ); ?></<?php echo esc_html( $tag ); ?>>
+				<?php if ( has_excerpt( $guide ) ) : ?><span class="guide-row-summary"><?php echo esc_html( get_the_excerpt( $guide ) ); ?></span><?php endif; ?>
+				<span class="guide-row-meta"><?php echo esc_html( 'Facts checked ' . wm_human_date( wm_guide_checked_on( $guide->ID ) ) ); ?></span>
+			</span>
+		</a>
+	</li>
+	<?php
+}

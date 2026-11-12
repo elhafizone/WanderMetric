@@ -92,6 +92,9 @@ add_action(
 				$min  = WM_MIN_OFFERS_FOR_COUNTRY_PAGE;
 				$urls[] = array( 'loc' => home_url( user_trailingslashit( 'countries' ) ) );
 				$urls[] = array( 'loc' => home_url( user_trailingslashit( 'compare' ) ) );
+				if ( function_exists( 'wm_get_guides' ) && wm_get_guides() ) {
+					$urls[] = array( 'loc' => wm_guides_url() ); // Each guide is in core's wm_guide sitemap.
+				}
 				foreach ( wm_partner_data()['compare'] as $c ) {
 					if ( wm_live_partners( $c['partnerCategory'] ) ) {
 						$urls[] = array( 'loc' => home_url( user_trailingslashit( 'compare/' . $c['slug'] ) ) );

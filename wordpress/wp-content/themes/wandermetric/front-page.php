@@ -85,6 +85,23 @@ $tiles = array_slice( $tiles, 0, 9 );
 </section>
 <?php endforeach; ?>
 
+<?php $home_guides = function_exists( 'wm_get_guides' ) ? array_slice( wm_get_guides(), 0, 3 ) : array(); ?>
+<?php if ( $home_guides ) : ?>
+<section class="guide-more wrap" aria-labelledby="home-guides-h">
+	<div class="rail-head">
+		<h2 id="home-guides-h">Before you book</h2>
+		<a class="more" href="<?php echo esc_url( wm_guides_url() ); ?>">All guides</a>
+	</div>
+	<ul class="guide-list">
+		<?php
+		foreach ( $home_guides as $g ) {
+			wm_guide_row( $g, 'h3' );
+		}
+		?>
+	</ul>
+</section>
+<?php endif; ?>
+
 <section class="index wrap" aria-labelledby="index-h">
 	<h2 id="index-h">What you can book</h2>
 	<ol class="index-list">

@@ -21,7 +21,7 @@ function wm_legacy_redirects(): array {
 		array( '#^/guides/car-and-bike-rental-guide$#', '/car-rentals' ),
 		array( '#^/guides/travel-insurance-guide$#', '/insurance' ),
 		array( '#^/guides/flight-delay-compensation-eu$#', '/travel-services' ),
-		array( '#^/guides(/.*)?$#', '/' ),
+		array( '#^/guides(/.*)?$#', '/guides' ),
 		array( '#^/deals(/.*)?$#', '/' ),
 		array( '#^/destinations(/.*)?$#', '/' ),
 		array( '#^/activities(/.*)?$#', '/tours-activities' ),
@@ -45,6 +45,15 @@ add_action(
 			$q = isset( $_GET['q'] ) ? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			wp_safe_redirect( $q ? add_query_arg( 's', rawurlencode( $q ), home_url( '/' ) ) : home_url( '/' ), 301 );
 			exit;
+		}
+
+		// Guides are back: /guides and any published guide are served, not redirected.
+		// Old guide URLs with no guide of that slug still fall through to their 301s.
+		if ( preg_match( '#^/guides(?:/([a-z0-9-]+))?$#', $path, $m ) ) {
+			$guide = empty( $m[1] ) ? null : get_page_by_path( $m[1], OBJECT, 'wm_guide' );
+			if ( empty( $m[1] ) || ( $guide && 'publish' === $guide->post_status ) ) {
+				return;
+			}
 		}
 
 		foreach ( wm_legacy_redirects() as [ $pattern, $target ] ) {

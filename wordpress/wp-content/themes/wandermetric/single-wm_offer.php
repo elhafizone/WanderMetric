@@ -183,6 +183,10 @@ while ( have_posts() ) :
 				</section>
 			<?php endif; ?>
 
+			<?php foreach ( array_slice( wm_get_guides( array( 'offer' => $offer->post_name ) ), 0, 2 ) as $g ) : ?>
+				<a class="guide-link" href="<?php echo esc_url( get_permalink( $g ) ); ?>"><?php echo wm_icon( 'book' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><span><small>Before you book, read the guide</small><strong><?php echo esc_html( get_the_title( $g ) ); ?></strong></span></a>
+			<?php endforeach; ?>
+
 			<div class="prose">
 				<?php the_content(); ?>
 			</div>

@@ -59,6 +59,10 @@ function wm_current_seo(): array {
 				$place = wm_offer_place( $post->ID );
 				$image = wm_seo_place_image( $place['city'] ? $place['city']->slug : ( $place['country'] ? $place['country']->slug : 'home' ) );
 			}
+		} elseif ( 'wm_guide' === $post->post_type ) {
+			$type  = 'article';
+			$place = wm_guide_place( $post->ID );
+			$image = wm_seo_place_image( $place['city'] ? $place['city']->slug : ( $place['country'] ? $place['country']->slug : 'home' ) );
 		} elseif ( 'post' === $post->post_type ) {
 			$type = 'article';
 		}
@@ -196,7 +200,7 @@ add_action(
 		$meta( 'name', 'description', $seo['description'] );
 		// Singular pages (offers, pages, the static front page) get their canonical from core's
 		// rel_canonical. Our routes (core's is removed in seo.php) and the news archive print theirs.
-		if ( $seo['canonical'] && ( ( wm_route() && 'offer' !== wm_route() ) || is_home() ) ) {
+		if ( $seo['canonical'] && ( wm_is_listing_route() || is_home() ) ) {
 			$out[] = sprintf( '<link rel="canonical" href="%s">', esc_url( $seo['canonical'] ) );
 		}
 
@@ -267,7 +271,7 @@ function wm_print_schema( array $seo ): void {
 				'query-input' => 'required name=search_term_string',
 			),
 		);
-	} elseif ( is_singular( array( 'wm_offer', 'post' ) ) ) {
+	} elseif ( is_singular( array( 'wm_offer', 'wm_guide', 'post' ) ) ) {
 		$post    = get_queried_object();
 		$article = array(
 			'@type'            => 'Article',
@@ -290,6 +294,24 @@ function wm_print_schema( array $seo ): void {
 				'height' => $seo['image']['height'],
 			);
 		}
+		if ( 'wm_guide' === $post->post_type ) {
+			// The pages the guide's figures were read from.
+			$article['citation'] = array_map(
+				static fn( $s ) => array(
+					'@type' => 'CreativeWork',
+					'name'  => $s['name'],
+					'url'   => $s['url'],
+				),
+				wm_guide_sources( $post->ID )
+			);
+			$place = wm_guide_place( $post->ID );
+			if ( $place['country'] ) {
+				$article['contentLocation'] = array(
+					'@type' => 'Place',
+					'name'  => $place['city'] ? $place['city']->name . ', ' . $place['country']->name : $place['country']->name,
+				);
+			}
+		}
 		if ( 'wm_offer' === $post->post_type ) {
 			$source = (string) get_post_meta( $post->ID, 'wm_source_url', true );
 			if ( $source ) {
@@ -305,7 +327,7 @@ function wm_print_schema( array $seo ): void {
 		}
 		$graph[] = $article;
 		$graph[] = $org;
-	} elseif ( wm_route() && 'offer' !== wm_route() ) {
+	} elseif ( wm_is_listing_route() ) {
 		$items = wm_route_offers_for_schema();
 		if ( $items ) {
 			$graph[] = array(
