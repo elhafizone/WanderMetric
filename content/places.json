@@ -1,0 +1,1324 @@
+{
+  "countries": {
+    "afghanistan": {
+      "name": "Afghanistan",
+      "code": "AF",
+      "cities": {}
+    },
+    "albania": {
+      "name": "Albania",
+      "code": "AL",
+      "cities": {}
+    },
+    "algeria": {
+      "name": "Algeria",
+      "code": "DZ",
+      "cities": {}
+    },
+    "andorra": {
+      "name": "Andorra",
+      "code": "AD",
+      "cities": {}
+    },
+    "angola": {
+      "name": "Angola",
+      "code": "AO",
+      "cities": {}
+    },
+    "anguilla": {
+      "name": "Anguilla",
+      "code": "AI",
+      "cities": {}
+    },
+    "antigua-and-barbuda": {
+      "name": "Antigua and Barbuda",
+      "code": "AG",
+      "cities": {}
+    },
+    "argentina": {
+      "name": "Argentina",
+      "code": "AR",
+      "cities": {
+        "buenos-aires": "Buenos Aires"
+      }
+    },
+    "armenia": {
+      "name": "Armenia",
+      "code": "AM",
+      "cities": {}
+    },
+    "aruba": {
+      "name": "Aruba",
+      "code": "AW",
+      "cities": {}
+    },
+    "australia": {
+      "name": "Australia",
+      "code": "AU",
+      "cities": {
+        "adelaide": "Adelaide",
+        "brisbane": "Brisbane",
+        "busselton": "Busselton",
+        "cairns": "Cairns",
+        "canberra": "Canberra",
+        "cobram": "Cobram",
+        "darwin": "Darwin",
+        "frankston-east": "Frankston East",
+        "melbourne": "Melbourne",
+        "narangba": "Narangba",
+        "newport": "Newport",
+        "noosa-heads": "Noosa Heads",
+        "ocean-shores": "Ocean Shores",
+        "port-douglas": "Port Douglas",
+        "redlynch": "Redlynch",
+        "surfers-paradise": "Surfers Paradise"
+      }
+    },
+    "austria": {
+      "name": "Austria",
+      "code": "AT",
+      "cities": {
+        "eisenstadt": "Eisenstadt",
+        "graz": "Graz",
+        "salzburg": "Salzburg",
+        "sankt-polten": "Sankt Pölten",
+        "vienna": "Vienna"
+      }
+    },
+    "azerbaijan": {
+      "name": "Azerbaijan",
+      "code": "AZ",
+      "cities": {}
+    },
+    "bahamas": {
+      "name": "Bahamas",
+      "code": "BS",
+      "cities": {}
+    },
+    "bahrain": {
+      "name": "Bahrain",
+      "code": "BH",
+      "cities": {}
+    },
+    "bangladesh": {
+      "name": "Bangladesh",
+      "code": "BD",
+      "cities": {}
+    },
+    "barbados": {
+      "name": "Barbados",
+      "code": "BB",
+      "cities": {}
+    },
+    "belarus": {
+      "name": "Belarus",
+      "code": "BY",
+      "cities": {}
+    },
+    "belgium": {
+      "name": "Belgium",
+      "code": "BE",
+      "cities": {
+        "blankenberge": "Blankenberge",
+        "brugge": "Brugge",
+        "brussels": "Brussels"
+      }
+    },
+    "belize": {
+      "name": "Belize",
+      "code": "BZ",
+      "cities": {}
+    },
+    "benin": {
+      "name": "Benin",
+      "code": "BJ",
+      "cities": {}
+    },
+    "bermuda": {
+      "name": "Bermuda",
+      "code": "BM",
+      "cities": {}
+    },
+    "bhutan": {
+      "name": "Bhutan",
+      "code": "BT",
+      "cities": {}
+    },
+    "bolivia": {
+      "name": "Bolivia",
+      "code": "BO",
+      "cities": {}
+    },
+    "bosnia-and-herzegovina": {
+      "name": "Bosnia and Herzegovina",
+      "code": "BA",
+      "cities": {}
+    },
+    "botswana": {
+      "name": "Botswana",
+      "code": "BW",
+      "cities": {}
+    },
+    "brazil": {
+      "name": "Brazil",
+      "code": "BR",
+      "cities": {}
+    },
+    "british-virgin-islands": {
+      "name": "British Virgin Islands",
+      "code": "VG",
+      "cities": {}
+    },
+    "brunei": {
+      "name": "Brunei",
+      "code": "BN",
+      "cities": {}
+    },
+    "bulgaria": {
+      "name": "Bulgaria",
+      "code": "BG",
+      "cities": {}
+    },
+    "burkina-faso": {
+      "name": "Burkina Faso",
+      "code": "BF",
+      "cities": {}
+    },
+    "cambodia": {
+      "name": "Cambodia",
+      "code": "KH",
+      "cities": {}
+    },
+    "cameroon": {
+      "name": "Cameroon",
+      "code": "CM",
+      "cities": {}
+    },
+    "canada": {
+      "name": "Canada",
+      "code": "CA",
+      "cities": {
+        "banff": "Banff",
+        "calgary": "Calgary",
+        "montreal": "Montréal",
+        "niagara-falls": "Niagara Falls",
+        "toronto": "Toronto",
+        "vancouver": "Vancouver",
+        "victoria": "Victoria"
+      }
+    },
+    "cape-verde": {
+      "name": "Cape Verde",
+      "code": "CV",
+      "cities": {}
+    },
+    "caribbean-netherlands": {
+      "name": "Caribbean Netherlands",
+      "code": "BQ",
+      "cities": {}
+    },
+    "cayman-islands": {
+      "name": "Cayman Islands",
+      "code": "KY",
+      "cities": {}
+    },
+    "central-african-republic": {
+      "name": "Central African Republic",
+      "code": "CF",
+      "cities": {}
+    },
+    "chad": {
+      "name": "Chad",
+      "code": "TD",
+      "cities": {}
+    },
+    "chile": {
+      "name": "Chile",
+      "code": "CL",
+      "cities": {}
+    },
+    "china": {
+      "name": "China",
+      "code": "CN",
+      "cities": {}
+    },
+    "colombia": {
+      "name": "Colombia",
+      "code": "CO",
+      "cities": {
+        "bogota": "Bogotá",
+        "medellin": "Medellín"
+      }
+    },
+    "costa-rica": {
+      "name": "Costa Rica",
+      "code": "CR",
+      "cities": {
+        "tilaran": "Tilarán"
+      }
+    },
+    "croatia": {
+      "name": "Croatia",
+      "code": "HR",
+      "cities": {
+        "dubrovnik": "Dubrovnik"
+      }
+    },
+    "curacao": {
+      "name": "Curaçao",
+      "code": "CW",
+      "cities": {}
+    },
+    "cyprus": {
+      "name": "Cyprus",
+      "code": "CY",
+      "cities": {}
+    },
+    "czechia": {
+      "name": "Czechia",
+      "code": "CZ",
+      "cities": {
+        "prague": "Prague"
+      }
+    },
+    "democratic-republic-of-the-congo": {
+      "name": "Democratic Republic of the Congo",
+      "code": "CD",
+      "cities": {}
+    },
+    "denmark": {
+      "name": "Denmark",
+      "code": "DK",
+      "cities": {}
+    },
+    "dominica": {
+      "name": "Dominica",
+      "code": "DM",
+      "cities": {}
+    },
+    "dominican-republic": {
+      "name": "Dominican Republic",
+      "code": "DO",
+      "cities": {}
+    },
+    "east-timor": {
+      "name": "East Timor",
+      "code": "TL",
+      "cities": {}
+    },
+    "ecuador": {
+      "name": "Ecuador",
+      "code": "EC",
+      "cities": {}
+    },
+    "egypt": {
+      "name": "Egypt",
+      "code": "EG",
+      "cities": {
+        "aswan": "Aswan",
+        "cairo": "Cairo"
+      }
+    },
+    "el-salvador": {
+      "name": "El Salvador",
+      "code": "SV",
+      "cities": {}
+    },
+    "estonia": {
+      "name": "Estonia",
+      "code": "EE",
+      "cities": {}
+    },
+    "eswatini": {
+      "name": "Eswatini",
+      "code": "SZ",
+      "cities": {}
+    },
+    "ethiopia": {
+      "name": "Ethiopia",
+      "code": "ET",
+      "cities": {}
+    },
+    "faroe-islands": {
+      "name": "Faroe Islands",
+      "code": "FO",
+      "cities": {}
+    },
+    "fiji": {
+      "name": "Fiji",
+      "code": "FJ",
+      "cities": {}
+    },
+    "finland": {
+      "name": "Finland",
+      "code": "FI",
+      "cities": {
+        "helsinki": "Helsinki"
+      }
+    },
+    "france": {
+      "name": "France",
+      "code": "FR",
+      "cities": {
+        "amneville": "Amnéville",
+        "angers": "Angers",
+        "blois": "Blois",
+        "bourg-en-bresse": "Bourg-en-Bresse",
+        "bourges": "Bourges",
+        "carcassonne": "Carcassonne",
+        "colmar": "Colmar",
+        "ferney-voltaire": "Ferney-Voltaire",
+        "le-puy-en-velay": "Le Puy-en-Velay",
+        "le-relecq-kerhuon": "Le Relecq-Kerhuon",
+        "lille": "Lille",
+        "lyon": "Lyon",
+        "marseille": "Marseille",
+        "metz": "Metz",
+        "mont-saint-michel": "Mont Saint-Michel",
+        "montpellier": "Montpellier",
+        "nimes": "Nîmes",
+        "orleans": "Orléans",
+        "paris": "Paris",
+        "perigueux": "Périgueux",
+        "poitiers": "Poitiers",
+        "privas": "Privas",
+        "rouen": "Rouen",
+        "royan": "Royan",
+        "saint-denis": "Saint-Denis",
+        "saint-etienne": "Saint-Étienne",
+        "saint-martin-boulogne": "Saint-Martin-Boulogne",
+        "sanary-sur-mer": "Sanary-sur-Mer",
+        "strasbourg": "Strasbourg",
+        "toulouse": "Toulouse",
+        "tours": "Tours",
+        "tulle": "Tulle",
+        "versailles": "Versailles",
+        "villefranche-sur-mer": "Villefranche-sur-Mer",
+        "villers-cotterets": "Villers-Cotterêts"
+      }
+    },
+    "french-guiana": {
+      "name": "French Guiana",
+      "code": "GF",
+      "cities": {}
+    },
+    "gabon": {
+      "name": "Gabon",
+      "code": "GA",
+      "cities": {}
+    },
+    "gambia": {
+      "name": "Gambia",
+      "code": "GM",
+      "cities": {}
+    },
+    "georgia": {
+      "name": "Georgia",
+      "code": "GE",
+      "cities": {}
+    },
+    "germany": {
+      "name": "Germany",
+      "code": "DE",
+      "cities": {
+        "arnsberg": "Arnsberg",
+        "berlin": "Berlin",
+        "dresden": "Dresden",
+        "dusseldorf": "Düsseldorf",
+        "hamburg": "Hamburg",
+        "konstanz": "Konstanz",
+        "munster": "Münster",
+        "rust": "Rust"
+      }
+    },
+    "ghana": {
+      "name": "Ghana",
+      "code": "GH",
+      "cities": {}
+    },
+    "gibraltar": {
+      "name": "Gibraltar",
+      "code": "GI",
+      "cities": {}
+    },
+    "greece": {
+      "name": "Greece",
+      "code": "GR",
+      "cities": {
+        "athens": "Athens",
+        "irakleion": "Irákleion",
+        "rodos": "Ródos",
+        "thessaloniki": "Thessaloníki"
+      }
+    },
+    "greenland": {
+      "name": "Greenland",
+      "code": "GL",
+      "cities": {}
+    },
+    "grenada": {
+      "name": "Grenada",
+      "code": "GD",
+      "cities": {}
+    },
+    "guadeloupe": {
+      "name": "Guadeloupe",
+      "code": "GP",
+      "cities": {}
+    },
+    "guam": {
+      "name": "Guam",
+      "code": "GU",
+      "cities": {}
+    },
+    "guatemala": {
+      "name": "Guatemala",
+      "code": "GT",
+      "cities": {}
+    },
+    "guinea": {
+      "name": "Guinea",
+      "code": "GN",
+      "cities": {}
+    },
+    "guinea-bissau": {
+      "name": "Guinea-Bissau",
+      "code": "GW",
+      "cities": {}
+    },
+    "guyana": {
+      "name": "Guyana",
+      "code": "GY",
+      "cities": {}
+    },
+    "haiti": {
+      "name": "Haiti",
+      "code": "HT",
+      "cities": {}
+    },
+    "honduras": {
+      "name": "Honduras",
+      "code": "HN",
+      "cities": {}
+    },
+    "hong-kong": {
+      "name": "Hong Kong",
+      "code": "HK",
+      "cities": {
+        "hong-kong-city": "Hong Kong"
+      }
+    },
+    "hungary": {
+      "name": "Hungary",
+      "code": "HU",
+      "cities": {
+        "budapest": "Budapest"
+      }
+    },
+    "iceland": {
+      "name": "Iceland",
+      "code": "IS",
+      "cities": {
+        "egilssta-ir": "Egilsstaðir",
+        "grindavik": "Grindavik",
+        "reykjavik": "Reykjavík",
+        "selfoss": "Selfoss"
+      }
+    },
+    "india": {
+      "name": "India",
+      "code": "IN",
+      "cities": {}
+    },
+    "indonesia": {
+      "name": "Indonesia",
+      "code": "ID",
+      "cities": {
+        "denpasar": "Denpasar",
+        "mataram": "Mataram"
+      }
+    },
+    "iraq": {
+      "name": "Iraq",
+      "code": "IQ",
+      "cities": {}
+    },
+    "ireland": {
+      "name": "Ireland",
+      "code": "IE",
+      "cities": {}
+    },
+    "isle-of-man": {
+      "name": "Isle of Man",
+      "code": "IM",
+      "cities": {}
+    },
+    "israel": {
+      "name": "Israel",
+      "code": "IL",
+      "cities": {}
+    },
+    "italy": {
+      "name": "Italy",
+      "code": "IT",
+      "cities": {
+        "agrigento": "Agrigento",
+        "bologna": "Bologna",
+        "cagliari": "Cagliari",
+        "civitavecchia": "Civitavecchia",
+        "cuneo": "Cuneo",
+        "florence": "Florence",
+        "frosinone": "Frosinone",
+        "genoa": "Genoa",
+        "mandello-del-lario": "Mandello del Lario",
+        "matera": "Matera",
+        "messina": "Messina",
+        "milan": "Milan",
+        "naples": "Naples",
+        "palermo": "Palermo",
+        "parma": "Parma",
+        "patti": "Patti",
+        "perugia": "Perugia",
+        "pisa": "Pisa",
+        "prato": "Prato",
+        "rome": "Rome",
+        "savona": "Savona",
+        "siena": "Siena",
+        "termoli": "Termoli",
+        "treviso": "Treviso",
+        "venice": "Venice",
+        "verona": "Verona"
+      }
+    },
+    "ivory-coast": {
+      "name": "Ivory Coast",
+      "code": "CI",
+      "cities": {}
+    },
+    "jamaica": {
+      "name": "Jamaica",
+      "code": "JM",
+      "cities": {}
+    },
+    "japan": {
+      "name": "Japan",
+      "code": "JP",
+      "cities": {
+        "kobe": "Kobe",
+        "kyoto": "Kyoto",
+        "tokyo": "Tokyo"
+      }
+    },
+    "jersey": {
+      "name": "Jersey",
+      "code": "JE",
+      "cities": {}
+    },
+    "jordan": {
+      "name": "Jordan",
+      "code": "JO",
+      "cities": {}
+    },
+    "kazakhstan": {
+      "name": "Kazakhstan",
+      "code": "KZ",
+      "cities": {}
+    },
+    "kenya": {
+      "name": "Kenya",
+      "code": "KE",
+      "cities": {}
+    },
+    "kosovo": {
+      "name": "Kosovo",
+      "code": "XK",
+      "cities": {}
+    },
+    "kuwait": {
+      "name": "Kuwait",
+      "code": "KW",
+      "cities": {}
+    },
+    "kyrgyzstan": {
+      "name": "Kyrgyzstan",
+      "code": "KG",
+      "cities": {}
+    },
+    "laos": {
+      "name": "Laos",
+      "code": "LA",
+      "cities": {}
+    },
+    "latvia": {
+      "name": "Latvia",
+      "code": "LV",
+      "cities": {}
+    },
+    "lebanon": {
+      "name": "Lebanon",
+      "code": "LB",
+      "cities": {}
+    },
+    "lesotho": {
+      "name": "Lesotho",
+      "code": "LS",
+      "cities": {}
+    },
+    "liberia": {
+      "name": "Liberia",
+      "code": "LR",
+      "cities": {}
+    },
+    "liechtenstein": {
+      "name": "Liechtenstein",
+      "code": "LI",
+      "cities": {}
+    },
+    "lithuania": {
+      "name": "Lithuania",
+      "code": "LT",
+      "cities": {}
+    },
+    "luxembourg": {
+      "name": "Luxembourg",
+      "code": "LU",
+      "cities": {}
+    },
+    "macau": {
+      "name": "Macau",
+      "code": "MO",
+      "cities": {}
+    },
+    "madagascar": {
+      "name": "Madagascar",
+      "code": "MG",
+      "cities": {}
+    },
+    "malawi": {
+      "name": "Malawi",
+      "code": "MW",
+      "cities": {}
+    },
+    "malaysia": {
+      "name": "Malaysia",
+      "code": "MY",
+      "cities": {
+        "george-town": "George Town"
+      }
+    },
+    "maldives": {
+      "name": "Maldives",
+      "code": "MV",
+      "cities": {}
+    },
+    "mali": {
+      "name": "Mali",
+      "code": "ML",
+      "cities": {}
+    },
+    "malta": {
+      "name": "Malta",
+      "code": "MT",
+      "cities": {}
+    },
+    "martinique": {
+      "name": "Martinique",
+      "code": "MQ",
+      "cities": {}
+    },
+    "mauritius": {
+      "name": "Mauritius",
+      "code": "MU",
+      "cities": {}
+    },
+    "mayotte": {
+      "name": "Mayotte",
+      "code": "YT",
+      "cities": {}
+    },
+    "mexico": {
+      "name": "Mexico",
+      "code": "MX",
+      "cities": {
+        "cancun": "Cancún",
+        "cozumel": "Cozumel",
+        "guadalajara": "Guadalajara",
+        "mexico-city": "Mexico City",
+        "puebla": "Puebla",
+        "tulum": "Tulum",
+        "valle-de-banderas": "Valle de Banderas"
+      }
+    },
+    "moldova": {
+      "name": "Moldova",
+      "code": "MD",
+      "cities": {}
+    },
+    "monaco": {
+      "name": "Monaco",
+      "code": "MC",
+      "cities": {}
+    },
+    "mongolia": {
+      "name": "Mongolia",
+      "code": "MN",
+      "cities": {}
+    },
+    "montenegro": {
+      "name": "Montenegro",
+      "code": "ME",
+      "cities": {}
+    },
+    "montserrat": {
+      "name": "Montserrat",
+      "code": "MS",
+      "cities": {}
+    },
+    "morocco": {
+      "name": "Morocco",
+      "code": "MA",
+      "cities": {}
+    },
+    "mozambique": {
+      "name": "Mozambique",
+      "code": "MZ",
+      "cities": {}
+    },
+    "nauru": {
+      "name": "Nauru",
+      "code": "NR",
+      "cities": {}
+    },
+    "nepal": {
+      "name": "Nepal",
+      "code": "NP",
+      "cities": {}
+    },
+    "netherlands": {
+      "name": "Netherlands",
+      "code": "NL",
+      "cities": {
+        "amsterdam": "Amsterdam",
+        "haarlem": "Haarlem",
+        "kaatsheuvel": "Kaatsheuvel",
+        "leeuwarden": "Leeuwarden",
+        "rotterdam": "Rotterdam",
+        "the-hague": "The Hague",
+        "utrecht": "Utrecht"
+      }
+    },
+    "new-zealand": {
+      "name": "New Zealand",
+      "code": "NZ",
+      "cities": {
+        "auckland": "Auckland",
+        "christchurch": "Christchurch"
+      }
+    },
+    "nicaragua": {
+      "name": "Nicaragua",
+      "code": "NI",
+      "cities": {}
+    },
+    "niger": {
+      "name": "Niger",
+      "code": "NE",
+      "cities": {}
+    },
+    "nigeria": {
+      "name": "Nigeria",
+      "code": "NG",
+      "cities": {}
+    },
+    "north-macedonia": {
+      "name": "North Macedonia",
+      "code": "MK",
+      "cities": {}
+    },
+    "northern-cyprus": {
+      "name": "Northern Cyprus",
+      "code": "NY",
+      "cities": {}
+    },
+    "norway": {
+      "name": "Norway",
+      "code": "NO",
+      "cities": {}
+    },
+    "oman": {
+      "name": "Oman",
+      "code": "OM",
+      "cities": {}
+    },
+    "pakistan": {
+      "name": "Pakistan",
+      "code": "PK",
+      "cities": {}
+    },
+    "palestine": {
+      "name": "Palestine",
+      "code": "PS",
+      "cities": {}
+    },
+    "panama": {
+      "name": "Panama",
+      "code": "PA",
+      "cities": {}
+    },
+    "papua-new-guinea": {
+      "name": "Papua New Guinea",
+      "code": "PG",
+      "cities": {}
+    },
+    "paraguay": {
+      "name": "Paraguay",
+      "code": "PY",
+      "cities": {}
+    },
+    "peru": {
+      "name": "Peru",
+      "code": "PE",
+      "cities": {}
+    },
+    "philippines": {
+      "name": "Philippines",
+      "code": "PH",
+      "cities": {}
+    },
+    "poland": {
+      "name": "Poland",
+      "code": "PL",
+      "cities": {
+        "krakow": "Kraków",
+        "oswiecim": "Oświęcim"
+      }
+    },
+    "portugal": {
+      "name": "Portugal",
+      "code": "PT",
+      "cities": {
+        "batalha": "Batalha",
+        "faro": "Faro",
+        "lagoa": "Lagoa",
+        "lagos": "Lagos",
+        "lisbon": "Lisbon",
+        "lourinha": "Lourinhã",
+        "porto": "Porto",
+        "quarteira": "Quarteira",
+        "sintra": "Sintra",
+        "tomar": "Tomar"
+      }
+    },
+    "puerto-rico": {
+      "name": "Puerto Rico",
+      "code": "PR",
+      "cities": {}
+    },
+    "qatar": {
+      "name": "Qatar",
+      "code": "QA",
+      "cities": {}
+    },
+    "republic-of-the-congo": {
+      "name": "Republic of the Congo",
+      "code": "CG",
+      "cities": {}
+    },
+    "reunion": {
+      "name": "Réunion",
+      "code": "RE",
+      "cities": {}
+    },
+    "romania": {
+      "name": "Romania",
+      "code": "RO",
+      "cities": {}
+    },
+    "rwanda": {
+      "name": "Rwanda",
+      "code": "RW",
+      "cities": {}
+    },
+    "saint-barthelemy": {
+      "name": "Saint Barthélemy",
+      "code": "BL",
+      "cities": {}
+    },
+    "saint-kitts-and-nevis": {
+      "name": "Saint Kitts and Nevis",
+      "code": "KN",
+      "cities": {}
+    },
+    "saint-lucia": {
+      "name": "Saint Lucia",
+      "code": "LC",
+      "cities": {}
+    },
+    "saint-martin": {
+      "name": "Saint Martin",
+      "code": "MF",
+      "cities": {}
+    },
+    "saint-vincent-and-the-grenadines": {
+      "name": "Saint Vincent and the Grenadines",
+      "code": "VC",
+      "cities": {}
+    },
+    "samoa": {
+      "name": "Samoa",
+      "code": "WS",
+      "cities": {}
+    },
+    "san-marino": {
+      "name": "San Marino",
+      "code": "SM",
+      "cities": {
+        "san-marino-city": "San Marino"
+      }
+    },
+    "saudi-arabia": {
+      "name": "Saudi Arabia",
+      "code": "SA",
+      "cities": {}
+    },
+    "senegal": {
+      "name": "Senegal",
+      "code": "SN",
+      "cities": {}
+    },
+    "serbia": {
+      "name": "Serbia",
+      "code": "RS",
+      "cities": {}
+    },
+    "seychelles": {
+      "name": "Seychelles",
+      "code": "SC",
+      "cities": {}
+    },
+    "sierra-leone": {
+      "name": "Sierra Leone",
+      "code": "SL",
+      "cities": {}
+    },
+    "singapore": {
+      "name": "Singapore",
+      "code": "SG",
+      "cities": {
+        "singapore-city": "Singapore"
+      }
+    },
+    "sint-maarten": {
+      "name": "Sint Maarten",
+      "code": "SX",
+      "cities": {}
+    },
+    "slovakia": {
+      "name": "Slovakia",
+      "code": "SK",
+      "cities": {}
+    },
+    "slovenia": {
+      "name": "Slovenia",
+      "code": "SI",
+      "cities": {}
+    },
+    "south-africa": {
+      "name": "South Africa",
+      "code": "ZA",
+      "cities": {
+        "cape-town": "Cape Town"
+      }
+    },
+    "south-korea": {
+      "name": "South Korea",
+      "code": "KR",
+      "cities": {}
+    },
+    "spain": {
+      "name": "Spain",
+      "code": "ES",
+      "cities": {
+        "adeje": "Adeje",
+        "avila": "Ávila",
+        "barcelona": "Barcelona",
+        "benalmadena": "Benalmádena",
+        "bilbao": "Bilbao",
+        "cadaques": "Cadaqués",
+        "can-picafort": "Can Picafort",
+        "comillas": "Comillas",
+        "donostia-san-sebastian": "Donostia / San Sebastián",
+        "estepona": "Estepona",
+        "granada": "Granada",
+        "jaen": "Jaén",
+        "jerez-de-la-frontera": "Jerez de la Frontera",
+        "las-palmas-de-gran-canaria": "Las Palmas de Gran Canaria",
+        "madrid": "Madrid",
+        "malaga": "Málaga",
+        "maspalomas": "Maspalomas",
+        "murcia": "Murcia",
+        "olesa-de-montserrat": "Olesa de Montserrat",
+        "olot": "Olot",
+        "palma": "Palma",
+        "playa-blanca": "Playa Blanca",
+        "puerto-del-carmen": "Puerto del Carmen",
+        "ripoll": "Ripoll",
+        "san-miguel-de-abona": "San Miguel De Abona",
+        "sant-antoni-de-portmany": "Sant Antoni de Portmany",
+        "santa-cruz-de-tenerife": "Santa Cruz de Tenerife",
+        "santander": "Santander",
+        "segovia": "Segovia",
+        "sevilla": "Sevilla",
+        "tarazona": "Tarazona",
+        "tarragona": "Tarragona",
+        "teruel": "Teruel",
+        "toledo-spain": "Toledo",
+        "torre-del-mar": "Torre del Mar",
+        "valencia": "Valencia"
+      }
+    },
+    "sri-lanka": {
+      "name": "Sri Lanka",
+      "code": "LK",
+      "cities": {}
+    },
+    "sudan": {
+      "name": "Sudan",
+      "code": "SD",
+      "cities": {}
+    },
+    "suriname": {
+      "name": "Suriname",
+      "code": "SR",
+      "cities": {}
+    },
+    "sweden": {
+      "name": "Sweden",
+      "code": "SE",
+      "cities": {}
+    },
+    "switzerland": {
+      "name": "Switzerland",
+      "code": "CH",
+      "cities": {
+        "lausanne": "Lausanne"
+      }
+    },
+    "taiwan": {
+      "name": "Taiwan",
+      "code": "TW",
+      "cities": {}
+    },
+    "tajikistan": {
+      "name": "Tajikistan",
+      "code": "TJ",
+      "cities": {}
+    },
+    "tanzania": {
+      "name": "Tanzania",
+      "code": "TZ",
+      "cities": {}
+    },
+    "thailand": {
+      "name": "Thailand",
+      "code": "TH",
+      "cities": {
+        "bangkok": "Bangkok",
+        "phuket": "Phuket",
+        "rayong": "Rayong"
+      }
+    },
+    "togo": {
+      "name": "Togo",
+      "code": "TG",
+      "cities": {}
+    },
+    "tonga": {
+      "name": "Tonga",
+      "code": "TO",
+      "cities": {}
+    },
+    "trinidad-and-tobago": {
+      "name": "Trinidad and Tobago",
+      "code": "TT",
+      "cities": {}
+    },
+    "tunisia": {
+      "name": "Tunisia",
+      "code": "TN",
+      "cities": {}
+    },
+    "turkey": {
+      "name": "Turkey",
+      "code": "TR",
+      "cities": {
+        "antalya": "Antalya",
+        "istanbul": "Istanbul"
+      }
+    },
+    "turks-and-caicos-islands": {
+      "name": "Turks and Caicos Islands",
+      "code": "TC",
+      "cities": {}
+    },
+    "u-s-virgin-islands": {
+      "name": "U.S. Virgin Islands",
+      "code": "VI",
+      "cities": {}
+    },
+    "uganda": {
+      "name": "Uganda",
+      "code": "UG",
+      "cities": {}
+    },
+    "ukraine": {
+      "name": "Ukraine",
+      "code": "UA",
+      "cities": {}
+    },
+    "united-arab-emirates": {
+      "name": "United Arab Emirates",
+      "code": "AE",
+      "cities": {
+        "abu-dhabi": "Abu Dhabi",
+        "dubai": "Dubai",
+        "sharjah": "Sharjah"
+      }
+    },
+    "united-kingdom": {
+      "name": "United Kingdom",
+      "code": "GB",
+      "cities": {
+        "bath": "Bath",
+        "belfast": "Belfast",
+        "birmingham": "Birmingham",
+        "brighton": "Brighton",
+        "cardiff": "Cardiff",
+        "chelmsford": "Chelmsford",
+        "chester": "Chester",
+        "city-of-london": "City of London",
+        "dorchester": "Dorchester",
+        "edinburgh": "Edinburgh",
+        "leeds": "Leeds",
+        "liverpool": "Liverpool",
+        "london": "London",
+        "manchester-united-kingdom": "Manchester",
+        "newport-united-kingdom": "Newport",
+        "norwich": "Norwich",
+        "salford": "Salford",
+        "stretford": "Stretford",
+        "warwick": "Warwick",
+        "york": "York"
+      }
+    },
+    "united-states": {
+      "name": "United States",
+      "code": "US",
+      "cities": {
+        "allentown": "Allentown",
+        "atlanta": "Atlanta",
+        "barnstable": "Barnstable",
+        "boerne": "Boerne",
+        "boston": "Boston",
+        "brooklyn": "Brooklyn",
+        "bryan": "Bryan",
+        "camp-verde": "Camp Verde",
+        "chicago": "Chicago",
+        "cincinnati": "Cincinnati",
+        "clearwater": "Clearwater",
+        "columbus": "Columbus",
+        "concord": "Concord",
+        "easton": "Easton",
+        "fort-lauderdale": "Fort Lauderdale",
+        "fort-myers": "Fort Myers",
+        "goshen": "Goshen",
+        "grand-rapids": "Grand Rapids",
+        "hackensack": "Hackensack",
+        "honolulu": "Honolulu",
+        "houston": "Houston",
+        "huntsville": "Huntsville",
+        "jersey-city": "Jersey City",
+        "kansas-city": "Kansas City",
+        "kissimmee": "Kissimmee",
+        "las-vegas": "Las Vegas",
+        "los-angeles": "Los Angeles",
+        "manchester": "Manchester",
+        "manhattan": "Manhattan",
+        "memphis": "Memphis",
+        "miami": "Miami",
+        "nashville": "Nashville",
+        "new-orleans": "New Orleans",
+        "new-york-city": "New York City",
+        "newport-united-states": "Newport",
+        "olympia": "Olympia",
+        "orange": "Orange",
+        "orlando": "Orlando",
+        "palm-springs": "Palm Springs",
+        "phoenix": "Phoenix",
+        "plant-city": "Plant City",
+        "pontiac": "Pontiac",
+        "saint-augustine": "Saint Augustine",
+        "san-antonio": "San Antonio",
+        "san-diego": "San Diego",
+        "san-francisco": "San Francisco",
+        "san-jose": "San Jose",
+        "sanford": "Sanford",
+        "santa-ana": "Santa Ana",
+        "seattle": "Seattle",
+        "sevierville": "Sevierville",
+        "tampa": "Tampa",
+        "titusville": "Titusville",
+        "toledo": "Toledo",
+        "trenton": "Trenton",
+        "washington-d-c": "Washington, D.C.",
+        "west-mifflin": "West Mifflin",
+        "west-palm-beach": "West Palm Beach",
+        "wheaton": "Wheaton",
+        "wheeling": "Wheeling",
+        "williamsburg": "Williamsburg"
+      }
+    },
+    "uruguay": {
+      "name": "Uruguay",
+      "code": "UY",
+      "cities": {}
+    },
+    "uzbekistan": {
+      "name": "Uzbekistan",
+      "code": "UZ",
+      "cities": {}
+    },
+    "vanuatu": {
+      "name": "Vanuatu",
+      "code": "VU",
+      "cities": {}
+    },
+    "vatican": {
+      "name": "Vatican",
+      "code": "VA",
+      "cities": {
+        "vatican-city": "Vatican City"
+      }
+    },
+    "venezuela": {
+      "name": "Venezuela",
+      "code": "VE",
+      "cities": {}
+    },
+    "vietnam": {
+      "name": "Vietnam",
+      "code": "VN",
+      "cities": {}
+    },
+    "zambia": {
+      "name": "Zambia",
+      "code": "ZM",
+      "cities": {}
+    },
+    "zimbabwe": {
+      "name": "Zimbabwe",
+      "code": "ZW",
+      "cities": {}
+    }
+  }
+}
