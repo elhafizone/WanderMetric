@@ -50,8 +50,8 @@ Visual compliance is enforced automatically before publishing:
 ### Rule 8: Controlled Legacy Migration
 The 26 legacy offers in `content/offers/` that pre-date this policy are tracked in a controlled whitelist (`LEGACY_OFFERS_WITHOUT_IMAGES` in `scripts/lib/visual-policy.mjs`). They are permitted under a transitional grace status to prevent operational disruption, and will be upgraded progressively during individual scheduled reviews. They must **not** be bulk-modified with synthetic data.
 
-### Rule 9: Prohibition on Unapproved Offers
-No new offers may be imported or published until all preceding steps and policies have been verified and explicitly authorized.
+### Rule 9: Offers from Real Sources Only
+Every offer must pass Rules 1–8. Hand-written (editorial) offers take their images from the live listing; generated (catalogue) offers take them from the programme's official data (for example WeGoTrip's API or Airalo's feed), credited to that programme. The owner authorized catalogue generation on 13 November 2026 with a target of about 1,000 offers.
 
 ---
 

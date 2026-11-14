@@ -49,13 +49,20 @@ add_filter(
 	}
 );
 
-// The news page stays out of the sitemap until it has a story (it is noindex until then).
+// The news page stays out of the sitemap until it has a story (it is noindex until then),
+// and so do catalogue offers, which are noindex until written up as editorial.
 add_filter(
 	'wp_sitemaps_posts_query_args',
 	static function ( array $args, string $post_type ): array {
 		$news = (int) get_option( 'page_for_posts' );
 		if ( 'page' === $post_type && $news && ! wm_has_news() ) {
 			$args['post__not_in'] = array_merge( (array) ( $args['post__not_in'] ?? array() ), array( $news ) );
+		}
+		if ( 'wm_offer' === $post_type ) {
+			$catalogue = array_keys( array_filter( wm_offer_index(), static fn( $row ) => 'catalogue' === $row['tier'] ) );
+			if ( $catalogue ) {
+				$args['post__not_in'] = array_merge( (array) ( $args['post__not_in'] ?? array() ), $catalogue );
+			}
 		}
 		return $args;
 	},

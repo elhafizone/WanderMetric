@@ -20,8 +20,16 @@ for d in */; do
   mkdir -p "$DEST/$d"
   cp "$d"*.json "$DEST/$d"
 done
-find "$DEST" -type f ! -name '.bundle' | sort | xargs cat | md5sum | cut -d' ' -f1 > "$DEST/.bundle"
+find "$DEST" -type f ! -name '.bundle' -print0 | sort -z | xargs -0 cat | md5sum | cut -d' ' -f1 > "$DEST/.bundle"
 echo "bundled $(find "$DEST" -name '*.json' | wc -l) offers, hash $(cat "$DEST/.bundle")"
+
+# The legacy offers allowed without images (LEGACY_OFFERS_WITHOUT_IMAGES); without
+# it a re-imported legacy offer would fail the image rule and drop to draft.
+cp "$REPO/scripts/lib/visual-policy.mjs" "$REPO/wordpress/wp-content/plugins/wandermetric-core/data/legacy-offers.mjs"
+
+# Countries and cities the offers are filed under (includes/places.php seeds new ones).
+cp "$REPO/content/places.json" "$REPO/wordpress/wp-content/plugins/wandermetric-core/data/places.json"
+echo "bundled places from content/places.json"
 
 # The fixed pages (includes/pages.php updates them when this hash changes).
 PAGES="$REPO/wordpress/wp-content/plugins/wandermetric-core/data/pages"

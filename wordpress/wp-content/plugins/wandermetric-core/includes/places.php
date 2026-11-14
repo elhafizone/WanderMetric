@@ -9,11 +9,37 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Seed list: the countries and cities the existing offers use.
+ * Every place an offer can be filed under: the places the site launched with,
+ * plus content/places.json (copied to data/places.json by bundle-offers.sh),
+ * which the catalogue feeds extend.
  *
  * @return array<string, array{name: string, cities: array<string, string>}>
  */
 function wm_seed_place_list(): array {
+	static $list = null;
+	if ( null !== $list ) {
+		return $list;
+	}
+	$list = wm_launch_place_list();
+	$file = WM_CORE_DIR . 'data/places.json';
+	$data = is_readable( $file ) ? json_decode( (string) file_get_contents( $file ), true ) : null; // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local file.
+	foreach ( (array) ( $data['countries'] ?? array() ) as $slug => $country ) {
+		if ( ! is_string( $slug ) || ! preg_match( '/^[a-z0-9-]+$/', $slug ) || ! is_array( $country ) || empty( $country['name'] ) ) {
+			continue;
+		}
+		$list[ $slug ]['name']   = $list[ $slug ]['name'] ?? (string) $country['name'];
+		$list[ $slug ]['cities'] = $list[ $slug ]['cities'] ?? array();
+		foreach ( (array) ( $country['cities'] ?? array() ) as $city => $name ) {
+			if ( is_string( $city ) && preg_match( '/^[a-z0-9-]+$/', $city ) && is_string( $name ) && '' !== $name && ! isset( $list[ $slug ]['cities'][ $city ] ) ) {
+				$list[ $slug ]['cities'][ $city ] = $name;
+			}
+		}
+	}
+	return $list;
+}
+
+/** The countries and cities of the offers the site launched with. */
+function wm_launch_place_list(): array {
 	return array(
 		'egypt'    => array( 'name' => 'Egypt', 'cities' => array( 'aswan' => 'Aswan' ) ),
 		'france'   => array( 'name' => 'France', 'cities' => array( 'paris' => 'Paris' ) ),
@@ -29,33 +55,58 @@ function wm_seed_place_list(): array {
 	);
 }
 
-/** Seed new places once whenever the list changes (deploys do not re-activate the plugin). */
+/**
+ * Seed new places once whenever the list changes (deploys do not re-activate
+ * the plugin). With hundreds of places this is a few seconds of term inserts,
+ * so it runs in the admin, in WP-Cron (the bundle import calls it first) and
+ * in WP-CLI, never inside a visitor's page view.
+ */
 add_action(
 	'init',
 	static function () {
-		$hash = md5( (string) wp_json_encode( wm_seed_place_list() ) );
-		if ( get_option( 'wm_places_hash' ) !== $hash ) {
-			wm_seed_places();
-			update_option( 'wm_places_hash', $hash, true );
+		if ( is_admin() || wp_doing_cron() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
+			wm_maybe_seed_places();
 		}
 	},
 	30
 );
 
+function wm_maybe_seed_places(): void {
+	// The "v2" prefix re-runs seeding once on sites seeded before the slug-only check.
+	$hash = md5( 'v2' . wp_json_encode( wm_seed_place_list() ) );
+	if ( get_option( 'wm_places_hash' ) !== $hash ) {
+		wm_seed_places();
+		update_option( 'wm_places_hash', $hash, true );
+	}
+}
+
 function wm_seed_places(): void {
 	foreach ( wm_seed_place_list() as $country_slug => $country ) {
-		$existing   = term_exists( $country_slug, 'wm_place', 0 );
-		$country_id = $existing ? (int) $existing['term_id'] : (int) wp_insert_term( $country['name'], 'wm_place', array( 'slug' => $country_slug ) )['term_id'];
+		$existing = term_exists( $country_slug, 'wm_place', 0 );
+		if ( ! $existing ) {
+			$existing = wp_insert_term( $country['name'], 'wm_place', array( 'slug' => $country_slug ) );
+		}
+		if ( is_wp_error( $existing ) || empty( $existing['term_id'] ) ) {
+			error_log( 'wandermetric: place not created (' . $country_slug . '): ' . ( is_wp_error( $existing ) ? $existing->get_error_message() : 'unknown error' ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			continue;
+		}
+		$country_id = (int) $existing['term_id'];
 		foreach ( $country['cities'] as $city_slug => $city_name ) {
-			if ( ! term_exists( $city_slug, 'wm_place' ) ) {
-				wp_insert_term(
-					$city_name,
-					'wm_place',
-					array(
-						'slug'   => $city_slug,
-						'parent' => $country_id,
-					)
-				);
+			// By slug only: term_exists() also matches a name, so the US "Manchester"
+			// (manchester-united-states) would hide the UK one (manchester).
+			if ( get_term_by( 'slug', $city_slug, 'wm_place' ) ) {
+				continue;
+			}
+			$made = wp_insert_term(
+				$city_name,
+				'wm_place',
+				array(
+					'slug'   => $city_slug,
+					'parent' => $country_id,
+				)
+			);
+			if ( is_wp_error( $made ) ) {
+				error_log( 'wandermetric: place not created (' . $city_slug . '): ' . $made->get_error_message() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			}
 		}
 	}
@@ -97,8 +148,16 @@ function wm_get_city( string $country_slug, string $city_slug ): ?WP_Term {
 	return ( $country && $city instanceof WP_Term && (int) $city->parent === (int) $country->term_id ) ? $city : null;
 }
 
-/** @return WP_Term[] countries with at least one published offer, by name. */
-function wm_countries_with_offers(): array {
+/**
+ * Countries with at least one published offer matching $filter, by name.
+ *
+ * @return WP_Term[]
+ */
+function wm_countries_with_offers( array $filter = array() ): array {
+	$counts = wm_place_counts( $filter )['country'];
+	if ( ! $counts ) {
+		return array();
+	}
 	$terms = get_terms(
 		array(
 			'taxonomy'   => 'wm_place',
@@ -110,5 +169,23 @@ function wm_countries_with_offers(): array {
 	if ( is_wp_error( $terms ) ) {
 		return array();
 	}
-	return array_values( array_filter( $terms, static fn( WP_Term $t ) => wm_count_offers( array( 'country' => $t->slug ) ) > 0 ) );
+	return array_values( array_filter( $terms, static fn( WP_Term $t ) => isset( $counts[ $t->slug ] ) ) );
+}
+
+/**
+ * The countries with the most offers matching $filter, most first.
+ *
+ * @return array<int, array{term: WP_Term, count: int}>
+ */
+function wm_top_countries( int $limit, array $filter = array() ): array {
+	$counts = wm_place_counts( $filter )['country'];
+	$out    = array();
+	foreach ( wm_countries_with_offers( $filter ) as $term ) {
+		$out[] = array(
+			'term'  => $term,
+			'count' => $counts[ $term->slug ],
+		);
+	}
+	usort( $out, static fn( $a, $b ) => array( $b['count'], $a['term']->name ) <=> array( $a['count'], $b['term']->name ) );
+	return $limit > 0 ? array_slice( $out, 0, $limit ) : $out;
 }

@@ -17,6 +17,34 @@ brand before a single link could be published.
 
 ---
 
+## Programme data for catalogue offers (verified 13 November 2026)
+
+Travelpayouts lists the brands that give partners an API or a data feed in
+[Brands that provide access to APIs and data feeds](https://support.travelpayouts.com/hc/en-us/articles/20384016664594-Brands-that-provide-access-to-APIs-and-data-feeds-for-Travelpayouts-partners).
+Each source below was opened and queried on 13 November 2026.
+
+| Programme | Source | What it returned on 13 Nov 2026 | Brand approval | Used by |
+|---|---|---|---|---|
+| WeGoTrip | Public API `https://app.wegotrip.com/api/v2` ([docs](https://gist.github.com/4eRTuk/6b6a4b06b5f6d4ce90973e1931052991)) | 2,898 products, 682 cities, 87 countries; price, duration, rating, images, inclusions | No | `scripts/feeds/wegotrip.mjs` |
+| Airalo | Feed `https://www.airalo.com/products.xml` ([docs](https://support.travelpayouts.com/hc/en-us/articles/17131439719826-Data-from-Airalo)) | 3,359 packages; 206 countries plus regional plans; USD prices, validity, data, networks | No | `scripts/feeds/airalo.mjs` |
+| Tiqets | Two Google Sheets linked from the programme page | 473 top products by city; 165 exclusive products with URLs | No | not yet |
+| intui.travel | Transfer search API ([docs](https://support.travelpayouts.com/hc/en-us/articles/360016804119-intui-travel-API)) | Hubs, resorts and priced transfer results | No | not yet |
+| Aviasales | Flight Data API | Cheapest fares, popular routes | No (Data API) | not yet |
+| Kiwi.com, GetTransfer | Partner APIs | — | **Yes**: the owner must request access | not yet |
+
+Price checks (13 Nov 2026):
+- WeGoTrip: the product's top-level `price` matches the "from" price on the
+  live page (Pantheon p4900: €16.35 in both). `priceLevels` and ticket
+  `pricingCategories` do **not** match the page; never show them.
+- WeGoTrip: `rating` and `ratingsCount` match the live page.
+
+Affiliate links for generated offers use Travelpayouts' documented link
+template (`https://tp.media/r?campaign_id=…&marker=…&p=…&trs=…&u=<encoded URL>`),
+with the `campaign_id` and `p` values already used by this site's own
+dashboard-made links (WeGoTrip 150 / 4487, Airalo 541 / 8310). The marker
+carries a sub ID per offer (`705982.wm-<id>`), so a booking can be traced to
+its page.
+
 ## Verified capabilities
 
 | Capability | Status | Notes |

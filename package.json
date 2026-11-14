@@ -12,7 +12,11 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check:visuals": "node scripts/check-visuals.mjs",
-    "verify": "npm run check:visuals && npm run lint && npm run typecheck && npm run test && npm run build",
+    "check:offers": "node scripts/check-offers.mjs",
+    "feeds:wegotrip": "node scripts/feeds/wegotrip.mjs",
+    "feeds:airalo": "node scripts/feeds/airalo.mjs",
+    "feeds:all": "npm run feeds:wegotrip && npm run feeds:airalo && npm run check:offers",
+    "verify": "npm run check:visuals && npm run check:offers && npm run lint && npm run typecheck && npm run test && npm run build",
     "types:db": "echo \"Regenerate via the Supabase MCP/CLI into src/types/database.ts\"",
     "test": "vitest run",
     "test:watch": "vitest"

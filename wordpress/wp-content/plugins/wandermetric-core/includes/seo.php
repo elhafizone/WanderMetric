@@ -74,6 +74,25 @@ function wm_page_meta(): ?array {
 
 // Title, description, social tags and schema are printed by seo-head.php.
 
+/**
+ * Crawlers stay off /go/: those are outbound affiliate redirects, and a bot
+ * following one counts as a click at Travelpayouts.
+ */
+add_filter(
+	'robots_txt',
+	static function ( string $output, $is_public ): string {
+		if ( ! $is_public || false !== strpos( $output, 'Disallow: /go/' ) ) {
+			return $output;
+		}
+		if ( false !== strpos( $output, "User-agent: *\n" ) ) {
+			return str_replace( "User-agent: *\n", "User-agent: *\nDisallow: /go/\n", $output );
+		}
+		return "User-agent: *\nDisallow: /go/\n\n" . $output;
+	},
+	10,
+	2
+);
+
 /** Our routes print their own canonical; stop core printing a wrong one. */
 add_action(
 	'wp',
@@ -89,11 +108,16 @@ function wm_has_news(): bool {
 	return (int) wp_count_posts( 'post' )->publish > 0;
 }
 
-/** noindex: an empty news page, thin country pages and the section+country filter pages below the threshold. */
+/**
+ * noindex: an empty news page, thin country pages, the section+country filter
+ * pages below the threshold, and catalogue offers (built from partner data, not
+ * written by us; they stay out of search until someone writes them up).
+ */
 add_filter(
 	'wp_robots',
 	static function ( array $robots ) {
-		if ( ( is_home() && ! wm_has_news() ) || ( 'guides' === wm_route() && ! wm_get_guides() ) ) {
+		$catalogue = is_singular( 'wm_offer' ) && 'catalogue' === wm_offer_tier( (int) get_queried_object_id() );
+		if ( $catalogue || ( is_home() && ! wm_has_news() ) || ( 'guides' === wm_route() && ! wm_get_guides() ) ) {
 			$robots['noindex'] = true;
 			$robots['follow']  = true;
 			return $robots;

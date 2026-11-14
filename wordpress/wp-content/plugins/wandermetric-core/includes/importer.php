@@ -80,10 +80,15 @@ class WM_Offer_Importer {
 				continue;
 			}
 
+			$tier   = 'catalogue' === ( $offer['tier'] ?? '' ) ? 'catalogue' : 'editorial';
 			$facts  = $offer['facts'];
 			$images = $facts['images'] ?? array();
 			$credit = (string) ( $facts['image_credit'] ?? '' );
 			unset( $facts['images'], $facts['image_credit'] );
+			// A catalogue page shows one photo; keeping the rest off the server keeps a thousand imports light.
+			if ( 'catalogue' === $tier ) {
+				$images = array_slice( $images, 0, 1 );
+			}
 
 			$existing = get_page_by_path( $offer['slug'], OBJECT, 'wm_offer' );
 			$post_id  = wp_insert_post(
@@ -119,6 +124,11 @@ class WM_Offer_Importer {
 
 			$meta = array(
 				'wm_programme'      => $offer['programme'],
+				'wm_tier'           => $tier,
+				'wm_generated_by'   => (string) ( $offer['generated_by'] ?? '' ),
+				'wm_weight'         => (string) (int) ( $offer['weight'] ?? 0 ),
+				'wm_price_from'     => isset( $offer['price_from'] ) && is_numeric( $offer['price_from'] ) ? (string) (float) $offer['price_from'] : '',
+				'wm_currency'       => isset( $offer['currency'] ) ? strtoupper( (string) $offer['currency'] ) : '',
 				'wm_kind'           => $offer['kind'] ?? '',
 				'wm_source_url'     => $offer['source_url'],
 				'wm_read_on'        => $offer['read_on'],
@@ -127,6 +137,7 @@ class WM_Offer_Importer {
 				'wm_tip'            => $offer['tip'] ?? '',
 				'wm_facts'          => wp_json_encode( $facts, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ),
 				'wm_images'         => wp_json_encode( array_values( $images ), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ),
+				'wm_primary_image'  => $images ? untrailingslashit( (string) ( $images[0]['source'] ?? $images[0]['url'] ) ) : '',
 				'wm_image_credit'   => $credit,
 				// The bundle import has no legacy list, so an offer already flagged keeps its flag.
 				'wm_legacy_visuals' => ( ! $images && ( in_array( $offer['slug'], $legacy, true ) || ( $existing && get_post_meta( $existing->ID, 'wm_legacy_visuals', true ) ) ) ) ? '1' : '',
@@ -181,6 +192,12 @@ class WM_Offer_Importer {
 		}
 		if ( ! preg_match( '#^https://#', (string) $offer['affiliate_url'] ) ) {
 			return "{$name}: affiliate_url must be https";
+		}
+		if ( isset( $offer['tier'] ) && ! in_array( $offer['tier'], array( 'editorial', 'catalogue' ), true ) ) {
+			return "{$name}: unknown tier {$offer['tier']}";
+		}
+		if ( isset( $offer['price_from'] ) && ( ! is_numeric( $offer['price_from'] ) || ! preg_match( '/^[A-Za-z]{3}$/', (string) ( $offer['currency'] ?? '' ) ) ) ) {
+			return "{$name}: price_from needs a number and a three-letter currency";
 		}
 		return null;
 	}
@@ -263,12 +280,21 @@ class WM_Offer_Importer {
 				$this->log( 'warning', "image not downloaded ({$source}): " . $tmp->get_error_message() );
 				continue;
 			}
-			$path = (string) wp_parse_url( $source, PHP_URL_PATH );
-			$name = sanitize_file_name( basename( $path ) ?: 'offer-image' );
-			if ( ! preg_match( '/\.(jpe?g|png|webp|gif)$/i', $name ) ) {
-				$type = wp_get_image_mime( $tmp );
-				$name .= 'image/png' === $type ? '.png' : ( 'image/webp' === $type ? '.webp' : '.jpg' );
+			// The extension follows the file's real type: a CDN may serve a JPEG for a URL ending in .png.
+			$type = wp_get_image_mime( $tmp );
+			$exts = array(
+				'image/jpeg' => 'jpg',
+				'image/png'  => 'png',
+				'image/webp' => 'webp',
+				'image/gif'  => 'gif',
+			);
+			if ( ! isset( $exts[ $type ] ) ) {
+				wp_delete_file( $tmp );
+				$this->log( 'warning', "image not imported ({$source}): not an image file" );
+				continue;
 			}
+			$path = (string) wp_parse_url( $source, PHP_URL_PATH );
+			$name = sanitize_file_name( preg_replace( '/\.(jpe?g|png|webp|gif)$/i', '', basename( $path ) ) ?: 'offer-image' ) . '.' . $exts[ $type ];
 			$id = media_handle_sideload( array( 'name' => $name, 'tmp_name' => $tmp ), $post_id, $alt );
 			if ( is_wp_error( $id ) ) {
 				wp_delete_file( $tmp );

@@ -13,6 +13,7 @@ $variant = $args['variant'] ?? '';
 // Decorative: the card's title already names the link.
 $image   = wm_offer_image( $offer, 'medium_large', 'large' === $variant ? '(min-width: 64rem) 50vw, 100vw' : '(min-width: 64rem) 25vw, (min-width: 40rem) 50vw, 100vw', false, true );
 $partner = wm_programme_name( (string) get_post_meta( $offer->ID, 'wm_programme', true ) );
+$price   = function_exists( 'wm_offer_price_from' ) ? wm_offer_price_from( $offer->ID ) : '';
 ?>
 <article class="card <?php echo $variant ? 'card--' . esc_attr( $variant ) : ''; ?>">
 	<a class="card-link" href="<?php echo esc_url( get_permalink( $offer ) ); ?>">
@@ -27,6 +28,6 @@ $partner = wm_programme_name( (string) get_post_meta( $offer->ID, 'wm_programme'
 		</div>
 		<p class="card-place"><?php echo esc_html( wm_offer_place_label( $offer ) ); ?></p>
 		<h3 class="card-title"><?php echo esc_html( get_the_title( $offer ) ); ?></h3>
-		<p class="card-partner"><?php echo esc_html( sprintf( /* translators: partner name */ __( 'On %s', 'wandermetric' ), $partner ) ); ?></p>
+		<p class="card-partner"><?php echo esc_html( sprintf( /* translators: partner name */ __( 'On %s', 'wandermetric' ), $partner ) ); ?><?php if ( $price ) : ?> · <span class="card-price"><?php echo esc_html( $price ); ?></span><?php endif; ?></p>
 	</a>
 </article>

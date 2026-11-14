@@ -12,7 +12,7 @@
 defined( 'ABSPATH' ) || exit;
 
 $sections  = function_exists( 'wm_sections' ) ? wm_sections() : array();
-$countries = function_exists( 'wm_countries_with_offers' ) ? wm_countries_with_offers() : array();
+$countries = function_exists( 'wm_top_countries' ) ? array_column( wm_top_countries( 8 ), 'term' ) : array();
 $compare   = function_exists( 'wm_partner_data' ) ? wm_partner_data()['compare'] : array();
 
 $page_link = static function ( string $slug, string $label ): string {

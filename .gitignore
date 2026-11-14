@@ -59,3 +59,8 @@ Thumbs.db
 /wordpress/wp-content/plugins/wandermetric-core/data/offers/
 /wordpress/wp-content/plugins/wandermetric-core/data/pages/
 /wordpress/wp-content/plugins/wandermetric-core/data/guides/
+/wordpress/wp-content/plugins/wandermetric-core/data/places.json
+/wordpress/wp-content/plugins/wandermetric-core/data/legacy-offers.mjs
+
+# Partner API responses cached by scripts/feeds
+/scripts/feeds/.cache/

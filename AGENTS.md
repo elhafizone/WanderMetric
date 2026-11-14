@@ -18,5 +18,5 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 6. **No Silent City Fallbacks**: New offers must not rely on city-level fallbacks when partner product assets exist.
 7. **Automated Pre-Publish Gate**: The import and publish workflow (`scripts/import-offers.mjs`) automatically halts if visual policies are violated.
 8. **Controlled Legacy Migration**: Do not mass-rewrite legacy offers. Upgrade them progressively during individual offer reviews.
-9. **No Unauthorized Offers**: Do not introduce new offers until explicitly instructed by the user.
+9. **Offers come from real sources only**: Hand-written (editorial) offers are read from the live listing. Generated (catalogue) offers come only from a programme's official data through `scripts/feeds/*`, with that data's own images. The owner's target is about 1,000 offers (2026-11-13); adding offers this way is authorized, inventing them is not.
 See full policy at `docs/VISUAL-INVENTORY-POLICY.md`.

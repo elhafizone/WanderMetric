@@ -789,3 +789,15 @@ a.chip:hover { border-color: var(--ink); color: var(--ink); }
 .guide-link small { font-size: var(--fs-xs); font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
 .guide-link strong { color: var(--ink); line-height: 1.35; }
 .guide-link:hover strong { color: var(--accent); }
+
+/* Place index: every place beyond the rails, as a compact list (sections with hundreds of places) */
+.place-index { padding-block: 3rem 1rem; }
+.place-index h2 { font-size: var(--fs-xl); margin-block-end: 1.25rem; }
+.place-index ul { list-style: none; margin: 0; padding: 0; columns: 4 12rem; column-gap: 2rem; }
+.place-index li { break-inside: avoid; border-top: 1px solid var(--rule); }
+.place-index a, .place-index li > span:first-child { display: flex; justify-content: space-between; gap: 1rem; padding-block: 0.55rem; color: var(--ink); text-decoration: none; font-size: var(--fs-sm); }
+.place-index a:hover span:first-child { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 0.2em; }
+.place-index-n { color: var(--muted); font-variant-numeric: tabular-nums; }
+.rail-head .more { text-decoration: none; }
+.rail-head .more:hover { color: var(--ink); text-decoration: underline; }
+.card-price { color: var(--ink-soft); font-weight: 700; }

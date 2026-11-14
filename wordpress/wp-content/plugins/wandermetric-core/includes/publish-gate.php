@@ -1,9 +1,12 @@
 <?php
 /**
- * The publish gate. An offer reaches the public only with: 800+ visible
- * characters of original text, facts, a source URL, a read-on date, a working
- * affiliate URL, a section, a place, and product images with a credit
- * (unless it is a flagged legacy offer).
+ * The publish gate. An offer reaches the public only with: facts, a source URL,
+ * a read-on date, a working affiliate URL, a section, a place, and product
+ * images with a credit (unless it is a flagged legacy offer), plus
+ *   - editorial: 800+ visible characters of original text;
+ *   - catalogue (built from a partner's own data, noindex): 300+ visible
+ *     characters and a price from that data.
+ * scripts/feeds/lib/validate-offer.mjs checks the same rules before bundling.
  *
  * It runs on wp_after_insert_post, which fires after the editor and REST have
  * saved meta and terms, so it sees the final state. A failing post is put
@@ -22,9 +25,14 @@ function wm_publish_gate_errors( int $post_id ): array {
 		return array( 'Offer not found.' );
 	}
 
+	$catalogue  = 'catalogue' === wm_offer_tier( $post_id );
+	$min_chars  = $catalogue ? WM_MIN_CATALOGUE_BODY_CHARS : WM_MIN_BODY_CHARS;
 	$body_chars = mb_strlen( trim( wp_strip_all_tags( $post->post_content ) ) );
-	if ( $body_chars < WM_MIN_BODY_CHARS ) {
-		$errors[] = sprintf( 'The text is %d characters; it needs at least %d.', $body_chars, WM_MIN_BODY_CHARS );
+	if ( $body_chars < $min_chars ) {
+		$errors[] = sprintf( 'The text is %d characters; it needs at least %d.', $body_chars, $min_chars );
+	}
+	if ( $catalogue && (float) get_post_meta( $post_id, 'wm_price_from', true ) <= 0 && '' === trim( (string) get_post_meta( $post_id, 'wm_price_note', true ) ) ) {
+		$errors[] = 'A catalogue offer needs the price from the partner data.';
 	}
 	if ( ! wm_offer_facts( $post_id ) ) {
 		$errors[] = 'Add the facts read from the partner listing.';
@@ -59,33 +67,75 @@ function wm_publish_gate_errors( int $post_id ): array {
 	return $errors;
 }
 
-/** Title of another offer that already uses this offer's primary image, if any. */
+/**
+ * Title of another offer that already uses this offer's primary image, if any.
+ * Compares the partner original (wm_primary_image), so two local copies of one
+ * photo still collide; one indexed lookup instead of decoding every offer's images.
+ */
 function wm_primary_image_collision( int $post_id ): ?string {
 	$images = wm_offer_images( $post_id );
 	if ( ! $images ) {
 		return null;
 	}
-	// Compare the partner original, so two local copies of one photo still collide.
 	$primary = untrailingslashit( $images[0]['source'] );
 	global $wpdb;
-	// Compared in PHP: the JSON may store slashes escaped or not, and the offer count is small.
-	$rows = $wpdb->get_results(
+	$other = $wpdb->get_var(
 		$wpdb->prepare(
-			"SELECT p.ID, m.meta_value FROM {$wpdb->posts} p JOIN {$wpdb->postmeta} m ON m.post_id = p.ID
+			"SELECT p.ID FROM {$wpdb->posts} p JOIN {$wpdb->postmeta} m ON m.post_id = p.ID
 			 WHERE p.post_type = 'wm_offer' AND p.ID <> %d AND p.post_status IN ('publish','draft','pending','future')
-			   AND m.meta_key = 'wm_images'",
-			$post_id
+			   AND m.meta_key = 'wm_primary_image' AND m.meta_value = %s
+			 LIMIT 1",
+			$post_id,
+			$primary
 		)
 	);
-	foreach ( $rows as $row ) {
-		$other = json_decode( (string) $row->meta_value, true );
-		$other_primary = is_array( $other ) && ! empty( $other[0] ) ? (string) ( $other[0]['source'] ?? $other[0]['url'] ?? '' ) : '';
-		if ( '' !== $other_primary && untrailingslashit( $other_primary ) === $primary ) {
-			return get_the_title( (int) $row->ID );
-		}
-	}
-	return null;
+	return $other ? get_the_title( (int) $other ) : null;
 }
+
+/** The partner original of an offer's first image, as wm_primary_image stores it. */
+function wm_primary_image_of( int $post_id ): string {
+	$images = json_decode( (string) get_post_meta( $post_id, 'wm_images', true ), true );
+	$first  = is_array( $images ) && ! empty( $images[0] ) && is_array( $images[0] ) ? (string) ( $images[0]['source'] ?? $images[0]['url'] ?? '' ) : '';
+	return untrailingslashit( $first );
+}
+
+/** Keep wm_primary_image in step when images are edited by hand. */
+foreach ( array( 'added_post_meta', 'updated_post_meta' ) as $wm_gate_hook ) {
+	add_action(
+		$wm_gate_hook,
+		static function ( $meta_id, $post_id, string $key ) {
+			if ( 'wm_images' === $key && 'wm_offer' === get_post_type( (int) $post_id ) ) {
+				update_post_meta( (int) $post_id, 'wm_primary_image', wm_primary_image_of( (int) $post_id ) );
+			}
+		},
+		10,
+		3
+	);
+}
+
+/** Offers imported before wm_primary_image existed get it once. */
+add_action(
+	'init',
+	static function () {
+		if ( '1' === get_option( 'wm_primary_image_backfill' ) || ! ( is_admin() || wp_doing_cron() || ( defined( 'WP_CLI' ) && WP_CLI ) ) ) {
+			return;
+		}
+		$ids = get_posts(
+			array(
+				'post_type'      => 'wm_offer',
+				'post_status'    => 'any',
+				'fields'         => 'ids',
+				'posts_per_page' => -1,
+				'meta_query'     => array( array( 'key' => 'wm_primary_image', 'compare' => 'NOT EXISTS' ) ), // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+			)
+		);
+		foreach ( $ids as $id ) {
+			update_post_meta( (int) $id, 'wm_primary_image', wm_primary_image_of( (int) $id ) );
+		}
+		update_option( 'wm_primary_image_backfill', '1', false );
+	},
+	35
+);
 
 add_action(
 	'wp_after_insert_post',

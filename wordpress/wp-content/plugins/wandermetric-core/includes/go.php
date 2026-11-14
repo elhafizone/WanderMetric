@@ -63,6 +63,23 @@ add_action(
 	}
 );
 
+/**
+ * A request from a crawler, a link-preview fetcher, a monitor or a script
+ * rather than a person: HEAD requests, no user agent, or a user agent that
+ * names itself as automated. Read from the header only; nothing is stored.
+ */
+function wm_is_automated_request(): bool {
+	$method = isset( $_SERVER['REQUEST_METHOD'] ) ? strtoupper( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) ) : 'GET';
+	if ( 'HEAD' === $method ) {
+		return true;
+	}
+	$agent = isset( $_SERVER['HTTP_USER_AGENT'] ) ? strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) ) : '';
+	if ( '' === $agent ) {
+		return true;
+	}
+	return (bool) preg_match( '/bot\b|bot\/|crawl|spider|slurp|preview|monitor|uptime|lighthouse|headless|python|curl\/|wget|go-http|okhttp|java\/|httpclient|scrapy|facebookexternalhit|whatsapp|telegram|discord|slack|embedly|bingpreview/', $agent );
+}
+
 /** Record one click. Never stores an IP. */
 function wm_record_click( int $offer_id, string $partner, string $sub_id ): void {
 	global $wpdb;
@@ -137,7 +154,10 @@ add_action(
 			return;
 		}
 
-		wm_record_click( $offer && ! $partner ? (int) $offer->ID : 0, $partner ? $slug : '', $partner ? $sub_id : '' );
+		// Crawlers, link previews and HEAD checks are redirected too, but they are not clicks.
+		if ( ! wm_is_automated_request() ) {
+			wm_record_click( $offer && ! $partner ? (int) $offer->ID : 0, $partner ? $slug : '', $partner ? $sub_id : '' );
+		}
 
 		// Partner hosts are not on our allow-list for wp_safe_redirect, by design.
 		wp_redirect( $url, 302, 'WanderMetric' ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect

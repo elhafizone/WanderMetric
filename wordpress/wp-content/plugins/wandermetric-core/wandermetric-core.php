@@ -22,6 +22,9 @@ define( 'WM_MIN_OFFERS_FOR_COUNTRY_PAGE', 3 );
 /** The publish gate's minimum body length, in visible characters. */
 define( 'WM_MIN_BODY_CHARS', 800 );
 
+/** The same for catalogue offers, built from a partner's own data and kept out of search indexes. */
+define( 'WM_MIN_CATALOGUE_BODY_CHARS', 300 );
+
 if ( file_exists( WM_CORE_DIR . 'vendor/autoload.php' ) ) {
 	require_once WM_CORE_DIR . 'vendor/autoload.php';
 }
@@ -35,6 +38,7 @@ require_once WM_CORE_DIR . 'includes/consent.php';
 require_once WM_CORE_DIR . 'includes/widgets.php';
 require_once WM_CORE_DIR . 'includes/partners.php';
 require_once WM_CORE_DIR . 'includes/publish-gate.php';
+require_once WM_CORE_DIR . 'includes/offer-index.php';
 require_once WM_CORE_DIR . 'includes/queries.php';
 require_once WM_CORE_DIR . 'includes/routing.php';
 require_once WM_CORE_DIR . 'includes/go.php';

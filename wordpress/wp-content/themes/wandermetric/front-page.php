@@ -9,7 +9,7 @@ get_header();
 
 $sections = wm_sections();
 $hero     = wm_place_photo( 'home' );
-$latest   = wm_get_offers( array( 'limit' => 60 ) );
+$latest   = wm_get_offers( array( 'limit' => 60, 'tier' => 'editorial' ) );
 $groups   = wm_group_by_place( $latest );
 // The two places with the most offers get a rail on the home page.
 uasort( $groups, static fn( $a, $b ) => count( $b ) <=> count( $a ) );

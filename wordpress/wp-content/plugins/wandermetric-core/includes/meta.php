@@ -13,6 +13,12 @@ defined( 'ABSPATH' ) || exit;
 function wm_offer_fields(): array {
 	return array(
 		'wm_programme'    => array( 'type' => 'string', 'label' => 'Partner programme' ),
+		'wm_tier'         => array( 'type' => 'string', 'label' => 'Tier: editorial (written by hand) or catalogue (built from partner data, noindex)' ),
+		'wm_generated_by' => array( 'type' => 'string', 'label' => 'Feed that generated this offer (catalogue only)' ),
+		'wm_weight'       => array( 'type' => 'string', 'label' => 'Sort weight within a place (higher first)' ),
+		'wm_price_from'   => array( 'type' => 'string', 'label' => 'Lowest price the partner data lists (number)' ),
+		'wm_currency'     => array( 'type' => 'string', 'label' => 'Currency of that price (ISO code)' ),
+		'wm_primary_image' => array( 'type' => 'string', 'label' => 'Partner original of the first image (for the uniqueness check)' ),
 		'wm_kind'         => array( 'type' => 'string', 'label' => 'Kind of product' ),
 		'wm_source_url'   => array( 'type' => 'string', 'label' => 'Partner listing URL (source)' ),
 		'wm_read_on'      => array( 'type' => 'string', 'label' => 'Date the listing was read (YYYY-MM-DD)' ),
@@ -94,6 +100,8 @@ function wm_programme_name( string $slug ): string {
 		'airalo'          => 'Airalo',
 		'airhelp'         => 'AirHelp',
 		'autoeurope'      => 'Auto Europe',
+		'aviasales'       => 'Aviasales',
+		'kiwi-com'        => 'Kiwi.com',
 		'bikesbooking'    => 'BikesBooking',
 		'compensair'      => 'Compensair',
 		'drimsim'         => 'Drimsim',
@@ -128,5 +136,14 @@ function wm_offer_read_on( int $post_id ): string {
 
 /** Human label for a fact key: "opening_hours" → "Opening hours". */
 function wm_fact_label( string $key ): string {
+	$labels = array(
+		'id_verification_ekyc' => 'ID verification (eKYC)',
+		'top_ups'              => 'Top-ups',
+		'product_id'           => 'Partner product ID',
+		'skip_the_line'        => 'Skip-the-line entry',
+	);
+	if ( isset( $labels[ $key ] ) ) {
+		return $labels[ $key ];
+	}
 	return ucfirst( str_replace( '_', ' ', $key ) );
 }
